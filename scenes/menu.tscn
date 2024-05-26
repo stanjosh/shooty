@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://dqcb23bdlbcxw"]
+
+[ext_resource type="Script" path="res://scripts/gui/Menu.gd" id="1_0pt6b"]
+[ext_resource type="FontFile" uid="uid://b8cdyxr1psn4j" path="res://assets/BebasNeue-Regular.ttf" id="2_qgjyx"]
+
+[sub_resource type="Theme" id="Theme_tf7l0"]
+default_font = ExtResource("2_qgjyx")
+default_font_size = 22
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0pt6b")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.5
+offset_top = -56.5
+offset_right = 33.5
+offset_bottom = 56.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2.44812, 2.44812)
+pivot_offset = Vector2(32.8824, 49.2215)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="play" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_tf7l0")
+text = "play"
+
+[node name="options" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_tf7l0")
+disabled = true
+text = "options"
+
+[node name="exit" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_tf7l0")
+text = "exit"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/exit" to="." method="_on_exit_pressed"]

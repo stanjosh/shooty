@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://hb5jqo0vv4x3"]
+
+[ext_resource type="Texture2D" uid="uid://ds1ejqw6egel4" path="res://assets/player/gun.png" id="1_2qq38"]
+[ext_resource type="Script" path="res://scripts/gun.gd" id="1_4h2r3"]
+[ext_resource type="AudioStream" uid="uid://byrindvyma3vw" path="res://assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Aim - 1.mp3" id="3_r7csu"]
+[ext_resource type="AudioStream" uid="uid://blqa41xdhnunf" path="res://assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Fire - 1.mp3" id="4_iuxbg"]
+[ext_resource type="Script" path="res://scripts/weapons/automatic.gd" id="5_n8ybd"]
+[ext_resource type="Script" path="res://scripts/weapons/semi.gd" id="6_f6ocq"]
+[ext_resource type="Script" path="res://scripts/weapons/burst.gd" id="7_exfcr"]
+
+[node name="gun" type="Node2D" node_paths=PackedStringArray("initial_state")]
+script = ExtResource("1_4h2r3")
+initial_state = NodePath("semi")
+
+[node name="pivot" type="Marker2D" parent="."]
+
+[node name="Gun" type="Sprite2D" parent="pivot"]
+position = Vector2(8, 0)
+texture = ExtResource("1_2qq38")
+
+[node name="barrel" type="Marker2D" parent="pivot/Gun"]
+unique_name_in_owner = true
+position = Vector2(2, -1)
+
+[node name="gun_click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_r7csu")
+volume_db = 6.0
+pitch_scale = 0.73
+
+[node name="gun_fire" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_iuxbg")
+volume_db = -8.0
+pitch_scale = 0.66
+max_polyphony = 4
+
+[node name="BurstFire" type="Node2D" parent="."]
+script = ExtResource("7_exfcr")
+
+[node name="reload" type="Timer" parent="BurstFire"]
+process_callback = 0
+one_shot = true
+
+[node name="semi" type="Node2D" parent="."]
+script = ExtResource("6_f6ocq")
+
+[node name="reload" type="Timer" parent="semi"]
+process_callback = 0
+wait_time = 2.0
+one_shot = true
+
+[node name="automatic" type="Node2D" parent="."]
+script = ExtResource("5_n8ybd")
+damage = 4
+piercing = 1
+magazine = 40
+
+[node name="reload" type="Timer" parent="automatic"]
+process_callback = 0
+wait_time = 3.0
+one_shot = true
+
+[connection signal="timeout" from="BurstFire/reload" to="." method="_on_reload_timeout"]
+[connection signal="timeout" from="semi/reload" to="." method="_on_reload_timeout"]
+[connection signal="timeout" from="automatic/reload" to="." method="_on_reload_timeout"]
