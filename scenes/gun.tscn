@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://hb5jqo0vv4x3"]
+[gd_scene load_steps=9 format=3 uid="uid://hb5jqo0vv4x3"]
 
 [ext_resource type="Texture2D" uid="uid://ds1ejqw6egel4" path="res://assets/player/gun.png" id="1_2qq38"]
 [ext_resource type="Script" path="res://scripts/gun.gd" id="1_4h2r3"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://blqa41xdhnunf" path="res://assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Fire - 1.mp3" id="4_iuxbg"]
 [ext_resource type="Script" path="res://scripts/weapons/automatic.gd" id="5_n8ybd"]
 [ext_resource type="Script" path="res://scripts/weapons/semi.gd" id="6_f6ocq"]
+[ext_resource type="Script" path="res://scripts/weapons/birdshot.gd" id="6_kgfiv"]
 [ext_resource type="Script" path="res://scripts/weapons/burst.gd" id="7_exfcr"]
 
 [node name="gun" type="Node2D" node_paths=PackedStringArray("initial_state")]
@@ -40,6 +41,14 @@ script = ExtResource("7_exfcr")
 process_callback = 0
 one_shot = true
 
+[node name="birdshot" type="Node2D" parent="."]
+script = ExtResource("6_kgfiv")
+
+[node name="reload" type="Timer" parent="birdshot"]
+process_callback = 0
+wait_time = 1.1
+one_shot = true
+
 [node name="semi" type="Node2D" parent="."]
 script = ExtResource("6_f6ocq")
 
@@ -60,5 +69,6 @@ wait_time = 3.0
 one_shot = true
 
 [connection signal="timeout" from="BurstFire/reload" to="." method="_on_reload_timeout"]
+[connection signal="timeout" from="birdshot/reload" to="." method="_on_reload_timeout"]
 [connection signal="timeout" from="semi/reload" to="." method="_on_reload_timeout"]
 [connection signal="timeout" from="automatic/reload" to="." method="_on_reload_timeout"]

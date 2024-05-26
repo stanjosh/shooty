@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var speed : float = 32
-@export var dropoff : float = 1000
+@export var dropoff : float = 100
 @export var user : CharacterBody2D
 var direction : Vector2
 var piercing : int = 0

@@ -12,7 +12,7 @@ extends CharacterBody2D
 
 @export var health : float = 100
 
-var hitters : Array
+var attackers : Array
 var input_direction : InputEvent
 var combo_counter : float = 0
 var is_alive : bool = true
@@ -38,11 +38,12 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("reload"):
 			gun.reload()
 			
-		hitters = area_2d.get_overlapping_bodies()
-		if hitters:
-			for mob in hitters:
+		attackers = area_2d.get_overlapping_bodies()
+		if attackers:
+			for mob in attackers:
 				health -= mob.player_damage * delta
 				attacked_vector = global_position.angle_to(mob.global_position)
+				
 
 
 				

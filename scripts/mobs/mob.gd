@@ -9,9 +9,11 @@ class_name Mob
 @export var player_damage = randf_range(5, 15)
 @export var move_speed : float
 
+
 var states : Dictionary = {}
 var current_state : State
 
+var display_damage_timer : float = 3
 
 func _ready():
 	for child in get_children():
@@ -63,12 +65,19 @@ func _physics_process(delta):
 	move_and_collide(velocity * delta)
 
 func take_damage(hit, vector):
+	const DAMAGE_NUMBER = preload ("res://scenes/ui_float_status.tscn")
 	const BLOOD_SPRAY = preload("res://scenes/blood_spray.tscn")
 	var new_spray = BLOOD_SPRAY.instantiate()
 	new_spray.rotation = vector
 	add_child(new_spray)
 	health -= hit
-
+	
+	var new_damage_number = DAMAGE_NUMBER.instantiate()
+	new_damage_number.display_number = "%s" % hit
+	new_damage_number.global_position = global_position
+	world.add_child(new_damage_number)
+	
+	
 	if health <= 0:
 		health = 0
 		die(vector)
@@ -80,10 +89,13 @@ func die(vector):
 	var new_spray = DEATH_SPRAY.instantiate()
 	new_spray.global_position = global_position
 	new_spray.rotation = vector
+	new_spray.scale = scale
 	new_corpse.global_position = global_position
 	new_corpse.velocity = velocity
+	new_corpse.scale = scale
 	world.add_child(new_spray)
 	world.add_child(new_corpse)
 	player.kill_shot()
+	
 	queue_free()
 

@@ -176,6 +176,7 @@ z_index = 3
 texture = ExtResource("3_daeiw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemy"]]
+scale = Vector2(0.819304, 0.676574)
 shape = SubResource("CapsuleShape2D_6pbmw")
 
 [node name="ChasePlayer" type="Node2D" parent="."]

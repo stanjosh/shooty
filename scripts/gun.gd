@@ -57,16 +57,23 @@ func shoot(delta):
 	if current_magazine == 0:
 		reload()
 	elif current_state.reload.time_left == 0 and current_magazine > 0 and shot_time <= 0:
-		const BULLET = preload("res://scenes/projectile.tscn")
-		var new_bullet = BULLET.instantiate()
 		gun_fire.play()
-		new_bullet.global_position = %barrel.global_position
-		new_bullet.global_rotation = %barrel.global_rotation + randf_range(0, current_state.accuracy)
-		new_bullet.piercing = current_state.piercing
-		new_bullet.damage = current_state.damage
-		%barrel.add_child(new_bullet)
 		current_magazine -= 1
-		shot_time = 100
+		for n in current_state.pellets:
+			const BULLET = preload("res://scenes/projectile.tscn")
+			var new_bullet = BULLET.instantiate()
+
+			new_bullet.global_position = %barrel.global_position
+			new_bullet.global_rotation = %barrel.global_rotation + randf_range(0, current_state.accuracy)
+			new_bullet.piercing = current_state.piercing
+			new_bullet.damage = current_state.damage
+			new_bullet.dropoff = current_state.dropoff
+			%barrel.add_child(new_bullet)
+			
+			shot_time = 100
+			
+			print("fired a projectile")
+	
 
 func switch_fire_mode():
 	#match current_state.name.to_lower():

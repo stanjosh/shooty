@@ -19,14 +19,17 @@ func process_danger():
 		danger_factor = 1
 	danger += clampf(1 - (100 / player.health), 0, 1)
 	danger += player.combo_counter / 25
-	danger_factor = player.hitters.size() + clampf(snapped(danger, .10), 1, 5)
+	danger_factor = player.attackers.size() + clampf(snapped(danger, .10), 1, 3)
 
 
 func spawn_mob():
 	var new_mob = preload("res://scenes/mob.tscn").instantiate()
 	spawner.progress_ratio = randf()
+	
+	# implement scaling here. make knockback work first!
 	new_mob.global_position = spawner.global_position
 	new_mob.move_speed = 28 + (danger_factor * 2)
+	new_mob.health = new_mob.health + danger_factor
 	add_child(new_mob)
 	max_spawns  = INITIAL_SPAWNS + (2 * danger_factor)
 

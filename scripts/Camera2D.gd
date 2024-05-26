@@ -23,10 +23,9 @@ func get_dynamic_zoom():
 func _process(delta):
 	if dynamic_zoom_level <= zoom:
 		zoom -= Vector2(delta, delta)
-		print("zooming out")
 	elif zoom < dynamic_zoom_level:
 		zoom += get_dynamic_zoom() * Vector2(delta, delta) 
-		print("zooming in to ", get_dynamic_zoom())
+
 	
 	
 	if player.velocity.y > 0:
