@@ -19,6 +19,7 @@ func _physics_process(delta):
 func _on_body_entered(body : CharacterBody2D):
 	if body.has_method("take_damage"):
 		body.take_damage(damage, global_rotation)
+		damage -= randf_range(1, 3)
 	if piercing == 0:
 		queue_free()
 	else:

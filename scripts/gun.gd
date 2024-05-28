@@ -4,6 +4,11 @@ class_name Gun
 @onready var gun_click = $gun_click
 @onready var gun_fire = $gun_fire
 @onready var target = global_position
+@onready var gun = $pivot/Gun
+const GRENADE = preload("res://scenes/Grenade.tscn")
+
+
+
 
 
 
@@ -14,11 +19,10 @@ var state_list : Array = []
 var current_state : State = initial_state
 
 var current_magazine : int
-
 var shot_time : float = 0
+var grenades_timer : int = 0
 
 func _ready():
-	
 	for child in get_children():
 		if child is State:
 			states[child.name.to_lower()] = child
@@ -29,14 +33,22 @@ func _ready():
 		current_state = initial_state
 		current_magazine = current_state.magazine
 
+		
 func _process(delta):
 	if current_state:
 		current_state.Update(delta)
 
 func _physics_process(delta):
+	if grenades_timer > 0:
+		grenades_timer -= 1 * delta
 	shot_time -= current_state.fire_rate * delta * 100 
 	target = get_global_mouse_position()
 	look_at(target)
+	var facing = gun.global_position.direction_to($"..".global_position)
+	
+	gun.flip_v = true if facing.x > 0 else false
+	gun.z_index = 2 if facing.y > .25 else 4
+	
 	if current_state:
 		current_state.Physics_Update(delta)
 
@@ -48,10 +60,13 @@ func on_child_transition(state, new_state_name):
 		return
 	if current_state:
 		current_state.Exit()
-	
+
 	new_state.Enter()
 	current_state = new_state
 	current_magazine = new_state.magazine
+
+
+
 
 func shoot(delta):
 	if current_magazine == 0:
@@ -62,27 +77,26 @@ func shoot(delta):
 		for n in current_state.pellets:
 			const BULLET = preload("res://scenes/projectile.tscn")
 			var new_bullet = BULLET.instantiate()
-
 			new_bullet.global_position = %barrel.global_position
 			new_bullet.global_rotation = %barrel.global_rotation + randf_range(0, current_state.accuracy)
 			new_bullet.piercing = current_state.piercing
 			new_bullet.damage = current_state.damage
 			new_bullet.dropoff = current_state.dropoff
 			%barrel.add_child(new_bullet)
-			
 			shot_time = 100
 			
-			print("fired a projectile")
-	
+func throw_grenade():
+	if grenades_timer <= 0: 
+		var grenade = GRENADE.instantiate() as RigidBody2D
+		grenade.global_position = %barrel.global_position
+		grenade.speed = global_position.distance_to(get_global_mouse_position())
+		grenade.linear_velocity = (get_global_mouse_position() - global_position).normalized() * grenade.speed
+		
+
+		%barrel.add_child(grenade)
+		grenades_timer = 100
 
 func switch_fire_mode():
-	#match current_state.name.to_lower():
-		#"burstfire":
-			#current_state = states["automatic"]
-		#"automatic":
-			#current_state = states["semi"]
-		#"semi":
-			#current_state = states["burstfire"]
 	var list = states.values()
 	var index = list.find(current_state)
 	var new_state = list[index - 1]

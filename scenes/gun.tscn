@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://hb5jqo0vv4x3"]
 
-[ext_resource type="Texture2D" uid="uid://ds1ejqw6egel4" path="res://assets/player/gun.png" id="1_2qq38"]
 [ext_resource type="Script" path="res://scripts/gun.gd" id="1_4h2r3"]
+[ext_resource type="Texture2D" uid="uid://l6y0ealxkg0t" path="res://assets/player/birdshot.png" id="2_0v6qy"]
 [ext_resource type="AudioStream" uid="uid://byrindvyma3vw" path="res://assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Aim - 1.mp3" id="3_r7csu"]
 [ext_resource type="AudioStream" uid="uid://blqa41xdhnunf" path="res://assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Fire - 1.mp3" id="4_iuxbg"]
 [ext_resource type="Script" path="res://scripts/weapons/automatic.gd" id="5_n8ybd"]
@@ -10,14 +10,20 @@
 [ext_resource type="Script" path="res://scripts/weapons/burst.gd" id="7_exfcr"]
 
 [node name="gun" type="Node2D" node_paths=PackedStringArray("initial_state")]
+z_index = 2
+z_as_relative = false
+y_sort_enabled = true
 script = ExtResource("1_4h2r3")
 initial_state = NodePath("semi")
 
 [node name="pivot" type="Marker2D" parent="."]
 
 [node name="Gun" type="Sprite2D" parent="pivot"]
+z_index = 2
+z_as_relative = false
 position = Vector2(8, 0)
-texture = ExtResource("1_2qq38")
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_0v6qy")
 
 [node name="barrel" type="Marker2D" parent="pivot/Gun"]
 unique_name_in_owner = true

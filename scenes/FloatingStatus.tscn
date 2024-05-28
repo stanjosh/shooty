@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbhys6jxxt2eu"]
+
+[ext_resource type="Script" path="res://scripts/gui/FloatingStatus.gd" id="1_lf8tb"]
+[ext_resource type="FontFile" uid="uid://w38canxb0m7h" path="res://assets/m3x6.ttf" id="2_c50pl"]
+
+[sub_resource type="Theme" id="Theme_qj4c3"]
+default_font = ExtResource("2_c50pl")
+default_font_size = 6
+Label/font_sizes/font_size = 16
+
+[node name="ui_float_status" type="Node2D"]
+z_index = 10
+z_as_relative = false
+script = ExtResource("1_lf8tb")
+
+[node name="display_time" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="FloatingLabel" type="Label" parent="."]
+z_as_relative = false
+y_sort_enabled = true
+offset_left = -6.0
+offset_top = -23.0
+offset_right = 6.0
+offset_bottom = -10.0
+pivot_offset = Vector2(5.98203, 6.13126)
+theme = SubResource("Theme_qj4c3")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "pee"

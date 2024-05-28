@@ -1,7 +1,5 @@
 extends State
 
-
-
 @onready var reload = $reload
 
 @export var damage : int = 11
@@ -11,3 +9,6 @@ extends State
 @export var accuracy : float = 0.025
 @export var pellets : int = 1
 @export var dropoff : float = 25
+
+@export var texture = Image.load_from_file("res://assets/player/semi.png")
+

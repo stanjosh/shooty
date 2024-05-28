@@ -207,6 +207,7 @@ animations = [{
 }]
 
 [node name="death_spray" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_qfgeh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

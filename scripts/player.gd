@@ -25,13 +25,15 @@ func _physics_process(delta):
 		var input_direction = Input.get_vector("left", "right", "up", "down")
 		if input_direction:
 			velocity = input_direction * speed
-
 		if not input_direction:
 			velocity = Vector2(0,0)
 			
 		if Input.is_action_pressed("shoot"):
 			gun.shoot(delta)
-			
+
+		if Input.is_action_pressed("grenade"):
+			gun.throw_grenade()
+						
 		if Input.is_action_just_pressed("switch fire mode"):
 			gun.switch_fire_mode()
 		
@@ -96,3 +98,10 @@ func die(vector):
 		death_sprays -= 1
 	
 	
+
+
+
+
+func _on_health_pack_body_entered(body):
+	health += 20
+	pass # Replace with function body.

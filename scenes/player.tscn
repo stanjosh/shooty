@@ -6,8 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://cnluagwjgu7r7" path="res://assets/Extra/Shadow.png" id="3_niipw"]
 [ext_resource type="Script" path="res://scripts/Camera2D.gd" id="5_1nky7"]
 [ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/gun.tscn" id="5_cs32m"]
-[ext_resource type="Script" path="res://scripts/PlayerHealthBar.gd" id="7_eatdp"]
-[ext_resource type="Script" path="res://scenes/ProgressBar.gd" id="7_orq52"]
+[ext_resource type="Script" path="res://scripts/gui/PlayerHealthBar.gd" id="7_j7006"]
+[ext_resource type="Script" path="res://scripts/gui/ProgressBar.gd" id="8_m6da2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tbmm1"]
 shader = ExtResource("2_1s5tw")
@@ -179,7 +179,9 @@ border_color = Color(0, 0, 0, 1)
 bg_color = Color(1, 1, 1, 1)
 
 [node name="player" type="CharacterBody2D"]
-z_index = 4
+z_index = 3
+y_sort_enabled = true
+position = Vector2(0, -7)
 collision_mask = 0
 slide_on_ceiling = false
 floor_stop_on_slope = false
@@ -188,15 +190,19 @@ platform_on_leave = 2
 script = ExtResource("1_3q3h3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 2
 material = SubResource("ShaderMaterial_tbmm1")
+position = Vector2(0, 6)
 sprite_frames = SubResource("SpriteFrames_e81hw")
 animation = &"die"
 autoplay = "idle"
+offset = Vector2(0, -6)
 
 [node name="shadow sprite" type="Sprite2D" parent="AnimatedSprite2D"]
 modulate = Color(0, 0, 0, 0.345098)
 show_behind_parent = true
 z_index = 3
+position = Vector2(0, -6)
 texture = ExtResource("3_niipw")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -207,6 +213,8 @@ drag_horizontal_enabled = true
 script = ExtResource("5_1nky7")
 
 [node name="gun" parent="." instance=ExtResource("5_cs32m")]
+z_as_relative = true
+y_sort_enabled = false
 
 [node name="Area2D" type="Area2D" parent="."]
 scale = Vector2(0.774414, 0.629221)
@@ -231,7 +239,8 @@ theme_override_styles/background = SubResource("StyleBoxFlat_tmr1g")
 theme_override_styles/fill = SubResource("StyleBoxFlat_rgslt")
 value = 100.0
 show_percentage = false
-script = ExtResource("7_eatdp")
+script = ExtResource("7_j7006")
+metadata/_edit_use_anchors_ = true
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 top_level = true
@@ -245,7 +254,8 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_8dnee")
 max_value = 1.0
 value = 1.0
 show_percentage = false
-script = ExtResource("7_orq52")
+script = ExtResource("8_m6da2")
+metadata/_edit_use_anchors_ = true
 
 [node name="ResetShots" type="Timer" parent="."]
 wait_time = 4.0
