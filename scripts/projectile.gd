@@ -16,7 +16,7 @@ func _physics_process(delta):
 		dropoff -= speed * delta
 
 
-func _on_body_entered(body : CharacterBody2D):
+func _on_body_entered(body):
 	if body.has_method("take_damage"):
 		body.take_damage(damage, global_rotation)
 		damage -= randf_range(1, 3)

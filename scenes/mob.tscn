@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d0nxu181oh583"]
+[gd_scene load_steps=8 format=3 uid="uid://d0nxu181oh583"]
 
 [ext_resource type="Script" path="res://scripts/mobs/mob.gd" id="1_qlh1j"]
 [ext_resource type="Script" path="res://scripts/mobs/idle_wander.gd" id="5_lhwhh"]
@@ -8,21 +8,14 @@
 radius = 5.0
 height = 16.0
 
-[sub_resource type="Gradient" id="Gradient_qb1m5"]
-interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.41629, 0.954751)
-colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0)
+[sub_resource type="Gradient" id="Gradient_dtbxr"]
+offsets = PackedFloat32Array(0, 0.784375)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_itowx"]
-gradient = SubResource("Gradient_qb1m5")
+gradient = SubResource("Gradient_dtbxr")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e6qym"]
-bg_color = Color(0.109804, 0.109804, 0.109804, 0.286275)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5yow7"]
-bg_color = Color(0.462395, 0.138027, 9.62615e-08, 1)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fbkq7"]
 polygon = PackedVector2Array(-16, 16, -8.57252, 18.775, 8.57252, 18.775, 12.8588, 16.0929, 12.8588, 5.36429, 17.145, -2.68214, 12.8588, -13.4107, 0, -16.0929, -12.8588, -13.4107, -17.145, -5.36428, -17.145, 5.36429, -21.4313, 10.7286)
@@ -52,32 +45,17 @@ wander_distance = 20.0
 [node name="PointLight2D" type="PointLight2D" parent="."]
 z_index = 1
 scale = Vector2(1.4908, 1.84483)
-color = Color(0, 0, 0, 1)
 energy = 2.0
-blend_mode = 2
+blend_mode = 1
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.941176)
 shadow_filter = 1
 shadow_filter_smooth = 10.0
 texture = SubResource("GradientTexture2D_itowx")
-texture_scale = 1.2
-
-[node name="HealthBar" type="ProgressBar" parent="."]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -4.0
-offset_top = -10.0
-offset_right = 4.0
-offset_bottom = -6.0
-grow_horizontal = 2
-theme_override_constants/outline_size = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_e6qym")
-theme_override_styles/fill = SubResource("StyleBoxFlat_5yow7")
-show_percentage = false
+texture_scale = 0.5
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-modulate = Color(0, 0, 0, 1)
+clip_children = 2
 z_index = 1
 scale = Vector2(0.233304, 0.372836)
 occluder = SubResource("OccluderPolygon2D_fbkq7")

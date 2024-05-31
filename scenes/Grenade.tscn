@@ -1,15 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://5y5vqmh5j3f"]
+[gd_scene load_steps=7 format=3 uid="uid://5y5vqmh5j3f"]
 
 [ext_resource type="Script" path="res://scripts/grenada.gd" id="1_5t67a"]
 [ext_resource type="Texture2D" uid="uid://lpiq2yukw706" path="res://assets/player/grenade.png" id="1_6wys1"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_20j1k"]
-friction = 0.1
+friction = 0.79
 bounce = 0.2
-absorbent = true
+
+[sub_resource type="Gradient" id="Gradient_pg0io"]
+offsets = PackedFloat32Array(0, 0.703125)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dfn1y"]
+gradient = SubResource("Gradient_pg0io")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dy2gt"]
-size = Vector2(10, 16)
+size = Vector2(62.2645, 68.5196)
 
 [node name="Grenade" type="RigidBody2D"]
 top_level = true
@@ -18,13 +26,20 @@ collision_mask = 15
 mass = 0.05
 physics_material_override = SubResource("PhysicsMaterial_20j1k")
 gravity_scale = 0.0
-angular_velocity = 3.31613
+linear_damp = 1.055
+angular_velocity = 3.83972
 angular_damp_mode = 1
+angular_damp = 0.772
 script = ExtResource("1_5t67a")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.593004, 0.593004)
 texture = ExtResource("1_6wys1")
 
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(1.55664, 1.55664)
+texture = SubResource("GradientTexture2D_dfn1y")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(0.29432, 0.29432)
+scale = Vector2(0.128484, 0.145944)
 shape = SubResource("RectangleShape2D_dy2gt")

@@ -1,7 +1,6 @@
 extends CharacterBody2D
 class_name Mob
 
-@onready var health_bar = $HealthBar
 @onready var world = $".."
 @onready var player = $"../player"
 @export var max_health = 10
@@ -30,7 +29,6 @@ func _ready():
 		player_damage /= scalar
 	
 	current_health = max_health
-	health_bar.max_value = max_health
 	for child in get_children():
 		if child is State:
 			child.player = player
@@ -42,7 +40,6 @@ func _ready():
 		current_state = initial_state
 		
 func _process(delta):
-
 	if current_state:
 		current_state.Update(delta)
 
@@ -60,8 +57,8 @@ func on_child_transition(state, new_state_name):
 	current_state = new_state
 
 func _physics_process(delta):
-	health_bar.visible = true if current_health != max_health else false
-	health_bar.value = current_health
+
+	$PointLight2D.energy = 2 * max_health / current_health
 	if current_state:
 		current_state.Physics_Update(delta)
 	move_and_collide(velocity * delta)

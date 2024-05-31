@@ -20,7 +20,10 @@ var current_state : State = initial_state
 
 var current_magazine : int
 var shot_time : float = 0
-var grenades_timer : int = 0
+var grenade_timer : float = 1
+var max_grenades : int = 3
+var facing
+
 
 func _ready():
 	for child in get_children():
@@ -39,12 +42,14 @@ func _process(delta):
 		current_state.Update(delta)
 
 func _physics_process(delta):
-	if grenades_timer > 0:
-		grenades_timer -= 1 * delta
+	if grenade_timer <= 1:
+		grenade_timer += 1 * delta
+
+		
 	shot_time -= current_state.fire_rate * delta * 100 
 	target = get_global_mouse_position()
 	look_at(target)
-	var facing = gun.global_position.direction_to($"..".global_position)
+	facing = gun.global_position.direction_to($"..".global_position)
 	
 	gun.flip_v = true if facing.x > 0 else false
 	gun.z_index = 2 if facing.y > .25 else 4
@@ -86,15 +91,17 @@ func shoot(delta):
 			shot_time = 100
 			
 func throw_grenade():
-	if grenades_timer <= 0: 
+	if grenade_timer >= 1 and World.active_grenades.size() < max_grenades:
 		var grenade = GRENADE.instantiate() as RigidBody2D
 		grenade.global_position = %barrel.global_position
 		grenade.speed = global_position.distance_to(get_global_mouse_position())
 		grenade.linear_velocity = (get_global_mouse_position() - global_position).normalized() * grenade.speed
 		
 
-		%barrel.add_child(grenade)
-		grenades_timer = 100
+		World.add_child(grenade)
+		grenade_timer = 0
+		
+
 
 func switch_fire_mode():
 	var list = states.values()

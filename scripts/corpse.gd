@@ -21,6 +21,8 @@ func _physics_process(delta):
 	if opacity > 0 and not timer.time_left:
 		modulate.a8 = opacity
 		opacity -= 255 * delta
+		scale -= Vector2(0, clampf(delta, 0, 1))
+		global_position.y += 2 * delta
 	else:
 		if randf() < .005 :
 			var healthpack = HEALTHPACK.instantiate()

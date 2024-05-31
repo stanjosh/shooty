@@ -1,4 +1,5 @@
 extends RigidBody2D
+class_name Grenade
 
 @export var base_damage : float = 20
 @onready var explosion_radius = $ExplosionRadius
@@ -6,25 +7,19 @@ const EXPLOSION = preload("res://scenes/explosion.tscn")
 
 @onready var world = $"../../.."
 @export var speed : float = 100
-@export var fuse : float = 2.2
 
 
 var player_damage : float = 2
-var target_position
+
 
 func _ready():
-
+	print(World.active_grenades)
 	pass
 
-func explode():
+func take_damage(damage, global_rotation):
 	var new_splode = EXPLOSION.instantiate()
 	new_splode.global_position = global_position
 	new_splode.scale = Vector2(0.75, 0.75)
-	world.add_child(new_splode)
+	World.add_child(new_splode)
 	queue_free()
 
-func _physics_process(delta):
-	
-	fuse -= 3 * delta
-	if fuse <= 0:
-		explode()

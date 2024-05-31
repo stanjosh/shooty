@@ -92,7 +92,8 @@ fill_from = Vector2(0.5, 0.5)
 
 [node name="Explosion" type="Node2D"]
 top_level = true
-scale = Vector2(1.59942, 1.59942)
+position = Vector2(1, -85)
+scale = Vector2(2.63449, 2.63449)
 script = ExtResource("1_rb8jp")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -102,7 +103,7 @@ collision_layer = 4
 collision_mask = 15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-scale = Vector2(-7.09064, -3.67281)
+scale = Vector2(-6.00122, -6.24304)
 shape = SubResource("CircleShape2D_uy0q7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
