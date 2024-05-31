@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cxdwmcdmlyao8"]
+[gd_scene load_steps=18 format=3 uid="uid://btbmfuwgk86ti"]
 
 [ext_resource type="Texture2D" uid="uid://qwkab0c86rsb" path="res://assets/player/explosion-3.png" id="1_1k0tv"]
 [ext_resource type="Script" path="res://scripts/weapons/explosion.gd" id="1_rb8jp"]
@@ -6,6 +6,9 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uy0q7"]
 radius = 10.4538
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_f054j"]
+light_mode = 2
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v0tvy"]
 atlas = ExtResource("1_1k0tv")
@@ -78,12 +81,22 @@ animations = [{
 "speed": 25.0
 }]
 
+[sub_resource type="Gradient" id="Gradient_v8pgy"]
+offsets = PackedFloat32Array(0, 0.746606)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_32dok"]
+gradient = SubResource("Gradient_v8pgy")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="Explosion" type="Node2D"]
 top_level = true
 scale = Vector2(1.59942, 1.59942)
 script = ExtResource("1_rb8jp")
 
 [node name="Area2D" type="Area2D" parent="."]
+position = Vector2(-0.625227, 28.1352)
 scale = Vector2(1.45752, 1.0603)
 collision_layer = 4
 collision_mask = 15
@@ -93,13 +106,25 @@ scale = Vector2(-7.09064, -3.67281)
 shape = SubResource("CircleShape2D_uy0q7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_f054j")
+use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_54602")
 autoplay = "default"
+frame = 8
+frame_progress = 1.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_le1uj")
 pitch_scale = 1.21
 autoplay = true
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(1.25045, 28.1352)
+scale = Vector2(5.02723, 3.22303)
+energy = 2.0
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.458824)
+texture = SubResource("GradientTexture2D_32dok")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

@@ -1,0 +1,74 @@
+[gd_scene load_steps=11 format=3 uid="uid://bkrrljjeydlgs"]
+
+[ext_resource type="Script" path="res://scenes/blood_spray.gd" id="1_pwcdo"]
+[ext_resource type="Texture2D" uid="uid://de7nsq3oyurmj" path="res://assets/player/Bullet14x14.png" id="2_l5hno"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yeygm"]
+atlas = ExtResource("2_l5hno")
+region = Rect2(0, 14, 14, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pnhyk"]
+atlas = ExtResource("2_l5hno")
+region = Rect2(14, 14, 14, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7jbgh"]
+atlas = ExtResource("2_l5hno")
+region = Rect2(28, 14, 14, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dsn53"]
+atlas = ExtResource("2_l5hno")
+region = Rect2(42, 14, 14, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rdjp4"]
+atlas = ExtResource("2_l5hno")
+region = Rect2(56, 14, 14, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jlsqa"]
+atlas = ExtResource("2_l5hno")
+region = Rect2(70, 14, 14, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dq2n1"]
+atlas = ExtResource("2_l5hno")
+region = Rect2(84, 14, 14, 14)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x3lfu"]
+animations = [{
+"frames": [{
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_yeygm")
+}, {
+"duration": 1.4,
+"texture": SubResource("AtlasTexture_pnhyk")
+}, {
+"duration": 1.3,
+"texture": SubResource("AtlasTexture_7jbgh")
+}, {
+"duration": 1.2,
+"texture": SubResource("AtlasTexture_dsn53")
+}, {
+"duration": 1.1,
+"texture": SubResource("AtlasTexture_rdjp4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jlsqa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dq2n1")
+}],
+"loop": false,
+"name": &"spray",
+"speed": 16.0
+}]
+
+[node name="blood_spray" type="Node2D"]
+script = ExtResource("1_pwcdo")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 10
+z_as_relative = false
+sprite_frames = SubResource("SpriteFrames_x3lfu")
+animation = &"spray"
+autoplay = "spray"
+frame_progress = 1.0
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

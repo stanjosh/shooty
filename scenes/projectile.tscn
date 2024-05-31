@@ -1,10 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://6qxco026ufkq"]
+[gd_scene load_steps=7 format=3 uid="uid://6qxco026ufkq"]
 
 [ext_resource type="Script" path="res://scripts/projectile.gd" id="1_rowwk"]
-[ext_resource type="Texture2D" uid="uid://gq22wu3vrk24" path="res://assets/player/proj.png" id="2_nakf6"]
+[ext_resource type="Texture2D" uid="uid://de7nsq3oyurmj" path="res://assets/player/Bullet14x14.png" id="2_rgpa5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_isfc1"]
+atlas = ExtResource("2_rgpa5")
+region = Rect2(0, 0, 14, 14)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3elcc"]
 radius = 4.12311
+
+[sub_resource type="Gradient" id="Gradient_lgywn"]
+offsets = PackedFloat32Array(0, 0.325792)
+colors = PackedColorArray(1, 1, 1, 0.6, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ruirc"]
+gradient = SubResource("Gradient_lgywn")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [node name="projectile" type="Area2D"]
 top_level = true
@@ -14,10 +27,18 @@ script = ExtResource("1_rowwk")
 speed = 30.0
 
 [node name="Proj" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_nakf6")
+texture = SubResource("AtlasTexture_isfc1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_3elcc")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+light_mask = 2
+energy = 0.59
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.831373)
+shadow_item_cull_mask = 3
+texture = SubResource("GradientTexture2D_ruirc")
+texture_scale = 4.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

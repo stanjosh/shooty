@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @onready var world = $".."
 
-@export var speed = 50.0
+@export var speed = 100.0
 @onready var camera = $Camera2D
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var target = global_position
@@ -89,7 +89,7 @@ func die(vector):
 
 	is_alive = false
 	if death_sprays:
-		const DEATH_SPRAY = preload("res://scenes/death_spray.tscn")
+		const DEATH_SPRAY = preload("res://scenes/dark_spray.tscn")
 		var new_spray = DEATH_SPRAY.instantiate()
 		new_spray.global_position = global_position
 		new_spray.rotation = randf_range(vector, 10)

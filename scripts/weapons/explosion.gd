@@ -7,6 +7,7 @@ var damage : float = 50
 
 
 func _process(delta):
+	$PointLight2D.energy -= 3.5 * delta
 	pass
 
 func _ready():

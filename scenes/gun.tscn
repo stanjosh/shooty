@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://hb5jqo0vv4x3"]
 
 [ext_resource type="Script" path="res://scripts/gun.gd" id="1_4h2r3"]
-[ext_resource type="Texture2D" uid="uid://l6y0ealxkg0t" path="res://assets/player/birdshot.png" id="2_0v6qy"]
+[ext_resource type="Texture2D" uid="uid://bgqscqcpm7vpp" path="res://assets/player/gun sprite.png" id="2_c00et"]
 [ext_resource type="AudioStream" uid="uid://byrindvyma3vw" path="res://assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Aim - 1.mp3" id="3_r7csu"]
 [ext_resource type="AudioStream" uid="uid://blqa41xdhnunf" path="res://assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Fire - 1.mp3" id="4_iuxbg"]
 [ext_resource type="Script" path="res://scripts/weapons/automatic.gd" id="5_n8ybd"]
@@ -22,8 +22,7 @@ initial_state = NodePath("semi")
 z_index = 2
 z_as_relative = false
 position = Vector2(8, 0)
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_0v6qy")
+texture = ExtResource("2_c00et")
 
 [node name="barrel" type="Marker2D" parent="pivot/Gun"]
 unique_name_in_owner = true

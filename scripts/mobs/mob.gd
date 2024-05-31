@@ -2,7 +2,6 @@ extends CharacterBody2D
 class_name Mob
 
 @onready var health_bar = $HealthBar
-@onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var world = $".."
 @onready var player = $"../player"
 @export var max_health = 10
@@ -65,22 +64,6 @@ func _physics_process(delta):
 	health_bar.value = current_health
 	if current_state:
 		current_state.Physics_Update(delta)
-	var current_animation = ""
-	if velocity.x == 0 and velocity.y == 0:
-		current_animation = "idle"
-	else:
-		if velocity.x:
-			current_animation = "x_walk"
-			if velocity.x > 0:
-				animated_sprite_2d.flip_h = false
-			elif velocity.x < 0:
-				animated_sprite_2d.flip_h = true
-		if abs(velocity.y) > abs(velocity.x):
-			if velocity.y > 0:
-				current_animation = "down_walk"
-			elif velocity.y < 0:
-				current_animation = "up_walk"
-	animated_sprite_2d.play(current_animation)
 	move_and_collide(velocity * delta)
 
 func take_damage(hit, vector):
@@ -88,10 +71,10 @@ func take_damage(hit, vector):
 		hit -= snapped(randf_range(-1, 1), 1)
 		current_health -= hit
 		
-		const BLOOD_SPRAY = preload("res://scenes/blood_spray.tscn")
-		var new_spray = BLOOD_SPRAY.instantiate()
-		new_spray.rotation = vector
-		add_child(new_spray)
+		const HIT_MARKER = preload("res://scenes/HitMarker.tscn")
+		var new_hit_marker = HIT_MARKER.instantiate()
+		new_hit_marker.global_position = global_position
+		world.add_child(new_hit_marker)
 		
 		const DAMAGE_NUMBER = preload ("res://scenes/FloatingStatus.tscn")
 		var new_damage_number = DAMAGE_NUMBER.instantiate()
@@ -106,9 +89,9 @@ func take_damage(hit, vector):
 
 func die(vector):
 	player.kill_shot()
-
-	const DEATH_SPRAY = preload("res://scenes/death_spray.tscn")
-	var new_spray = DEATH_SPRAY.instantiate()
+	
+	const DARK_SPRAY = preload("res://scenes/dark_spray.tscn")
+	var new_spray = DARK_SPRAY.instantiate()
 	new_spray.global_position = global_position
 	new_spray.rotation = vector
 	new_spray.scale = scale
