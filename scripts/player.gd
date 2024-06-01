@@ -85,9 +85,9 @@ func _physics_process(delta):
 			
 		attackers = area_2d.get_overlapping_bodies()
 		if attackers:
-			for mob in attackers:
-				health -= mob.player_damage * delta
-				attacked_vector = global_position.angle_to(mob.global_position)
+			for attacker in attackers:
+				health -= attacker.player_damage * delta
+				attacked_vector = global_position.angle_to(attacker.global_position)
 		
 		
 		

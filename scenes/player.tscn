@@ -502,8 +502,6 @@ floor_stop_on_slope = false
 floor_block_on_wall = false
 platform_on_leave = 2
 script = ExtResource("1_3q3h3")
-speed = null
-health = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 2
