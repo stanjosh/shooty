@@ -23,6 +23,7 @@ func process_danger():
 	danger += clampf(1 - (100 / player.health), 0, 1)
 	danger += player.combo_counter / 25
 	danger_factor = player.attackers.size() + clampf(snapped(danger, .10), 1, 5)
+	return danger
 
 
 func spawn_mob():

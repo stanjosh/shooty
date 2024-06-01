@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkpcrglxuf8od"]
+
+[ext_resource type="Script" path="res://scripts/action_line.gd" id="1_00y8s"]
+
+[sub_resource type="Gradient" id="Gradient_blrwq"]
+offsets = PackedFloat32Array(0, 0.182927)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[node name="action_line" type="Node2D"]
+top_level = true
+light_mask = 512
+visibility_layer = 512
+script = ExtResource("1_00y8s")
+
+[node name="Line2D" type="Line2D" parent="."]
+light_mask = 0
+visibility_layer = 16
+gradient = SubResource("Gradient_blrwq")

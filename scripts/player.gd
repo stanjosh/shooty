@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @onready var world = $".."
 
+
 @export var speed = 100.0
 @onready var camera = $Camera2D
 @onready var animated_sprite_2d = $AnimatedSprite2D
@@ -9,7 +10,7 @@ extends CharacterBody2D
 @onready var gun = $gun
 @onready var area_2d = $Area2D
 @onready var reset_shots = $ResetShots
-
+const ACTION_LINE = preload("res://scenes/action_line.tscn")
 @export var health : float = 100
 
 var attackers : Array
@@ -23,13 +24,43 @@ var melee_hits : int = 10
 
 
 func _physics_process(delta):
-	$PointLight2D2.energy = clampf($PointLight2D2.energy - 2 * delta, 0.5, 4)
+	var mobs : Array = $sword.get_overlapping_bodies()
+	mobs.sort_custom(
+		func(mob : CharacterBody2D, mob2 : CharacterBody2D):
+			return mob.global_position.distance_to(global_position) > mob2.global_position.distance_to(global_position)
+	)
+	var mob : CharacterBody2D = mobs.pop_front()
+	
+	
+	$PlayerGlow.energy = clampf($PlayerGlow.energy - 3 * delta, 0, 4)
 	if is_alive:
 		var input_direction = Input.get_vector("left", "right", "up", "down")
-		if input_direction:
-			velocity = input_direction * speed
 		if not input_direction:
 			velocity = Vector2(0,0)
+		elif input_direction:
+			velocity = input_direction * speed
+		var melee_attack : bool = false
+		if melee_cooldown >= 1 and Input.is_action_pressed("sword"):
+
+			if mob:
+				var line = ACTION_LINE.instantiate()
+				line.first_position = global_position
+				line.last_position = mob.global_position
+				world.add_child(line)
+				melee_attack = true
+				melee_cooldown -= 1
+				var damage = randi_range(20, 70)
+				velocity = global_position.direction_to(mob.global_position) * speed * damage
+				mob.take_damage(damage, global_position.angle_to_point(mob.global_position))
+				$PlayerGlow.energy = 2
+				
+				pass
+
+		
+
+		
+			
+		animate(velocity, melee_attack, delta)
 
 
 
@@ -57,29 +88,16 @@ func _physics_process(delta):
 			for mob in attackers:
 				health -= mob.player_damage * delta
 				attacked_vector = global_position.angle_to(mob.global_position)
-		var melee_attack : bool = false
-		if Input.is_action_pressed("sword"):
-			var mobs : Array = $sword.get_overlapping_bodies()
-			mobs.sort_custom(
-				func(mob : CharacterBody2D, mob2 : CharacterBody2D):
-					return mob.global_position.distance_to(global_position) > mob2.global_position.distance_to(global_position)
-			)
-			var mob = mobs.pop_front()
-			if mob:
+		
+		
+		
 
-				melee_attack = true
-
-				global_position = mob.global_position + Vector2(randi_range(2, 16), randi_range(2,16))
-				var damage = randi_range(1, 5)
-				mob.take_damage(damage, global_position.angle_to_point(mob.global_position))
-				$PointLight2D2.energy = 5
-				pass
-
-		animate(velocity, melee_attack, delta)	
 		health = clampf(health, 0, 100)
 
 		max_slides = 5
 		move_and_collide(velocity * delta)
+	if melee_cooldown <= 1:
+		melee_cooldown += world.danger_factor * delta
 	if health <= 0:
 		die(attacked_vector)
 

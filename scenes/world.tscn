@@ -2295,7 +2295,7 @@ shape = SubResource("RectangleShape2D_ohxrc")
 texture = ExtResource("7_j5ba6")
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
-energy = 0.8
+energy = 0.55
 blend_mode = 1
 shadow_color = Color(0, 0, 0, 1)
 height = 1.0
