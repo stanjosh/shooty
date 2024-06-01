@@ -1,34 +1,26 @@
-[gd_scene load_steps=11 format=3 uid="uid://bkrrljjeydlgs"]
+[gd_scene load_steps=10 format=3 uid="uid://bkrrljjeydlgs"]
 
 [ext_resource type="Script" path="res://scenes/blood_spray.gd" id="1_pwcdo"]
-[ext_resource type="Texture2D" uid="uid://de7nsq3oyurmj" path="res://assets/player/Bullet14x14.png" id="2_l5hno"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yeygm"]
-atlas = ExtResource("2_l5hno")
 region = Rect2(0, 14, 14, 14)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pnhyk"]
-atlas = ExtResource("2_l5hno")
 region = Rect2(14, 14, 14, 14)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7jbgh"]
-atlas = ExtResource("2_l5hno")
 region = Rect2(28, 14, 14, 14)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dsn53"]
-atlas = ExtResource("2_l5hno")
 region = Rect2(42, 14, 14, 14)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rdjp4"]
-atlas = ExtResource("2_l5hno")
 region = Rect2(56, 14, 14, 14)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jlsqa"]
-atlas = ExtResource("2_l5hno")
 region = Rect2(70, 14, 14, 14)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dq2n1"]
-atlas = ExtResource("2_l5hno")
 region = Rect2(84, 14, 14, 14)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_x3lfu"]

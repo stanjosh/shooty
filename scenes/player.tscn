@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://ckq8owam8nxv4"]
+[gd_scene load_steps=74 format=3 uid="uid://ckq8owam8nxv4"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_3q3h3"]
 [ext_resource type="Texture2D" uid="uid://c50fe2l5ie5ci" path="res://assets/player/Hero Blue 54x53 Sprite.png" id="3_f7x4y"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/gun.tscn" id="5_cs32m"]
 [ext_resource type="Script" path="res://scripts/gui/PlayerHealthBar.gd" id="7_j7006"]
 [ext_resource type="Script" path="res://scripts/gui/ProgressBar.gd" id="8_m6da2"]
+[ext_resource type="Script" path="res://scripts/sword.gd" id="8_qwlqn"]
+[ext_resource type="Shader" path="res://assets/player/player.gdshader" id="9_h0xll"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v8c4x"]
 atlas = ExtResource("3_f7x4y")
@@ -59,10 +61,6 @@ region = Rect2(629, 689, 54, 53)
 [sub_resource type="AtlasTexture" id="AtlasTexture_apan5"]
 atlas = ExtResource("3_f7x4y")
 region = Rect2(683, 689, 54, 53)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hqn0u"]
-atlas = ExtResource("3_f7x4y")
-region = Rect2(41, 212, 54, 53)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_htij6"]
 atlas = ExtResource("3_f7x4y")
@@ -119,10 +117,6 @@ region = Rect2(413, 54, 54, 54)
 [sub_resource type="AtlasTexture" id="AtlasTexture_x0k7k"]
 atlas = ExtResource("3_f7x4y")
 region = Rect2(35, 0, 54, 54)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wtije"]
-atlas = ExtResource("3_f7x4y")
-region = Rect2(41, 265, 54, 53)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8ni2g"]
 atlas = ExtResource("3_f7x4y")
@@ -276,9 +270,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hqn0u")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_htij6")
 }, {
 "duration": 1.0,
@@ -295,7 +286,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"down_attack",
-"speed": 14.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -336,9 +327,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wtije")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_8ni2g")
 }, {
 "duration": 1.0,
@@ -355,7 +343,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"up_attack",
-"speed": 14.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -404,7 +392,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"x_attack",
-"speed": 14.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -458,15 +446,6 @@ max_value = 100.0
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.686046, 8.94077), 50.934, 50.934, 0, 0, Vector2(0.84593, 23.7471), 167.127, 167.127, 0, 0, Vector2(1, 74.8292), 724.828, 0.0, 0, 0]
 point_count = 4
 
-[sub_resource type="Gradient" id="Gradient_isch5"]
-offsets = PackedFloat32Array(0, 0.478125)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_xf8qg"]
-gradient = SubResource("Gradient_isch5")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-
 [sub_resource type="Gradient" id="Gradient_kh5ij"]
 offsets = PackedFloat32Array(0, 0.590625)
 colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
@@ -476,7 +455,13 @@ gradient = SubResource("Gradient_kh5ij")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_t3r3p"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uwh64"]
+shader = ExtResource("9_h0xll")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_55eyl"]
+radius = 7.78781
 
 [node name="player" type="CharacterBody2D"]
 z_index = 3
@@ -493,10 +478,8 @@ script = ExtResource("1_3q3h3")
 z_index = 2
 position = Vector2(0, 9)
 sprite_frames = SubResource("SpriteFrames_e81hw")
-animation = &"up_attack"
+animation = &"x_attack"
 autoplay = "idle"
-frame = 5
-frame_progress = 1.0
 offset = Vector2(0, -6)
 
 [node name="shadow sprite" type="Sprite2D" parent="AnimatedSprite2D"]
@@ -524,6 +507,7 @@ collision_layer = 6
 collision_mask = 6
 
 [node name="DamageArea" type="CollisionShape2D" parent="Area2D"]
+visible = false
 scale = Vector2(1.50509, 1.59724)
 shape = SubResource("CapsuleShape2D_6pbmw")
 
@@ -583,15 +567,9 @@ damping_max = 11.363
 damping_curve = SubResource("Curve_emhh8")
 color = Color(0, 0, 0, 1)
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
-color = Color(0, 0, 0, 1)
-energy = 2.0
-blend_mode = 1
-texture = SubResource("GradientTexture2D_xf8qg")
-
 [node name="PointLight2D2" type="PointLight2D" parent="."]
 show_behind_parent = true
-scale = Vector2(2.23401, 0.987967)
+scale = Vector2(2.23401, 1.375)
 energy = 0.5
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.745098)
@@ -599,10 +577,12 @@ texture = SubResource("GradientTexture2D_sv3np")
 
 [node name="sword" type="Area2D" parent="."]
 collision_mask = 14
+script = ExtResource("8_qwlqn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="sword"]
+material = SubResource("ShaderMaterial_uwh64")
 scale = Vector2(5.16185, 5.16185)
-shape = SubResource("CircleShape2D_t3r3p")
+shape = SubResource("CircleShape2D_55eyl")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="ResetShots" to="." method="_on_reset_shots_timeout"]

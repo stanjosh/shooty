@@ -1,5 +1,4 @@
 extends Node
 
-@onready var hud = %hud
-
-@onready var player = $player
+func _ready():
+	World.can_process()

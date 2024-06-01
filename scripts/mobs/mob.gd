@@ -64,6 +64,7 @@ func _physics_process(delta):
 	move_and_collide(velocity * delta)
 
 func take_damage(hit, vector):
+
 	if current_health > 0: 
 		hit -= snapped(randf_range(-1, 1), 1)
 		current_health -= hit

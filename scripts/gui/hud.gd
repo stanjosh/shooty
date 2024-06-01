@@ -7,7 +7,6 @@ extends CanvasLayer
 
 
 @onready var world = $"../World"
-
 var ammo_count : int = 0
 var max_ammo : int = 0
 var combo_count : int = 0

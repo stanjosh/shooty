@@ -14,7 +14,7 @@ const GRENADE = preload("res://scenes/Grenade.tscn")
 
 var states : Dictionary = {}
 var state_list : Array = []
-
+@onready var world = $"../.."
 @export var initial_state : State
 var current_state : State = initial_state
 
@@ -91,14 +91,14 @@ func shoot(delta):
 			shot_time = 100
 			
 func throw_grenade():
-	if grenade_timer >= 1 and World.active_grenades.size() < max_grenades:
+	if grenade_timer >= 1 and world.active_grenades.size() < max_grenades:
 		var grenade = GRENADE.instantiate() as RigidBody2D
 		grenade.global_position = %barrel.global_position
 		grenade.speed = global_position.distance_to(get_global_mouse_position())
 		grenade.linear_velocity = (get_global_mouse_position() - global_position).normalized() * grenade.speed
 		
 
-		World.add_child(grenade)
+		world.add_child(grenade)
 		grenade_timer = 0
 		
 

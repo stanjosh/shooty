@@ -13,13 +13,13 @@ var player_damage : float = 2
 
 
 func _ready():
-	print(World.active_grenades)
+
 	pass
 
 func take_damage(damage, global_rotation):
 	var new_splode = EXPLOSION.instantiate()
 	new_splode.global_position = global_position
 	new_splode.scale = Vector2(0.75, 0.75)
-	World.add_child(new_splode)
+	world.add_child(new_splode)
 	queue_free()
 

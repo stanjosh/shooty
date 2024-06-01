@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 @onready var floating_label = $FloatingLabel
 @onready var display_time = $display_time
@@ -19,7 +19,7 @@ func _ready():
 func _process(delta):
 	if display_time.time_left > 0:
 		global_position -= endpoint * Vector2(delta, delta)		
-		modulate.a -= 2 * delta
+		modulate.a = 255 * display_time.time_left
 		visible = true
 		floating_label.text = display_value
 	else:

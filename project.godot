@@ -14,10 +14,6 @@ config/name="rpg"
 run/main_scene="res://scenes/menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 
-[autoload]
-
-World="*res://scenes/world.tscn"
-
 [display]
 
 window/size/resizable=false

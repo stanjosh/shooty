@@ -40,3 +40,4 @@ func _process(delta):
 		drag_horizontal_offset = -0.25
 	else:
 		drag_horizontal_offset = 0
+	pass

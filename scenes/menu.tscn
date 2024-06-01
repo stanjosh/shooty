@@ -8,6 +8,7 @@ default_font = ExtResource("2_qgjyx")
 default_font_size = 22
 
 [node name="Menu" type="Control"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
