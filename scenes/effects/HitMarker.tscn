@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://bkrrljjeydlgs"]
 
-[ext_resource type="Script" path="res://scenes/blood_spray.gd" id="1_pwcdo"]
+[ext_resource type="Script" path="res://scripts/blood_spray.gd" id="1_pwcdo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yeygm"]
 region = Rect2(0, 14, 14, 14)

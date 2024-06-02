@@ -38,6 +38,8 @@ func _ready():
 
 		
 func _process(delta):
+	if current_magazine <= 0:
+		reload()
 	if current_state:
 		current_state.Update(delta)
 
@@ -74,7 +76,8 @@ func on_child_transition(state, new_state_name):
 
 
 func shoot(delta):
-	if current_magazine == 0:
+	if current_magazine <= 0 and not current_state.reload.time_left :
+		gun_click.play(.2)
 		reload()
 	elif current_state.reload.time_left == 0 and current_magazine > 0 and shot_time <= 0:
 		gun_fire.play()
@@ -104,7 +107,7 @@ func throw_grenade():
 
 
 func switch_fire_mode():
-	var list = states.values()
+	var list = states.values().filter(func(state): return state.active == true)
 	var index = list.find(current_state)
 	var new_state = list[index - 1]
 	current_state = new_state
@@ -114,7 +117,6 @@ func switch_fire_mode():
 
 func _on_reload_timeout():
 	current_magazine = current_state.magazine
-	gun_click.play()
 	pass # Replace with function body.
 
 func reload():

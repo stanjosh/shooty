@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://hb5jqo0vv4x3"]
+[gd_scene load_steps=9 format=3 uid="uid://hb5jqo0vv4x3"]
 
 [ext_resource type="Script" path="res://scripts/gun.gd" id="1_4h2r3"]
 [ext_resource type="Texture2D" uid="uid://bgqscqcpm7vpp" path="res://assets/player/gun sprite.png" id="2_c00et"]
-[ext_resource type="Texture2D" uid="uid://nydfj52ejeev" path="res://assets/torch.png" id="3_5uy27"]
 [ext_resource type="AudioStream" uid="uid://byrindvyma3vw" path="res://assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Aim - 1.mp3" id="3_r7csu"]
-[ext_resource type="AudioStream" uid="uid://blqa41xdhnunf" path="res://assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Fire - 1.mp3" id="4_iuxbg"]
+[ext_resource type="AudioStream" uid="uid://sknpjryy1vge" path="res://assets/player/shoot_wtf.mp3" id="4_873xj"]
 [ext_resource type="Script" path="res://scripts/weapons/automatic.gd" id="5_n8ybd"]
 [ext_resource type="Script" path="res://scripts/weapons/semi.gd" id="6_f6ocq"]
 [ext_resource type="Script" path="res://scripts/weapons/birdshot.gd" id="6_kgfiv"]
@@ -15,7 +14,7 @@ z_index = 2
 z_as_relative = false
 y_sort_enabled = true
 script = ExtResource("1_4h2r3")
-initial_state = NodePath("semi")
+initial_state = NodePath("BurstFire")
 
 [node name="pivot" type="Marker2D" parent="."]
 
@@ -24,16 +23,6 @@ z_index = 2
 z_as_relative = false
 position = Vector2(8, 0)
 texture = ExtResource("2_c00et")
-
-[node name="PointLight2D" type="PointLight2D" parent="pivot/Gun"]
-position = Vector2(7, 0)
-scale = Vector2(1, 0.76)
-energy = 0.8
-shadow_enabled = true
-shadow_color = Color(0, 0, 0, 0.603922)
-texture = ExtResource("3_5uy27")
-offset = Vector2(68, 0)
-texture_scale = 0.25
 
 [node name="barrel" type="Marker2D" parent="pivot/Gun"]
 unique_name_in_owner = true
@@ -45,9 +34,8 @@ volume_db = 6.0
 pitch_scale = 0.73
 
 [node name="gun_fire" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_iuxbg")
-volume_db = -8.0
-pitch_scale = 0.66
+stream = ExtResource("4_873xj")
+pitch_scale = 0.76
 max_polyphony = 4
 
 [node name="BurstFire" type="Node2D" parent="."]

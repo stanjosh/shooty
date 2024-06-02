@@ -21,7 +21,7 @@ func _on_animated_sprite_2d_animation_finished():
 func _on_area_2d_body_entered(body):
 	
 	if body.has_method("take_damage"):
-		var area_damage = snapped(clampf(damage - global_position.distance_to(body.global_position), 0, damage), 1)
+		var area_damage = snapped(clampi(damage - global_position.distance_to(body.global_position), 0, damage), 1)
 		if damage >= 2:
 			var angle = body.global_position.angle_to_point(global_position)
 			body.take_damage(area_damage, angle)

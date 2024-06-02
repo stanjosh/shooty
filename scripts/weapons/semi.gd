@@ -1,7 +1,9 @@
 extends State
 
-@onready var reload = $reload
 
+@export var active : bool = false
+
+@onready var reload = $reload
 @export var damage : int = 11
 @export var piercing : int = 4
 @export var magazine : int = 6

@@ -9,7 +9,7 @@ var move_direction : Vector2
 @export var pause_time : float = randf_range(1, 3)
 @export var wander_distance : float = 10
 
-var player : CharacterBody2D
+var target
 
 func randomize_wander():
 	pause_time = randf_range(1, 3)

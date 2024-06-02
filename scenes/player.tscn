@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=3 uid="uid://ckq8owam8nxv4"]
+[gd_scene load_steps=79 format=3 uid="uid://ckq8owam8nxv4"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_3q3h3"]
 [ext_resource type="Texture2D" uid="uid://c50fe2l5ie5ci" path="res://assets/player/Hero Blue 54x53 Sprite.png" id="3_f7x4y"]
@@ -9,35 +9,13 @@
 [ext_resource type="Script" path="res://scripts/gui/ProgressBar.gd" id="8_m6da2"]
 [ext_resource type="Script" path="res://scripts/sword.gd" id="8_qwlqn"]
 [ext_resource type="Shader" path="res://assets/player/player.gdshader" id="9_h0xll"]
+[ext_resource type="AudioStream" uid="uid://ds7lpn11nb2x1" path="res://assets/player/sword_sheathed.mp3" id="11_g5br8"]
+[ext_resource type="AudioStream" uid="uid://r4bp64uibej5" path="res://assets/player/blade_1.wav" id="11_qbyro"]
+[ext_resource type="AudioStream" uid="uid://mjlrf7owlvcl" path="res://assets/player/blade_2.wav" id="12_a4y2f"]
+[ext_resource type="AudioStream" uid="uid://c3tjix00n3eov" path="res://assets/player/blade_3.wav" id="13_8sjwc"]
 
-[sub_resource type="Shader" id="Shader_63tqe"]
-code = "shader_type canvas_item;
-
-uniform vec4 line_color : source_color = vec4(1.0);
-uniform float line_thickness : hint_range(0, 10) = 1.0;
-
-const vec2 OFFSETS[8] = {
-	vec2(-1, -1), vec2(-1, 0), vec2(-1, 1), vec2(0, -1), vec2(0, 1), 
-	vec2(1, -1), vec2(1, 0), vec2(1, 1)
-};
-
-void fragment() {
-	vec2 size = TEXTURE_PIXEL_SIZE * line_thickness;
-	float outline = 0.0;
-	
-	for (int i = 0; i < OFFSETS.length(); i++) {
-		outline += texture(TEXTURE, UV + size * OFFSETS[i]).a;
-	}
-	outline = min(outline, 1.0);
-	
-	vec4 color = texture(TEXTURE, UV);
-	COLOR = mix(color, line_color, outline - color.a);
-}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rnuas"]
-shader = SubResource("Shader_63tqe")
-shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 1.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i1gu7"]
+height = 24.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v8c4x"]
 atlas = ExtResource("3_f7x4y")
@@ -503,9 +481,11 @@ floor_block_on_wall = false
 platform_on_leave = 2
 script = ExtResource("1_3q3h3")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_i1gu7")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 2
-material = SubResource("ShaderMaterial_rnuas")
 position = Vector2(0, 9)
 sprite_frames = SubResource("SpriteFrames_e81hw")
 animation = &"x_attack"
@@ -532,17 +512,12 @@ y_sort_enabled = false
 position = Vector2(0, -5)
 
 [node name="Area2D" type="Area2D" parent="."]
-scale = Vector2(0.774414, 0.629221)
+scale = Vector2(1.95572, 1.76655)
 collision_layer = 6
 collision_mask = 6
 
 [node name="DamageArea" type="CollisionShape2D" parent="Area2D"]
-visible = false
 scale = Vector2(1.50509, 1.59724)
-shape = SubResource("CapsuleShape2D_6pbmw")
-
-[node name="Collision" type="CollisionShape2D" parent="."]
-scale = Vector2(0.747557, 0.767445)
 shape = SubResource("CapsuleShape2D_6pbmw")
 
 [node name="PlayerHealthBar" type="ProgressBar" parent="."]
@@ -606,14 +581,31 @@ shadow_color = Color(0, 0, 0, 0.745098)
 texture = SubResource("GradientTexture2D_re0l6")
 
 [node name="sword" type="Area2D" parent="."]
+visible = false
 collision_mask = 14
 script = ExtResource("8_qwlqn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="sword"]
+visible = false
 material = SubResource("ShaderMaterial_uwh64")
 position = Vector2(35.5954, 0)
 scale = Vector2(5.16185, 5.16185)
 shape = SubResource("RectangleShape2D_t2fuw")
+
+[node name="sword_sheathed" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_g5br8")
+
+[node name="blade_1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_qbyro")
+pitch_scale = 0.75
+
+[node name="blade_2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_a4y2f")
+pitch_scale = 0.78
+
+[node name="blade_3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_8sjwc")
+pitch_scale = 0.74
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="ResetShots" to="." method="_on_reset_shots_timeout"]

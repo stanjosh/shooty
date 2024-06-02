@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://cv3ybiokkjqhy" path="res://assets/player/322496__liamg_sfx__explosion-13b.wav" id="3_le1uj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uy0q7"]
-radius = 11.8991
+radius = 16.2186
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_f054j"]
 light_mode = 2

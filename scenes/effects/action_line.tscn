@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dkpcrglxuf8od"]
 
-[ext_resource type="Script" path="res://scripts/action_line.gd" id="1_00y8s"]
+[ext_resource type="Script" path="res://scripts/action_line.gd" id="1_1cffa"]
 
 [sub_resource type="Gradient" id="Gradient_h52x0"]
 offsets = PackedFloat32Array(0, 0.521127, 1)
@@ -17,7 +17,7 @@ noise = SubResource("FastNoiseLite_glk6m")
 top_level = true
 light_mask = 512
 visibility_layer = 512
-script = ExtResource("1_00y8s")
+script = ExtResource("1_1cffa")
 
 [node name="Line2D" type="Line2D" parent="."]
 light_mask = 0

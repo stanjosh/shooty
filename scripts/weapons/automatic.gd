@@ -1,5 +1,7 @@
 extends State
 
+@export var active : bool = false
+
 @onready var reload = $reload
 
 @export var damage : int = 6

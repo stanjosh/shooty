@@ -9,9 +9,9 @@ var endpoint : Vector2
 var vector: float
 
 func _ready():
-	if value is int and value >= 2:
-		display_value = "%s" % value
-	elif value is String:
+	if value is int and value > 3:
+		value = "%s" % value
+	if value is String:
 		display_value = value
 	endpoint = Vector2( -12, 0).rotated(vector)
 

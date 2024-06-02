@@ -10,7 +10,7 @@ extends CharacterBody2D
 @onready var gun = $gun
 @onready var area_2d = $Area2D
 @onready var reset_shots = $ResetShots
-const ACTION_LINE = preload("res://scenes/action_line.tscn")
+const ACTION_LINE = preload("res://scenes/effects/action_line.tscn")
 @export var health : float = 100
 
 var attackers : Array
@@ -24,18 +24,23 @@ var melee_hits : int = 10
 var last_known_position : Vector2
 
 func _physics_process(delta):
-	
-	
+	modulate.g = health / 100
+	modulate.b = health / 100
 
 	
 	var mobs : Array = $sword.get_overlapping_bodies()
+	
 	mobs.sort_custom(
-		func(mob : CharacterBody2D, mob2 : CharacterBody2D):
-			return mob.global_position.distance_to(global_position) > mob2.global_position.distance_to(global_position)
+		func(mob, mob2 : CharacterBody2D):
+			return 
+			if mob is Grenade:
+				return mob
+			elif mob.global_position.distance_to(global_position) > mob2.global_position.distance_to(global_position):
+				return mob
 	)
 	var mob = mobs.pop_front()
 	
-	
+
 	
 	$PlayerGlow.energy = clampf($PlayerGlow.energy - 3 * delta, 0, 4)
 	var melee_attack : bool
@@ -48,15 +53,12 @@ func _physics_process(delta):
 		if Input.is_action_pressed("sword") and melee_cooldown >= 1:
 
 			if mob:
-
-
-
-				
-				
+				print(mob)
 				melee_cooldown -= 1
 				melee_attack = true
+				[$blade_1, $blade_2, $blade_3].pick_random().play()
 				
-				var damage = randi_range(20, 70)
+				var damage = randi_range(30, 60)
 				velocity = global_position.direction_to(mob.global_position) * speed * damage
 				mob.take_damage(damage, global_position.angle_to_point(mob.global_position))
 				$PlayerGlow.energy = 2
@@ -95,8 +97,11 @@ func _physics_process(delta):
 		attackers = area_2d.get_overlapping_bodies()
 		if attackers:
 			for attacker in attackers:
+				
 				health -= attacker.player_damage * delta
 				attacked_vector = global_position.angle_to(attacker.global_position)
+				
+				
 		
 		
 		
@@ -113,9 +118,12 @@ func _physics_process(delta):
 		line.first_position = global_position
 		world.add_child(line)
 	if melee_cooldown <= 1:
-		melee_cooldown += world.danger_factor * delta
+		melee_cooldown += (world.danger_factor + 2) * delta
+	
 	if health <= 0:
 		die(attacked_vector)
+	else:
+		health += .7 * delta
 
 	
 func animate(velocity, melee_attack, delta):
@@ -151,7 +159,7 @@ func die(vector):
 
 	if death_sprays:
 		$CPUParticles2D.emitting = true
-		const DEATH_SPRAY = preload("res://scenes/dark_spray.tscn")
+		const DEATH_SPRAY = preload("res://scenes/effects/dark_spray.tscn")
 		var new_spray = DEATH_SPRAY.instantiate()
 		new_spray.global_position = global_position
 		new_spray.rotation = randf_range(vector, 10)
