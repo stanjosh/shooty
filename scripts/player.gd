@@ -21,46 +21,55 @@ var death_sprays : int = 12
 var animation_lock : bool = false
 var melee_cooldown : float = 1
 var melee_hits : int = 10
-
+var last_known_position : Vector2
 
 func _physics_process(delta):
+	
+	
+
+	
 	var mobs : Array = $sword.get_overlapping_bodies()
 	mobs.sort_custom(
 		func(mob : CharacterBody2D, mob2 : CharacterBody2D):
 			return mob.global_position.distance_to(global_position) > mob2.global_position.distance_to(global_position)
 	)
-	var mob : CharacterBody2D = mobs.pop_front()
+	var mob = mobs.pop_front()
+	
 	
 	
 	$PlayerGlow.energy = clampf($PlayerGlow.energy - 3 * delta, 0, 4)
+	var melee_attack : bool
 	if is_alive:
-		var input_direction = Input.get_vector("left", "right", "up", "down")
+
+		var input_direction : Vector2 = Input.get_vector("left", "right", "up", "down")
 		if not input_direction:
 			velocity = Vector2(0,0)
-		elif input_direction:
-			velocity = input_direction * speed
-		var melee_attack : bool = false
-		if melee_cooldown >= 1 and Input.is_action_pressed("sword"):
+		
+		if Input.is_action_pressed("sword") and melee_cooldown >= 1:
 
 			if mob:
-				var line = ACTION_LINE.instantiate()
-				line.first_position = global_position
-				line.last_position = mob.global_position
-				world.add_child(line)
-				melee_attack = true
+
+
+
+				
+				
 				melee_cooldown -= 1
+				melee_attack = true
+				
 				var damage = randi_range(20, 70)
 				velocity = global_position.direction_to(mob.global_position) * speed * damage
 				mob.take_damage(damage, global_position.angle_to_point(mob.global_position))
 				$PlayerGlow.energy = 2
-				
-				pass
 
-		
+			
+		elif input_direction:
+			velocity = input_direction * speed
+		animate(velocity, melee_attack, delta)
+
 
 		
 			
-		animate(velocity, melee_attack, delta)
+		
 
 
 
@@ -95,7 +104,14 @@ func _physics_process(delta):
 		health = clampf(health, 0, 100)
 
 		max_slides = 5
+
+		last_known_position = global_position
 		move_and_collide(velocity * delta)
+	if melee_attack:
+		var line = ACTION_LINE.instantiate()
+		line.last_position = last_known_position
+		line.first_position = global_position
+		world.add_child(line)
 	if melee_cooldown <= 1:
 		melee_cooldown += world.danger_factor * delta
 	if health <= 0:
@@ -121,6 +137,7 @@ func animate(velocity, melee_attack, delta):
 				current_animation = "up_attack" if melee_attack else "up_walk"
 		else:
 			current_animation = "x_attack" if melee_attack else "idle"
+
 		animated_sprite_2d.play(current_animation)
 
 
@@ -143,6 +160,8 @@ func die(vector):
 		death_sprays -= 1
 		
 	gun.process_mode = Node.PROCESS_MODE_DISABLED
+
+		
 
 func kill_shot():
 	combo_counter += 1

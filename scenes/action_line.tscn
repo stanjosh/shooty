@@ -1,10 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://dkpcrglxuf8od"]
+[gd_scene load_steps=5 format=3 uid="uid://dkpcrglxuf8od"]
 
 [ext_resource type="Script" path="res://scripts/action_line.gd" id="1_00y8s"]
 
-[sub_resource type="Gradient" id="Gradient_blrwq"]
-offsets = PackedFloat32Array(0, 0.182927)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+[sub_resource type="Gradient" id="Gradient_h52x0"]
+offsets = PackedFloat32Array(0, 0.521127, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_glk6m"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vvnph"]
+generate_mipmaps = false
+color_ramp = SubResource("Gradient_h52x0")
+noise = SubResource("FastNoiseLite_glk6m")
 
 [node name="action_line" type="Node2D"]
 top_level = true
@@ -15,4 +22,8 @@ script = ExtResource("1_00y8s")
 [node name="Line2D" type="Line2D" parent="."]
 light_mask = 0
 visibility_layer = 16
-gradient = SubResource("Gradient_blrwq")
+width = 6.0
+texture = SubResource("NoiseTexture2D_vvnph")
+texture_mode = 1
+begin_cap_mode = 2
+end_cap_mode = 2

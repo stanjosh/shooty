@@ -26,6 +26,7 @@ visibility_layer = 512
 z_index = 100
 z_as_relative = false
 y_sort_enabled = true
+layout_mode = 0
 offset_left = -6.0
 offset_top = -23.0
 offset_right = 6.0

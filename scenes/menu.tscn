@@ -44,8 +44,7 @@ text = "play"
 [node name="options" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = SubResource("Theme_tf7l0")
-disabled = true
-text = "options"
+text = "fullscreen"
 
 [node name="exit" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://d0nxu181oh583"]
+[gd_scene load_steps=10 format=3 uid="uid://d0nxu181oh583"]
 
 [ext_resource type="Script" path="res://scripts/mobs/mob.gd" id="1_qlh1j"]
+[ext_resource type="Shader" path="res://assets/player/player.gdshader" id="4_s8rhi"]
 [ext_resource type="Script" path="res://scripts/mobs/idle_wander.gd" id="5_lhwhh"]
 [ext_resource type="Script" path="res://scripts/mobs/Chase.gd" id="6_o2m0o"]
 
@@ -17,8 +18,13 @@ gradient = SubResource("Gradient_dtbxr")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1038f"]
+shader = ExtResource("4_s8rhi")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 5.607
+
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fbkq7"]
-polygon = PackedVector2Array(-16, 16, -8.57252, 18.775, 8.57252, 18.775, 12.8588, 16.0929, 12.8588, 5.36429, 17.145, -2.68214, 12.8588, -13.4107, 0, -16.0929, -12.8588, -13.4107, -17.145, -5.36428, -17.145, 5.36429, -21.4313, 10.7286)
+polygon = PackedVector2Array(-8.57251, 10.7286, -12.8588, 18.775, 4.28625, 16.0929, 12.8588, 18.775, 17.145, 5.36429, 12.8588, 0, 17.145, -13.4107, 0, -13.4107, -8.57251, -16.0929, -21.4313, -5.36429, -12.8588, 2.68214, -21.4313, 8.04643)
 
 [node name="mob" type="CharacterBody2D" node_paths=PackedStringArray("initial_state")]
 z_index = 1
@@ -45,7 +51,8 @@ wander_distance = 20.0
 [node name="PointLight2D" type="PointLight2D" parent="."]
 z_index = 1
 scale = Vector2(1.4908, 1.84483)
-energy = 2.0
+color = Color(0, 0, 0, 1)
+energy = 1.39
 blend_mode = 1
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.941176)
@@ -57,6 +64,7 @@ texture_scale = 0.5
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 clip_children = 2
 z_index = 1
+material = SubResource("ShaderMaterial_1038f")
 scale = Vector2(0.233304, 0.372836)
 occluder = SubResource("OccluderPolygon2D_fbkq7")
 occluder_light_mask = 3

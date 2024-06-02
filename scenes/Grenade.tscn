@@ -8,8 +8,8 @@ friction = 0.79
 bounce = 0.2
 
 [sub_resource type="Gradient" id="Gradient_pg0io"]
-offsets = PackedFloat32Array(0, 0.703125)
-colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
+offsets = PackedFloat32Array(0, 0.253247, 0.642857)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.518519, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_dfn1y"]
 gradient = SubResource("Gradient_pg0io")
@@ -37,7 +37,7 @@ scale = Vector2(0.593004, 0.593004)
 texture = ExtResource("2_bor8w")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-scale = Vector2(1.55664, 1.55664)
+scale = Vector2(3, 3)
 color = Color(0.572549, 0.278431, 0.172549, 1)
 energy = 4.66
 shadow_enabled = true

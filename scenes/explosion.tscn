@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://cv3ybiokkjqhy" path="res://assets/player/322496__liamg_sfx__explosion-13b.wav" id="3_le1uj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uy0q7"]
-radius = 10.4538
+radius = 11.8991
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_f054j"]
 light_mode = 2
@@ -82,8 +82,8 @@ animations = [{
 }]
 
 [sub_resource type="Gradient" id="Gradient_v8pgy"]
-offsets = PackedFloat32Array(0, 0.746606)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+offsets = PackedFloat32Array(0, 0.688312)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_32dok"]
 gradient = SubResource("Gradient_v8pgy")
@@ -103,7 +103,7 @@ collision_layer = 4
 collision_mask = 15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-scale = Vector2(-6.00122, -6.24304)
+scale = Vector2(-7.296, -7.59)
 shape = SubResource("CircleShape2D_uy0q7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -120,8 +120,8 @@ pitch_scale = 1.21
 autoplay = true
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(1.25045, 28.1352)
-scale = Vector2(5.02723, 3.22303)
+position = Vector2(-0.37958, 25.0523)
+scale = Vector2(4, 4)
 energy = 2.0
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.458824)
