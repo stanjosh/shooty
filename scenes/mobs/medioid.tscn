@@ -300,7 +300,7 @@ _data = [Vector2(0, 95.5581), 0.0, -247.968, 0, 0, Vector2(1, 4.49886), 0.0, 0.0
 point_count = 2
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_l17p4"]
-polygon = PackedVector2Array(-6, -5, -4, -10, 2, -10, 4, -6, 3, 4, -8, 5)
+polygon = PackedVector2Array(-6, -1, -4, -9, 2, -9, 2, -3, 0, 2, -7, 2)
 
 [node name="medioid" type="CharacterBody2D"]
 collision_layer = 64

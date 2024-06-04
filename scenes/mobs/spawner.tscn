@@ -32,4 +32,10 @@ enemy1_number = 4
 enemy2 = ExtResource("3_x5uva")
 enemy2_number = 20
 
+[node name="SpawnWave4" parent="." instance=ExtResource("2_317wf")]
+danger_level = 8.0
+spawn_speed = 0.5
+enemy1 = ExtResource("3_g2r20")
+enemy1_number = 8
+
 [connection signal="timeout" from="BetweenWaveTime" to="." method="_on_between_wave_time_timeout"]
