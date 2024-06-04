@@ -4,8 +4,8 @@ class_name Mob
 const DAMAGE_NUMBER = preload ("res://scenes/effects/FloatingStatus.tscn")
 @onready var animated_sprite_2d = $AnimatedSprite2D
 
-@onready var world = $"../../"
-@onready var player = $"../../player"
+@onready var world = $"../"
+@onready var player = $"../player"
 
 var scalar : float = 1
 @export var growing : bool = false
@@ -30,6 +30,10 @@ func _ready():
 		set_collision_layer_value(3, true)
 		set_collision_mask_value(7, false)
 		set_collision_layer_value(7, false)
+		set_collision_mask_value(6, false)
+		set_collision_layer_value(6, false)
+		set_collision_mask_value(2, false)
+		set_collision_layer_value(2, false)
 	else:
 		set_collision_mask_value(3, false)
 		set_collision_layer_value(3, false)

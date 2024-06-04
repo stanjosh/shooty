@@ -54,7 +54,7 @@ func _on_spawn_timer_timeout():
 		$Path2D/PathFollow2D.progress_ratio = randf()
 		enemy.global_position = $Path2D/PathFollow2D.global_position
 		enemy.scalar = danger_level
-		$"..".add_child(enemy)
+		$"../..".add_child(enemy)
 	else:
 		spawn_timer.stop()
 		print("wave complete")
