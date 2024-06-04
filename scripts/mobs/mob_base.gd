@@ -10,16 +10,18 @@ const DAMAGE_NUMBER = preload ("res://scenes/effects/FloatingStatus.tscn")
 var scalar : float = 1
 @export var growing : bool = false
 @export var player_damage = randf_range(1, 7)
-@export var move_speed : float = 30
-@export var max_health : int = 10
+@export var move_speed : float
+@export var max_health : int
 @export var bleeds : bool = false
 @export var death_particles : bool = true
 @export var flying : bool = false
 var is_alive : bool = true
 var melee_attack : bool = false
-var health : int = max_health
+var health : int
+
 
 func _ready():
+	health = max_health
 	move_speed += 4 * (1 - scalar/2)
 	max_health += (10 * scalar) * (1 - scalar)
 	

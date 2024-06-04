@@ -11,10 +11,12 @@ extends CharacterBody2D
 @onready var area_2d = $Area2D
 @onready var reset_shots = $ResetShots
 const ACTION_LINE = preload("res://scenes/effects/action_line.tscn")
-@export var health : float = 100
+@export var max_health : float = 100
+var health : float = max_health
 
-var attackers : Array
-var combo_counter : float = 0
+
+var attackers : Array[Node2D]
+var combo_counter : int = 0
 var is_alive : bool = true
 var attacked_vector : float
 var death_sprays : int = 12
@@ -90,11 +92,6 @@ func _physics_process(delta):
 			gun.reload()
 			
 
-
-
-
-				
-			
 		attackers = area_2d.get_overlapping_bodies()
 		if attackers:
 			for attacker in attackers:
@@ -102,12 +99,6 @@ func _physics_process(delta):
 					health -= attacker.player_damage * delta
 					attacked_vector = global_position.angle_to(attacker.global_position)
 					sprite_flash()
-
-
-				
-		
-		
-		
 
 		health = clampf(health, 0, 100)
 
@@ -125,7 +116,7 @@ func _physics_process(delta):
 	
 	if health <= 0:
 		die(attacked_vector)
-	else:
+	elif health < max_health:
 		health += .7 * delta
 		
 func sprite_flash() -> void: 

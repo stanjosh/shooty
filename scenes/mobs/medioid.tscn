@@ -1,6 +1,6 @@
-[gd_scene load_steps=43 format=3 uid="uid://bwqbgwl7hvop0"]
+[gd_scene load_steps=44 format=3 uid="uid://bwqbgwl7hvop0"]
 
-[ext_resource type="Script" path="res://scripts/mobs/mob_base.gd" id="1_ykg5f"]
+[ext_resource type="Script" path="res://scenes/mobs/medioid.gd" id="1_yr66h"]
 [ext_resource type="Texture2D" uid="uid://btwmwvowecsnm" path="res://assets/Monster 2/50x31 Monster 2 spritesheet without shadows.png" id="2_l6jj3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0ycxn"]
@@ -299,19 +299,20 @@ max_value = 100.0
 _data = [Vector2(0, 95.5581), 0.0, -247.968, 0, 0, Vector2(1, 4.49886), 0.0, 0.0, 0, 0]
 point_count = 2
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_l17p4"]
+polygon = PackedVector2Array(-6, -5, -4, -10, 2, -10, 4, -6, 3, 4, -8, 5)
+
 [node name="medioid" type="CharacterBody2D"]
 collision_layer = 64
 collision_mask = 98
-script = ExtResource("1_ykg5f")
-growing = true
-player_damage = 30.0
-move_speed = 18.0
-max_health = 50
-bleeds = true
+script = ExtResource("1_yr66h")
+player_damage = 20.0
+move_speed = 20.0
+max_health = 200
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vhn7c")
-animation = &"die"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -332,5 +333,8 @@ scale_amount_max = 2.0
 color = Color(0, 0, 0, 1)
 
 [node name="DeathAnimationTimer" type="Timer" parent="."]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_l17p4")
 
 [connection signal="timeout" from="DeathAnimationTimer" to="." method="_on_death_animation_timer_timeout"]

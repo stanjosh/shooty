@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://scripts/mobs/spawner.gd" id="1_q84b8"]
 [ext_resource type="PackedScene" uid="uid://cmq4kav7bbo5s" path="res://scenes/mobs/spawn_wave.tscn" id="2_317wf"]
-[ext_resource type="PackedScene" uid="uid://b468nws5boocm" path="res://scenes/mobs/mob.tscn" id="2_hk1o0"]
-[ext_resource type="PackedScene" uid="uid://ctvpcfm5heb5" path="res://scenes/mobs/bat.tscn" id="2_uyxaj"]
+[ext_resource type="PackedScene" uid="uid://d0ea3013fce28" path="res://scenes/mobs/bat.tscn" id="2_uyxaj"]
 [ext_resource type="PackedScene" uid="uid://bwqbgwl7hvop0" path="res://scenes/mobs/medioid.tscn" id="3_g2r20"]
+[ext_resource type="PackedScene" uid="uid://ctvpcfm5heb5" path="res://scenes/mobs/tiny.tscn" id="3_x5uva"]
 
 [node name="Spawner" type="Node2D"]
 script = ExtResource("1_q84b8")
@@ -16,19 +16,20 @@ one_shot = true
 [node name="SpawnWave" parent="." instance=ExtResource("2_317wf")]
 danger_level = 1.0
 spawn_speed = 0.216
-enemy1 = ExtResource("2_hk1o0")
-enemy1_number = 30
+enemy1 = ExtResource("3_x5uva")
+enemy1_number = 40
 
 [node name="SpawnWave2" parent="." instance=ExtResource("2_317wf")]
-danger_level = 1.0
-enemy1 = ExtResource("2_uyxaj")
-enemy1_number = 5
-enemy2 = ExtResource("3_g2r20")
-enemy2_number = 3
+enemy1 = ExtResource("3_g2r20")
+enemy1_number = 4
+enemy2 = ExtResource("2_uyxaj")
+enemy2_number = 20
 
 [node name="SpawnWave3" parent="." instance=ExtResource("2_317wf")]
 danger_level = 3.0
 enemy1 = ExtResource("3_g2r20")
-enemy1_number = 3
+enemy1_number = 4
+enemy2 = ExtResource("3_x5uva")
+enemy2_number = 20
 
 [connection signal="timeout" from="BetweenWaveTime" to="." method="_on_between_wave_time_timeout"]

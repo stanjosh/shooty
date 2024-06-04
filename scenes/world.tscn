@@ -1,15 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://kx6t8xna0t6n"]
+[gd_scene load_steps=16 format=3 uid="uid://kx6t8xna0t6n"]
 
 [ext_resource type="PackedScene" uid="uid://ckq8owam8nxv4" path="res://scenes/player/player.tscn" id="1_no6yh"]
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_yai4s"]
 [ext_resource type="Texture2D" uid="uid://cwa50q2jvm8lb" path="res://assets/tiles/CosmicLilac_Tiles.png" id="3_41akx"]
 [ext_resource type="PackedScene" uid="uid://1rsycjl1j2mk" path="res://scenes/mobs/spawner.tscn" id="4_65213"]
-
-[sub_resource type="Curve2D" id="Curve2D_wgjvp"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 502, -300.003, 0, 0, 0, 0, 502, 362, 0, 0, 0, 0, -566, 358, 0, 0, 0, 0, -570, -301, 0, 0, 0, 0, 502, -300.003)
-}
-point_count = 5
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_pong7"]
 tile_data = PackedInt32Array(0, 1, 0, 65536, 1, 1, 131072, 1, 2, 1, 65537, 0, 65537, 65537, 1, 131073, 65537, 2, 2, 131073, 0, 65538, 131073, 1, 131074, 131073, 2)
@@ -517,17 +511,6 @@ unique_name_in_owner = true
 z_index = 1
 z_as_relative = false
 
-[node name="spawnzone" type="Path2D" parent="player"]
-position = Vector2(4.26858, 18.908)
-scale = Vector2(1.03731, 1.00302)
-curve = SubResource("Curve2D_wgjvp")
-
-[node name="spawner" type="PathFollow2D" parent="player/spawnzone"]
-unique_name_in_owner = true
-position = Vector2(502, -218.173)
-rotation = 1.5708
-progress = 81.8335
-
 [node name="ground" type="TileMap" parent="."]
 unique_name_in_owner = true
 clip_children = 2
@@ -543,8 +526,6 @@ layer_0/tile_data = PackedInt32Array(65537, 131072, 2, 131073, 131072, 2, 131074
 layer_1/name = "midground"
 layer_1/y_sort_enabled = true
 layer_1/tile_data = PackedInt32Array()
-
-[node name="Node" type="Node" parent="."]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 scroll_base_scale = Vector2(0, 0)
