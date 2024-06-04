@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=3 uid="uid://baj1g8b4rrm7p"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_h310b"]
+[ext_resource type="PackedScene" uid="uid://kx6t8xna0t6n" path="res://scenes/world.tscn" id="1_p67di"]
+[ext_resource type="PackedScene" uid="uid://7w31v3ug280y" path="res://scenes/gui/hud.tscn" id="2_k6aik"]
+
+[node name="game" type="Node"]
+script = ExtResource("1_h310b")
+
+[node name="World" parent="." instance=ExtResource("1_p67di")]
+z_index = -1
+spawn_timer = null
+max_spawns = null
+danger_factor = null
+
+[node name="hud" parent="." instance=ExtResource("2_k6aik")]
+unique_name_in_owner = true
+process_mode = 3
+
+[node name="PauseMenu" type="Control" parent="hud"]
+process_mode = 3
+visible = false
+z_as_relative = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2.91517, 2.91517)
+
+[node name="MarginContainer" type="MarginContainer" parent="hud/PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -33.0
+offset_right = 35.0
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="hud/PauseMenu/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Resume" type="Button" parent="hud/PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="Quit" type="Button" parent="hud/PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="hud/PauseMenu/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="hud/PauseMenu/MarginContainer/VBoxContainer/Resume" to="hud/PauseMenu" method="_on_resume_pressed"]
+[connection signal="pressed" from="hud/PauseMenu/MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

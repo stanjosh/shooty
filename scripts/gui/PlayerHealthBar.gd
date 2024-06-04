@@ -9,7 +9,7 @@ func _ready():
 	min_value = 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	value = player.health
 	visible = false if player.health == 100 else true
 	pass

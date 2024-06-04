@@ -1,29 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://dkpcrglxuf8od"]
+[gd_scene load_steps=3 format=3 uid="uid://dkpcrglxuf8od"]
 
-[ext_resource type="Script" path="res://scripts/action_line.gd" id="1_1cffa"]
+[ext_resource type="Script" path="res://scripts/effects/action_line.gd" id="1_c3ndh"]
 
-[sub_resource type="Gradient" id="Gradient_h52x0"]
-offsets = PackedFloat32Array(0, 0.521127, 1)
-colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_glk6m"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vvnph"]
-generate_mipmaps = false
-color_ramp = SubResource("Gradient_h52x0")
-noise = SubResource("FastNoiseLite_glk6m")
+[sub_resource type="Curve" id="Curve_kdtpk"]
+_data = [Vector2(0, 0.5), 0.0, -0.64267, 0, 1, Vector2(0.505618, 0.175055), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.657276, 0.0, 1, 0]
+point_count = 3
 
 [node name="action_line" type="Node2D"]
 top_level = true
 light_mask = 512
 visibility_layer = 512
-script = ExtResource("1_1cffa")
+script = ExtResource("1_c3ndh")
 
 [node name="Line2D" type="Line2D" parent="."]
 light_mask = 0
 visibility_layer = 16
-width = 6.0
-texture = SubResource("NoiseTexture2D_vvnph")
+width = 16.0
+width_curve = SubResource("Curve_kdtpk")
+default_color = Color(0.711627, 0.983279, 1, 1)
 texture_mode = 1
+joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

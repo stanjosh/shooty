@@ -13,5 +13,3 @@ extends State
 @export var pellets : int = 8
 @export var dropoff : float = 20
 
-@export var texture = Image.load_from_file("res://assets/player/birdshot.png")
-
