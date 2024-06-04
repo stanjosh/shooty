@@ -1,6 +1,6 @@
 [gd_scene load_steps=29 format=3 uid="uid://uxooh6uufd3x"]
 
-[ext_resource type="Script" path="res://scripts/effects/death_spray.gd" id="1_4veat"]
+[ext_resource type="Script" path="res://scenes/effects/scripts/death_spray.gd" id="1_4veat"]
 [ext_resource type="Texture2D" uid="uid://b32dv6rw5m8p2" path="res://assets/Extra/VFX Blood Batch 1_SpriteSheetRows.png" id="2_b1j0h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g3lw4"]

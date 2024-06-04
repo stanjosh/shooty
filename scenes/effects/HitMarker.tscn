@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://bkrrljjeydlgs"]
 
-[ext_resource type="Script" path="res://scripts/effects/blood_spray.gd" id="1_pwcdo"]
-[ext_resource type="Texture2D" uid="uid://de7nsq3oyurmj" path="res://assets/player/Bullet14x14.png" id="2_eeqrb"]
+[ext_resource type="Script" path="res://scenes/effects/scripts/blood_spray.gd" id="1_pwcdo"]
+[ext_resource type="Texture2D" uid="uid://de7nsq3oyurmj" path="res://scenes/player/assets/Bullet14x14.png" id="2_eeqrb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lsn7s"]
 atlas = ExtResource("2_eeqrb")
@@ -30,22 +30,22 @@ region = Rect2(84, 14, 14, 14)
 [sub_resource type="SpriteFrames" id="SpriteFrames_x3lfu"]
 animations = [{
 "frames": [{
-"duration": 2.0,
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_lsn7s")
 }, {
-"duration": 1.5,
+"duration": 0.6,
 "texture": SubResource("AtlasTexture_xvrxe")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_83hy4")
 }, {
-"duration": 1.0,
+"duration": 0.4,
 "texture": SubResource("AtlasTexture_hcokw")
 }, {
-"duration": 0.7,
+"duration": 0.3,
 "texture": SubResource("AtlasTexture_o5e7y")
 }, {
-"duration": 0.7,
+"duration": 0.2,
 "texture": SubResource("AtlasTexture_4co1j")
 }],
 "loop": false,
@@ -54,6 +54,7 @@ animations = [{
 }]
 
 [node name="blood_spray" type="Node2D"]
+top_level = true
 script = ExtResource("1_pwcdo")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

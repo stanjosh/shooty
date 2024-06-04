@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dqcb23bdlbcxw"]
 
-[ext_resource type="Script" path="res://scripts/gui/Menu.gd" id="1_0pt6b"]
+[ext_resource type="Script" path="res://scenes/gui/scripts/Menu.gd" id="1_0pt6b"]
 [ext_resource type="FontFile" uid="uid://b8cdyxr1psn4j" path="res://assets/BebasNeue-Regular.ttf" id="2_qgjyx"]
 
 [sub_resource type="Theme" id="Theme_tf7l0"]

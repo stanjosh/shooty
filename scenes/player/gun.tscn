@@ -1,14 +1,19 @@
-[gd_scene load_steps=12 format=3 uid="uid://hb5jqo0vv4x3"]
+[gd_scene load_steps=10 format=3 uid="uid://hb5jqo0vv4x3"]
 
-[ext_resource type="Script" path="res://scripts/player/gun.gd" id="1_4h2r3"]
-[ext_resource type="Texture2D" uid="uid://bgqscqcpm7vpp" path="res://assets/player/gun sprite.png" id="2_c00et"]
-[ext_resource type="AudioStream" uid="uid://byrindvyma3vw" path="res://assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Aim - 1.mp3" id="3_r7csu"]
-[ext_resource type="AudioStream" uid="uid://sknpjryy1vge" path="res://assets/player/shoot_wtf.mp3" id="4_873xj"]
-[ext_resource type="Script" path="res://scripts/weapons/automatic.gd" id="5_n8ybd"]
-[ext_resource type="Script" path="res://scripts/weapons/semi.gd" id="6_f6ocq"]
-[ext_resource type="Script" path="res://scripts/weapons/birdshot.gd" id="6_kgfiv"]
-[ext_resource type="Script" path="res://scripts/weapons/burst.gd" id="7_exfcr"]
-[ext_resource type="Shader" path="res://assets/player/player.gdshader" id="10_btn0y"]
+[ext_resource type="Script" path="res://scenes/player/scripts/gun.gd" id="1_501qf"]
+[ext_resource type="Texture2D" uid="uid://bgqscqcpm7vpp" path="res://scenes/player/assets/gun sprite.png" id="2_c00et"]
+[ext_resource type="AudioStream" uid="uid://byrindvyma3vw" path="res://scenes/player/assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Aim - 1.mp3" id="3_s1kjx"]
+[ext_resource type="AudioStream" uid="uid://sknpjryy1vge" path="res://scenes/player/assets/shoot_wtf.mp3" id="4_873xj"]
+[ext_resource type="Shader" path="res://scenes/player/assets/player.gdshader" id="10_btn0y"]
+
+[sub_resource type="Gradient" id="Gradient_1y2mp"]
+offsets = PackedFloat32Array(0, 0.700637)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qegps"]
+gradient = SubResource("Gradient_1y2mp")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e8m23"]
 shader = ExtResource("10_btn0y")
@@ -18,14 +23,22 @@ shader_parameter/line_thickness = 1.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_68xcw"]
 radius = 2.98432
 
-[node name="gun" type="Node2D" node_paths=PackedStringArray("initial_state")]
+[node name="gun" type="Node2D"]
 z_index = 2
 z_as_relative = false
 y_sort_enabled = true
-script = ExtResource("1_4h2r3")
-initial_state = NodePath("BurstFire")
+script = ExtResource("1_501qf")
 
 [node name="pivot" type="Marker2D" parent="."]
+
+[node name="PointLight2D" type="PointLight2D" parent="pivot"]
+z_index = 3
+z_as_relative = false
+position = Vector2(10, 0)
+scale = Vector2(0.317655, 0.250037)
+color = Color(1, 0.45098, 0.27451, 1)
+energy = 4.25
+texture = SubResource("GradientTexture2D_qegps")
 
 [node name="Gun" type="Sprite2D" parent="pivot"]
 z_index = 2
@@ -38,7 +51,7 @@ unique_name_in_owner = true
 position = Vector2(2, -1)
 
 [node name="gun_click" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_r7csu")
+stream = ExtResource("3_s1kjx")
 volume_db = 6.0
 pitch_scale = 0.73
 
@@ -46,40 +59,6 @@ pitch_scale = 0.73
 stream = ExtResource("4_873xj")
 pitch_scale = 0.76
 max_polyphony = 4
-
-[node name="BurstFire" type="Node2D" parent="."]
-script = ExtResource("7_exfcr")
-
-[node name="reload" type="Timer" parent="BurstFire"]
-process_callback = 0
-one_shot = true
-
-[node name="birdshot" type="Node2D" parent="."]
-script = ExtResource("6_kgfiv")
-
-[node name="reload" type="Timer" parent="birdshot"]
-process_callback = 0
-wait_time = 1.1
-one_shot = true
-
-[node name="semi" type="Node2D" parent="."]
-script = ExtResource("6_f6ocq")
-
-[node name="reload" type="Timer" parent="semi"]
-process_callback = 0
-wait_time = 2.0
-one_shot = true
-
-[node name="automatic" type="Node2D" parent="."]
-script = ExtResource("5_n8ybd")
-damage = 4
-piercing = 1
-magazine = 40
-
-[node name="reload" type="Timer" parent="automatic"]
-process_callback = 0
-wait_time = 3.0
-one_shot = true
 
 [node name="sword" type="Area2D" parent="."]
 collision_layer = 0
@@ -93,7 +72,13 @@ rotation = 1.57079
 scale = Vector2(5.16185, 5.16185)
 shape = SubResource("CapsuleShape2D_68xcw")
 
-[connection signal="timeout" from="BurstFire/reload" to="." method="_on_reload_timeout"]
-[connection signal="timeout" from="birdshot/reload" to="." method="_on_reload_timeout"]
-[connection signal="timeout" from="semi/reload" to="." method="_on_reload_timeout"]
-[connection signal="timeout" from="automatic/reload" to="." method="_on_reload_timeout"]
+[node name="Cooldown" type="Timer" parent="."]
+wait_time = 0.6
+autostart = true
+
+[node name="Overheat" type="Timer" parent="."]
+wait_time = 2.5
+one_shot = true
+
+[connection signal="timeout" from="Cooldown" to="." method="_on_cooldown_timeout"]
+[connection signal="timeout" from="Overheat" to="." method="_on_overheat_timeout"]

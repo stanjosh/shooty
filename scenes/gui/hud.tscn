@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://7w31v3ug280y"]
 
-[ext_resource type="Script" path="res://scripts/gui/hud.gd" id="1_sbawl"]
+[ext_resource type="Script" path="res://scenes/gui/scripts/hud.gd" id="1_sbawl"]
 [ext_resource type="FontFile" uid="uid://b8cdyxr1psn4j" path="res://assets/BebasNeue-Regular.ttf" id="2_ipx6h"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_xjdpx"]

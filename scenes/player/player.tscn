@@ -1,16 +1,15 @@
-[gd_scene load_steps=75 format=3 uid="uid://ckq8owam8nxv4"]
+[gd_scene load_steps=74 format=3 uid="uid://ckq8owam8nxv4"]
 
-[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_1x1bv"]
-[ext_resource type="Texture2D" uid="uid://c50fe2l5ie5ci" path="res://assets/player/Hero Blue 54x53 Sprite.png" id="2_hlcqq"]
+[ext_resource type="Script" path="res://scenes/player/scripts/player.gd" id="1_1x1bv"]
+[ext_resource type="Texture2D" uid="uid://c50fe2l5ie5ci" path="res://scenes/player/assets/Hero Blue 54x53 Sprite.png" id="2_hlcqq"]
 [ext_resource type="Texture2D" uid="uid://cnluagwjgu7r7" path="res://assets/Extra/Shadow.png" id="3_gr2x3"]
-[ext_resource type="Script" path="res://scripts/player/Camera2D.gd" id="4_1gf3p"]
+[ext_resource type="Script" path="res://scenes/player/scripts/Camera2D.gd" id="4_1gf3p"]
 [ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/player/gun.tscn" id="5_4th0a"]
-[ext_resource type="Script" path="res://scripts/gui/PlayerHealthBar.gd" id="6_61gng"]
-[ext_resource type="Script" path="res://scripts/gui/ProgressBar.gd" id="7_rig5r"]
-[ext_resource type="AudioStream" uid="uid://ds7lpn11nb2x1" path="res://assets/player/sword_sheathed.mp3" id="8_m8vsa"]
-[ext_resource type="AudioStream" uid="uid://r4bp64uibej5" path="res://assets/player/blade_1.wav" id="9_qixfa"]
-[ext_resource type="AudioStream" uid="uid://mjlrf7owlvcl" path="res://assets/player/blade_2.wav" id="10_k6kp2"]
-[ext_resource type="AudioStream" uid="uid://c3tjix00n3eov" path="res://assets/player/blade_3.wav" id="11_u1nlg"]
+[ext_resource type="Script" path="res://scenes/gui/scripts/PlayerHealthBar.gd" id="6_61gng"]
+[ext_resource type="AudioStream" uid="uid://ds7lpn11nb2x1" path="res://scenes/player/assets/sword_sheathed.mp3" id="8_m8vsa"]
+[ext_resource type="AudioStream" uid="uid://r4bp64uibej5" path="res://scenes/player/assets/blade_1.wav" id="9_qixfa"]
+[ext_resource type="AudioStream" uid="uid://mjlrf7owlvcl" path="res://scenes/player/assets/blade_2.wav" id="10_k6kp2"]
+[ext_resource type="AudioStream" uid="uid://c3tjix00n3eov" path="res://scenes/player/assets/blade_3.wav" id="11_u1nlg"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i1gu7"]
 height = 24.0
@@ -122,6 +121,14 @@ region = Rect2(413, 54, 54, 54)
 [sub_resource type="AtlasTexture" id="AtlasTexture_x0k7k"]
 atlas = ExtResource("2_hlcqq")
 region = Rect2(35, 0, 54, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cf1t0"]
+atlas = ExtResource("2_hlcqq")
+region = Rect2(90, 0, 55, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wf6ci"]
+atlas = ExtResource("2_hlcqq")
+region = Rect2(145, 0, 55, 53)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8ni2g"]
 atlas = ExtResource("2_hlcqq")
@@ -327,8 +334,24 @@ animations = [{
 "texture": SubResource("AtlasTexture_x0k7k")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"idle_down",
 "speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cf1t0")
+}],
+"loop": true,
+"name": &"idle_up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wf6ci")
+}],
+"loop": true,
+"name": &"idle_x",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 3.0,
@@ -438,13 +461,6 @@ bg_color = Color(0.156863, 0.156863, 0.156863, 0.282353)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rgslt"]
 bg_color = Color(0.400085, 0.054918, 0, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p5et0"]
-bg_color = Color(0.215902, 0.215902, 0.215902, 0.164706)
-border_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8dnee"]
-bg_color = Color(1, 1, 1, 1)
-
 [sub_resource type="Curve" id="Curve_emhh8"]
 max_value = 100.0
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.686046, 8.94077), 50.934, 50.934, 0, 0, Vector2(0.84593, 23.7471), 167.127, 167.127, 0, 0, Vector2(1, 74.8292), 724.828, 0.0, 0, 0]
@@ -478,8 +494,8 @@ shape = SubResource("CapsuleShape2D_i1gu7")
 z_index = 2
 position = Vector2(0, 9)
 sprite_frames = SubResource("SpriteFrames_e81hw")
-animation = &"idle"
-autoplay = "idle"
+animation = &"idle_x"
+autoplay = "idle_down"
 offset = Vector2(0, -6)
 
 [node name="shadow sprite" type="Sprite2D" parent="AnimatedSprite2D"]
@@ -519,22 +535,6 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_rgslt")
 value = 100.0
 show_percentage = false
 script = ExtResource("6_61gng")
-metadata/_edit_use_anchors_ = true
-
-[node name="ProgressBar" type="ProgressBar" parent="."]
-visibility_layer = 512
-z_index = 10
-custom_minimum_size = Vector2(16, 1)
-offset_left = -16.0
-offset_top = -13.0
-offset_bottom = -12.0
-scale = Vector2(1.898, 0.810734)
-theme_override_styles/background = SubResource("StyleBoxFlat_p5et0")
-theme_override_styles/fill = SubResource("StyleBoxFlat_8dnee")
-max_value = 1.0
-value = 1.0
-show_percentage = false
-script = ExtResource("7_rig5r")
 metadata/_edit_use_anchors_ = true
 
 [node name="ResetShots" type="Timer" parent="."]

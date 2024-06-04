@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dbhys6jxxt2eu"]
 
-[ext_resource type="Script" path="res://scripts/gui/FloatingStatus.gd" id="1_lf8tb"]
+[ext_resource type="Script" path="res://scenes/gui/scripts/FloatingStatus.gd" id="1_lf8tb"]
 [ext_resource type="FontFile" uid="uid://w38canxb0m7h" path="res://assets/m3x6.ttf" id="2_jrodl"]
 
 [sub_resource type="Theme" id="Theme_qj4c3"]
