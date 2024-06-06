@@ -14,11 +14,14 @@ extends CharacterBody2D
 @onready var hitbox = $hitbox
 
 
+
 const ACTION_LINE = preload("res://scenes/effects/action_line.tscn")
 
 var health : float = max_health
 
-
+var current_xp : int = 0
+var level_up_xp : int = 100
+var current_level : int = 1
 var attackers : Array[Node2D]
 var combo_counter : int = 0
 var is_alive : bool = true
@@ -28,6 +31,8 @@ var animation_lock : bool = false
 var last_known_position : Vector2
 var melee_attack : bool = false
 
+func _ready():
+	XPsystem.give_xp.connect(handle_give_xp_signal)
 
 func _physics_process(delta):
 	melee_attack = false
@@ -139,8 +144,6 @@ func animate(melee_attack, delta):
 				current_animation = "x_walk"
 			else:
 				current_animation = "x_idle"
-		print(pivot)
-
 
 		
 		animated_sprite_2d.play(current_animation)
@@ -168,6 +171,12 @@ func kill_shot():
 	combo_counter += 1
 	$ResetShots.start()
 
+func level_up():
+	current_xp = 0
+	current_level += 1
+	level_up_xp = current_level^(2 * level_up_xp)
+	print("ding ", current_level)
+
 
 func _on_health_pack_body_entered(_body):
 	health += 20
@@ -178,4 +187,9 @@ func _on_reset_shots_timeout():
 func _on_animated_sprite_2d_animation_finished():
 	animation_lock = false
 
+func handle_give_xp_signal(value):
+	current_xp += value
+	if current_xp >= level_up_xp:
 
+		level_up()
+	

@@ -314,6 +314,7 @@ player_damage = 20.0
 move_speed = 30.0
 max_health = 150
 attack_distance = 24
+xp_value = 10
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vhn7c")

@@ -67,7 +67,7 @@ offset_right = 174.0
 offset_bottom = 78.0
 size_flags_horizontal = 8
 
-[node name="grenade_counter" type="Label" parent="topleft"]
+[node name="xp_counter" type="Label" parent="topleft"]
 layout_mode = 2
 size_flags_vertical = 8
 text = "dynamic"

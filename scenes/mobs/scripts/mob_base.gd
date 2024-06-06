@@ -16,6 +16,7 @@ var scalar : float = 1
 @export var death_particles : bool = true
 @export var flying : bool = false
 @export var attack_distance : int = 16
+@export var xp_value : int = 0
 var is_alive : bool = true
 var melee_attack : bool = false
 var health : int
@@ -111,4 +112,5 @@ func die(vector):
 		
 func _on_death_animation_timer_timeout():
 	player.kill_shot()
+	XPsystem.give_xp.emit(xp_value)
 	queue_free()

@@ -277,6 +277,7 @@ script = ExtResource("1_jvk6x")
 player_damage = 5.0
 move_speed = 40.0
 max_health = 5
+xp_value = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, -2)
