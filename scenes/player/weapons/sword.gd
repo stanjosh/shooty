@@ -1,7 +1,5 @@
 extends Node2D
 
-
-
 @onready var hitbox = $hitbox
 @onready var cooldown_time = $cooldown
 @export_range(1, 2) var melee_range : float = 1
@@ -16,6 +14,8 @@ func _process(delta):
 	if $hitbox/SlashEffect.modulate.a > 0:
 		$hitbox/SlashEffect.modulate.a -= 2 * delta
 
+
+
 func attack(delta):
 	if not cooldown_time.time_left:
 		hitbox.scale *= melee_range
@@ -29,4 +29,6 @@ func attack(delta):
 				elif body.has_method("take_damage"):
 					body.take_damage(randi_range(20, 30), global_position.angle_to_point(body.global_position))
 		cooldown_time.start()
-
+		return true
+	else:
+		return false

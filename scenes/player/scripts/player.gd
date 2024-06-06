@@ -28,6 +28,7 @@ var animation_lock : bool = false
 var last_known_position : Vector2
 var melee_attack : bool = false
 
+
 func _physics_process(delta):
 	melee_attack = false
 	if is_alive:
@@ -46,8 +47,8 @@ func _physics_process(delta):
 			gun.reload()
 		
 		if Input.is_action_pressed("sword") and not animation_lock:
-			melee_attack = true
-			sword.attack(delta)
+			melee_attack = sword.attack(delta)
+
 		
 				
 		if input_direction:
@@ -93,31 +94,52 @@ func animate(melee_attack, delta):
 	
 
 	if not animation_lock:
-		animation_lock = true if melee_attack else false
+		if melee_attack:
+			animation_lock = true
 		gun.visible = false if melee_attack else true
 		var current_animation = ""
-		var mouse = get_local_mouse_position()
 
+		var pivot = snapped(position.angle_to_point($pivot/angle.global_position), 1)
+
+
+
+		if pivot < 0 and pivot > -3 :
+			animated_sprite_2d.flip_h = true if pivot == -2 or pivot == -3 else false
+			if melee_attack:
+				current_animation = "up_attack"
+			elif abs(velocity):
+				current_animation = "up_walk"
+			else:
+				current_animation = "up_idle"
+
+					
+		elif pivot > -1 and pivot < 1:
+			animated_sprite_2d.flip_h = false
+			if melee_attack:
+				current_animation = "x_attack"
+			elif abs(velocity):
+				current_animation = "x_walk"
+			else:
+				current_animation = "x_idle"
 		
-
-
-
-		if abs(velocity.x) > abs(velocity.y):
-			animated_sprite_2d.flip_h = false if mouse.x > global_position.x else true
-			current_animation = "x_walk" if not melee_attack else "x_attack"
-		elif mouse.y > global_position.y:
-			if velocity.y > 0:
-				animated_sprite_2d.flip_h = true
-				current_animation = "down_walk" if not melee_attack else "down_attack"
+		elif pivot > 0 and pivot < 3:
+			animated_sprite_2d.flip_h = false if pivot == 2 or pivot == 3 else true
+			if melee_attack:
+				current_animation = "down_attack"
+			elif abs(velocity):
+				current_animation = "down_walk"
 			else:
-				current_animation = "down_idle" if not melee_attack else "down_attack"
-		elif mouse.y < global_position.y:
-			if velocity.y < 0:
-				current_animation = "up_walk" if not melee_attack else "up_attack"
-			else:
-				current_animation = "up_idle" if not melee_attack else "up_attack"
+				current_animation = "down_idle"
+		
 		else:
-			current_animation = "down_idle" if not melee_attack else "down_attack"
+			animated_sprite_2d.flip_h = true
+			if melee_attack:
+				current_animation = "x_attack"	
+			elif abs(velocity):
+				current_animation = "x_walk"
+			else:
+				current_animation = "x_idle"
+		print(pivot)
 
 
 		
@@ -155,3 +177,5 @@ func _on_reset_shots_timeout():
 
 func _on_animated_sprite_2d_animation_finished():
 	animation_lock = false
+
+
