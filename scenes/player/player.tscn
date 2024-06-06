@@ -1,15 +1,14 @@
-[gd_scene load_steps=74 format=3 uid="uid://ckq8owam8nxv4"]
+[gd_scene load_steps=73 format=3 uid="uid://ckq8owam8nxv4"]
 
 [ext_resource type="Script" path="res://scenes/player/scripts/player.gd" id="1_1x1bv"]
 [ext_resource type="Texture2D" uid="uid://c50fe2l5ie5ci" path="res://scenes/player/assets/Hero Blue 54x53 Sprite.png" id="2_hlcqq"]
 [ext_resource type="Texture2D" uid="uid://cnluagwjgu7r7" path="res://assets/Extra/Shadow.png" id="3_gr2x3"]
 [ext_resource type="Script" path="res://scenes/player/scripts/Camera2D.gd" id="4_1gf3p"]
-[ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/player/gun.tscn" id="5_4th0a"]
+[ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/player/weapons/gun.tscn" id="5_4th0a"]
 [ext_resource type="Script" path="res://scenes/gui/scripts/PlayerHealthBar.gd" id="6_61gng"]
-[ext_resource type="AudioStream" uid="uid://ds7lpn11nb2x1" path="res://scenes/player/assets/sword_sheathed.mp3" id="8_m8vsa"]
-[ext_resource type="AudioStream" uid="uid://r4bp64uibej5" path="res://scenes/player/assets/blade_1.wav" id="9_qixfa"]
-[ext_resource type="AudioStream" uid="uid://mjlrf7owlvcl" path="res://scenes/player/assets/blade_2.wav" id="10_k6kp2"]
-[ext_resource type="AudioStream" uid="uid://c3tjix00n3eov" path="res://scenes/player/assets/blade_3.wav" id="11_u1nlg"]
+[ext_resource type="Script" path="res://scenes/player/pivot.gd" id="10_ksnw4"]
+[ext_resource type="PackedScene" uid="uid://7tx8y7bexiry" path="res://scenes/player/weapons/sword.tscn" id="12_4m10m"]
+[ext_resource type="PackedScene" uid="uid://v7dgwm4vntry" path="res://scenes/player/weapons/mine_launcher.tscn" id="13_aybtl"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i1gu7"]
 height = 24.0
@@ -298,7 +297,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"down_attack",
-"speed": 15.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -371,7 +370,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"up_attack",
-"speed": 15.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -420,7 +419,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"x_attack",
-"speed": 15.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -494,7 +493,7 @@ shape = SubResource("CapsuleShape2D_i1gu7")
 z_index = 2
 position = Vector2(0, 9)
 sprite_frames = SubResource("SpriteFrames_e81hw")
-animation = &"idle_x"
+animation = &"down_attack"
 autoplay = "idle_down"
 offset = Vector2(0, -6)
 
@@ -510,17 +509,12 @@ zoom = Vector2(4, 4)
 position_smoothing_enabled = true
 script = ExtResource("4_1gf3p")
 
-[node name="gun" parent="." instance=ExtResource("5_4th0a")]
-z_as_relative = true
-y_sort_enabled = false
-position = Vector2(0, -5)
-
-[node name="Area2D" type="Area2D" parent="."]
+[node name="hitbox" type="Area2D" parent="."]
 scale = Vector2(1.95572, 1.76655)
 collision_layer = 0
 collision_mask = 68
 
-[node name="DamageArea" type="CollisionShape2D" parent="Area2D"]
+[node name="DamageArea" type="CollisionShape2D" parent="hitbox"]
 scale = Vector2(1.50509, 1.59724)
 shape = SubResource("CircleShape2D_bks40")
 
@@ -568,20 +562,19 @@ shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.745098)
 texture = SubResource("GradientTexture2D_re0l6")
 
-[node name="sword_sheathed" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_m8vsa")
+[node name="pivot" type="Marker2D" parent="."]
+script = ExtResource("10_ksnw4")
 
-[node name="blade_1" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("9_qixfa")
-pitch_scale = 0.75
+[node name="gun" parent="pivot" instance=ExtResource("5_4th0a")]
 
-[node name="blade_2" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("10_k6kp2")
-pitch_scale = 0.78
+[node name="angle" type="Marker2D" parent="pivot"]
+unique_name_in_owner = true
+position = Vector2(10, -1)
 
-[node name="blade_3" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("11_u1nlg")
-pitch_scale = 0.74
+[node name="sword" parent="pivot" instance=ExtResource("12_4m10m")]
+
+[node name="mine_launcher" parent="pivot" instance=ExtResource("13_aybtl")]
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="ResetShots" to="." method="_on_reset_shots_timeout"]
+[connection signal="AttackFinished" from="pivot/sword" to="." method="_on_sword_attack_finished"]

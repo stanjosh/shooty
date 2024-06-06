@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://v7dgwm4vntry"]
+
+[ext_resource type="Script" path="res://scenes/player/weapons/mine_launcher.gd" id="1_om3g5"]
+
+[node name="mine_launcher" type="Node2D"]
+script = ExtResource("1_om3g5")

@@ -7,8 +7,10 @@ extends CharacterBody2D
 @onready var camera = $Camera2D
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var target = global_position
-@onready var gun = $gun
-@onready var area_2d = $Area2D
+@onready var gun = $pivot/gun
+@onready var sword = $pivot/sword
+@onready var mine_launcher = $pivot/mine_launcher
+@onready var hitbox = $hitbox
 @onready var reset_shots = $ResetShots
 const ACTION_LINE = preload("res://scenes/effects/action_line.tscn")
 @export var max_health : float = 100
@@ -21,22 +23,18 @@ var is_alive : bool = true
 var attacked_vector : float
 var death_sprays : int = 12
 var animation_lock : bool = false
-var melee_cooldown : float = 1
-var melee_hits : int = 10
 var last_known_position : Vector2
+var melee_attack : bool = false
 
 func _physics_process(delta):
-	var melee_attack : bool
 	if is_alive:
 		var input_direction : Vector2 = Input.get_vector("left", "right", "up", "down")
-		if not input_direction:
-			velocity = Vector2(0,0)
 			
 		if Input.is_action_pressed("shoot"):
 			gun.shoot(delta)
 
 		if Input.is_action_pressed("grenade"):
-			gun.throw_grenade()
+			mine_launcher.throw_grenade()
 						
 		if Input.is_action_just_pressed("switch fire mode"):
 			gun.switch_fire_mode()
@@ -44,37 +42,18 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("reload"):
 			gun.reload()
 		
-		if Input.is_action_pressed("sword") and melee_cooldown >= 1:
-			var mobs : Array = $gun/sword.get_overlapping_bodies()
-			
-			mobs.sort_custom(
-				func(mob, mob2):
-					if mob is Grenade:
-						return mob2
-					elif mob.global_position.distance_to(global_position) > mob2.global_position.distance_to(global_position): 
-						return mob
-					)
-			var target_mob = mobs.pop_front()	
-			if target_mob:
-				melee_cooldown -= 1
-				melee_attack = true
-				[$blade_1, $blade_2, $blade_3].pick_random().play()
+		if Input.is_action_pressed("sword"):
+			melee_attack = true
+			sword.attack(delta)
+		
 				
-				var damage = randi_range(30, 60)
-				velocity = global_position.direction_to(target_mob.global_position) * speed * global_position.distance_to(target_mob.global_position)
-				if target_mob is Grenade and target_mob.delay:
-					target_mob.apply_force(velocity)
-				target_mob.take_damage(damage, global_position.angle_to_point(target_mob.global_position))
-				$PlayerGlow.energy = 2
-			if mobs:
-				for body in mobs:
-					body.take_damage(randi_range(20, 30), global_position.angle_to_point(body.global_position))
-			
-		elif input_direction:
+		if input_direction:
 			velocity = input_direction * speed
+		elif not input_direction:
+			velocity = Vector2(0,0)
 		animate(melee_attack, delta)
 
-		attackers = area_2d.get_overlapping_bodies()
+		attackers = hitbox.get_overlapping_bodies()
 		if attackers:
 			for attacker in attackers:
 				if attacker.melee_attack:
@@ -94,9 +73,8 @@ func _physics_process(delta):
 		line.last_position = last_known_position
 		line.first_position = global_position
 		world.add_child(line)
-	if melee_cooldown <= 1:
-		melee_cooldown += (world.danger_factor + 2) * delta
-	
+
+		
 	if health <= 0:
 		die(attacked_vector)
 	elif health < max_health:
@@ -106,8 +84,8 @@ func animate(melee_attack, delta):
 	if modulate.g < 1 or modulate.b < 1:
 		modulate.g += 2 * delta
 		modulate.b += 2 * delta
-	
-	$PlayerGlow.energy = clampf($PlayerGlow.energy - 3 * delta, 0, 4)
+
+	$PlayerGlow.energy = .5 if melee_attack else clampf($PlayerGlow.energy - 6 * delta, 0, 4)
 	if not animation_lock:
 		if melee_attack:
 			animation_lock = true
@@ -132,9 +110,6 @@ func animate(melee_attack, delta):
 			else:
 				animated_sprite_2d.flip_h = true if mouse.x < global_position.x else false
 				current_animation = "x_attack" if melee_attack else "idle_x"
-				
-					
-
 
 		animated_sprite_2d.play(current_animation)
 
@@ -170,6 +145,11 @@ func _on_health_pack_body_entered(_body):
 	health += 20
 
 
+
+func _on_sword_attack_finished():
+	melee_attack = false
+
+	
+
 func _on_animated_sprite_2d_animation_finished():
 	animation_lock = false
-	pass # Replace with function body.

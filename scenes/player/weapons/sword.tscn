@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://7tx8y7bexiry"]
+
+[ext_resource type="Script" path="res://scenes/player/weapons/sword.gd" id="1_41o6r"]
+[ext_resource type="AudioStream" uid="uid://r4bp64uibej5" path="res://scenes/player/assets/blade_1.wav" id="3_8otfm"]
+[ext_resource type="AudioStream" uid="uid://mjlrf7owlvcl" path="res://scenes/player/assets/blade_2.wav" id="4_7vioj"]
+[ext_resource type="AudioStream" uid="uid://c3tjix00n3eov" path="res://scenes/player/assets/blade_3.wav" id="5_bks16"]
+[ext_resource type="AudioStream" uid="uid://ds7lpn11nb2x1" path="res://scenes/player/assets/sword_sheathed.mp3" id="6_5qr3b"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1ovo8"]
+radius = 26.0
+
+[node name="sword" type="Node2D"]
+script = ExtResource("1_41o6r")
+
+[node name="blade_1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_8otfm")
+pitch_scale = 0.75
+
+[node name="blade_2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_7vioj")
+pitch_scale = 0.78
+
+[node name="blade_3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_bks16")
+pitch_scale = 0.74
+
+[node name="sword_sheathed" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_5qr3b")
+
+[node name="melee_range" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 102
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="melee_range"]
+position = Vector2(19, 0)
+shape = SubResource("CircleShape2D_1ovo8")
+
+[node name="cooldown" type="Timer" parent="."]
+one_shot = true

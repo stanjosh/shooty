@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://6qxco026ufkq"]
 
-[ext_resource type="Script" path="res://scenes/player/scripts/projectile.gd" id="1_rowwk"]
+[ext_resource type="Script" path="res://scenes/player/weapons/projectile.gd" id="1_rowwk"]
 [ext_resource type="Texture2D" uid="uid://de7nsq3oyurmj" path="res://scenes/player/assets/Bullet14x14.png" id="2_rgpa5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_isfc1"]
