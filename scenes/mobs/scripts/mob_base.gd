@@ -15,6 +15,7 @@ var scalar : float = 1
 @export var bleeds : bool = false
 @export var death_particles : bool = true
 @export var flying : bool = false
+@export var attack_distance : int = 16
 var is_alive : bool = true
 var melee_attack : bool = false
 var health : int
@@ -41,6 +42,9 @@ func _ready():
 		set_collision_layer_value(7, true)
 		set_collision_mask_value(2, true)
 		set_collision_layer_value(2, true)
+		set_collision_mask_value(5, true)
+		set_collision_layer_value(5, true)
+		
 	if growing:
 		scale *= Vector2(snapped(clampf(scalar / 2, 1, 2), .25), snapped(clampf(scalar / 2, 1, 2), .25))
 
@@ -49,7 +53,7 @@ func _physics_process(delta):
 	if is_alive:
 		if global_position.distance_to(player.global_position) > 750:
 			queue_free()
-		elif global_position.distance_to(player.global_position) < 16:
+		elif global_position.distance_to(player.global_position) < attack_distance:
 			melee_attack = true
 			velocity = Vector2(0,0)
 		else:
@@ -62,6 +66,7 @@ func _physics_process(delta):
 		$CollisionShape2D.disabled = true
 
 func animate():
+	
 	var current_animation = "attack" if melee_attack else "idle"
 	if velocity.x != 0:
 		current_animation = "x_walk" if animated_sprite_2d.sprite_frames.has_animation("x_walk") else "idle"

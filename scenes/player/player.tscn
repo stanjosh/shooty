@@ -85,6 +85,10 @@ region = Rect2(257, 212, 54, 53)
 atlas = ExtResource("2_hlcqq")
 region = Rect2(311, 212, 54, 53)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0k7k"]
+atlas = ExtResource("2_hlcqq")
+region = Rect2(35, 0, 54, 54)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_8lv6y"]
 atlas = ExtResource("2_hlcqq")
 region = Rect2(35, 54, 54, 54)
@@ -117,18 +121,6 @@ region = Rect2(359, 54, 54, 54)
 atlas = ExtResource("2_hlcqq")
 region = Rect2(413, 54, 54, 54)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_x0k7k"]
-atlas = ExtResource("2_hlcqq")
-region = Rect2(35, 0, 54, 54)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cf1t0"]
-atlas = ExtResource("2_hlcqq")
-region = Rect2(90, 0, 55, 53)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wf6ci"]
-atlas = ExtResource("2_hlcqq")
-region = Rect2(145, 0, 55, 53)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_8ni2g"]
 atlas = ExtResource("2_hlcqq")
 region = Rect2(95, 265, 54, 53)
@@ -148,6 +140,10 @@ region = Rect2(257, 265, 54, 53)
 [sub_resource type="AtlasTexture" id="AtlasTexture_nxgm4"]
 atlas = ExtResource("2_hlcqq")
 region = Rect2(311, 265, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cf1t0"]
+atlas = ExtResource("2_hlcqq")
+region = Rect2(90, 0, 55, 53)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_foxne"]
 atlas = ExtResource("2_hlcqq")
@@ -200,6 +196,10 @@ region = Rect2(203, 318, 54, 53)
 [sub_resource type="AtlasTexture" id="AtlasTexture_75ewv"]
 atlas = ExtResource("2_hlcqq")
 region = Rect2(257, 318, 54, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wf6ci"]
+atlas = ExtResource("2_hlcqq")
+region = Rect2(145, 0, 55, 53)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e4k1m"]
 atlas = ExtResource("2_hlcqq")
@@ -301,6 +301,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_x0k7k")
+}],
+"loop": true,
+"name": &"down_idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_8lv6y")
 }, {
 "duration": 1.0,
@@ -329,30 +337,6 @@ animations = [{
 "speed": 20.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_x0k7k")
-}],
-"loop": true,
-"name": &"idle_down",
-"speed": 3.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cf1t0")
-}],
-"loop": true,
-"name": &"idle_up",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wf6ci")
-}],
-"loop": true,
-"name": &"idle_x",
-"speed": 5.0
-}, {
-"frames": [{
 "duration": 3.0,
 "texture": SubResource("AtlasTexture_8ni2g")
 }, {
@@ -371,6 +355,14 @@ animations = [{
 "loop": false,
 "name": &"up_attack",
 "speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cf1t0")
+}],
+"loop": true,
+"name": &"up_idle",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -420,6 +412,14 @@ animations = [{
 "loop": false,
 "name": &"x_attack",
 "speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wf6ci")
+}],
+"loop": true,
+"name": &"x_idle",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -493,8 +493,8 @@ shape = SubResource("CapsuleShape2D_i1gu7")
 z_index = 2
 position = Vector2(0, 9)
 sprite_frames = SubResource("SpriteFrames_e81hw")
-animation = &"down_attack"
-autoplay = "idle_down"
+animation = &"die"
+autoplay = "down_idle"
 offset = Vector2(0, -6)
 
 [node name="shadow sprite" type="Sprite2D" parent="AnimatedSprite2D"]
@@ -554,14 +554,6 @@ damping_max = 11.363
 damping_curve = SubResource("Curve_emhh8")
 color = Color(0, 0, 0, 1)
 
-[node name="PlayerGlow" type="PointLight2D" parent="."]
-show_behind_parent = true
-scale = Vector2(2.23401, 1.375)
-energy = 0.0
-shadow_enabled = true
-shadow_color = Color(0, 0, 0, 0.745098)
-texture = SubResource("GradientTexture2D_re0l6")
-
 [node name="pivot" type="Marker2D" parent="."]
 script = ExtResource("10_ksnw4")
 
@@ -575,6 +567,14 @@ position = Vector2(10, -1)
 
 [node name="mine_launcher" parent="pivot" instance=ExtResource("13_aybtl")]
 
+[node name="PlayerGlow" type="PointLight2D" parent="pivot"]
+show_behind_parent = true
+position = Vector2(18, 0)
+scale = Vector2(2.23401, 1.375)
+energy = 0.0
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.745098)
+texture = SubResource("GradientTexture2D_re0l6")
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="ResetShots" to="." method="_on_reset_shots_timeout"]
-[connection signal="AttackFinished" from="pivot/sword" to="." method="_on_sword_attack_finished"]
