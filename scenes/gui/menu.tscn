@@ -1,11 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://dqcb23bdlbcxw"]
+[gd_scene load_steps=7 format=3 uid="uid://dqcb23bdlbcxw"]
 
 [ext_resource type="Script" path="res://scenes/gui/scripts/Menu.gd" id="1_0pt6b"]
-[ext_resource type="FontFile" uid="uid://b8cdyxr1psn4j" path="res://assets/BebasNeue-Regular.ttf" id="2_qgjyx"]
+[ext_resource type="FontFile" uid="uid://w38canxb0m7h" path="res://assets/m3x6.ttf" id="1_3tveh"]
 
-[sub_resource type="Theme" id="Theme_tf7l0"]
-default_font = ExtResource("2_qgjyx")
-default_font_size = 22
+[sub_resource type="Theme" id="Theme_ajg7v"]
+default_font = ExtResource("1_3tveh")
+default_font_size = 32
+
+[sub_resource type="Theme" id="Theme_nwmpy"]
+
+[sub_resource type="Theme" id="Theme_e68rp"]
+default_font = ExtResource("1_3tveh")
+default_font_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dkqd6"]
+bg_color = Color(0.814387, 0.909493, 0.950738, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.37903, 0.754637, 0.793304, 1)
+anti_aliasing = false
 
 [node name="Menu" type="Control"]
 process_mode = 3
@@ -15,6 +30,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_ajg7v")
 script = ExtResource("1_0pt6b")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -32,23 +48,28 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(2.44812, 2.44812)
 pivot_offset = Vector2(32.8824, 49.2215)
+theme = SubResource("Theme_nwmpy")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+theme = SubResource("Theme_e68rp")
 
 [node name="play" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme = SubResource("Theme_tf7l0")
+theme_override_colors/font_color = Color(0, 0.439067, 0.76614, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
 text = "play"
 
 [node name="options" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme = SubResource("Theme_tf7l0")
+theme_override_colors/font_color = Color(0, 0.439067, 0.76614, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
 text = "fullscreen"
 
 [node name="exit" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme = SubResource("Theme_tf7l0")
+theme_override_colors/font_color = Color(0, 0.439067, 0.76614, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
 text = "exit"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/play" to="." method="_on_play_pressed"]

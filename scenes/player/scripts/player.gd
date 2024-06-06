@@ -4,16 +4,18 @@ extends CharacterBody2D
 
 
 @export var speed = 100.0
-@onready var camera = $Camera2D
-@onready var animated_sprite_2d = $AnimatedSprite2D
-@onready var target = global_position
+@export var max_health : float = 100
+
 @onready var gun = $pivot/gun
 @onready var sword = $pivot/sword
 @onready var mine_launcher = $pivot/mine_launcher
+@onready var camera = $Camera2D
+@onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var hitbox = $hitbox
-@onready var reset_shots = $ResetShots
+
+
 const ACTION_LINE = preload("res://scenes/effects/action_line.tscn")
-@export var max_health : float = 100
+
 var health : float = max_health
 
 
@@ -26,7 +28,9 @@ var animation_lock : bool = false
 var last_known_position : Vector2
 var melee_attack : bool = false
 
+
 func _physics_process(delta):
+	melee_attack = false
 	if is_alive:
 		var input_direction : Vector2 = Input.get_vector("left", "right", "up", "down")
 			
@@ -42,16 +46,16 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("reload"):
 			gun.reload()
 		
-		if Input.is_action_pressed("sword"):
-			melee_attack = true
-			sword.attack(delta)
+		if Input.is_action_pressed("sword") and not animation_lock:
+			melee_attack = sword.attack(delta)
+
 		
 				
 		if input_direction:
 			velocity = input_direction * speed
 		elif not input_direction:
 			velocity = Vector2(0,0)
-		animate(melee_attack, delta)
+
 
 		attackers = hitbox.get_overlapping_bodies()
 		if attackers:
@@ -62,19 +66,19 @@ func _physics_process(delta):
 				modulate.g = health / 100
 				modulate.b = health / 100
 
-		health = clampf(health, 0, 100)
+
 
 		max_slides = 5
-
 		last_known_position = global_position
-		move_and_collide(velocity * delta)
-	if melee_attack:
-		var line = ACTION_LINE.instantiate()
-		line.last_position = last_known_position
-		line.first_position = global_position
-		world.add_child(line)
 
-		
+
+		handle_health(delta)
+		move_and_collide(velocity * delta)
+		animate(melee_attack, delta)
+
+
+func handle_health(delta):
+	health = clampf(health, 0, 100)
 	if health <= 0:
 		die(attacked_vector)
 	elif health < max_health:
@@ -85,39 +89,63 @@ func animate(melee_attack, delta):
 		modulate.g += 2 * delta
 		modulate.b += 2 * delta
 
-	$PlayerGlow.energy = .5 if melee_attack else clampf($PlayerGlow.energy - 6 * delta, 0, 4)
+	$pivot/PlayerGlow.energy = 1 if melee_attack else clampf($pivot/PlayerGlow.energy - 6 * delta, 0, 4)
+	
+	
+
 	if not animation_lock:
 		if melee_attack:
 			animation_lock = true
+		gun.visible = false if melee_attack else true
 		var current_animation = ""
-		if velocity.x:
-			current_animation = "x_attack" if melee_attack else "x_walk"
-			if velocity.x > 0:
-				animated_sprite_2d.flip_h = false
-			elif velocity.x < 0:
-				animated_sprite_2d.flip_h = true
-		elif velocity.y:
-			if velocity.y > 0:
-				current_animation = "down_attack" if melee_attack else "down_walk"
-			elif velocity.y < 0:
-				current_animation = "up_attack" if melee_attack else "up_walk"
-		else:
-			var mouse = get_global_mouse_position()
-			if mouse.y < global_position.y and mouse.y - global_position.y < mouse.x - global_position.x:
-				current_animation = "up_attack" if melee_attack else "idle_up"
-			elif mouse.y > global_position.y and mouse.y - global_position.y > mouse.x - global_position.x:
-				current_animation = "down_attack" if melee_attack else "idle_down"
-			else:
-				animated_sprite_2d.flip_h = true if mouse.x < global_position.x else false
-				current_animation = "x_attack" if melee_attack else "idle_x"
 
+		var pivot = snapped(position.angle_to_point($pivot/angle.global_position), 1)
+
+
+
+		if pivot < 0 and pivot > -3 :
+			animated_sprite_2d.flip_h = true if pivot == -2 or pivot == -3 else false
+			if melee_attack:
+				current_animation = "up_attack"
+			elif abs(velocity):
+				current_animation = "up_walk"
+			else:
+				current_animation = "up_idle"
+
+					
+		elif pivot > -1 and pivot < 1:
+			animated_sprite_2d.flip_h = false
+			if melee_attack:
+				current_animation = "x_attack"
+			elif abs(velocity):
+				current_animation = "x_walk"
+			else:
+				current_animation = "x_idle"
+		
+		elif pivot > 0 and pivot < 3:
+			animated_sprite_2d.flip_h = false if pivot == 2 or pivot == 3 else true
+			if melee_attack:
+				current_animation = "down_attack"
+			elif abs(velocity):
+				current_animation = "down_walk"
+			else:
+				current_animation = "down_idle"
+		
+		else:
+			animated_sprite_2d.flip_h = true
+			if melee_attack:
+				current_animation = "x_attack"	
+			elif abs(velocity):
+				current_animation = "x_walk"
+			else:
+				current_animation = "x_idle"
+		print(pivot)
+
+
+		
 		animated_sprite_2d.play(current_animation)
 
-
-
-func _on_reset_shots_timeout():
-	combo_counter = 0
-
+		
 func die(vector):
 
 	is_alive = false
@@ -138,18 +166,16 @@ func die(vector):
 
 func kill_shot():
 	combo_counter += 1
-	reset_shots.start()
+	$ResetShots.start()
 
 
 func _on_health_pack_body_entered(_body):
 	health += 20
 
-
-
-func _on_sword_attack_finished():
-	melee_attack = false
-
-	
+func _on_reset_shots_timeout():
+	combo_counter = 0
 
 func _on_animated_sprite_2d_animation_finished():
 	animation_lock = false
+
+
