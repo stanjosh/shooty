@@ -50,7 +50,9 @@ func _physics_process(delta):
 		
 		if Input.is_action_just_pressed("reload"):
 			gun.reload()
-		
+			
+		if Input.is_action_just_pressed("cheat"):
+			handle_give_xp_signal(10)
 		if Input.is_action_pressed("sword") and not animation_lock:
 			melee_attack = sword.attack(delta)
 
@@ -174,10 +176,30 @@ func kill_shot():
 func level_up():
 	current_xp = 0
 	current_level += 1
-	level_up_xp = current_level^(2 * level_up_xp)
+	apply_level_changes(current_level)
+	level_up_xp = level_up_xp + (current_level * 1.3)
 	print("ding ", current_level)
 
+var level_changes : Dictionary = {
+		2 : {
+			max_health : "+2"
+		},
+		3 : {
+			max_health : "+3"
+		}
+	}
 
+
+
+func apply_level_changes(level):
+	print("applying level changes")
+	for change in level_changes:
+		print(change)
+		for each_change in change:
+			print(each_change)
+		
+
+	
 func _on_health_pack_body_entered(_body):
 	health += 20
 
