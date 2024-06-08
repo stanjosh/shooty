@@ -7,9 +7,8 @@ class_name Player
 @export var speed = 100.0
 @export var max_health : int = 100
 
-@onready var gun = $pivot/gun
+
 @onready var sword = $pivot/sword
-@onready var mine_launcher = $pivot/mine_launcher
 @onready var camera = $Camera2D
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var hitbox = $hitbox
@@ -34,6 +33,7 @@ var danger_level : float
 func _ready():
 	XPsystem.give_xp.connect(handle_give_xp_signal)
 	Hud.update_hud.emit("XPCounter", current_xp, level_up_xp)
+	Powerups.give_item.connect(handle_give_item_signal)
 
 func _physics_process(delta):
 	melee_attack = false
@@ -96,7 +96,6 @@ func animate(melee_attack, delta):
 	if not animation_lock:
 		if melee_attack:
 			animation_lock = true
-		gun.visible = false if melee_attack else true
 		var current_animation = ""
 
 		var pivot = snapped(position.angle_to_point($pivot/angle.global_position), 1)
@@ -197,8 +196,16 @@ func apply_level_changes(level):
 			print(level_changes[level][level_reward])
 
 
+
 func _on_animated_sprite_2d_animation_finished():
 	animation_lock = false
+
+func handle_give_item_signal(item: PackedScene):
+	var real_item = item.instantiate()
+	print(item, " item received")
+	if real_item is Weapon:
+
+		$pivot.add_child(real_item)
 
 func handle_give_xp_signal(value):
 	current_xp += value

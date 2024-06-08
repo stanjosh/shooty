@@ -1,10 +1,10 @@
-extends Node2D
-class_name Gun
+extends Weapon
 
+
+const BULLET = preload("res://scenes/player/weapons/projectile.tscn")
 @onready var gun_click = $gun_click
 @onready var gun_fire = $gun_fire
 @onready var gun = $Gun
-
 
 @export var damage : int = 10
 @export var piercing : int = 1
@@ -59,14 +59,13 @@ func shoot(_delta):
 		gun_fire.play()
 		current_magazine -= 1
 		for n in pellets:
-			const BULLET = preload("res://scenes/player/weapons/projectile.tscn")
 			var new_bullet = BULLET.instantiate()
-			new_bullet.global_position = %angle.global_position
-			new_bullet.global_rotation = %angle.global_rotation + randf_range(0, accuracy)
+			new_bullet.global_position = %barrel.global_position
+			new_bullet.global_rotation = %barrel.global_rotation + randf_range(0, accuracy)
 			new_bullet.piercing = piercing
 			new_bullet.damage = damage
 			new_bullet.dropoff = dropoff
-			%angle.add_child(new_bullet)
+			%barrel.add_child(new_bullet)
 			shot_time = 100
 			$PointLight2D.energy = clamp($PointLight2D.energy + .4, 0, 2)
 	if not overheated and current_magazine == 0:

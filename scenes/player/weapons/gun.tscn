@@ -53,5 +53,9 @@ autostart = true
 wait_time = 2.5
 one_shot = true
 
+[node name="barrel" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(10, -1)
+
 [connection signal="timeout" from="Cooldown" to="." method="_on_cooldown_timeout"]
 [connection signal="timeout" from="Overheat" to="." method="_on_overheat_timeout"]

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://ckq8owam8nxv4" path="res://scenes/player/player.tscn" id="1_no6yh"]
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_yai4s"]
-[ext_resource type="PackedScene" uid="uid://djmp1xtxuhhej" path="res://scenes/map.tscn" id="3_0x38d"]
+[ext_resource type="PackedScene" uid="uid://cosod5rx8smn5" path="res://scenes/maps/map1.tscn" id="3_vygqd"]
 
 [sub_resource type="Environment" id="Environment_7bnwj"]
 background_mode = 3
@@ -33,4 +33,4 @@ z_as_relative = false
 environment = SubResource("Environment_7bnwj")
 camera_attributes = SubResource("CameraAttributesPhysical_256yv")
 
-[node name="Map" parent="." instance=ExtResource("3_0x38d")]
+[node name="Map" parent="." instance=ExtResource("3_vygqd")]

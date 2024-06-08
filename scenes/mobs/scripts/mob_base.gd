@@ -4,8 +4,8 @@ class_name Mob
 const DAMAGE_NUMBER = preload ("res://scenes/effects/FloatingStatus.tscn")
 @onready var animated_sprite_2d = $AnimatedSprite2D
 
-@onready var world = $"../.."
-@onready var player = world.player
+@onready var map = $"../.."
+@onready var player : CharacterBody2D = get_node("/root/Game/World/player")
 
 var scalar : float = 1
 @export var growing : bool = false
@@ -98,7 +98,7 @@ func show_damage(hit, vector):
 	var rando_pos = snapped(randf_range(-12, 12), 6)
 	new_damage_number.global_position = Vector2(global_position.x + rando_pos, global_position.y)
 	new_damage_number.vector = vector
-	world.call_deferred("add_child", new_damage_number)
+	map.call_deferred("add_child", new_damage_number)
 
 
 func die(vector):
@@ -112,7 +112,7 @@ func die(vector):
 		new_spray.global_position = $CollisionShape2D.global_position
 		new_spray.rotation = vector
 		new_spray.scale = scale
-		world.call_deferred("add_child", new_spray)
+		map.call_deferred("add_child", new_spray)
 	$DeathAnimationTimer.start()
 	$AnimatedSprite2D.play("die")
 

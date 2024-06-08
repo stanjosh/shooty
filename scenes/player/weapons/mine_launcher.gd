@@ -1,4 +1,4 @@
-extends Node2D
+extends Weapon
 
 
 const mine = preload("res://scenes/player/weapons/mine.tscn")
@@ -24,7 +24,7 @@ func _physics_process(delta):
 func throw_mine():
 	if mine_timer >= 1:
 		var mine = mine.instantiate() as RigidBody2D
-		mine.global_position = %angle.global_position
+		mine.global_position = %barrel.global_position
 		mine.speed = global_position.distance_to(get_global_mouse_position())
 		mine.linear_velocity = (get_global_mouse_position() - global_position).normalized() * (mine.speed * launch_speed)
 		
