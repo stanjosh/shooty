@@ -1,6 +1,6 @@
 extends Node
 
-@onready var pause_menu = $hud/PauseMenu
+@onready var pause_menu = $Hud/PauseMenu
 
 
 var paused : bool = false

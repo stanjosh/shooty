@@ -14,7 +14,7 @@ func _ready():
 	pass
 	
 func get_dynamic_zoom():
-	var danger = clampf(( world.danger_factor -1 ) * .25, 0, 5)
+	var danger = clampf(( player.get_danger()  ) * .25, 0, 5)
 	var new_zoom = Vector2(danger, danger)
 	dynamic_zoom_level = new_zoom + default_zoom
 	return new_zoom

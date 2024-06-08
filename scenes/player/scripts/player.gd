@@ -1,10 +1,11 @@
 extends CharacterBody2D
+class_name Player
 
 @onready var world = $".."
 
 
 @export var speed = 100.0
-@export var max_health : float = 100
+@export var max_health : int = 100
 
 @onready var gun = $pivot/gun
 @onready var sword = $pivot/sword
@@ -17,42 +18,31 @@ extends CharacterBody2D
 
 const ACTION_LINE = preload("res://scenes/effects/action_line.tscn")
 
-var health : float = max_health
+var health : int = max_health
 
 var current_xp : int = 0
 var level_up_xp : int = 100
 var current_level : int = 1
 var attackers : Array[Node2D]
-var combo_counter : int = 0
 var is_alive : bool = true
-var attacked_vector : float
-var death_sprays : int = 12
 var animation_lock : bool = false
 var last_known_position : Vector2
 var melee_attack : bool = false
+var danger_level : float
+
 
 func _ready():
 	XPsystem.give_xp.connect(handle_give_xp_signal)
+	Hud.update_hud.emit("XPCounter", current_xp, level_up_xp)
 
 func _physics_process(delta):
 	melee_attack = false
 	if is_alive:
 		var input_direction : Vector2 = Input.get_vector("left", "right", "up", "down")
-			
-		if Input.is_action_pressed("shoot"):
-			gun.shoot(delta)
 
-		if Input.is_action_pressed("grenade"):
-			mine_launcher.throw_grenade()
-						
-		if Input.is_action_just_pressed("switch fire mode"):
-			gun.switch_fire_mode()
-		
-		if Input.is_action_just_pressed("reload"):
-			gun.reload()
-			
 		if Input.is_action_just_pressed("cheat"):
 			handle_give_xp_signal(10)
+
 		if Input.is_action_pressed("sword") and not animation_lock:
 			melee_attack = sword.attack(delta)
 
@@ -64,17 +54,6 @@ func _physics_process(delta):
 			velocity = Vector2(0,0)
 
 
-		attackers = hitbox.get_overlapping_bodies()
-		if attackers:
-			for attacker in attackers:
-				if attacker.melee_attack:
-					health -= attacker.player_damage * delta
-					attacked_vector = global_position.angle_to(attacker.global_position)
-				modulate.g = health / 100
-				modulate.b = health / 100
-
-
-
 		max_slides = 5
 		last_known_position = global_position
 
@@ -83,13 +62,26 @@ func _physics_process(delta):
 		move_and_collide(velocity * delta)
 		animate(melee_attack, delta)
 
+func get_danger():
+	return danger_level
 
 func handle_health(delta):
-	health = clampf(health, 0, 100)
+	if is_alive:
+		attackers = hitbox.get_overlapping_bodies()
+		if attackers:
+			danger_level = attackers.size()
+			for attacker in attackers:
+				if attacker.melee_attack:
+					health -= snapped(attacker.player_damage, 1)
+				modulate.g = health / 100
+				modulate.b = health / 100
+		health = clampf(health, 0, max_health)
 	if health <= 0:
-		die(attacked_vector)
+		health = 0
+		die()
 	elif health < max_health:
 		health += .7 * delta
+	Hud.update_hud.emit("HealthCounter", health, max_health)
 
 func animate(melee_attack, delta):
 	if modulate.g < 1 or modulate.b < 1:
@@ -97,8 +89,9 @@ func animate(melee_attack, delta):
 		modulate.b += 2 * delta
 
 	$pivot/PlayerGlow.energy = 1 if melee_attack else clampf($pivot/PlayerGlow.energy - 6 * delta, 0, 4)
-	
-	
+	if not is_alive:
+		animated_sprite_2d.play("die")
+		animation_lock = true
 
 	if not animation_lock:
 		if melee_attack:
@@ -151,27 +144,23 @@ func animate(melee_attack, delta):
 		animated_sprite_2d.play(current_animation)
 
 		
-func die(vector):
-
+func die():
+	$pivot.process_mode = Node.PROCESS_MODE_DISABLED
 	is_alive = false
+	$DeathParticles.emitting = true
+	for i in 12:
 
-	if death_sprays:
-		$CPUParticles2D.emitting = true
 		const DEATH_SPRAY = preload("res://scenes/effects/dark_spray.tscn")
 		var new_spray = DEATH_SPRAY.instantiate()
 		new_spray.global_position = global_position
-		new_spray.rotation = randf_range(vector, 10)
+		new_spray.rotation = randf_range(0, 4)
 		world.add_child(new_spray)
-		animated_sprite_2d.play("die")
-		death_sprays -= 1
 		
-	gun.process_mode = Node.PROCESS_MODE_DISABLED
 
 		
 
-func kill_shot():
-	combo_counter += 1
-	$ResetShots.start()
+
+		
 
 func level_up():
 	current_xp = 0
@@ -182,29 +171,31 @@ func level_up():
 
 var level_changes : Dictionary = {
 		2 : {
-			max_health : "+2"
+			"max_health" : 2
 		},
 		3 : {
-			max_health : "+3"
-		}
+			"max_health" : 3,
+			"speed" : 2
+		},
+		4 : {
+			"max_health" : 4
+		},
+		5 : {
+			"max_health" : 5
+		},
+		6 : {
+			"max_health" : 6
+		},
 	}
 
 
 
 func apply_level_changes(level):
 	print("applying level changes")
-	for change in level_changes:
-		print(change)
-		for each_change in change:
-			print(each_change)
-		
+	for level_reward in level_changes[level]:
+			set(level_reward, get(level_reward) + level_changes[level][level_reward])
+			print(level_changes[level][level_reward])
 
-	
-func _on_health_pack_body_entered(_body):
-	health += 20
-
-func _on_reset_shots_timeout():
-	combo_counter = 0
 
 func _on_animated_sprite_2d_animation_finished():
 	animation_lock = false
@@ -212,6 +203,5 @@ func _on_animated_sprite_2d_animation_finished():
 func handle_give_xp_signal(value):
 	current_xp += value
 	if current_xp >= level_up_xp:
-
 		level_up()
-	
+	Hud.update_hud.emit("XPCounter", current_xp, level_up_xp)

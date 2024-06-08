@@ -13,6 +13,7 @@ class_name Gun
 @export var accuracy : float = .03
 @export var pellets : int = 1
 @export var dropoff : float = 15
+
 var overheated : bool = false
 
 
@@ -23,7 +24,9 @@ var current_magazine : int = magazine
 var shot_time : float = 0
 var facing : Vector2
 
-
+func _ready():
+	Hud.update_hud.emit("AmmoCounter", current_magazine, magazine)
+	
 
 
 func _physics_process(delta):
@@ -46,7 +49,10 @@ func _physics_process(delta):
 	facing = gun.global_position.direction_to($"..".global_position)
 	
 	gun.flip_v = true if facing.x > 0 else false
-	gun.z_index = 2 if facing.y > .25 else 4
+	gun.z_index = 2 if facing.y > 0 else 4
+	
+	if Input.is_action_pressed("shoot"):
+		shoot(delta)
 
 func shoot(_delta):
 	if not overheated and shot_time <= 0:
@@ -66,6 +72,7 @@ func shoot(_delta):
 	if not overheated and current_magazine == 0:
 		overheated = true
 		$Overheat.start()
+	Hud.update_hud.emit("AmmoCounter", current_magazine, magazine)
 
 
 
@@ -73,9 +80,11 @@ func _on_cooldown_timeout():
 	
 	if not overheated and current_magazine < magazine:
 		current_magazine += 1
+		Hud.update_hud.emit("AmmoCounter", current_magazine, magazine)
 
 
 func _on_overheat_timeout():
 	current_magazine = magazine / 2
+	Hud.update_hud.emit("AmmoCounter", current_magazine, magazine)
 	overheated = false
 	pass # Replace with function body.

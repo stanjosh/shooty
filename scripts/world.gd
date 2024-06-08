@@ -2,48 +2,13 @@ extends Node2D
 
 @onready var spawner = %spawner
 
-@onready var player = $player
+@onready var player = %player
 
-const INITIAL_SPAWNS : int = 40
-
-@export var spawn_timer : float = .5
-@export var max_spawns : int
-@export var danger_factor : float = 0
 
 var mobs : Array
-var active_grenades : Array
-
-const MAP_SIZE = Vector2(128, 128)
-const LAND_CAP = 0.3
-
-#func _ready():
-	#generate_world()
-	#
-#
-#func generate_world():
-	#var noise = FastNoiseLite.new()
-	#noise.seed = randi()
-	#
-	#var cells : Array = []
-	#for x in MAP_SIZE.x:
-		#for y in MAP_SIZE.y:
-			#var tile = noise.get_noise_2d(x, y)
-			#if tile < LAND_CAP:
-				#cells.append(Vector2(x, y))
-			#
-	#$ground.set_cells_terrain_connect(0, cells, 0, 0)
-
-
-func process_danger():
-	var danger : float = 0
-	if danger_factor <= 0 :
-		danger_factor = 0
-	danger += clampf(1 - (100 / player.health), 0, 1)
-	danger += player.combo_counter / 25
-	danger_factor = player.attackers.size() + clampf(snapped(danger, .10), 1, 5)
-	return danger
+var active_mines : Array
 
 func _process(_delta):
 
 	mobs = get_children().filter(func(child): return child is Mob)
-	active_grenades = get_children().filter(func(child): return child is Grenade)
+	active_mines = get_children().filter(func(child): return child is Mine)

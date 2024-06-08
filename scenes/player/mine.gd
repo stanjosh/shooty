@@ -1,5 +1,5 @@
 extends RigidBody2D
-class_name Grenade
+class_name Mine
 
 @export var base_damage : float = 20
 
@@ -39,7 +39,7 @@ func _on_timer_timeout():
 
 func _on_body_shape_entered(_body_rid, body, _body_shape_index, _local_shape_index):
 	if body.has_method("take_damage"):
-		if body is Grenade:
+		if body is Mine:
 			apply_force(linear_velocity * angular_velocity, body.global_position)
 		else:
 			body.take_damage(4, global_rotation)
