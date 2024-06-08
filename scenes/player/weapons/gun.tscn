@@ -23,7 +23,7 @@ script = ExtResource("1_ola0b")
 [node name="Gun" type="Sprite2D" parent="."]
 z_index = 2
 z_as_relative = false
-position = Vector2(8, 0)
+position = Vector2(4, -1)
 texture = ExtResource("2_8i273")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]

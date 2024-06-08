@@ -4,8 +4,8 @@ class_name Mob
 const DAMAGE_NUMBER = preload ("res://scenes/effects/FloatingStatus.tscn")
 @onready var animated_sprite_2d = $AnimatedSprite2D
 
-@onready var world = $"../"
-@onready var player = $"../player"
+@onready var world = $"../.."
+@onready var player = world.player
 
 var scalar : float = 1
 @export var growing : bool = false
@@ -16,11 +16,13 @@ var scalar : float = 1
 @export var death_particles : bool = true
 @export var flying : bool = false
 @export var attack_distance : int = 16
+@export var attack_time : float = .5
 @export var xp_value : int = 0
+
 var is_alive : bool = true
 var melee_attack : bool = false
 var health : int
-
+var attack_cooldown : float = attack_time
 
 func _ready():
 	health = max_health
@@ -54,13 +56,17 @@ func _physics_process(delta):
 	if is_alive:
 		if global_position.distance_to(player.global_position) > 750:
 			queue_free()
-		elif global_position.distance_to(player.global_position) < attack_distance:
+		elif global_position.distance_to(player.global_position) < attack_distance and attack_time == attack_cooldown:
 			melee_attack = true
+			attack_cooldown = 0
 			velocity = Vector2(0,0)
 		else:
 			velocity = global_position.direction_to(player.global_position) * move_speed
 			melee_attack = false
-		
+			if attack_cooldown < attack_time:
+				attack_cooldown += 1 * delta
+				if attack_cooldown > attack_time:
+					attack_cooldown = attack_time
 		animate()
 		move_and_collide(velocity * delta)
 	else:
@@ -96,13 +102,14 @@ func show_damage(hit, vector):
 
 
 func die(vector):
+	XPsystem.give_xp.emit(xp_value)
 	if death_particles:
 		$DeathAnimationTimer.wait_time = $CPUParticles2D.lifetime
 		$CPUParticles2D.emitting = true
 	if bleeds:
 		const DARK_SPRAY = preload("res://scenes/effects/dark_spray.tscn")
 		var new_spray = DARK_SPRAY.instantiate()
-		new_spray.global_position = global_position
+		new_spray.global_position = $CollisionShape2D.global_position
 		new_spray.rotation = vector
 		new_spray.scale = scale
 		world.call_deferred("add_child", new_spray)
@@ -111,6 +118,4 @@ func die(vector):
 
 		
 func _on_death_animation_timer_timeout():
-	player.kill_shot()
-	XPsystem.give_xp.emit(xp_value)
 	queue_free()

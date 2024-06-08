@@ -13,7 +13,7 @@ outline_color = Color(0, 0, 0, 1)
 layer = 10
 script = ExtResource("1_sbawl")
 
-[node name="bottomright" type="MarginContainer" parent="."]
+[node name="BottomRight" type="MarginContainer" parent="."]
 offset_left = 1032.0
 offset_top = 570.0
 offset_right = 1152.0
@@ -22,55 +22,51 @@ grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 8
 
-[node name="ammo_counter" type="Label" parent="bottomright"]
+[node name="AmmoCounter" type="Label" parent="BottomRight"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
-text = "ammo"
 label_settings = SubResource("LabelSettings_xjdpx")
 horizontal_alignment = 2
 vertical_alignment = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="bottomleft" type="MarginContainer" parent="."]
+[node name="BottomLeft" type="MarginContainer" parent="."]
 offset_top = 570.0
 offset_right = 137.0
 offset_bottom = 648.0
 grow_vertical = 0
 size_flags_horizontal = 8
 
-[node name="combo_counter" type="Label" parent="bottomleft"]
+[node name="MineCounter" type="Label" parent="BottomLeft"]
 layout_mode = 2
 size_flags_vertical = 8
-text = "combo"
 label_settings = SubResource("LabelSettings_xjdpx")
 vertical_alignment = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="topright" type="MarginContainer" parent="."]
+[node name="TopRight" type="MarginContainer" parent="."]
 offset_left = 1009.0
 offset_right = 1152.0
 offset_bottom = 78.0
 grow_horizontal = 0
 size_flags_horizontal = 8
 
-[node name="health_counter" type="Label" parent="topright"]
+[node name="HealthCounter" type="Label" parent="TopRight"]
 layout_mode = 2
 size_flags_vertical = 8
-text = "health"
 label_settings = SubResource("LabelSettings_xjdpx")
 vertical_alignment = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="topleft" type="MarginContainer" parent="."]
+[node name="TopLeft" type="MarginContainer" parent="."]
 offset_right = 174.0
 offset_bottom = 78.0
 size_flags_horizontal = 8
 
-[node name="xp_counter" type="Label" parent="topleft"]
+[node name="XPCounter" type="Label" parent="TopLeft"]
 layout_mode = 2
 size_flags_vertical = 8
-text = "dynamic"
 label_settings = SubResource("LabelSettings_xjdpx")
 vertical_alignment = 2
 metadata/_edit_use_anchors_ = true
