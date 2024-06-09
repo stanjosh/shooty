@@ -1,24 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://kx6t8xna0t6n"]
+[gd_scene load_steps=4 format=3 uid="uid://kx6t8xna0t6n"]
 
 [ext_resource type="PackedScene" uid="uid://ckq8owam8nxv4" path="res://scenes/player/player.tscn" id="1_no6yh"]
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_yai4s"]
-[ext_resource type="PackedScene" uid="uid://cosod5rx8smn5" path="res://scenes/maps/map1.tscn" id="3_vygqd"]
-
-[sub_resource type="Environment" id="Environment_7bnwj"]
-background_mode = 3
-tonemap_mode = 3
-tonemap_exposure = 0.8
-glow_enabled = true
-glow_normalized = true
-glow_bloom = 0.2
-glow_blend_mode = 1
-glow_hdr_scale = 1.58
-adjustment_enabled = true
-adjustment_brightness = 0.8
-adjustment_contrast = 1.6
-adjustment_saturation = 2.0
-
-[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_256yv"]
+[ext_resource type="PackedScene" uid="uid://cosod5rx8smn5" path="res://scenes/maps/survival.tscn" id="3_vygqd"]
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
@@ -26,11 +10,6 @@ script = ExtResource("1_yai4s")
 
 [node name="player" parent="." instance=ExtResource("1_no6yh")]
 unique_name_in_owner = true
-z_index = 1
 z_as_relative = false
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_7bnwj")
-camera_attributes = SubResource("CameraAttributesPhysical_256yv")
-
-[node name="Map" parent="." instance=ExtResource("3_vygqd")]
+[node name="Survival" parent="." instance=ExtResource("3_vygqd")]

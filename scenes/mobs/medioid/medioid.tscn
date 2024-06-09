@@ -184,7 +184,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vwmv5")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack",
 "speed": 15.0
 }, {
@@ -313,12 +313,11 @@ script = ExtResource("1_yr66h")
 player_damage = 10.0
 move_speed = 30.0
 max_health = 150
-attack_distance = 24
 xp_value = 10
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vhn7c")
-animation = &"die"
+animation = &"attack"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

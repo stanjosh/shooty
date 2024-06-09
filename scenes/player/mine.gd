@@ -41,6 +41,8 @@ func _on_body_shape_entered(_body_rid, body, _body_shape_index, _local_shape_ind
 	if body.has_method("take_damage"):
 		if body is Mine:
 			apply_force(linear_velocity * angular_velocity, body.global_position)
+		if body is Player:
+			pass
 		else:
 			body.take_damage(4, global_rotation)
 		

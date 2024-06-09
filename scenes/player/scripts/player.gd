@@ -6,7 +6,7 @@ class_name Player
 
 @export var speed = 100.0
 @export var max_health : int = 100
-
+@export var health_regen : float = .7
 
 @onready var sword = $pivot/sword
 @onready var camera = $Camera2D
@@ -44,6 +44,12 @@ func _physics_process(delta):
 			handle_give_xp_signal(10)
 
 		if Input.is_action_pressed("sword") and not animation_lock:
+			var mouse = get_global_mouse_position()
+			var mine = $pivot/Area2D.get_overlapping_bodies().filter(func(body): return body is Mine).front()
+			if mine:
+				global_position = mine.global_position
+				if not mine.delay:
+					mine.explode()
 			melee_attack = sword.attack(delta)
 
 		
@@ -57,30 +63,25 @@ func _physics_process(delta):
 		max_slides = 5
 		last_known_position = global_position
 
-
-		handle_health(delta)
-		move_and_collide(velocity * delta)
+		if health < max_health:
+			health += health_regen * delta
+		#move_and_collide(velocity * delta)
+		move_and_slide()
 		animate(melee_attack, delta)
 
 func get_danger():
 	return danger_level
 
-func handle_health(delta):
-	if is_alive:
-		attackers = hitbox.get_overlapping_bodies()
-		if attackers:
-			danger_level = attackers.size()
-			for attacker in attackers:
-				if attacker.melee_attack:
-					health -= snapped(attacker.player_damage, 1)
-				modulate.g = health / 100
-				modulate.b = health / 100
-		health = clampf(health, 0, max_health)
+func take_damage(hit, vector):
+	health -= hit
+	global_position += Vector2(hit, hit).rotated(vector)
+	var tween: Tween = create_tween()
+	tween.tween_property(animated_sprite_2d, "modulate:v", 1, 0.25).from(15)
+	
 	if health <= 0:
 		health = 0
 		die()
-	elif health < max_health:
-		health += .7 * delta
+
 	Hud.update_hud.emit("HealthCounter", health, max_health)
 
 func animate(melee_attack, delta):
@@ -144,11 +145,12 @@ func animate(melee_attack, delta):
 
 		
 func die():
-	$pivot.process_mode = Node.PROCESS_MODE_DISABLED
-	is_alive = false
-	$DeathParticles.emitting = true
-	for i in 12:
-
+	if is_alive:
+		$pivot.process_mode = Node.PROCESS_MODE_DISABLED
+		is_alive = false
+		animation_lock = true
+		animated_sprite_2d.play("die")
+		$DeathParticles.emitting = true
 		const DEATH_SPRAY = preload("res://scenes/effects/dark_spray.tscn")
 		var new_spray = DEATH_SPRAY.instantiate()
 		new_spray.global_position = global_position

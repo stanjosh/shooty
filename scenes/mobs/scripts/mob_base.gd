@@ -15,16 +15,18 @@ var scalar : float = 1
 @export var bleeds : bool = false
 @export var death_particles : bool = true
 @export var flying : bool = false
-@export var attack_distance : int = 16
-@export var attack_time : float = .5
+@export_range(20, 100) var attack_distance : int = 20
 @export var xp_value : int = 0
 
 var is_alive : bool = true
 var melee_attack : bool = false
 var health : int
-var attack_cooldown : float = attack_time
+var animation_lock : bool = false
 
 func _ready():
+
+	animated_sprite_2d.connect("animation_finished", on_animation_finished)
+
 	health = max_health
 	move_speed += 4 * (1 - scalar/2)
 	max_health += (10 * scalar) * (1 - scalar)
@@ -53,36 +55,36 @@ func _ready():
 
 
 func _physics_process(delta):
-	if is_alive:
-		if global_position.distance_to(player.global_position) > 750:
-			queue_free()
-		elif global_position.distance_to(player.global_position) < attack_distance and attack_time == attack_cooldown:
-			melee_attack = true
-			attack_cooldown = 0
-			velocity = Vector2(0,0)
-		else:
-			velocity = global_position.direction_to(player.global_position) * move_speed
-			melee_attack = false
-			if attack_cooldown < attack_time:
-				attack_cooldown += 1 * delta
-				if attack_cooldown > attack_time:
-					attack_cooldown = attack_time
-		animate()
-		move_and_collide(velocity * delta)
-	else:
+	if not is_alive:
+		velocity = Vector2(0,0)
 		$CollisionShape2D.disabled = true
-
-func animate():
+	elif global_position.distance_to(player.global_position) < attack_distance:
+		velocity = Vector2(0,0)
+		attack()
+	elif not player.is_alive: 
+		velocity = global_position.direction_to(player.global_position) * -move_speed
+		animate()
+	else:
+		velocity = global_position.direction_to(player.global_position) * move_speed
+		animate()
+	move_and_collide(velocity * delta)
 	
-	var current_animation = "attack" if melee_attack else "idle"
-	if velocity.x != 0:
-		current_animation = "x_walk" if animated_sprite_2d.sprite_frames.has_animation("x_walk") else "idle"
-		animated_sprite_2d.flip_h = false if velocity.x > 0 else true
-	elif velocity.y > velocity.x:
-		current_animation = "y_walk" if animated_sprite_2d.sprite_frames.has_animation("y_walk") else "idle"
-			
-			
-	animated_sprite_2d.play(current_animation)
+
+func attack():
+	if not animation_lock:
+		player.take_damage(player_damage, global_position.angle_to_point(player.global_position))
+		animated_sprite_2d.play("attack")
+		animation_lock = true
+		
+func animate():
+	if not animation_lock:
+		var current_animation : String
+		if velocity.x != 0:
+			current_animation = "x_walk" if animated_sprite_2d.sprite_frames.has_animation("x_walk") else "idle"
+			animated_sprite_2d.flip_h = false if velocity.x > 0 else true
+		elif velocity.y > velocity.x:
+			current_animation = "y_walk" if animated_sprite_2d.sprite_frames.has_animation("y_walk") else "idle"
+		animated_sprite_2d.play(current_animation)
 
 func take_damage(hit, vector):
 	show_damage(hit, vector)
@@ -114,8 +116,12 @@ func die(vector):
 		new_spray.scale = scale
 		map.call_deferred("add_child", new_spray)
 	$DeathAnimationTimer.start()
-	$AnimatedSprite2D.play("die")
+	animated_sprite_2d.play("die")
+	animation_lock = true
 
 		
 func _on_death_animation_timer_timeout():
 	queue_free()
+
+func on_animation_finished():
+	animation_lock = false
