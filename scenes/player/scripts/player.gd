@@ -7,6 +7,8 @@ class_name Player
 @export var speed = 100.0
 @export var max_health : int = 100
 @export var health_regen : float = .7
+@export var dash_speed : float = 2.75
+@export var dash_length : float = .6
 
 @onready var sword = $pivot/sword
 @onready var camera = $Camera2D
@@ -52,10 +54,13 @@ func _physics_process(delta):
 					mine.explode()
 			melee_attack = sword.attack(delta)
 
-		
+		if Input.is_action_just_pressed("dash"):
+			var target_location = lerp(global_position, get_global_mouse_position(), dash_length)
+			global_position = target_location
 				
 		if input_direction:
 			velocity = input_direction * speed
+
 		elif not input_direction:
 			velocity = Vector2(0,0)
 
