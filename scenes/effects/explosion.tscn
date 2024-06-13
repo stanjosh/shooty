@@ -1,6 +1,6 @@
 [gd_scene load_steps=25 format=3 uid="uid://btbmfuwgk86ti"]
 
-[ext_resource type="Script" path="res://scripts/weapons/explosion.gd" id="1_0m74y"]
+[ext_resource type="Script" path="res://scenes/player/weapons/explosion.gd" id="1_0m74y"]
 [ext_resource type="Texture2D" uid="uid://c0djj47olko18" path="res://scenes/player/assets/explosion (7).png" id="2_73nxx"]
 [ext_resource type="AudioStream" uid="uid://cv3ybiokkjqhy" path="res://scenes/player/assets/322496__liamg_sfx__explosion-13b.wav" id="3_apcvd"]
 

@@ -20,4 +20,4 @@ func _ready():
 
 
 func on_hud_update(element : String, value, max_value):
-	get(element).text = "%s / %s" % [value, max_value]
+	get(element).text = "%s / %s" % [snapped(value, 1), snapped(max_value, 1)]

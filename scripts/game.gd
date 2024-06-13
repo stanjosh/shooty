@@ -1,6 +1,7 @@
 extends Node
 
 @onready var pause_menu = $Hud/PauseMenu
+@onready var status = $Hud/PauseMenu/HSplitContainer/Status
 
 
 var paused : bool = false
@@ -18,6 +19,7 @@ func pause():
 		$World.process_mode = Node.PROCESS_MODE_ALWAYS
 
 	else:
+		status.update()
 		pause_menu.show()
 		$World.process_mode = Node.PROCESS_MODE_DISABLED
 	paused = !paused

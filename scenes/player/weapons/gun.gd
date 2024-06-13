@@ -37,15 +37,6 @@ func _physics_process(delta):
 
 	shot_time -= fire_rate * delta * 100 
 	
-	var deadzone = 0.5
-	#var controllerangle = Vector2.ZERO
-	var xAxisRL = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
-	var yAxisUD = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
-
-	if abs(xAxisRL) > deadzone || abs(yAxisUD) > deadzone:
-		rotation = Vector2(xAxisRL, yAxisUD).angle()
-		facing = Vector2(xAxisRL, yAxisUD)
-	
 	facing = gun.global_position.direction_to($"..".global_position)
 	
 	gun.flip_v = true if facing.x > 0 else false
@@ -57,6 +48,8 @@ func _physics_process(delta):
 func shoot(_delta):
 	if not overheated and shot_time <= 0:
 		gun_fire.play()
+		$AnimationPlayer.stop()
+		$AnimationPlayer.play("shoot")
 		current_magazine -= 1
 		for n in pellets:
 			var new_bullet = BULLET.instantiate()
@@ -83,7 +76,7 @@ func _on_cooldown_timeout():
 
 
 func _on_overheat_timeout():
-	current_magazine = magazine / 2
-	Hud.update_hud.emit("AmmoCounter", current_magazine, magazine)
 	overheated = false
-	pass # Replace with function body.
+	current_magazine = magazine
+	Hud.update_hud.emit("AmmoCounter", current_magazine, magazine)
+

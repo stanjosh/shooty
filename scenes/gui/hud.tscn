@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://7w31v3ug280y"]
 
 [ext_resource type="Script" path="res://scenes/gui/scripts/hud.gd" id="1_sbawl"]
-[ext_resource type="FontFile" uid="uid://b8cdyxr1psn4j" path="res://assets/BebasNeue-Regular.ttf" id="2_ipx6h"]
+[ext_resource type="FontFile" uid="uid://m1jk0peka30j" path="res://assets/m6x11.ttf" id="2_y8uil"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_xjdpx"]
-font = ExtResource("2_ipx6h")
+font = ExtResource("2_y8uil")
 font_size = 64
 outline_size = 12
 outline_color = Color(0, 0, 0, 1)
@@ -14,40 +14,49 @@ layer = 10
 script = ExtResource("1_sbawl")
 
 [node name="BottomRight" type="MarginContainer" parent="."]
-offset_left = 1032.0
-offset_top = 570.0
-offset_right = 1152.0
-offset_bottom = 648.0
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -78.0
 grow_horizontal = 0
 grow_vertical = 0
-size_flags_horizontal = 8
+size_flags_vertical = 4
 
 [node name="AmmoCounter" type="Label" parent="BottomRight"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_y8uil")
 label_settings = SubResource("LabelSettings_xjdpx")
 horizontal_alignment = 2
 vertical_alignment = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="BottomLeft" type="MarginContainer" parent="."]
-offset_top = 570.0
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -78.0
 offset_right = 137.0
-offset_bottom = 648.0
 grow_vertical = 0
 size_flags_horizontal = 8
 
 [node name="MineCounter" type="Label" parent="BottomLeft"]
 layout_mode = 2
 size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_y8uil")
 label_settings = SubResource("LabelSettings_xjdpx")
 vertical_alignment = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="TopRight" type="MarginContainer" parent="."]
-offset_left = 1009.0
-offset_right = 1152.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -143.0
 offset_bottom = 78.0
 grow_horizontal = 0
 size_flags_horizontal = 8
@@ -55,6 +64,7 @@ size_flags_horizontal = 8
 [node name="HealthCounter" type="Label" parent="TopRight"]
 layout_mode = 2
 size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_y8uil")
 label_settings = SubResource("LabelSettings_xjdpx")
 vertical_alignment = 2
 metadata/_edit_use_anchors_ = true
@@ -67,6 +77,7 @@ size_flags_horizontal = 8
 [node name="XPCounter" type="Label" parent="TopLeft"]
 layout_mode = 2
 size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_y8uil")
 label_settings = SubResource("LabelSettings_xjdpx")
 vertical_alignment = 2
 metadata/_edit_use_anchors_ = true

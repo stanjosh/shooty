@@ -7,10 +7,10 @@
 [ext_resource type="AudioStream" uid="uid://ds7lpn11nb2x1" path="res://scenes/player/assets/sword_sheathed.mp3" id="6_5qr3b"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1ovo8"]
-radius = 29.076
+radius = 27.3602
 
 [sub_resource type="Curve" id="Curve_xj0gs"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.489474, 0.703297), 1.01719, 1.01719, 0, 0, Vector2(0.988764, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.455544, 0, 0, Vector2(0.504854, 0.591497), 0.0179757, 0.0179757, 0, 0, Vector2(0.988764, 0), -0.455857, 0.0, 0, 0]
 point_count = 3
 
 [node name="sword" type="Node2D"]
@@ -37,18 +37,18 @@ collision_layer = 0
 collision_mask = 102
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
-position = Vector2(24.038, 0)
+position = Vector2(36.764, 0)
+scale = Vector2(1.66667, 1.94593)
 shape = SubResource("CircleShape2D_1ovo8")
 
 [node name="SlashEffect" type="Line2D" parent="hitbox"]
-visible = false
 position = Vector2(5.656, 1.414)
-points = PackedVector2Array(8.48401, -33.936, 18.382, -32.522, 28.28, -26.866, 36.764, -16.968, 42.42, -7.07001, 45.248, 5.656, 42.42, 15.554, 35.35, 24.038, 26.866, 31.108, 19.796, 32.522)
+points = PackedVector2Array(8.48401, -33.936, 28.28, -28.28, 35.35, -24.038, 41.006, -18.382, 45.248, -12.726, 48.076, -5.656, 48.076, 4.242, 45.248, 11.312, 42.42, 15.554, 36.764, 22.624, 19.796, 32.522)
 width = 16.0
 width_curve = SubResource("Curve_xj0gs")
+default_color = Color(0.423651, 0.423651, 0.423651, 1)
 texture_mode = 1
-sharp_limit = 0.0
-round_precision = 32
+joint_mode = 2
 antialiased = true
 
 [node name="cooldown" type="Timer" parent="."]

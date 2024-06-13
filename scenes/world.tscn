@@ -2,14 +2,14 @@
 
 [ext_resource type="PackedScene" uid="uid://ckq8owam8nxv4" path="res://scenes/player/player.tscn" id="1_no6yh"]
 [ext_resource type="Script" path="res://scripts/world.gd" id="1_yai4s"]
-[ext_resource type="PackedScene" uid="uid://cosod5rx8smn5" path="res://scenes/maps/survival.tscn" id="3_vygqd"]
+[ext_resource type="PackedScene" uid="uid://gll7ax2pniki" path="res://scenes/maps/HubMap.tscn" id="2_03syb"]
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_yai4s")
 
+[node name="Map" parent="." instance=ExtResource("2_03syb")]
+
 [node name="player" parent="." instance=ExtResource("1_no6yh")]
 unique_name_in_owner = true
 z_as_relative = false
-
-[node name="Survival" parent="." instance=ExtResource("3_vygqd")]

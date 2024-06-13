@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://5y5vqmh5j3f"]
 
-[ext_resource type="Script" path="res://scenes/player/mine.gd" id="1_dp4wd"]
+[ext_resource type="Script" path="res://scenes/player/weapons/mine.gd" id="1_mvc8t"]
 [ext_resource type="Texture2D" uid="uid://lpiq2yukw706" path="res://scenes/player/assets/grenade.png" id="2_5rfyj"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_20j1k"]
@@ -8,11 +8,13 @@ friction = 0.2
 bounce = 0.7
 
 [sub_resource type="Gradient" id="Gradient_pg0io"]
-offsets = PackedFloat32Array(0, 0.253247, 0.642857)
+offsets = PackedFloat32Array(0, 0.0983051, 0.414894)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.518519, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_dfn1y"]
 gradient = SubResource("Gradient_pg0io")
+width = 32
+height = 32
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
@@ -26,14 +28,14 @@ collision_mask = 210
 mass = 0.05
 physics_material_override = SubResource("PhysicsMaterial_20j1k")
 gravity_scale = 0.0
-inertia = 10.0
+inertia = 4.0
 max_contacts_reported = 1
 contact_monitor = true
-linear_damp = 0.8
+linear_damp = 5.5
 angular_velocity = 3.83972
-angular_damp_mode = 1
-angular_damp = 0.772
-script = ExtResource("1_dp4wd")
+angular_damp = 0.8
+script = ExtResource("1_mvc8t")
+speed = 50.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.593004, 0.593004)
@@ -42,8 +44,8 @@ texture = ExtResource("2_5rfyj")
 [node name="PointLight2D" type="PointLight2D" parent="."]
 scale = Vector2(3, 3)
 enabled = false
-color = Color(0.572549, 0.278431, 0.172549, 1)
-energy = 4.66
+color = Color(0.523508, 0.25116, 0.153009, 1)
+range_z_max = 9
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.654902)
 texture = SubResource("GradientTexture2D_dfn1y")

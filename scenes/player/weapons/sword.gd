@@ -19,7 +19,7 @@ func _process(delta):
 
 
 
-func attack(delta):
+func attack(_delta):
 		
 	if not cooldown_time.time_left:
 		

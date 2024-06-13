@@ -200,6 +200,7 @@ animations = [{
 }]
 
 [node name="bat" type="CharacterBody2D"]
+z_index = 9
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_32x6b")
@@ -216,7 +217,6 @@ position = Vector2(0, -20)
 shape = SubResource("CircleShape2D_hxphe")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-z_index = 10
 sprite_frames = SubResource("SpriteFrames_6873n")
 animation = &"attack"
 autoplay = "idle"
@@ -238,5 +238,7 @@ color = Color(0, 0, 0, 1)
 [node name="DeathAnimationTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [connection signal="timeout" from="DeathAnimationTimer" to="." method="_on_death_animation_timer_timeout"]
