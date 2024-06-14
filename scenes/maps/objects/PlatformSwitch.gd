@@ -1,17 +1,19 @@
 extends Node2D
 
-@onready var collision_shape_2d = $CollisionShape2D
 @onready var off : Sprite2D = $Off
 @onready var on : Sprite2D = $On
-@onready var area_2d = $Area2D
+@onready var platform := $Platform
+@onready var platform_collider := $Platform/PlatformCollider
+@onready var switch := $Switch
+
+
+
 
 @export var active : bool = false
-@export var one_shot : bool = false
+
 signal Switched
 
 func _ready():
-	if one_shot:
-		area_2d.disconnect("body_exited", _on_area_2d_body_exited)
 	if active:
 		on.show()
 		off.hide()
@@ -21,10 +23,13 @@ func _ready():
 		
 
 func check_bodies():
-	var bodies = area_2d.get_overlapping_bodies()
+	var bodies = switch.get_overlapping_bodies()
 	if bodies:
-		bodies = bodies.filter(func(body): return body is Mine or body is Player)
+		bodies = bodies.filter(func(body): return body is Player)
 		return (bodies)
+
+func reset():
+	active = false
 
 func _on_area_2d_body_entered(body):
 	if check_bodies():
@@ -32,13 +37,7 @@ func _on_area_2d_body_entered(body):
 		off.visible = false
 		active = true
 		Switched.emit(active)
-	if one_shot:
-		area_2d.disconnect("body_entered", _on_area_2d_body_entered)
+		platform_collider.set_deferred("disabled", true)
 
 
-func _on_area_2d_body_exited(body):
-	if not check_bodies():
-		off.visible = true
-		on.visible = false
-		active = false
-		Switched.emit(active)
+

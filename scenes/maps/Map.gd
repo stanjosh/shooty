@@ -3,12 +3,25 @@ class_name Map
 
 @onready var player : CharacterBody2D = get_node("/root/Game/World/player")
 @onready var camera : Camera2D = get_node("/root/Game/World/player/PositionalCamera")
-@onready var world_environment : WorldEnvironment = $WorldEnvironment
+@onready var outside_light = $OutsideLight
+@onready var inside_light = $InsideLight
+
+
+
 @export var camera_is_following : bool = false
 @export var player_spawn : Marker2D
+@export var sunlight : bool = false
+
+
+
+
 
 var falling_mobs : Array[CharacterBody2D]
 func _ready():
+
+	outside_light.set_deferred("enabled", sunlight)
+	inside_light.set_deferred("enabled", !sunlight)
+	sunlight = !sunlight
 	for mob in $Mobs.get_children():
 		if mob is Mob:
 			mob.player = player
@@ -50,7 +63,13 @@ func _on_mine_slider_body_exited(body):
 
 
 func _on_platform_switch_switched(value : bool):
-	if value == true:
-		var environment : Environment = world_environment.environment
-		environment.glow_enabled = true
 	print(value)
+
+
+func _on_light_changer_area_body_entered(body):
+	inside_light.set_deferred("enabled", !sunlight)
+	outside_light.set_deferred("enabled", sunlight)
+
+func _on_light_changer_area_body_exited(body):
+	set_deferred("sunlight", !sunlight)
+	print(sunlight)

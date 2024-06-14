@@ -563,8 +563,6 @@ radius = 5.0
 height = 126.0
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
-light_mask = 32768
-visibility_layer = 32768
 z_index = 1
 y_sort_enabled = true
 position = Vector2(0, -7)
