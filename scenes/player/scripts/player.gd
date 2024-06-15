@@ -40,7 +40,7 @@ func _physics_process(delta):
 
 		if Input.is_action_just_pressed("cheat"):
 			handle_give_xp_signal(10)
-			add_child(preload("res://scenes/player/weapons/mine_launcher.tscn").instantiate())
+			
 		
 			
 		var deadzone = 0.5
@@ -200,7 +200,7 @@ var level_changes : Dictionary = {
 
 func level_up():
 	current_xp = 0
-	current_level += 1
+	current_level = clampi( current_level + 1, 0, level_changes.size())
 	var status_msg = FLOATING_STATUS.instantiate()
 	status_msg.value = "Level up! %s" % current_level
 	status_msg.position = to_local(Vector2(global_position.x, global_position.y))

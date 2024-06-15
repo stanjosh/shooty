@@ -11,9 +11,12 @@ func _physics_process(delta):
 			change_gradient(delta)
 	elif done:
 		var mobs = get_overlapping_bodies().filter(func(body): return body is Mob)
-		print("still mobs")
-		if not mobs:
+		
+		if mobs.size() <= 0:
 			explode(delta)
+			
+		else:
+			print("still mobs")
 		
 func explode(delta):
 	var color := Color("White")
