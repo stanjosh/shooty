@@ -40,8 +40,7 @@ func _physics_process(delta):
 	facing = gun.global_position.direction_to($"..".global_position)
 	
 	gun.flip_v = true if facing.x > 0 else false
-	gun.z_index = 2 if facing.y > 0 else 4
-	
+	gun.z_index = 2 if facing.y > 0 and facing.x < 1 else 4
 	if Input.is_action_pressed("shoot"):
 		shoot(delta)
 

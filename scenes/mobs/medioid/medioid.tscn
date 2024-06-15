@@ -316,7 +316,7 @@ floor_block_on_wall = false
 script = ExtResource("1_yr66h")
 player_damage = 10.0
 move_speed = 30.0
-max_health = 150
+max_health = 50
 xp_value = 10
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

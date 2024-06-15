@@ -7,7 +7,7 @@ const DAMAGE_NUMBER = preload ("res://scenes/effects/FloatingStatus.tscn")
 @onready var collision_shape_2d := $CollisionShape2D
 
 
-@onready var map = $"../.."
+
 @onready var player : CharacterBody2D = get_node("/root/Game/World/player")
 @onready var navigation_agent_2d : NavigationAgent2D = $NavigationAgent2D
 
@@ -125,7 +125,7 @@ func show_damage(hit, vector):
 	var rando_pos = snapped(randf_range(-12, 12), 6)
 	new_damage_number.global_position = Vector2(global_position.x + rando_pos, global_position.y)
 	new_damage_number.vector = vector
-	map.call_deferred("add_child", new_damage_number)
+	get_parent().call_deferred("add_child", new_damage_number)
 
 
 func die(vector):
@@ -142,7 +142,7 @@ func die(vector):
 		new_spray.global_position = $CollisionShape2D.global_position
 		new_spray.rotation = vector
 		new_spray.scale = scale
-		map.call_deferred("add_child", new_spray)
+		get_parent().call_deferred("add_child", new_spray)
 	$DeathAnimationTimer.start()
 
 func wake_up(body):

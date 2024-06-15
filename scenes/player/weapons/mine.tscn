@@ -8,7 +8,7 @@ friction = 0.2
 bounce = 0.7
 
 [sub_resource type="Gradient" id="Gradient_pg0io"]
-offsets = PackedFloat32Array(0, 0.0983051, 0.725806)
+offsets = PackedFloat32Array(0, 0.274194, 0.725806)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.518519, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_dfn1y"]
@@ -45,8 +45,7 @@ texture = ExtResource("2_5rfyj")
 position = Vector2(0, -1)
 scale = Vector2(3, 3)
 enabled = false
-color = Color(0.894236, 0, 0.155182, 1)
-energy = 0.5
+color = Color(1, 0.506286, 0.303692, 1)
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.870588)
 texture = SubResource("GradientTexture2D_dfn1y")
