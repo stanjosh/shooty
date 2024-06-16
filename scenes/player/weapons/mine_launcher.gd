@@ -4,7 +4,7 @@ extends Weapon
 const MINE = preload("res://scenes/player/weapons/mine.tscn")
 @export var mine_timer : float = 1
 @export var max_mines : int = 1
-@export_range(1, 3) var launch_speed : float = 2
+@export_range(3, 6) var launch_speed : float = 5
 @export var recharge_speed : float = 1
 @export var detonator : bool = false
 

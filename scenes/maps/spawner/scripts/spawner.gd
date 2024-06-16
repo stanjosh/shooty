@@ -18,7 +18,7 @@ func _process(_delta):
 
 func begin_wave():
 	
-	if wave_list:
+	if wave_list.size() >= 1:
 		var wave = wave_list.pop_front()
 		wave.wave_complete.connect(_on_wave_complete)
 		wave.spawn_point = $SpawnPath/SpawnPoint
