@@ -7,13 +7,17 @@ var done = false
 
 @onready var rect : Rect2 = $CollisionShape2D.shape.get_rect()
 @onready var particle_radius = $CPUParticles2D.emission_sphere_radius
-		
+@onready var player : CharacterBody2D = get_node("/root/Game/World/player")
+
 func _physics_process(delta):
 	if active:
 		if rect.size.y > particle_radius:
 			particle_radius = clampf($CPUParticles2D.emission_sphere_radius + 1 * delta, particle_radius, rect.size.y)
 		if gradient_offset < 0.7:
 			activate_graphics(delta)
+		if rect.get_center().distance_to(to_local(player.global_position)) > 13:
+			player.take_damage(40 * delta, to_local(player.global_position).angle_to_point(rect.get_center()))
+		
 	elif done:
 
 		if get_mobs() == false:

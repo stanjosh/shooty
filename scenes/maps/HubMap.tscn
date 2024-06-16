@@ -1001,10 +1001,19 @@ gradient = SubResource("Gradient_j187n")
 fill_from = Vector2(0.448718, 0)
 fill_to = Vector2(0.504274, 1)
 
+[sub_resource type="Curve" id="Curve_ew4qt"]
+_data = [Vector2(0.747191, 0), 0.0, 0.0, 0, 0, Vector2(1, 0.505494), 1.99951, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_p4e6e"]
+max_value = 3.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.932584, 1.45055), -1.42738, -1.42738, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
 [sub_resource type="Gradient" id="Gradient_74tse"]
 interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.0194805, 0.75974)
-colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 0.0214346, 0.0214346, 0.0214346, 0)
+offsets = PackedFloat32Array(0, 0.0779221, 0.714286)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_laqsj"]
 gradient = SubResource("Gradient_74tse")
@@ -1020,17 +1029,6 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(865, 1215, 901, 1145, 9
 source_geometry_group_name = &"navigation_polygon_source_group"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0b5dl"]
-
-[sub_resource type="Curve" id="Curve_sbyfp"]
-min_value = -10.0
-max_value = 20.0
-_data = [Vector2(0.011236, 2.52747), 0.0, -15.7799, 0, 0, Vector2(0.516854, -4.72528), -1.81115, -1.81115, 0, 0, Vector2(1, 11.0989), 32.7524, 0.0, 1, 0]
-point_count = 3
-
-[sub_resource type="Curve" id="Curve_p4e6e"]
-max_value = 3.0
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.305147, 3), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
 
 [node name="Map" type="Node2D" node_paths=PackedStringArray("player_spawn")]
 script = ExtResource("1_yfbgk")
@@ -1246,8 +1244,24 @@ position = Vector2(0.0717034, 0.0717052)
 scale = Vector2(0.0717016, 0.0717016)
 texture = ExtResource("17_ipe1j")
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="SurvivalArea"]
+scale = Vector2(1, 1)
+amount = 600
+speed_scale = 0.5
+emission_shape = 2
+emission_sphere_radius = 10.0
+direction = Vector2(0, 0)
+spread = 0.0
+gravity = Vector2(0, 0)
+orbit_velocity_max = 1.0
+orbit_velocity_curve = SubResource("Curve_ew4qt")
+radial_accel_min = -400.0
+scale_amount_max = 3.0
+scale_amount_curve = SubResource("Curve_p4e6e")
+color = Color(0, 0, 0, 1)
+
 [node name="PointLight2D" type="PointLight2D" parent="SurvivalArea"]
-scale = Vector2(0.171493, 0.167702)
+scale = Vector2(0.154284, 0.150874)
 energy = 1.42
 blend_mode = 1
 texture = SubResource("GradientTexture2D_laqsj")
@@ -1264,19 +1278,6 @@ scale = Vector2(0.537894, 0.666629)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SurvivalArea"]
 scale = Vector2(0.456922, 0.446345)
 shape = SubResource("CircleShape2D_0b5dl")
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="SurvivalArea"]
-position = Vector2(-8.04663e-07, -8.04663e-07)
-amount = 200
-emission_shape = 2
-emission_sphere_radius = 5.89
-gravity = Vector2(0, 0)
-radial_accel_min = -100.0
-radial_accel_max = 100.0
-radial_accel_curve = SubResource("Curve_sbyfp")
-scale_amount_max = 3.0
-scale_amount_curve = SubResource("Curve_p4e6e")
-color = Color(0, 0, 0, 1)
 
 [connection signal="body_exited" from="Objects/CameraSwitchPositional" to="." method="_on_camera_switch_positional_body_exited"]
 [connection signal="body_exited" from="Objects/CameraSwitchFollow" to="." method="_on_camera_switch_follow_body_exited"]
