@@ -31,7 +31,7 @@ func check_bodies():
 func reset():
 	active = false
 
-func _on_area_2d_body_entered(body):
+func _on_area_2d_body_entered(_body):
 	if check_bodies():
 		on.visible = true
 		off.visible = false

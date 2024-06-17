@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://gll7ax2pniki"]
+[gd_scene load_steps=51 format=3 uid="uid://gll7ax2pniki"]
 
 [ext_resource type="Script" path="res://scenes/maps/Map.gd" id="1_yfbgk"]
 [ext_resource type="Texture2D" uid="uid://3esb1v2ef4fq" path="res://scenes/maps/tiles/map/tileset.png" id="2_0dr5g"]
@@ -15,9 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://bwqbgwl7hvop0" path="res://scenes/mobs/medioid/medioid.tscn" id="11_agpmv"]
 [ext_resource type="PackedScene" uid="uid://ctvpcfm5heb5" path="res://scenes/mobs/tiny/tiny.tscn" id="12_nwipo"]
 [ext_resource type="Script" path="res://scenes/maps/objects/PlatformSwitch.gd" id="14_qgkt2"]
-[ext_resource type="PackedScene" uid="uid://1rsycjl1j2mk" path="res://scenes/maps/spawner/spawner.tscn" id="16_0aqae"]
-[ext_resource type="Script" path="res://scenes/maps/SurvivalArea.gd" id="16_85eaj"]
-[ext_resource type="Texture2D" uid="uid://bphq252khlf6r" path="res://scenes/mobs/Untitled.png" id="17_ipe1j"]
+[ext_resource type="Texture2D" uid="uid://bphq252khlf6r" path="res://scenes/mobs/spawn_totem.png" id="17_ipe1j"]
+[ext_resource type="PackedScene" uid="uid://3j1sn12jdmir" path="res://scenes/maps/survival_area.tscn" id="17_q80gu"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_pong7"]
 tile_data = PackedInt32Array(0, 1, 0, 65536, 1, 1, 131072, 1, 2, 1, 65537, 0, 65537, 65537, 1, 131073, 65537, 2, 2, 131073, 0, 65538, 131073, 1, 131074, 131073, 2)
@@ -1001,35 +1000,6 @@ gradient = SubResource("Gradient_j187n")
 fill_from = Vector2(0.448718, 0)
 fill_to = Vector2(0.504274, 1)
 
-[sub_resource type="Curve" id="Curve_ew4qt"]
-_data = [Vector2(0.747191, 0), 0.0, 0.0, 0, 0, Vector2(1, 0.505494), 1.99951, 0.0, 1, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_p4e6e"]
-max_value = 3.0
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.932584, 1.45055), -1.42738, -1.42738, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="Gradient" id="Gradient_74tse"]
-interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.0779221, 0.714286)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_laqsj"]
-gradient = SubResource("Gradient_74tse")
-width = 256
-height = 256
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_3w0wd"]
-vertices = PackedVector2Array(1034, 1133, 1076, 1159, 1097, 1226, 1097, 1271, 1074, 1313, 1026, 1345, 946, 1345, 896, 1313, 875, 1269, 875, 1218, 908, 1152, 984, 1124)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(865, 1215, 901, 1145, 985, 1114, 1036, 1123, 1086, 1154, 1107, 1223, 1107, 1275, 1083, 1319, 1028, 1355, 944, 1355, 888, 1320, 865, 1271)])
-source_geometry_group_name = &"navigation_polygon_source_group"
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_0b5dl"]
-
 [node name="Map" type="Node2D" node_paths=PackedStringArray("player_spawn")]
 script = ExtResource("1_yfbgk")
 camera_is_following = true
@@ -1232,52 +1202,13 @@ color = Color(0.526328, 0.487954, 0.435164, 1)
 energy = 2.95
 texture = SubResource("GradientTexture2D_asuwa")
 
-[node name="SurvivalArea" type="Area2D" parent="."]
-position = Vector2(990, 1237)
-scale = Vector2(13.9467, 13.9467)
-collision_layer = 32
-collision_mask = 84
-script = ExtResource("16_85eaj")
-
-[node name="Untitled" type="Sprite2D" parent="SurvivalArea"]
-position = Vector2(0.0717034, 0.0717052)
-scale = Vector2(0.0717016, 0.0717016)
+[node name="SpawnTotem" type="Sprite2D" parent="Objects"]
+position = Vector2(991, 1238)
+scale = Vector2(1, 1)
 texture = ExtResource("17_ipe1j")
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="SurvivalArea"]
-scale = Vector2(1, 1)
-amount = 600
-speed_scale = 0.5
-emission_shape = 2
-emission_sphere_radius = 10.0
-direction = Vector2(0, 0)
-spread = 0.0
-gravity = Vector2(0, 0)
-orbit_velocity_max = 1.0
-orbit_velocity_curve = SubResource("Curve_ew4qt")
-radial_accel_min = -400.0
-scale_amount_max = 3.0
-scale_amount_curve = SubResource("Curve_p4e6e")
-color = Color(0, 0, 0, 1)
-
-[node name="PointLight2D" type="PointLight2D" parent="SurvivalArea"]
-scale = Vector2(0.154284, 0.150874)
-energy = 1.42
-blend_mode = 1
-texture = SubResource("GradientTexture2D_laqsj")
-
-[node name="EnemyArea" type="NavigationRegion2D" parent="SurvivalArea"]
-position = Vector2(-88.8771, -111.051)
-scale = Vector2(0.0900637, 0.0899814)
-navigation_polygon = SubResource("NavigationPolygon_3w0wd")
-
-[node name="Spawner" parent="SurvivalArea/EnemyArea" instance=ExtResource("16_0aqae")]
-position = Vector2(987, 1234)
-scale = Vector2(0.537894, 0.666629)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SurvivalArea"]
-scale = Vector2(0.456922, 0.446345)
-shape = SubResource("CircleShape2D_0b5dl")
+[node name="SurvivalArea" parent="." instance=ExtResource("17_q80gu")]
+position = Vector2(989, 1231)
 
 [connection signal="body_exited" from="Objects/CameraSwitchPositional" to="." method="_on_camera_switch_positional_body_exited"]
 [connection signal="body_exited" from="Objects/CameraSwitchFollow" to="." method="_on_camera_switch_follow_body_exited"]
@@ -1286,6 +1217,3 @@ shape = SubResource("CircleShape2D_0b5dl")
 [connection signal="Switched" from="Objects/PlatformSwitch" to="." method="_on_platform_switch_switched"]
 [connection signal="body_entered" from="Objects/PlatformSwitch/Switch" to="Objects/PlatformSwitch" method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Objects/PlatformSwitch/Switch" to="Objects/PlatformSwitch" method="_on_area_2d_body_exited"]
-[connection signal="body_entered" from="SurvivalArea" to="SurvivalArea" method="_on_body_entered"]
-[connection signal="body_entered" from="SurvivalArea" to="SurvivalArea/EnemyArea/Spawner" method="_on_survival_area_body_entered"]
-[connection signal="spawns_done" from="SurvivalArea/EnemyArea/Spawner" to="SurvivalArea" method="_on_spawner_spawns_done"]

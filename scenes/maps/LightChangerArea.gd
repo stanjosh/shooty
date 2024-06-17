@@ -6,7 +6,7 @@ extends Area2D
 
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	
 	if overlaps_body(player):
 		var top = light_changer_collider_shape.get_rect().position

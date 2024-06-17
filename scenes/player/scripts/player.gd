@@ -44,7 +44,7 @@ func _physics_process(delta):
 		
 			
 		var deadzone = 0.5
-		var controllerangle = Vector2.ZERO
+		#var controllerangle = Vector2.ZERO
 		var xAxisRL = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
 		var yAxisUD = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
 
@@ -55,11 +55,11 @@ func _physics_process(delta):
 		
 		
 		if Input.is_action_pressed("sword") and not animation_lock:
-			var mine = $pivot/Area2D.get_overlapping_bodies().filter(func(body): return body is Mine).front()
-			if mine:
-				global_position = mine.global_position
-				if not mine.delay:
-					mine.explode()
+			var mines = $pivot/Area2D.get_overlapping_bodies().filter(func(body): return body is Mine)
+			if mines:
+				global_position = mines.front().global_position
+				if not mines.front().delay:
+					mines.front().explode()
 			melee_attack = sword.attack(delta)
 
 		if Input.is_action_just_pressed("dash"):

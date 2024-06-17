@@ -19,14 +19,17 @@ script = ExtResource("1_41o6r")
 
 [node name="blade_1" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_8otfm")
+volume_db = -5.0
 pitch_scale = 0.75
 
 [node name="blade_2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_7vioj")
+volume_db = -5.0
 pitch_scale = 0.78
 
 [node name="blade_3" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_bks16")
+volume_db = -5.0
 pitch_scale = 0.74
 
 [node name="sword_sheathed" type="AudioStreamPlayer" parent="."]

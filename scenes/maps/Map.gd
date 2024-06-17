@@ -3,8 +3,6 @@ class_name Map
 
 @onready var player : CharacterBody2D = get_node("/root/Game/World/player")
 @onready var camera : Camera2D = get_node("/root/Game/World/player/PositionalCamera")
-@onready var outside_light = $OutsideLight
-@onready var inside_light = $InsideLight
 
 
 
@@ -12,28 +10,29 @@ class_name Map
 @export var player_spawn : Marker2D
 
 func _ready():
-
-	for mob in $Mobs.get_children():
-		if mob is Mob:
-			mob.player = player
-			
 	if player:
 		if player_spawn:
 			player.global_position = player_spawn.global_position
 		if camera_is_following:
 			camera.switch_to_following()
 		else:
-			if player_spawn:
-				camera.current_screen = player_spawn.global_position
 			camera.switch_to_positional( player.global_position )
+			camera.current_screen = player_spawn.global_position
+
+	for mob in $Mobs.get_children():
+		if mob is Mob:
+			mob.player = player
+			
 
 
 func _on_camera_switch_positional_body_exited(body):
-	camera.switch_to_positional( global_position )
+	if body is Player:
+		camera.switch_to_positional( global_position )
 
 
 func _on_camera_switch_follow_body_exited(body):
-	camera.switch_to_following()
+	if body is Player:
+		camera.switch_to_following()
 
 
 func _on_mine_slider_body_entered(body):

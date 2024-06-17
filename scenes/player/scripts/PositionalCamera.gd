@@ -22,11 +22,11 @@ func _ready():
 		
 		_update_screen( current_screen )
 
-func switch_to_positional( current_screen ):
+func switch_to_positional( screen ):
 	following = false
 	top_level = true
 	global_position = get_parent().global_position
-	_update_screen( current_screen )
+	_update_screen( screen )
 	
 func switch_to_following():
 	following = true

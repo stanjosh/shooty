@@ -3,7 +3,6 @@ class_name Mob
 
 const DAMAGE_NUMBER = preload ("res://scenes/effects/FloatingStatus.tscn")
 @onready var animated_sprite_2d := $AnimatedSprite2D
-@onready var death_animation_timer := $DeathAnimationTimer
 @onready var collision_shape_2d := $CollisionShape2D
 
 
@@ -38,7 +37,6 @@ func _ready():
 	else:
 		is_alive = true
 	animated_sprite_2d.connect("animation_finished", on_animation_finished)
-	death_animation_timer.connect("timeout", _on_death_animation_timer_timeout)
 	health = max_health
 	move_speed += 4 * (1 - scalar/2)
 	max_health += snapped((10 * scalar) * (1 - scalar), 1)
@@ -129,13 +127,18 @@ func show_damage(hit, vector):
 
 
 func die(vector):
+	var timer = Timer.new()
+	
+	timer.connect("timeout", _on_death_animation_timer_timeout)
+	
 	animated_sprite_2d.play("die")
 	animation_lock = true
 	XPsystem.give_xp.emit(xp_value)
 	
 	if death_particles:
-		$DeathAnimationTimer.wait_time = $CPUParticles2D.lifetime
+		timer.wait_time = $CPUParticles2D.lifetime
 		$CPUParticles2D.emitting = true
+		timer.autostart = true
 	if bleeds:
 		const DARK_SPRAY = preload("res://scenes/effects/dark_spray.tscn")
 		var new_spray = DARK_SPRAY.instantiate()
@@ -143,7 +146,7 @@ func die(vector):
 		new_spray.rotation = vector
 		new_spray.scale = scale
 		get_parent().call_deferred("add_child", new_spray)
-	$DeathAnimationTimer.start()
+	add_child(timer)
 
 func wake_up(body):
 	if body is Player:
