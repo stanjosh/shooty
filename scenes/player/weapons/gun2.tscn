@@ -1,9 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://hb5jqo0vv4x3"]
+[gd_scene load_steps=10 format=3 uid="uid://gqq4gjyop27u"]
 
-[ext_resource type="Script" path="res://scenes/player/weapons/gun.gd" id="1_ola0b"]
-[ext_resource type="Texture2D" uid="uid://bgqscqcpm7vpp" path="res://scenes/player/assets/gun sprite.png" id="2_8i273"]
-[ext_resource type="PackedScene" uid="uid://b1t30j567yq2k" path="res://scenes/player/weapons/lightning.tscn" id="2_srx8h"]
-[ext_resource type="AudioStream" uid="uid://byrindvyma3vw" path="res://scenes/player/assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Aim - 1.mp3" id="3_6myhb"]
+[ext_resource type="Script" path="res://scenes/player/weapons/gun.gd" id="1_1t82i"]
+[ext_resource type="Texture2D" uid="uid://bgqscqcpm7vpp" path="res://scenes/player/assets/gun sprite.png" id="2_nuba6"]
+[ext_resource type="AudioStream" uid="uid://byrindvyma3vw" path="res://scenes/player/assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Aim - 1.mp3" id="3_68jpf"]
+[ext_resource type="AudioStream" uid="uid://sknpjryy1vge" path="res://scenes/player/assets/shoot_wtf.mp3" id="4_urdk1"]
 
 [sub_resource type="Gradient" id="Gradient_1y2mp"]
 offsets = PackedFloat32Array(0, 0.700637)
@@ -75,14 +75,13 @@ _data = {
 z_index = 2
 z_as_relative = false
 y_sort_enabled = true
-script = ExtResource("1_ola0b")
-projectile = ExtResource("2_srx8h")
+script = ExtResource("1_1t82i")
 
 [node name="Gun" type="Sprite2D" parent="."]
 z_index = 4
 z_as_relative = false
 position = Vector2(2, 1)
-texture = ExtResource("2_8i273")
+texture = ExtResource("2_nuba6")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 z_index = 3
@@ -94,9 +93,14 @@ energy = 4.25
 texture = SubResource("GradientTexture2D_qegps")
 
 [node name="gun_click" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_6myhb")
+stream = ExtResource("3_68jpf")
 volume_db = 6.0
 pitch_scale = 0.73
+
+[node name="gun_fire" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_urdk1")
+pitch_scale = 0.76
+max_polyphony = 4
 
 [node name="Cooldown" type="Timer" parent="."]
 autostart = true

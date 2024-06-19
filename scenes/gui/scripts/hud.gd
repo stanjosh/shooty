@@ -5,9 +5,8 @@ extends CanvasLayer
 @onready var HealthCounter = $TopRight/HealthCounter
 @onready var MineCounter = $BottomLeft/MineCounter
 @onready var XPCounter = $TopLeft/XPCounter
-
-
 @onready var world = $"../World"
+
 var ammo_count : int = 0
 var max_ammo : int = 0
 var grenade_count : float = 0

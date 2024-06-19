@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://bwqbgwl7hvop0" path="res://scenes/mobs/medioid/medioid.tscn" id="11_agpmv"]
 [ext_resource type="PackedScene" uid="uid://ctvpcfm5heb5" path="res://scenes/mobs/tiny/tiny.tscn" id="12_nwipo"]
 [ext_resource type="Script" path="res://scenes/maps/objects/PlatformSwitch.gd" id="14_qgkt2"]
-[ext_resource type="Texture2D" uid="uid://bphq252khlf6r" path="res://scenes/mobs/spawn_totem.png" id="17_ipe1j"]
+[ext_resource type="PackedScene" uid="uid://rku7rhrv2em3" path="res://scenes/maps/spawner/spawn_totem.tscn" id="16_22syb"]
 [ext_resource type="PackedScene" uid="uid://3j1sn12jdmir" path="res://scenes/maps/survival_area.tscn" id="17_q80gu"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_pong7"]
@@ -1006,7 +1006,6 @@ camera_is_following = true
 player_spawn = NodePath("Objects/PlayerSpawn")
 
 [node name="InsideHub" type="TileMap" parent="."]
-clip_children = 2
 z_index = -4
 z_as_relative = false
 y_sort_enabled = true
@@ -1202,13 +1201,13 @@ color = Color(0.526328, 0.487954, 0.435164, 1)
 energy = 2.95
 texture = SubResource("GradientTexture2D_asuwa")
 
-[node name="SpawnTotem" type="Sprite2D" parent="Objects"]
-position = Vector2(991, 1238)
-scale = Vector2(1, 1)
-texture = ExtResource("17_ipe1j")
+[node name="SpawnTotem2" parent="." instance=ExtResource("16_22syb")]
+position = Vector2(494, 1273)
+survival_scene = ExtResource("17_q80gu")
 
-[node name="SurvivalArea" parent="." instance=ExtResource("17_q80gu")]
-position = Vector2(989, 1231)
+[node name="SpawnTotem" parent="." instance=ExtResource("16_22syb")]
+position = Vector2(1264, 1076)
+survival_scene = ExtResource("17_q80gu")
 
 [connection signal="body_exited" from="Objects/CameraSwitchPositional" to="." method="_on_camera_switch_positional_body_exited"]
 [connection signal="body_exited" from="Objects/CameraSwitchFollow" to="." method="_on_camera_switch_follow_body_exited"]

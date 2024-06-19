@@ -1,51 +1,54 @@
 extends Area2D
-@onready var point_light_2d = $PointLight2D
+
 
 
 signal spawns_done
 
-var gradient_offset = 0
-var active = false
-var done = false
-
+@onready var point_light_2d = $PointLight2D
 @onready var rect : Rect2 = $CollisionShape2D.shape.get_rect()
 @onready var particle_radius = $CPUParticles2D.emission_sphere_radius
 @onready var player : CharacterBody2D = get_node("/root/Game/World/player")
+@onready var spawner = $Spawner
 
-func _ready():
-	for child in $Spawner.get_children():
-		if child is SpawnWave:
-			wave_list.append(child)
-
-func _physics_process(delta):
-	if active:
-		if rect.size.y > particle_radius:
-			particle_radius = clampf($CPUParticles2D.emission_sphere_radius + 1 * delta, particle_radius, rect.size.y)
-		if gradient_offset < 0.7:
-			activate_graphics(delta)
-		if rect.get_center().distance_to(to_local(player.global_position)) > rect.get_area() / 2:
-			player.take_damage(40 * delta, to_local(player.global_position).angle_to_point(rect.get_center()))
-	elif done:
-		if get_mobs() == false:
-			explode(delta)
-
-
-
+var gradient_offset = 0
+var alpha_offset = 0
+var active = true
 var wave_list : Array[SpawnWave]
 
-func _process(_delta):
-	$SpawnPath/SpawnPoint.progress_ratio = randf()
-
-	
-func activate():
-	$CPUParticles2D.scale_amount_max = 0.5
-	$CPUParticles2D.gravity = Vector2(0, -120)
+func _ready():
+	for child in spawner.get_children():
+		if child is SpawnWave:
+			wave_list.append(child)
 	active = true
 	begin_wave()
 
 
+func _physics_process(delta):
+	if active:
+		if gradient_offset < 0.7:
+			activate_graphics(delta)
+		if rect.get_center().distance_to(to_local(player.global_position)) > rect.get_area() / PI:
+			player.take_damage(40 * delta, to_local(player.global_position).angle_to_point(rect.get_center()))
+	elif not get_mobs() and not wave_list:
+		close_area(delta)
+
+func _process(_delta):
+	$SpawnPath/SpawnPoint.progress_ratio = randf()
+
+func close_area(delta):
+	var gradient : Gradient = point_light_2d.texture.gradient
+	gradient_offset = clampf(gradient_offset - 1 * delta, 0, 0.8)
+	gradient.set_offset(1, gradient_offset)
+	gradient.set_offset(2, gradient_offset + .03)
+	$CPUParticles2D.explosiveness = 1
+	$CPUParticles2D.one_shot = true
+	if gradient_offset <= 0 and not $CPUParticles2D.emitting:
+		queue_free()
+
 func begin_wave():
-	if wave_list.size() >= 1:
+	if get_mobs():
+		$BetweenWaveTime.start()
+	elif wave_list.size() >= 1:
 		var wave = wave_list.pop_front()
 		wave.wave_complete.connect(_on_wave_complete)
 		wave.spawn_point = $SpawnPath/SpawnPoint
@@ -56,20 +59,12 @@ func begin_wave():
 func get_mobs():
 	return true if get_overlapping_bodies().filter(func(body): return body is Mob).size() >= 1 else false
 
-func explode(delta):
-	var color := Color("White")
-	gradient_offset -= 1 * delta
-	var gradient : Gradient = point_light_2d.texture.gradient
-	gradient.set_color(1, color)
-	gradient.set_offset(1, gradient_offset)
-	$CPUParticles2D.one_shot = true
-	if gradient_offset <= 0 and not $CPUParticles2D.emitting:
-		queue_free()
-
 func activate_graphics(delta):
-		gradient_offset = clampf(gradient_offset + 1 * delta, 0, 0.7)
+		particle_radius = point_light_2d.get_height()
+		gradient_offset = clampf(gradient_offset + 1 * delta, 0, 0.8)
 		var gradient : Gradient = point_light_2d.texture.gradient
 		gradient.set_offset(1, gradient_offset)
+		gradient.set_offset(2, gradient_offset + .03)
 
 func _on_wave_complete():
 	print("beginning wait period")
@@ -79,11 +74,6 @@ func _on_between_wave_time_timeout():
 	print("beginning next wave")
 	begin_wave()
 
-func _on_body_entered(body):
-	if body is Player:
-		activate()
-
 func _on_spawns_done():
 	active = false
-	done = true
 	print("done, waiting for mobs to die")

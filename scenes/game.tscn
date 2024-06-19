@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://baj1g8b4rrm7p"]
+[gd_scene load_steps=5 format=3 uid="uid://baj1g8b4rrm7p"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_h310b"]
 [ext_resource type="PackedScene" uid="uid://kx6t8xna0t6n" path="res://scenes/world.tscn" id="1_p67di"]
 [ext_resource type="PackedScene" uid="uid://7w31v3ug280y" path="res://scenes/gui/hud.tscn" id="2_k6aik"]
-[ext_resource type="FontFile" uid="uid://w38canxb0m7h" path="res://assets/m3x6.ttf" id="4_1wlni"]
-[ext_resource type="PackedScene" uid="uid://cshxn3hr142mq" path="res://scenes/gui/status.tscn" id="5_s2vah"]
+[ext_resource type="PackedScene" uid="uid://b6f0gsccyr0bw" path="res://scenes/gui/pause_menu.tscn" id="4_fodmo"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_h310b")
@@ -16,49 +15,5 @@ z_index = -1
 unique_name_in_owner = true
 process_mode = 3
 
-[node name="PauseMenu" type="Control" parent="Hud"]
-process_mode = 3
+[node name="PauseMenu" parent="Hud" instance=ExtResource("4_fodmo")]
 visible = false
-z_as_relative = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1.00013, 1.00013)
-
-[node name="HSplitContainer" type="HSplitContainer" parent="Hud/PauseMenu"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Status" parent="Hud/PauseMenu/HSplitContainer" instance=ExtResource("5_s2vah")]
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
-metadata/_edit_use_anchors_ = true
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Hud/PauseMenu/HSplitContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-
-[node name="Resume" type="Button" parent="Hud/PauseMenu/HSplitContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_1wlni")
-theme_override_font_sizes/font_size = 64
-text = "Resume"
-
-[node name="Quit" type="Button" parent="Hud/PauseMenu/HSplitContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_1wlni")
-theme_override_font_sizes/font_size = 64
-text = "Quit"
-
-[connection signal="pressed" from="Hud/PauseMenu/HSplitContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="Hud/PauseMenu/HSplitContainer/VBoxContainer/Resume" to="Hud/PauseMenu" method="_on_resume_pressed"]
-[connection signal="pressed" from="Hud/PauseMenu/HSplitContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

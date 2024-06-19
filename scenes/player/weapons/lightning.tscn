@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1t30j567yq2k"]
+
+[ext_resource type="Script" path="res://scenes/player/weapons/lightning.gd" id="1_qgldx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bp1iq"]
+radius = 48.0
+
+[node name="lightning" type="Area2D"]
+top_level = true
+collision_mask = 68
+script = ExtResource("1_qgldx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_bp1iq")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

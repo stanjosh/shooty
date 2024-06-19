@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://3j1sn12jdmir"]
+[gd_scene load_steps=13 format=3 uid="uid://3j1sn12jdmir"]
 
 [ext_resource type="Script" path="res://scenes/maps/SurvivalArea.gd" id="1_hfxbc"]
 [ext_resource type="PackedScene" uid="uid://cmq4kav7bbo5s" path="res://scenes/maps/spawner/spawn_wave.tscn" id="3_m5ov3"]
@@ -6,14 +6,19 @@
 [ext_resource type="PackedScene" uid="uid://bwqbgwl7hvop0" path="res://scenes/mobs/medioid/medioid.tscn" id="5_gf0h6"]
 [ext_resource type="PackedScene" uid="uid://d0ea3013fce28" path="res://scenes/mobs/bat/bat.tscn" id="6_r4sby"]
 
+[sub_resource type="Curve" id="Curve_e27jp"]
+max_value = 30.0
+_data = [Vector2(0, 26.7033), 0.0, -120.814, 0, 0, Vector2(0.196629, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="Curve" id="Curve_p4e6e"]
 max_value = 3.0
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.162921, 1.21978), -1.42738, -1.42738, 0, 0, Vector2(0.52809, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.157303, 0.659341), -1.42738, -1.42738, 0, 0, Vector2(0.52809, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 4
 
 [sub_resource type="Gradient" id="Gradient_74tse"]
 interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.0779221, 0.714286)
+offsets = PackedFloat32Array(0, 0.0779221, 0.175325)
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_laqsj"]
@@ -24,60 +29,66 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_3w0wd"]
-vertices = PackedVector2Array(56, -55, 71, -22, 71, 28, 44, 63, -8, 71, -42, 58, -64, 27, -67, -23, -50, -50, -30, -67, 8, -74)
+vertices = PackedVector2Array(66, -76, 87, -28, 87, 32, 65, 74, -3, 94, -53, 79, -87, 42, -91, -18, -75, -59, -46, -85, 5, -98)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-59, -57, -34, -77, 9, -85, 64, -63, 81, -24, 81, 32, 50, 73, -9, 82, -49, 67, -74, 31, -78, -26)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-83, -66, -51, -95, 5, -109, 74, -84, 98, -30, 97, 36, 72, 83, -3, 105, -58, 89, -97, 46, -101, -17)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0b5dl"]
+radius = 13.1774
 
 [sub_resource type="Curve2D" id="Curve2D_22gsu"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 100, -100, 0, 0, 0, 0, 100, 100, 0, 0, 0, 0, -100, 100, 0, 0, 0, 0, -100, -100, 0, 0, 0, 0, 100, -100)
+"points": PackedVector2Array(0.281233, -99.2753, -0.281233, 99.2753, 95.536, 0, 0, 0, 0, 0, -0.89286, 100, 0.281233, 98.1504, -0.281233, -98.1504, -97.3217, 0, 0, 0, 0, 0, 0, -99.1074, -23.0611, -28.1233, 23.0611, 28.1233, 72.3216, -67.8573, 0, 0, 0, 0, 95.536, 0)
 }
-point_count = 5
+point_count = 6
 
 [node name="SurvivalArea" type="Area2D"]
+visibility_layer = 2
 collision_layer = 32
 collision_mask = 84
 script = ExtResource("1_hfxbc")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+scale = Vector2(2.44, 2.44)
 amount = 600
 speed_scale = 0.5
 emission_shape = 2
-emission_sphere_radius = 80.0
-direction = Vector2(0, 0)
-spread = 0.0
-gravity = Vector2(0, 0)
-radial_accel_min = -400.0
+emission_sphere_radius = 105.86
+direction = Vector2(20, 0)
+spread = 60.0
+gravity = Vector2(0, -200)
+damping_max = 30.0
+damping_curve = SubResource("Curve_e27jp")
 scale_amount_max = 3.0
 scale_amount_curve = SubResource("Curve_p4e6e")
 color = Color(0, 0, 0, 1)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-scale = Vector2(1.52036, 1.52036)
+scale = Vector2(2.12036, 2.12036)
 energy = 1.42
 blend_mode = 1
 texture = SubResource("GradientTexture2D_laqsj")
 
 [node name="EnemyArea" type="NavigationRegion2D" parent="."]
+scale = Vector2(1.56, 1.56)
 navigation_polygon = SubResource("NavigationPolygon_3w0wd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(4.25692, 4.15838)
+scale = Vector2(10.785, 11.166)
 shape = SubResource("CircleShape2D_0b5dl")
 
 [node name="BetweenWaveTime" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 3.0
 one_shot = true
 
 [node name="SpawnPath" type="Path2D" parent="."]
+scale = Vector2(1.93172, 1.93172)
 curve = SubResource("Curve2D_22gsu")
 
 [node name="SpawnPoint" type="PathFollow2D" parent="SpawnPath"]
-position = Vector2(100, -100)
-rotation = 1.5708
+position = Vector2(95.536, 0)
+rotation = 1.57363
 
 [node name="Spawner" type="Node2D" parent="."]
 position = Vector2(0.0157623, -0.0139542)

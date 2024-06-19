@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b3047pd17831v"]
 
-[ext_resource type="Script" path="res://scenes/gui/XPsystem.gd" id="1_060u0"]
+[ext_resource type="Script" path="res://scenes/gui/PlayerStatus.gd" id="1_060u0"]
 
-[node name="XPsystem" type="Node2D"]
+[node name="PlayerStatus" type="Node2D"]
 script = ExtResource("1_060u0")

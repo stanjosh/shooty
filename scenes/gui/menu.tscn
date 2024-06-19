@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dqcb23bdlbcxw"]
+[gd_scene load_steps=9 format=3 uid="uid://dqcb23bdlbcxw"]
 
 [ext_resource type="Script" path="res://scenes/gui/scripts/Menu.gd" id="1_0pt6b"]
 [ext_resource type="FontFile" uid="uid://w38canxb0m7h" path="res://assets/m3x6.ttf" id="1_3tveh"]
+[ext_resource type="Texture2D" uid="uid://pq257rnhg4kq" path="res://scenes/gui/UI_Flat_Frame_01_Lite.png" id="3_aii4w"]
 [ext_resource type="FontFile" uid="uid://m1jk0peka30j" path="res://assets/m6x11.ttf" id="3_ke0ex"]
 
 [sub_resource type="Theme" id="Theme_ajg7v"]
@@ -52,27 +53,68 @@ theme = SubResource("Theme_nwmpy")
 layout_mode = 2
 theme = SubResource("Theme_e68rp")
 
-[node name="play" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="NinePatchRect3" type="NinePatchRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.439067, 0.76614, 1)
-theme_override_fonts/font = ExtResource("3_ke0ex")
-theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
-text = "play"
+texture = ExtResource("3_aii4w")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
 
-[node name="options" type="Button" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.439067, 0.76614, 1)
+[node name="options" type="Button" parent="MarginContainer/VBoxContainer/NinePatchRect3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_ke0ex")
 theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
 text = "fullscreen"
+flat = true
 
-[node name="exit" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.439067, 0.76614, 1)
+texture = ExtResource("3_aii4w")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="exit" type="Button" parent="MarginContainer/VBoxContainer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_ke0ex")
 theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
 text = "exit"
+flat = true
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/exit" to="." method="_on_exit_pressed"]
+[node name="NinePatchRect2" type="NinePatchRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+texture = ExtResource("3_aii4w")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="play" type="Button" parent="MarginContainer/VBoxContainer/NinePatchRect2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_ke0ex")
+text = "start"
+flat = true
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/NinePatchRect3/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/NinePatchRect/exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/NinePatchRect2/play" to="." method="_on_play_pressed"]

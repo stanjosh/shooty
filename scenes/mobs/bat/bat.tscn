@@ -208,7 +208,6 @@ player_damage = 4.0
 move_speed = 40.0
 max_health = 8
 bleeds = true
-death_particles = false
 flying = true
 xp_value = 2
 

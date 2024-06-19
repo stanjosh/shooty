@@ -8,5 +8,5 @@ func _process(_delta):
 		$Sprite2D.texture = image
 	for body in get_overlapping_bodies():
 		if body is Player:
-			Powerups.give_item.emit(recieved_item)
+			PlayerStatus.handle_give_item(recieved_item)
 			queue_free()

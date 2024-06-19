@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://6qxco026ufkq"]
+
+[ext_resource type="Script" path="res://scenes/player/weapons/bullet.gd" id="1_daw2y"]
+[ext_resource type="Texture2D" uid="uid://de7nsq3oyurmj" path="res://scenes/player/assets/Bullet14x14.png" id="2_43asw"]
+[ext_resource type="AudioStream" uid="uid://blqa41xdhnunf" path="res://scenes/player/assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Fire - 1.mp3" id="3_c6fi0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_isfc1"]
+atlas = ExtResource("2_43asw")
+region = Rect2(0, 0, 14, 14)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3elcc"]
+radius = 4.12311
+
+[node name="projectile" type="Area2D"]
+top_level = true
+collision_layer = 32
+collision_mask = 102
+script = ExtResource("1_daw2y")
+speed = 30.0
+
+[node name="Proj" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_isfc1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3elcc")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_c6fi0")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

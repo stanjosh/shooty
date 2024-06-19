@@ -21,11 +21,10 @@ const SPAWN_PARTICLES = preload("res://scenes/maps/spawner/spawn_particles.tscn"
 signal wave_complete
 var enemy_array : Array[PackedScene]
 var spawn_point : PathFollow2D
-@onready var spawn_timer : Timer = $SpawnTimer
+@onready var spawn_timer : Timer
 
 
 func activate():
-
 	if enemy1:
 		var enemy1_array : Array = []
 		enemy1_array.resize(enemy1_number)
@@ -41,14 +40,18 @@ func activate():
 		enemy3_array.resize(enemy3_number)
 		enemy3_array.fill(enemy3)
 		enemy_array.append_array(enemy3_array)
-	
 	enemy_array.shuffle()
-	print("wave start")
+	spawn_timer = Timer.new()
+	spawn_timer.connect("timeout", _on_spawn_timer_timeout)
 	spawn_timer.wait_time = spawn_speed
+	spawn_timer.autostart = true
+	add_child(spawn_timer)
 	spawn_timer.start()
-
+	print(spawn_timer.wait_time, " ", spawn_timer.time_left)
+	
 
 func _on_spawn_timer_timeout():
+
 	if enemy_array:
 		var enemy = enemy_array.pop_front().instantiate()
 		var particles = SPAWN_PARTICLES.instantiate()

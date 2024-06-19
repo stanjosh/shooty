@@ -13,8 +13,7 @@ func _ready():
 		value = "%s" % value
 	if value is String:
 		display_value = value
-	endpoint = Vector2( -12, 0).rotated(vector)
-
+	endpoint = Vector2( -12, 0).rotated(vector) if vector else Vector2( -12, 0)
 
 func _process(delta):
 	if display_time.time_left > 0:

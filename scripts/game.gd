@@ -1,7 +1,7 @@
 extends Node
 
 @onready var pause_menu = $Hud/PauseMenu
-@onready var status = $Hud/PauseMenu/HSplitContainer/Status
+@onready var status = $Hud/PauseMenu/MarginContainer/HBoxContainer/NinePatchRect/Status
 
 
 var paused : bool = false

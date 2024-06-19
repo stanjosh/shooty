@@ -4,9 +4,13 @@ const HIT_MARKER = preload("res://scenes/effects/HitMarker.tscn")
 @export var speed : float = 32
 @export var dropoff : float = 100
 @export var user : CharacterBody2D
+@onready var gun_fire = $gun_fire
 var direction : Vector2
 var piercing : int = 0
 var damage : int = 1
+
+func _ready():
+	gun_fire.play()
 
 func _physics_process(delta):
 	if dropoff <= 0:

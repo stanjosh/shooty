@@ -14,13 +14,13 @@ class_name Player
 @export var dash_speed : float = 2.75
 @export var dash_length : float = .6
 
-const FLOATING_STATUS = preload("res://scenes/effects/FloatingStatus.tscn")
+var status : Dictionary
+
+
 const ACTION_LINE = preload("res://scenes/effects/action_line.tscn")
 
 var health : float = max_health
 
-var current_xp : int = 0
-var level_up_xp : int = 100
 var current_level : int = 1
 var is_alive : bool = true
 var animation_lock : bool = false
@@ -28,10 +28,11 @@ var melee_attack : bool = false
 var danger_level : float
 
 
+
 func _ready():
-	XPsystem.give_xp.connect(handle_give_xp_signal)
-	Hud.update_hud.emit("XPCounter", current_xp, level_up_xp)
-	Powerups.give_item.connect(handle_give_item_signal)
+	PlayerStatus.level_up.connect(_on_level_up)
+	PlayerStatus.give_item.connect(handle_give_item_signal)
+	update_status()
 	
 func _physics_process(delta):
 	melee_attack = false
@@ -39,10 +40,8 @@ func _physics_process(delta):
 		var input_direction : Vector2 = Input.get_vector("left", "right", "up", "down")
 
 		if Input.is_action_just_pressed("cheat"):
-			handle_give_xp_signal(10)
-			
-		
-			
+			PlayerStatus.give_xp(30)
+
 		var deadzone = 0.5
 		#var controllerangle = Vector2.ZERO
 		var xAxisRL = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
@@ -157,7 +156,6 @@ func animate(delta):
 		
 		animated_sprite_2d.play(current_animation)
 
-		
 func die():
 	if is_alive:
 		$pivot.process_mode = Node.PROCESS_MODE_DISABLED
@@ -172,7 +170,17 @@ func die():
 		world.add_child(new_spray)
 		
 
-
+func update_status():
+	status = {
+		"level" : current_level,
+		"speed" : speed,
+		"max_health" : max_health,
+		"health_regen" : health_regen,
+		"dash_speed" : dash_speed,
+		"dash_length" : dash_length
+	}
+	for item in status.keys():
+		Hud.stats[item] = status[item]
 
 var level_changes : Dictionary = {
 		2 : {
@@ -198,24 +206,17 @@ var level_changes : Dictionary = {
 
 
 
-func level_up():
-	current_xp = 0
-	current_level = clampi( current_level + 1, 0, level_changes.size())
-	var status_msg = FLOATING_STATUS.instantiate()
-	status_msg.value = "Level up! %s" % current_level
-	status_msg.position = to_local(Vector2(global_position.x, global_position.y))
-	call_deferred("add_child", status_msg)
-	var lines : int = level_changes[current_level].size()
-	for level_reward in level_changes[current_level]:
-		status_msg = FLOATING_STATUS.instantiate()
-		status_msg.position = to_local(Vector2(global_position.x, global_position.y + 8 * lines))
-		lines -= 1
-		set(level_reward, get(level_reward) + level_changes[current_level][level_reward])
-		status_msg.value = "%s + %s" % [level_reward.replace("_", " "), level_changes[current_level][level_reward]]
-		call_deferred("add_child", status_msg)
 	
-	level_up_xp = snapped(level_up_xp + (current_level * 1.3), 1)
-	print("ding ", current_level)
+func _on_level_up():
+	current_level = clampi(current_level + 1, 0, level_changes.size() + 1 )
+	var level_up_message : Array[String] = ["level %s!" % current_level]
+	for level_reward in level_changes[current_level]:
+		level_up_message.push_back("%s + %s" % [level_reward.replace("_", " "), level_changes[current_level][level_reward]])
+		set(level_reward, get(level_reward) + level_changes[current_level][level_reward])
+	Hud.float_message(level_up_message, global_position)
+		
+	update_status()
+
 
 
 
@@ -231,8 +232,4 @@ func handle_give_item_signal(item: PackedScene):
 		if real_item is Weapon:
 			$pivot.add_child(real_item)
 
-func handle_give_xp_signal(value):
-	current_xp += value
-	if current_xp >= level_up_xp:
-		level_up()
-	Hud.update_hud.emit("XPCounter", current_xp, level_up_xp)
+

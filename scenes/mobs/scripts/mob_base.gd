@@ -83,6 +83,7 @@ func _physics_process(delta):
 		animate()
 		move_and_slide()
 	elif not is_alive:
+		collision_shape_2d.disabled = true
 		velocity = Vector2(0,0)
 		
 
@@ -114,27 +115,26 @@ func take_damage(hit, vector):
 		health -= hit
 	if health <= 0:
 		is_alive = false
-		collision_shape_2d.disabled = true
 		die(vector)
 
-func show_damage(hit, vector):
-	var new_damage_number = DAMAGE_NUMBER.instantiate()
-	new_damage_number.value = hit
-	var rando_pos = snapped(randf_range(-12, 12), 6)
-	new_damage_number.global_position = Vector2(global_position.x + rando_pos, global_position.y)
-	new_damage_number.vector = vector
-	get_parent().call_deferred("add_child", new_damage_number)
 
+func show_damage(hit, vector):
+	#var new_damage_number = DAMAGE_NUMBER.instantiate()
+	#new_damage_number.value = hit
+	#var rando_pos = snapped(randf_range(-12, 12), 6)
+	#new_damage_number.global_position = Vector2(global_position.x + rando_pos, global_position.y)
+	#new_damage_number.vector = vector
+	#get_parent().call_deferred("add_child", new_damage_number)
+	
+	Hud.float_message(["%s" % hit], global_position, vector)
 
 func die(vector):
+	collision_shape_2d.disabled = true
 	var timer = Timer.new()
-	
 	timer.connect("timeout", _on_death_animation_timer_timeout)
-	
 	animated_sprite_2d.play("die")
 	animation_lock = true
-	XPsystem.give_xp.emit(xp_value)
-	
+	PlayerStatus.give_xp(xp_value)
 	if death_particles:
 		timer.wait_time = $CPUParticles2D.lifetime
 		$CPUParticles2D.emitting = true
