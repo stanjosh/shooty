@@ -2,6 +2,13 @@ extends Node
 
 signal update_hud(element_name, value, max_value)
 
+enum Element {
+	XP,
+	HEALTH,
+	MINES,
+	HEAT
+}
+
 const FLOATING_STATUS = preload("res://scenes/effects/FloatingStatus.tscn")
 var stats : Dictionary
 

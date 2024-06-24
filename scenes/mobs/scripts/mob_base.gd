@@ -7,7 +7,7 @@ const DAMAGE_NUMBER = preload ("res://scenes/effects/FloatingStatus.tscn")
 
 
 
-@onready var player : CharacterBody2D = get_node("/root/Game/World/player")
+@onready var player : CharacterBody2D = PlayerManager.player
 @onready var navigation_agent_2d : NavigationAgent2D = $NavigationAgent2D
 
 var scalar : float = 1
@@ -107,7 +107,7 @@ func animate():
 		animated_sprite_2d.play(current_animation)
 
 func take_damage(hit, vector):
-	show_damage(hit, vector)
+	Hud.float_message(["%s" % hit], global_position, vector)
 	velocity += Vector2(10 * hit, 10 * hit).rotated(vector)
 	var tween: Tween = create_tween()
 	tween.tween_property(animated_sprite_2d, "modulate:v", 1, 0.25).from(15)
@@ -117,24 +117,13 @@ func take_damage(hit, vector):
 		is_alive = false
 		die(vector)
 
-
-func show_damage(hit, vector):
-	#var new_damage_number = DAMAGE_NUMBER.instantiate()
-	#new_damage_number.value = hit
-	#var rando_pos = snapped(randf_range(-12, 12), 6)
-	#new_damage_number.global_position = Vector2(global_position.x + rando_pos, global_position.y)
-	#new_damage_number.vector = vector
-	#get_parent().call_deferred("add_child", new_damage_number)
-	
-	Hud.float_message(["%s" % hit], global_position, vector)
-
 func die(vector):
 	collision_shape_2d.disabled = true
 	var timer = Timer.new()
 	timer.connect("timeout", _on_death_animation_timer_timeout)
 	animated_sprite_2d.play("die")
 	animation_lock = true
-	PlayerStatus.give_xp(xp_value)
+	PlayerManager.give_xp(xp_value)
 	if death_particles:
 		timer.wait_time = $CPUParticles2D.lifetime
 		$CPUParticles2D.emitting = true

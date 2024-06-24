@@ -1,12 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://rku7rhrv2em3"]
+[gd_scene load_steps=7 format=3 uid="uid://rku7rhrv2em3"]
 
 [ext_resource type="Script" path="res://scenes/maps/spawner/scripts/SpawnTotem.gd" id="1_xt7dm"]
-[ext_resource type="Texture2D" uid="uid://bphq252khlf6r" path="res://scenes/mobs/spawn_totem.png" id="2_ab18i"]
+[ext_resource type="Texture2D" uid="uid://bphq252khlf6r" path="res://scenes/maps/spawner/spawn_totem.png" id="2_ab18i"]
 
 [sub_resource type="Curve" id="Curve_g5tas"]
 max_value = 80.0
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
+
+[sub_resource type="Curve" id="Curve_gh1x0"]
+max_value = 100.0
+_data = [Vector2(0, 36.2637), 0.0, 0.0, 0, 0, Vector2(0.179775, 16.4835), -233.463, -233.463, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="Curve" id="Curve_w5wvc"]
 max_value = 3.0
@@ -34,6 +39,7 @@ orbit_velocity_max = 0.5
 radial_accel_max = 80.0
 radial_accel_curve = SubResource("Curve_g5tas")
 damping_max = 66.667
+damping_curve = SubResource("Curve_gh1x0")
 scale_amount_max = 3.0
 scale_amount_curve = SubResource("Curve_w5wvc")
 color = Color(0, 0, 0, 1)
@@ -44,3 +50,5 @@ texture = ExtResource("2_ab18i")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(2.8, 2.8)
 shape = SubResource("CircleShape2D_206y3")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

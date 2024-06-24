@@ -54,7 +54,7 @@ scale = Vector2(2.44, 2.44)
 amount = 600
 speed_scale = 0.5
 emission_shape = 2
-emission_sphere_radius = 105.86
+emission_sphere_radius = 80.0
 direction = Vector2(20, 0)
 spread = 60.0
 gravity = Vector2(0, -200)
@@ -65,7 +65,7 @@ scale_amount_curve = SubResource("Curve_p4e6e")
 color = Color(0, 0, 0, 1)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-scale = Vector2(2.12036, 2.12036)
+scale = Vector2(2.77122, 2.77122)
 energy = 1.42
 blend_mode = 1
 texture = SubResource("GradientTexture2D_laqsj")

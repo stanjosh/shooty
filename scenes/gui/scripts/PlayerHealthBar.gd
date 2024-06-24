@@ -1,15 +1,15 @@
-extends ProgressBar
+extends Control
 
-@onready var player = $".."
+var max_health : float = PlayerManager.player.max_health
+var health : float = PlayerManager.player.health
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	max_value = player.max_health
-	value = player.health
-	min_value = 0
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	value = player.health
-	visible = false if player.health == player.max_health else true
-	pass
+	$Orb/PlayerHealthBar.max_value = float(max_health)
+	$Orb/PlayerHealthBar2.max_value = float(max_health)
+	$Orb/HealthCounter.text = "%s / %s" % [snapped(health, 1), snapped(max_health, 1)]
+	$Orb/PlayerHealthBar.value = float(health)
+	var tween = get_tree().create_tween()
+	tween.tween_property($Orb/PlayerHealthBar2, "value", health, 1.5).set_ease(Tween.EASE_IN)
+
+

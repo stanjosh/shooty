@@ -6,9 +6,6 @@ extends Node2D
 @onready var platform_collider := $Platform/PlatformCollider
 @onready var switch := $Switch
 
-
-
-
 @export var active : bool = false
 
 signal Switched

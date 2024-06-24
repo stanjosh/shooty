@@ -9,8 +9,9 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_1ovo8"]
 radius = 27.3602
 
-[sub_resource type="Curve" id="Curve_xj0gs"]
-_data = [Vector2(0, 0), 0.0, 0.455544, 0, 0, Vector2(0.504854, 0.591497), 0.0179757, 0.0179757, 0, 0, Vector2(0.988764, 0), -0.455857, 0.0, 0, 0]
+[sub_resource type="Curve" id="Curve_d6y5x"]
+max_value = 3.0
+_data = [Vector2(0, 1.47686), 0.0, 0.0, 0, 0, Vector2(0.118388, 0.310993), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [node name="sword" type="Node2D"]
@@ -44,15 +45,23 @@ position = Vector2(36.764, 0)
 scale = Vector2(1.66667, 1.94593)
 shape = SubResource("CircleShape2D_1ovo8")
 
-[node name="SlashEffect" type="Line2D" parent="hitbox"]
-position = Vector2(5.656, 1.414)
-points = PackedVector2Array(8.48401, -33.936, 28.28, -28.28, 35.35, -24.038, 41.006, -18.382, 45.248, -12.726, 48.076, -5.656, 48.076, 4.242, 45.248, 11.312, 42.42, 15.554, 36.764, 22.624, 19.796, 32.522)
-width = 16.0
-width_curve = SubResource("Curve_xj0gs")
-default_color = Color(0.423651, 0.423651, 0.423651, 1)
-texture_mode = 1
-joint_mode = 2
-antialiased = true
+[node name="CPUParticles2D" type="CPUParticles2D" parent="hitbox"]
+position = Vector2(39.592, 1.41399)
+rotation = 1.5708
+skew = 1.01055
+emitting = false
+amount = 100
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 29.44
+gravity = Vector2(0, -120)
+radial_accel_min = -60.58
+radial_accel_max = 67.31
+scale_amount_min = 0.0
+scale_amount_max = 3.0
+scale_amount_curve = SubResource("Curve_d6y5x")
 
 [node name="cooldown" type="Timer" parent="."]
 one_shot = true

@@ -1,0 +1,267 @@
+[gd_scene load_steps=16 format=3 uid="uid://7w31v3ug280y"]
+
+[ext_resource type="Script" path="res://scenes/gui/scripts/hud.gd" id="1_sbawl"]
+[ext_resource type="FontFile" uid="uid://m1jk0peka30j" path="res://assets/m6x11.ttf" id="2_y8uil"]
+[ext_resource type="PackedScene" uid="uid://b6f0gsccyr0bw" path="res://scenes/gui/pause_menu.tscn" id="3_f0fe7"]
+[ext_resource type="Script" path="res://scenes/gui/scripts/PlayerHealthBar.gd" id="3_rrq2n"]
+[ext_resource type="Texture2D" uid="uid://dgrl3he2a8ogu" path="res://scenes/gui/orb.png" id="3_supl2"]
+[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_interface.gd" id="4_ibc0o"]
+[ext_resource type="Script" path="res://scenes/gui/OverheatMeter.gd" id="5_3426p"]
+[ext_resource type="PackedScene" uid="uid://ubaicyh12ctv" path="res://scenes/gui/inventory/inventory.tscn" id="5_fnxsd"]
+[ext_resource type="PackedScene" uid="uid://d1lua354iq30d" path="res://scenes/gui/inventory/slot.tscn" id="6_phlc7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xjdpx"]
+font = ExtResource("2_y8uil")
+font_size = 32
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yswpx"]
+bg_color = Color(0.156863, 0.156863, 0.156863, 0.282353)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n1l2n"]
+bg_color = Color(0.186063, 0.0123513, 1.20327e-08, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tr0qq"]
+bg_color = Color(0.400085, 0.054918, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jghob"]
+bg_color = Color(1.82897e-06, 0.584696, 0.763997, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mwrk5"]
+bg_color = Color(0.913725, 0.180392, 0, 0.858824)
+
+[node name="Hud" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_sbawl")
+
+[node name="BottomRight" type="HBoxContainer" parent="."]
+light_mask = 512
+visibility_layer = 512
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="MineCounter" type="Label" parent="BottomRight"]
+light_mask = 512
+visibility_layer = 512
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_y8uil")
+text = "10/10"
+label_settings = SubResource("LabelSettings_xjdpx")
+horizontal_alignment = 1
+vertical_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HealthOrb" type="Control" parent="BottomRight"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("3_rrq2n")
+
+[node name="Orb" type="TextureRect" parent="BottomRight/HealthOrb"]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_right = 128.0
+grow_vertical = 0
+texture = ExtResource("3_supl2")
+
+[node name="PlayerHealthBar2" type="ProgressBar" parent="BottomRight/HealthOrb/Orb"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_yswpx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_n1l2n")
+value = 100.0
+fill_mode = 3
+show_percentage = false
+
+[node name="PlayerHealthBar" type="ProgressBar" parent="BottomRight/HealthOrb/Orb"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_yswpx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tr0qq")
+value = 100.0
+fill_mode = 3
+show_percentage = false
+
+[node name="HealthCounter" type="Label" parent="BottomRight/HealthOrb/Orb"]
+light_mask = 512
+visibility_layer = 512
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "100/100"
+label_settings = SubResource("LabelSettings_xjdpx")
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 0
+
+[node name="OverheatMeter" type="Control" parent="BottomRight"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_3426p")
+
+[node name="OverheatBar2" type="ProgressBar" parent="BottomRight/OverheatMeter"]
+custom_minimum_size = Vector2(64, 196)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -196.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_yswpx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_jghob")
+value = 100.0
+fill_mode = 3
+
+[node name="OverheatBar" type="ProgressBar" parent="BottomRight/OverheatMeter"]
+custom_minimum_size = Vector2(64, 196)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -196.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_yswpx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mwrk5")
+value = 100.0
+fill_mode = 3
+
+[node name="AmmoCounter" type="Label" parent="BottomRight/OverheatMeter/OverheatBar"]
+light_mask = 512
+visibility_layer = 512
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_y8uil")
+text = "20/20"
+label_settings = SubResource("LabelSettings_xjdpx")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="BottomLeft" type="MarginContainer" parent="."]
+light_mask = 512
+visibility_layer = 512
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+
+[node name="TopRight" type="MarginContainer" parent="."]
+light_mask = 512
+visibility_layer = 512
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -143.0
+offset_bottom = 78.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+
+[node name="TopLeft" type="MarginContainer" parent="."]
+light_mask = 512
+visibility_layer = 512
+offset_right = 174.0
+offset_bottom = 78.0
+size_flags_horizontal = 8
+
+[node name="XPCounter" type="Label" parent="TopLeft"]
+light_mask = 512
+visibility_layer = 512
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_y8uil")
+label_settings = SubResource("LabelSettings_xjdpx")
+vertical_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PauseMenu" parent="." instance=ExtResource("3_f0fe7")]
+visible = false
+
+[node name="InventoryInterface" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_ibc0o")
+
+[node name="GrabbedSlot" parent="InventoryInterface" instance=ExtResource("6_phlc7")]
+visible = false
+modulate = Color(1, 1, 1, 0.498039)
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+
+[node name="HSplitContainer" type="HSplitContainer" parent="InventoryInterface"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+split_offset = 624
+
+[node name="ExternalInventory" parent="InventoryInterface/HSplitContainer" instance=ExtResource("5_fnxsd")]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="VSplitContainer" type="VSplitContainer" parent="InventoryInterface/HSplitContainer"]
+layout_mode = 2
+
+[node name="PlayerInventory" parent="InventoryInterface/HSplitContainer/VSplitContainer" instance=ExtResource("5_fnxsd")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="EquipInventory" parent="InventoryInterface/HSplitContainer/VSplitContainer" instance=ExtResource("5_fnxsd")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[connection signal="visibility_changed" from="InventoryInterface" to="InventoryInterface" method="_on_visibility_changed"]

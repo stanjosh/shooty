@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Projectile" load_steps=3 format=3 uid="uid://c7d0186keskor"]
+
+[ext_resource type="PackedScene" uid="uid://6qxco026ufkq" path="res://scenes/player/weapons/bullet.tscn" id="1_juqsk"]
+[ext_resource type="Script" path="res://scenes/player/weapons/projectile.gd" id="1_k4np4"]
+
+[resource]
+script = ExtResource("1_k4np4")
+scene = ExtResource("1_juqsk")
+speed = 40.0
+dropoff = 40.0
+heat_generated = 20.0
+damage = 12
+piercing = 2

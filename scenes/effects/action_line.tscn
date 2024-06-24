@@ -13,13 +13,12 @@ script = ExtResource("1_c3ndh")
 [node name="Line2D" type="Line2D" parent="."]
 light_mask = 0
 visibility_layer = 16
-width = 8.0
+width = 4.0
 default_color = Color(0.711627, 0.983279, 1, 1)
 texture = ExtResource("2_ds5a7")
 texture_mode = 1
-begin_cap_mode = 2
-end_cap_mode = 2
 
 [node name="zap" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_rkr1r")
 pitch_scale = 0.7
+max_polyphony = 3

@@ -7,7 +7,7 @@ signal spawns_done
 @onready var point_light_2d = $PointLight2D
 @onready var rect : Rect2 = $CollisionShape2D.shape.get_rect()
 @onready var particle_radius = $CPUParticles2D.emission_sphere_radius
-@onready var player : CharacterBody2D = get_node("/root/Game/World/player")
+@onready var player : CharacterBody2D = PlayerManager.player
 @onready var spawner = $Spawner
 
 var gradient_offset = 0
@@ -61,7 +61,7 @@ func get_mobs():
 
 func activate_graphics(delta):
 		particle_radius = point_light_2d.get_height()
-		gradient_offset = clampf(gradient_offset + 1 * delta, 0, 0.8)
+		gradient_offset = clampf(gradient_offset + 1 * delta, 0, 0.9)
 		var gradient : Gradient = point_light_2d.texture.gradient
 		gradient.set_offset(1, gradient_offset)
 		gradient.set_offset(2, gradient_offset + .03)

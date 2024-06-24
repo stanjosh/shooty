@@ -1,22 +1,30 @@
 extends CanvasLayer
 
-@onready var AmmoCounter = $BottomRight/AmmoCounter
+signal drop_slot_data(slot_data)
 
-@onready var HealthCounter = $TopRight/HealthCounter
-@onready var MineCounter = $BottomLeft/MineCounter
+@onready var health_orb = $Bottom/HealthOrb
+@onready var overheat_meter = $Bottom/OverheatMeter
+
 @onready var XPCounter = $TopLeft/XPCounter
-@onready var world = $"../World"
 
-var ammo_count : int = 0
-var max_ammo : int = 0
-var grenade_count : float = 0
-var xp_count: int
-var max_xp : int
-var health_count : int = 0
 
 func _ready():
 	Hud.update_hud.connect(on_hud_update)
 
+func on_hud_update(element : Hud.Element, value : float, max_value: float):
+	match element:
+		Hud.Element.HEALTH:
+			health_orb.max_health = max_value
+			health_orb.health = value
+		Hud.Element.HEAT:
+			overheat_meter.max_heat = max_value
+			overheat_meter.current_heat = value
+		Hud.Element.MINES:
+			pass
+		Hud.Element.XP:
+			pass
+		_:
+			print("%s is not a valid hud element" % element)
 
-func on_hud_update(element : String, value, max_value):
-	get(element).text = "%s / %s" % [snapped(value, 1), snapped(max_value, 1)]
+func _on_inventory_interface_drop_slot_data(slot_data):
+	drop_slot_data.emit(slot_data)

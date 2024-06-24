@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5xjw875sg4wn"]
+
+[sub_resource type="Curve" id="Curve_cbylo"]
+max_value = 2.0
+_data = [Vector2(0.011236, 0), 0.0, 0.0, 0, 0, Vector2(0.741573, 1.05494), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_l41yb"]
+colors = PackedColorArray(0, 0.852735, 0, 1, 0.114303, 0.221, 4.81308e-08, 1)
+
+[node name="PoisonEffect" type="Node2D"]
+
+[node name="PoisonParticles" type="CPUParticles2D" parent="."]
+amount = 16
+emission_shape = 3
+emission_rect_extents = Vector2(3, 1)
+gravity = Vector2(0, -40)
+scale_amount_min = 0.0
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_cbylo")
+color_ramp = SubResource("Gradient_l41yb")

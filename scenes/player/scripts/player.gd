@@ -8,12 +8,15 @@ class_name Player
 @onready var hitbox := $hitbox
 @onready var camera := $PositionalCamera
 
-@export var speed = 100.0
+@export var speed : float = 100.0
 @export var max_health : float = 100
-@export var health_regen : float = 1
-@export var dash_speed : float = 2.75
-@export var dash_length : float = .6
+@export var dash_speed : float = 125.0
 
+
+@export var inventory_data : InventoryData
+@export var equip_inventory_data : InventoryDataEquip
+
+var can_dash : bool = true
 var status : Dictionary
 
 
@@ -27,20 +30,38 @@ var animation_lock : bool = false
 var melee_attack : bool = false
 var danger_level : float
 
+var stat_mods : Dictionary
 
+signal toggle_inventory
 
 func _ready():
-	PlayerStatus.level_up.connect(_on_level_up)
-	PlayerStatus.give_item.connect(handle_give_item_signal)
+	equip_inventory_data.connect("inventory_updated", equip_items)
+	PlayerManager.level_up.connect(_on_level_up)
 	update_status()
 	
+	
+func equip_items(inventory_data):
+	stat_mods.clear()
+	for slot_data in inventory_data.slot_datas:
+		if slot_data and slot_data.item_data and slot_data.item_data.upgrades:
+			for item in slot_data.item_data.upgrades:
+				stat_mods[item.upgrade_stat] = item.upgrade_value
+	update_status()
+
+func modified_stat(stat : String) -> float:
+	pass
+	
+
 func _physics_process(delta):
 	melee_attack = false
 	if is_alive:
 		var input_direction : Vector2 = Input.get_vector("left", "right", "up", "down")
 
 		if Input.is_action_just_pressed("cheat"):
-			PlayerStatus.give_xp(30)
+			PlayerManager.give_xp(30)
+
+		if Input.is_action_just_pressed("inv"):
+			toggle_inventory.emit()
 
 		var deadzone = 0.5
 		#var controllerangle = Vector2.ZERO
@@ -51,34 +72,39 @@ func _physics_process(delta):
 			$pivot.rotation = Vector2(xAxisRL, yAxisUD).angle()
 		else:	
 			$pivot.look_at(get_global_mouse_position())
-		
-		
+
 		if Input.is_action_pressed("sword") and not animation_lock:
 			var mines = $pivot/Area2D.get_overlapping_bodies().filter(func(body): return body is Mine)
 			if mines:
 				global_position = mines.front().global_position
 				if not mines.front().delay:
 					mines.front().explode()
-			melee_attack = sword.attack(delta)
+			melee_attack = sword.attack()
 
-		if Input.is_action_just_pressed("dash"):
-			var target_location = lerp(global_position, get_global_mouse_position(), dash_length)
-			global_position = target_location
+		if Input.is_action_just_pressed("interact"):
+			var interactables = hitbox.get_overlapping_areas().filter(func(area): return area is Interactable)
+			if interactables:
+				interactables[0].interact(self)
 				
-		if input_direction:
-			velocity = input_direction * speed
 
+
+			
+		
+		if Input.is_action_pressed("dash") and can_dash and input_direction:
+			$DashCooldown.start()
+			if not $DashTimer.time_left:
+				$DashTimer.start()
+			velocity = input_direction * (speed + dash_speed)
+			$DashParticles.lifetime = 2 * $DashTimer.wait_time
+			$DashParticles.emitting = true
+			$CollisionShape2D.disabled = true
+		elif input_direction:
+			velocity = input_direction * speed
 		elif not input_direction:
 			velocity = Vector2(0,0)
 
-
 		max_slides = 5
 
-
-		if health < max_health:
-			health = clampf(health + health_regen * delta, 0, max_health)
-			Hud.update_hud.emit("HealthCounter", health, max_health)
-		#move_and_collide(velocity * delta)
 		move_and_slide()
 		animate(delta)
 
@@ -95,7 +121,11 @@ func take_damage(hit, vector):
 		health = 0
 		die()
 
-	Hud.update_hud.emit("HealthCounter", health, max_health)
+	Hud.update_hud.emit(Hud.Element.HEALTH, health, max_health)
+
+func heal(value):
+	health = clampi(health + value, 0, max_health)
+	Hud.update_hud.emit(Hud.Element.HEALTH, health, max_health)
 
 func animate(delta):
 	if modulate.g < 1 or modulate.b < 1:
@@ -109,6 +139,7 @@ func animate(delta):
 
 	if not animation_lock:
 		if melee_attack:
+			$pivot.hide()
 			animation_lock = true
 		var current_animation = ""
 
@@ -175,12 +206,13 @@ func update_status():
 		"level" : current_level,
 		"speed" : speed,
 		"max_health" : max_health,
-		"health_regen" : health_regen,
 		"dash_speed" : dash_speed,
-		"dash_length" : dash_length
 	}
 	for item in status.keys():
 		Hud.stats[item] = status[item]
+	health = clampi(health, 0, max_health)
+	Hud.update_hud.emit(Hud.Element.HEALTH, health, max_health)
+
 
 var level_changes : Dictionary = {
 		2 : {
@@ -192,7 +224,7 @@ var level_changes : Dictionary = {
 		},
 		4 : {
 			"max_health" : 4,
-			"health_regen" : .2
+
 		},
 		5 : {
 			"max_health" : 5,
@@ -200,7 +232,7 @@ var level_changes : Dictionary = {
 		},
 		6 : {
 			"max_health" : 6,
-			"health_regen" : .3
+
 		},
 	}
 
@@ -223,13 +255,17 @@ func _on_level_up():
 
 
 func _on_animated_sprite_2d_animation_finished():
+	$pivot.show()
 	animation_lock = false
 
-func handle_give_item_signal(item: PackedScene):
-	if item:
-		var real_item = item.instantiate()
-		print(item, " item received")
-		if real_item is Weapon:
-			$pivot.add_child(real_item)
 
 
+func _on_dash_cooldown_timeout():
+	print("can dash")
+	can_dash = true
+
+
+func _on_dash_timer_timeout():
+	print("no dash")
+	$CollisionShape2D.disabled = false
+	can_dash = false
