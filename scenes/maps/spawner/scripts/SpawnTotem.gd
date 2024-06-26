@@ -13,7 +13,7 @@ func _ready():
 
 
 
-func _on_body_entered(body):
+func _on_body_entered(_body):
 	if overlaps_body(PlayerManager.player):
-		map.add_child(survival_area)
+		map.call_deferred("add_child", survival_area)
 		queue_free()

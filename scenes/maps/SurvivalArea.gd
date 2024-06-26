@@ -29,8 +29,9 @@ func _physics_process(delta):
 			activate_graphics(delta)
 		if rect.get_center().distance_to(to_local(player.global_position)) > rect.get_area() / PI:
 			player.take_damage(40 * delta, to_local(player.global_position).angle_to_point(rect.get_center()))
-	elif not get_mobs() and not wave_list:
+	elif not PlayerManager.player.is_alive or not get_mobs() and not wave_list:
 		close_area(delta)
+	
 
 func _process(_delta):
 	$SpawnPath/SpawnPoint.progress_ratio = randf()
@@ -58,6 +59,7 @@ func begin_wave():
 
 func get_mobs():
 	return true if get_overlapping_bodies().filter(func(body): return body is Mob).size() >= 1 else false
+	
 
 func activate_graphics(delta):
 		particle_radius = point_light_2d.get_height()

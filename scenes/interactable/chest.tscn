@@ -49,6 +49,9 @@ script = ExtResource("3_1dqqi")
 position = Vector2(595, 1036)
 shape = SubResource("CircleShape2D_xdfad")
 
+[node name="InterfaceAnchor" type="Marker2D" parent="."]
+position = Vector2(13, -10)
+
 [connection signal="body_entered" from="InteractableArea" to="InteractableArea" method="_on_body_entered"]
 [connection signal="body_exited" from="InteractableArea" to="." method="_on_interactable_area_body_exited"]
 [connection signal="interacted" from="InteractableArea" to="." method="_on_interactable_area_interacted"]

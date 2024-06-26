@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://gll7ax2pniki"]
+[gd_scene load_steps=61 format=3 uid="uid://gll7ax2pniki"]
 
 [ext_resource type="Script" path="res://scenes/maps/Map.gd" id="1_yfbgk"]
 [ext_resource type="Texture2D" uid="uid://3esb1v2ef4fq" path="res://scenes/maps/tiles/map/tileset.png" id="2_0dr5g"]
@@ -6,8 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://cm8lx2qvrg8gg" path="res://assets/tiles/Tiles/Forest Tilesett.png" id="2_jmu6u"]
 [ext_resource type="Texture2D" uid="uid://dtjmapaam1pgx" path="res://scenes/maps/tiles/map/tileset_top.png" id="3_eh30h"]
 [ext_resource type="Script" path="res://scenes/maps/LightChangerArea.gd" id="9_xs0cx"]
-[ext_resource type="PackedScene" uid="uid://d0ea3013fce28" path="res://scenes/mobs/bat/bat.tscn" id="10_0v5wt"]
-[ext_resource type="PackedScene" uid="uid://bwqbgwl7hvop0" path="res://scenes/mobs/medioid/medioid.tscn" id="11_agpmv"]
 [ext_resource type="PackedScene" uid="uid://ctvpcfm5heb5" path="res://scenes/mobs/tiny/tiny.tscn" id="12_nwipo"]
 [ext_resource type="PackedScene" uid="uid://dc50hqke2q756" path="res://scenes/interactable/chest.tscn" id="13_ousq1"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data.gd" id="14_6j6fo"]
@@ -21,6 +19,8 @@
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/item_data_equip.gd" id="19_fxwb7"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/upgrade_def.gd" id="20_jqcel"]
 [ext_resource type="Texture2D" uid="uid://dmovl1ejplie0" path="res://scenes/gui/inventory/items/assets/Icon14_27.png" id="20_mpwyo"]
+[ext_resource type="PackedScene" uid="uid://bwqbgwl7hvop0" path="res://scenes/mobs/medioid/medioid.tscn" id="21_3wuli"]
+[ext_resource type="PackedScene" uid="uid://d0ea3013fce28" path="res://scenes/mobs/bat/bat.tscn" id="22_27uu0"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_pong7"]
 tile_data = PackedInt32Array(0, 1, 0, 65536, 1, 1, 131072, 1, 2, 1, 65537, 0, 65537, 65537, 1, 131073, 65537, 2, 2, 131073, 0, 65538, 131073, 1, 131074, 131073, 2)
@@ -971,16 +971,11 @@ texture = ExtResource("2_bo6yq")
 [sub_resource type="TileSet" id="TileSet_fubl2"]
 sources/0 = SubResource("TileSetAtlasSource_ra2yh")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cb1m4"]
-size = Vector2(46.6209, 18.7159)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_npwdg"]
 size = Vector2(96, 43.2432)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bxu1l"]
 size = Vector2(385.621, 1.52999)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_gxl55"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4v8iu"]
 size = Vector2(30, 30)
@@ -1008,16 +1003,25 @@ fill_to = Vector2(0.504274, 1)
 script = ExtResource("15_nu1h2")
 item_data = ExtResource("15_iouq6")
 quantity = 21
+equip_type = ""
+
+[sub_resource type="Resource" id="Resource_mcer6"]
+script = ExtResource("15_nu1h2")
+item_data = ExtResource("17_bw5yf")
+quantity = 1
+equip_type = ""
 
 [sub_resource type="Resource" id="Resource_q4dhi"]
 script = ExtResource("15_nu1h2")
 item_data = ExtResource("17_bw5yf")
 quantity = 3
+equip_type = ""
 
 [sub_resource type="Resource" id="Resource_iu0gx"]
 script = ExtResource("15_nu1h2")
 item_data = ExtResource("17_t56li")
 quantity = 1
+equip_type = ""
 
 [sub_resource type="Resource" id="Resource_qqej5"]
 script = ExtResource("20_jqcel")
@@ -1032,15 +1036,17 @@ name = "health upgrade"
 description = ""
 stackable = false
 texture = ExtResource("20_mpwyo")
+drop_rarity = 0.0
 
 [sub_resource type="Resource" id="Resource_gem5j"]
 script = ExtResource("15_nu1h2")
 item_data = SubResource("Resource_el4hk")
 quantity = 1
+equip_type = ""
 
 [sub_resource type="Resource" id="Resource_mfq0s"]
 script = ExtResource("14_6j6fo")
-slot_datas = Array[ExtResource("15_nu1h2")]([SubResource("Resource_qtco6"), null, SubResource("Resource_q4dhi"), SubResource("Resource_iu0gx"), SubResource("Resource_iu0gx"), SubResource("Resource_gem5j")])
+slot_datas = Array[ExtResource("15_nu1h2")]([SubResource("Resource_qtco6"), SubResource("Resource_mcer6"), SubResource("Resource_q4dhi"), SubResource("Resource_iu0gx"), SubResource("Resource_iu0gx"), SubResource("Resource_gem5j")])
 
 [node name="Map" type="Node2D" node_paths=PackedStringArray("player_spawn")]
 z_as_relative = false
@@ -1108,46 +1114,6 @@ layer_0/tile_data = PackedInt32Array(-917530, 0, 7, -851994, 0, 7, -786458, 0, 7
 z_as_relative = false
 y_sort_enabled = true
 
-[node name="bat" parent="Mobs" node_paths=PackedStringArray("detection_area") instance=ExtResource("10_0v5wt")]
-position = Vector2(597, 94)
-detection_area = NodePath("../Area2D")
-
-[node name="bat2" parent="Mobs" node_paths=PackedStringArray("detection_area") instance=ExtResource("10_0v5wt")]
-position = Vector2(509, 214)
-detection_area = NodePath("../Area2D")
-
-[node name="medioid" parent="Mobs" node_paths=PackedStringArray("detection_area") instance=ExtResource("11_agpmv")]
-position = Vector2(601, 209)
-detection_area = NodePath("../Area2D")
-
-[node name="medioid2" parent="Mobs" node_paths=PackedStringArray("detection_area") instance=ExtResource("11_agpmv")]
-position = Vector2(597, 164)
-detection_area = NodePath("../Area2D")
-
-[node name="tiny" parent="Mobs" node_paths=PackedStringArray("detection_area") instance=ExtResource("12_nwipo")]
-position = Vector2(650, 104)
-detection_area = NodePath("../Area2D")
-
-[node name="tiny2" parent="Mobs" node_paths=PackedStringArray("detection_area") instance=ExtResource("12_nwipo")]
-position = Vector2(667, 104)
-detection_area = NodePath("../Area2D")
-
-[node name="tiny3" parent="Mobs" node_paths=PackedStringArray("detection_area") instance=ExtResource("12_nwipo")]
-position = Vector2(684, 104)
-detection_area = NodePath("../Area2D")
-
-[node name="Area2D" type="Area2D" parent="Mobs"]
-scale = Vector2(1.31802, 1.01019)
-collision_layer = 0
-collision_mask = 16
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Mobs/Area2D"]
-position = Vector2(474.955, 141.558)
-rotation = -3.14159
-scale = Vector2(4.73577, -8.83288)
-shape = SubResource("RectangleShape2D_cb1m4")
-debug_color = Color(0.999961, 0.560762, 0.524199, 0.203922)
-
 [node name="Objects" type="Node2D" parent="."]
 z_as_relative = false
 y_sort_enabled = true
@@ -1194,17 +1160,6 @@ linear_damp = 0.8
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Objects/DetectorAreas/MineSlidingArea"]
 polygon = PackedVector2Array(325, 923, 507, 924, 508, 825, 742, 825, 738, 923, 924, 924, 922, 575, 1233, 568, 1232, 16, 10, 12, 9, 579, 329, 579)
-
-[node name="MineSwitch" type="Node2D" parent="Objects"]
-position = Vector2(1128, 436)
-
-[node name="MineDetector" type="Area2D" parent="Objects/MineSwitch"]
-
-[node name="MineDetectorCollider" type="CollisionShape2D" parent="Objects/MineSwitch/MineDetector"]
-shape = SubResource("CircleShape2D_gxl55")
-
-[node name="Sprite2D" type="Sprite2D" parent="Objects/MineSwitch"]
-position = Vector2(1, 0)
 
 [node name="PlatformSwitch" type="Node2D" parent="Objects"]
 position = Vector2(624, 433)
@@ -1257,6 +1212,69 @@ survival_scene = ExtResource("17_q80gu")
 [node name="Chest" parent="Objects" instance=ExtResource("13_ousq1")]
 position = Vector2(629, 964)
 inventory_data = SubResource("Resource_mfq0s")
+
+[node name="tiny" parent="." instance=ExtResource("12_nwipo")]
+position = Vector2(367, 981)
+player_damage = 10.0
+max_health = 10
+wander_distance = 20
+
+[node name="tiny2" parent="." instance=ExtResource("12_nwipo")]
+position = Vector2(240, 978)
+player_damage = 10.0
+max_health = 10
+wander_distance = 20
+
+[node name="tiny3" parent="." instance=ExtResource("12_nwipo")]
+position = Vector2(235, 1075)
+player_damage = 10.0
+max_health = 10
+wander_distance = 20
+
+[node name="tiny5" parent="." instance=ExtResource("12_nwipo")]
+position = Vector2(280, 1030)
+player_damage = 10.0
+max_health = 10
+wander_distance = 20
+
+[node name="tiny6" parent="." instance=ExtResource("12_nwipo")]
+position = Vector2(314, 1062)
+player_damage = 10.0
+max_health = 10
+wander_distance = 20
+
+[node name="tiny7" parent="." instance=ExtResource("12_nwipo")]
+position = Vector2(318, 1005)
+player_damage = 10.0
+max_health = 10
+wander_distance = 20
+
+[node name="tiny8" parent="." instance=ExtResource("12_nwipo")]
+position = Vector2(294, 974)
+player_damage = 10.0
+max_health = 10
+wander_distance = 20
+
+[node name="tiny9" parent="." instance=ExtResource("12_nwipo")]
+position = Vector2(197, 1019)
+player_damage = 10.0
+max_health = 10
+wander_distance = 20
+
+[node name="tiny4" parent="." instance=ExtResource("12_nwipo")]
+position = Vector2(355, 1084)
+player_damage = 10.0
+max_health = 10
+wander_distance = 20
+
+[node name="medioid" parent="." instance=ExtResource("21_3wuli")]
+position = Vector2(181, 1083)
+
+[node name="medioid2" parent="." instance=ExtResource("21_3wuli")]
+position = Vector2(179, 979)
+
+[node name="bat" parent="." instance=ExtResource("22_27uu0")]
+position = Vector2(871, 1117)
 
 [connection signal="body_exited" from="Objects/DetectorAreas/CameraSwitchPositional" to="." method="_on_camera_switch_positional_body_exited"]
 [connection signal="body_exited" from="Objects/DetectorAreas/CameraSwitchFollow" to="." method="_on_camera_switch_follow_body_exited"]

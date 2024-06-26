@@ -12,7 +12,7 @@ var player : CharacterBody2D
 
 func _ready():
 	if player_spawn:
-		player = PlayerManager.spawn_player_at(player_spawn.global_position)
+		player = PlayerManager.spawn_player_at(self, player_spawn.global_position)
 		$Objects.add_child(player)
 	if camera_is_following:
 		player.camera.switch_to_following()

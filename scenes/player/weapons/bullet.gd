@@ -23,7 +23,7 @@ func _physics_process(delta):
 
 func _on_body_entered(body):
 	if body.has_method("take_damage"):
-		body.take_damage(damage, global_rotation)
+		body.take_damage(damage, global_position.angle_to_point(body.global_position))
 		damage -= randi_range(1, 3)
 		var hit_marker = HIT_MARKER.instantiate()
 		

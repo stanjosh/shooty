@@ -25,7 +25,7 @@ func attack() -> bool:
 				if body is Mine and body.delay:
 					body.apply_force(global_position.direction_to(body.global_position) * speed * global_position.distance_to(body.global_position) / 3)
 				elif body.has_method("take_damage"):
-					body.take_damage(damage, global_position.angle_to_point(body.global_position))
+					body.take_damage(damage, PlayerManager.player.global_position.angle_to_point(body.global_position))
 		cooldown_time.start()
 		return true
 	else:

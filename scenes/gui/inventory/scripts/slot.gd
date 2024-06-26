@@ -15,9 +15,10 @@ func set_slot_data(slot_data : SlotData):
 	else:
 		quantity_label.hide()
 
-func _on_gui_input(event: InputEvent):
+func _gui_input(event: InputEvent):
 	if event is InputEventMouseButton \
 		and (event.button_index == MOUSE_BUTTON_LEFT \
 		or event.button_index == MOUSE_BUTTON_RIGHT) \
 		and event.is_pressed():
+		accept_event()
 		slot_clicked.emit(get_index(), event.button_index)

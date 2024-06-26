@@ -11,3 +11,4 @@ name = "Memory Card"
 description = "A memory card used to save data."
 stackable = false
 texture = SubResource("CompressedTexture2D_01g8g")
+drop_rarity = 0.998

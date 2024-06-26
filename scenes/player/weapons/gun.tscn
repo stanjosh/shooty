@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://hb5jqo0vv4x3"]
+[gd_scene load_steps=10 format=3 uid="uid://hb5jqo0vv4x3"]
 
 [ext_resource type="Script" path="res://scenes/player/weapons/gun.gd" id="1_ola0b"]
 [ext_resource type="Texture2D" uid="uid://bgqscqcpm7vpp" path="res://scenes/player/assets/gun sprite.png" id="2_8i273"]
 [ext_resource type="AudioStream" uid="uid://byrindvyma3vw" path="res://scenes/player/assets/JDSherbert - Firearm FX - Weapon SFX Pack - Walther P38 - Aim - 1.mp3" id="3_6myhb"]
 [ext_resource type="AudioStream" uid="uid://sknpjryy1vge" path="res://scenes/player/assets/shoot_wtf.mp3" id="5_4ycnu"]
+[ext_resource type="AudioStream" uid="uid://c2rgro4hrmduo" path="res://assets/hiss_noise.wav" id="5_gscw8"]
 
 [sub_resource type="Gradient" id="Gradient_1y2mp"]
 offsets = PackedFloat32Array(0, 0.700637)
@@ -17,6 +18,11 @@ fill_from = Vector2(0.5, 0.5)
 [sub_resource type="Curve" id="Curve_b4f12"]
 max_value = 2.0
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.375315, 1.30941), 0.0, 0.0, 0, 0, Vector2(0.949622, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_lakf4"]
+max_value = 2.0
+_data = [Vector2(0, 1.16008), 0.0, 0.0, 0, 0, Vector2(0.702771, 0.733848), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [node name="gun" type="Node2D"]
@@ -44,12 +50,14 @@ autostart = true
 wait_time = 2.5
 one_shot = true
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+[node name="EjectParticles" type="CPUParticles2D" parent="."]
 position = Vector2(4, 0)
 emitting = false
-amount = 24
+amount = 10
 lifetime = 0.2
+one_shot = true
 speed_scale = 2.0
+explosiveness = 1.0
 spread = 64.0
 gravity = Vector2(0, 0)
 initial_velocity_min = 65.42
@@ -57,7 +65,7 @@ initial_velocity_max = 65.42
 scale_amount_min = 0.0
 scale_amount_max = 2.0
 scale_amount_curve = SubResource("Curve_b4f12")
-color = Color(0.301961, 1, 1, 1)
+color = Color(1, 0.858491, 0.388979, 1)
 
 [node name="GunFire" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_4ycnu")
@@ -66,6 +74,50 @@ stream = ExtResource("5_4ycnu")
 stream = ExtResource("3_6myhb")
 volume_db = 6.0
 pitch_scale = 0.73
+
+[node name="OverheatHiss" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_gscw8")
+
+[node name="SteamParticles2" type="CPUParticles2D" parent="."]
+position = Vector2(2, 1)
+emitting = false
+amount = 80
+speed_scale = 3.0
+lifetime_randomness = 0.5
+emission_shape = 4
+emission_points = PackedVector2Array(-2, 0, 0, 0, 2, 0)
+emission_colors = PackedColorArray()
+direction = Vector2(1, 1)
+spread = 0.0
+gravity = Vector2(0, -10)
+initial_velocity_min = 1.0
+initial_velocity_max = 20.0
+damping_max = 20.0
+scale_amount_min = 0.0
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_lakf4")
+color = Color(1, 1, 1, 0.529412)
+
+[node name="SteamParticles" type="CPUParticles2D" parent="."]
+position = Vector2(2, -2)
+rotation = 3.14159
+emitting = false
+amount = 80
+speed_scale = 2.0
+lifetime_randomness = 0.5
+emission_shape = 4
+emission_points = PackedVector2Array(-2, 0, 0, 0, 2, 0)
+emission_colors = PackedColorArray()
+direction = Vector2(-1, 1)
+spread = 0.0
+gravity = Vector2(0, -10)
+initial_velocity_min = 1.0
+initial_velocity_max = 20.0
+damping_max = 20.0
+scale_amount_min = 0.0
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_lakf4")
+color = Color(1, 1, 1, 0.529412)
 
 [connection signal="timeout" from="Cooldown" to="." method="_on_cooldown_timeout"]
 [connection signal="timeout" from="Overheat" to="." method="_on_overheat_timeout"]

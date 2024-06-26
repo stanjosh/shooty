@@ -1,10 +1,8 @@
-[gd_scene load_steps=30 format=3 uid="uid://d0ea3013fce28"]
+[gd_scene load_steps=31 format=3 uid="uid://d0ea3013fce28"]
 
 [ext_resource type="Script" path="res://scenes/mobs/bat/bat.gd" id="1_32x6b"]
 [ext_resource type="Texture2D" uid="uid://2hdawy0rwcft" path="res://scenes/mobs/bat/flying-head.png" id="2_umbw3"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_hxphe"]
-radius = 8.0
+[ext_resource type="AudioStream" uid="uid://32p6gad7nt60" path="res://assets/noise_growl.wav" id="3_us472"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g0bct"]
 atlas = ExtResource("2_umbw3")
@@ -73,14 +71,6 @@ region = Rect2(192, 256, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_xnnd6"]
 atlas = ExtResource("2_umbw3")
 region = Rect2(256, 256, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wm63q"]
-atlas = ExtResource("2_umbw3")
-region = Rect2(320, 256, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d33gt"]
-atlas = ExtResource("2_umbw3")
-region = Rect2(384, 256, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mqo2s"]
 atlas = ExtResource("2_umbw3")
@@ -164,12 +154,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xnnd6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wm63q")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d33gt")
 }],
 "loop": false,
 "name": &"die",
@@ -199,45 +183,68 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_hxphe"]
+radius = 8.0
+
+[sub_resource type="Curve" id="Curve_rui1n"]
+max_value = 2.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0730479, 2), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bggta"]
+radius = 139.032
+
 [node name="bat" type="CharacterBody2D"]
 z_index = 9
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_32x6b")
-player_damage = 4.0
-move_speed = 40.0
-max_health = 8
-bleeds = true
-flying = true
-xp_value = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -20)
-shape = SubResource("CircleShape2D_hxphe")
+player_damage = 5.0
+move_speed = 120.0
+max_health = 5
+attack_distance = 30
+stops_to_attack = false
+wander_distance = 30
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -5)
 sprite_frames = SubResource("SpriteFrames_6873n")
-animation = &"attack"
+animation = &"die"
 autoplay = "idle"
+frame = 4
 offset = Vector2(0, -20)
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, -27)
+shape = SubResource("CircleShape2D_hxphe")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 emitting = false
 amount = 60
 one_shot = true
 explosiveness = 0.7
-emission_shape = 1
+emission_shape = 2
 emission_sphere_radius = 12.25
 gravity = Vector2(0, -180)
 damping_min = 23.77
 damping_max = 23.77
 scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_rui1n")
 color = Color(0, 0, 0, 1)
-
-[node name="DeathAnimationTimer" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
-[connection signal="timeout" from="DeathAnimationTimer" to="." method="_on_death_animation_timer_timeout"]
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 340
+
+[node name="DetectionBox" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_bggta")
+
+[node name="IdleTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="CrySound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_us472")
+pitch_scale = 1.4

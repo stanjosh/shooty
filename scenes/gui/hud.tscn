@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://7w31v3ug280y"]
+[gd_scene load_steps=28 format=3 uid="uid://7w31v3ug280y"]
 
 [ext_resource type="Script" path="res://scenes/gui/scripts/hud.gd" id="1_sbawl"]
 [ext_resource type="FontFile" uid="uid://m1jk0peka30j" path="res://assets/m6x11.ttf" id="2_y8uil"]
@@ -63,6 +63,19 @@ point_count = 3
 [sub_resource type="Gradient" id="Gradient_o0psg"]
 offsets = PackedFloat32Array(0, 0.387534, 0.639566)
 colors = PackedColorArray(0.752941, 0, 0.0313726, 1, 0.773787, 0.0579044, 0.0287255, 1, 1, 0.686275, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjc1o"]
+bg_color = Color(0.97065, 0.59733, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nnj5q"]
+bg_color = Color(0.780392, 0.403922, 0, 1)
+
+[sub_resource type="Theme" id="Theme_0sm5v"]
+Button/colors/font_color = Color(0, 0.87451, 0.87451, 1)
+Button/font_sizes/font_size = 32
+Button/fonts/font = ExtResource("2_y8uil")
+Button/styles/hover = SubResource("StyleBoxFlat_jjc1o")
+Button/styles/normal = SubResource("StyleBoxFlat_nnj5q")
 
 [node name="Hud" type="CanvasLayer"]
 layer = 10
@@ -263,25 +276,6 @@ label_settings = SubResource("LabelSettings_xjdpx")
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="BottomLeft" type="MarginContainer" parent="."]
-light_mask = 512
-visibility_layer = 512
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-grow_vertical = 0
-
-[node name="TopRight" type="MarginContainer" parent="."]
-light_mask = 512
-visibility_layer = 512
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -143.0
-offset_bottom = 78.0
-grow_horizontal = 0
-size_flags_horizontal = 8
-
 [node name="TopLeft" type="MarginContainer" parent="."]
 light_mask = 512
 visibility_layer = 512
@@ -310,6 +304,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 2
+mouse_filter = 1
 script = ExtResource("4_ibc0o")
 
 [node name="GrabbedSlot" parent="InventoryInterface" instance=ExtResource("6_phlc7")]
@@ -317,6 +313,33 @@ visible = false
 modulate = Color(1, 1, 1, 0.498039)
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 0
+mouse_filter = 1
+
+[node name="ExternalInventory" parent="InventoryInterface" instance=ExtResource("5_fnxsd")]
+visible = false
+layout_mode = 0
+size_flags_vertical = 0
+
+[node name="VSplitContainer" type="VSplitContainer" parent="InventoryInterface"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -624.0
+offset_top = 271.0
+offset_right = 624.0
+offset_bottom = 299.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerInventory" parent="InventoryInterface/VSplitContainer" instance=ExtResource("5_fnxsd")]
+layout_mode = 2
+
+[node name="EquipInventory" parent="InventoryInterface/VSplitContainer" instance=ExtResource("5_fnxsd")]
+layout_mode = 2
+size_flags_vertical = 8
 
 [node name="HSplitContainer" type="HSplitContainer" parent="InventoryInterface"]
 layout_mode = 1
@@ -329,23 +352,50 @@ grow_horizontal = 2
 grow_vertical = 0
 split_offset = 624
 
-[node name="ExternalInventory" parent="InventoryInterface/HSplitContainer" instance=ExtResource("5_fnxsd")]
+[node name="GameOver" type="Control" parent="."]
 visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOver/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GameOver/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_y8uil")
+theme_override_font_sizes/font_size = 64
+text = "Game Over"
 
-[node name="VSplitContainer" type="VSplitContainer" parent="InventoryInterface/HSplitContainer"]
+[node name="RestartButton" type="Button" parent="GameOver/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(240, 40)
 layout_mode = 2
-
-[node name="PlayerInventory" parent="InventoryInterface/HSplitContainer/VSplitContainer" instance=ExtResource("5_fnxsd")]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-
-[node name="EquipInventory" parent="InventoryInterface/HSplitContainer/VSplitContainer" instance=ExtResource("5_fnxsd")]
-layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 8
+theme = SubResource("Theme_0sm5v")
+text = "Restart
+"
 
+[connection signal="gui_input" from="InventoryInterface" to="InventoryInterface" method="_on_gui_input"]
 [connection signal="visibility_changed" from="InventoryInterface" to="InventoryInterface" method="_on_visibility_changed"]
+[connection signal="pressed" from="GameOver/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

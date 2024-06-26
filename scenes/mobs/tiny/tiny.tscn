@@ -1,10 +1,10 @@
-[gd_scene load_steps=40 format=3 uid="uid://ctvpcfm5heb5"]
+[gd_scene load_steps=44 format=3 uid="uid://ctvpcfm5heb5"]
 
 [ext_resource type="Script" path="res://scenes/mobs/tiny/tiny.gd" id="1_jvk6x"]
+[ext_resource type="Resource" uid="uid://m4jkoof7bmtu" path="res://scenes/gui/inventory/items/memory_card.tres" id="2_m30tc"]
 [ext_resource type="Texture2D" uid="uid://bvd2cd1barpad" path="res://scenes/mobs/tiny/34x15 Monster 1 without shadows.png" id="2_pf741"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_hxphe"]
-radius = 5.0
+[ext_resource type="AudioStream" uid="uid://bkgdn6bnd02pl" path="res://assets/tiny.wav" id="3_2lgnn"]
+[ext_resource type="Resource" uid="uid://ckelwfbxqnkyt" path="res://scenes/gui/inventory/items/capacitor.tres" id="3_rhfvr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gkni5"]
 atlas = ExtResource("2_pf741")
@@ -265,6 +265,9 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_hxphe"]
+radius = 5.0
+
 [sub_resource type="Curve" id="Curve_gxjt4"]
 _data = [Vector2(0, 0.992597), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
@@ -272,24 +275,26 @@ point_count = 2
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_1xpxy"]
 polygon = PackedVector2Array(-4, -1, -3, -5, -1, -5, 1, -2, 1, -1)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_uv1w7"]
+radius = 97.1854
+
 [node name="tiny" type="CharacterBody2D"]
 script = ExtResource("1_jvk6x")
 player_damage = 2.0
-move_speed = 45.0
-acceleration = 15.0
-max_health = 5
-xp_value = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, -2)
-shape = SubResource("CircleShape2D_hxphe")
+move_speed = 80.0
+drops_items = Array[Resource("res://scenes/gui/inventory/scripts/item_data.gd")]([ExtResource("3_rhfvr"), ExtResource("2_m30tc")])
+wander_distance = 30
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 10
 sprite_frames = SubResource("SpriteFrames_6873n")
-animation = &"attack"
+animation = &"die"
 autoplay = "idle"
 offset = Vector2(0, -3)
+
+[node name="Hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -2)
+shape = SubResource("CircleShape2D_hxphe")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 emitting = false
@@ -306,13 +311,23 @@ scale_amount_max = 2.0
 scale_amount_curve = SubResource("Curve_gxjt4")
 color = Color(0, 0, 0, 1)
 
-[node name="DeathAnimationTimer" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true
-
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_1xpxy")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
-[connection signal="timeout" from="DeathAnimationTimer" to="." method="_on_death_animation_timer_timeout"]
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 340
+
+[node name="DetectionBox" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_uv1w7")
+
+[node name="IdleTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="CrySound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_2lgnn")
+pitch_scale = 1.16
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

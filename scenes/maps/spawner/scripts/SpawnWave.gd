@@ -57,7 +57,8 @@ func _on_spawn_timer_timeout():
 		var particles = SPAWN_PARTICLES.instantiate()
 		particles.global_position = spawn_point.global_position
 		enemy.global_position = spawn_point.global_position
-		enemy.scalar = danger_level
+		enemy.difficulty_scalar = danger_level
+		enemy.strategy = Mob.MobStrategy.CHASE
 		world.add_child(particles)
 		world.add_child(enemy)
 	else:

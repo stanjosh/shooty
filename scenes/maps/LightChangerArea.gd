@@ -1,7 +1,6 @@
 extends Area2D
 
-
-@onready var scene_lighting = $"../../SceneLighting"
+@onready var scene_lighting = $"../../../SceneLighting"
 @onready var light_changer_collider_shape : Shape2D = $LightChangerCollider.shape
 
 @export var light_level_1 : float = .15

@@ -11,3 +11,4 @@ name = "Capacitor"
 description = "A capacitor to hold electrical charge."
 stackable = true
 texture = SubResource("CompressedTexture2D_fa7vu")
+drop_rarity = 0.7

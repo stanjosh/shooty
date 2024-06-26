@@ -207,13 +207,13 @@ animations = [{
 }]
 
 [node name="death_spray" type="Node2D" groups=["sprays"]]
+z_index = -1
 y_sort_enabled = true
 script = ExtResource("1_4veat")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 modulate = Color(0, 0, 0, 1)
 show_behind_parent = true
-z_as_relative = false
 position = Vector2(-9.53674e-07, 0)
 rotation = 0.785398
 scale = Vector2(0.5, 0.5)

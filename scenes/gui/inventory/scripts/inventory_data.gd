@@ -17,13 +17,17 @@ func grab_slot_data(index: int) -> SlotData:
 		return null
 		
 func use_key_item(key_item : ItemData) -> bool:
+	print("key item?")
 	for index in slot_datas.size():
-		if slot_datas[index].item_data and slot_datas[index].item_data == key_item:
-			print(slot_datas)
+
+		if slot_datas[index] \
+			and slot_datas[index].item_data \
+			and slot_datas[index].item_data == key_item:
+
 			slot_datas[index].quantity -= 1
 			if slot_datas[index].quantity < 1:
 				slot_datas[index] = null
-			print(slot_datas)
+
 			inventory_updated.emit(self)
 			return true
 	return false

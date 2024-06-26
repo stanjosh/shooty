@@ -1,7 +1,28 @@
-[gd_scene load_steps=45 format=3 uid="uid://bwqbgwl7hvop0"]
+[gd_scene load_steps=52 format=3 uid="uid://bwqbgwl7hvop0"]
 
 [ext_resource type="Script" path="res://scenes/mobs/medioid/medioid.gd" id="1_yr66h"]
+[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/item_data_equip.gd" id="2_l0dwf"]
 [ext_resource type="Texture2D" uid="uid://btwmwvowecsnm" path="res://scenes/mobs/medioid/50x31 Monster 2 spritesheet without shadows.png" id="2_l6jj3"]
+[ext_resource type="Texture2D" uid="uid://df885ibdqhbli" path="res://scenes/gui/inventory/items/assets/Icon14_11.png" id="3_8mk5r"]
+[ext_resource type="AudioStream" uid="uid://d3x73rcw18qob" path="res://assets/medioid.wav" id="3_rrrcs"]
+[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/upgrade_def.gd" id="4_fm47d"]
+
+[sub_resource type="Resource" id="Resource_mp7fy"]
+script = ExtResource("4_fm47d")
+upgrade_stat = "cooldown"
+upgrade_value = 0.5
+upgrade_target = "gun"
+
+[sub_resource type="Resource" id="Resource_55083"]
+script = ExtResource("2_l0dwf")
+upgrades = Array[ExtResource("4_fm47d")]([SubResource("Resource_mp7fy")])
+name = "Diffuser Crystal"
+description = "Diffuses heat.
+
+cool"
+stackable = false
+texture = ExtResource("3_8mk5r")
+drop_rarity = 0.99
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0ycxn"]
 atlas = ExtResource("2_l6jj3")
@@ -306,6 +327,9 @@ point_count = 2
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_l17p4"]
 polygon = PackedVector2Array(-6, -1, -4, -9, 2, -9, 2, -3, 0, 2, -7, 2)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_s1a42"]
+radius = 91.0494
+
 [node name="medioid" type="CharacterBody2D"]
 collision_layer = 64
 collision_mask = 98
@@ -314,17 +338,19 @@ slide_on_ceiling = false
 floor_stop_on_slope = false
 floor_block_on_wall = false
 script = ExtResource("1_yr66h")
-player_damage = 10.0
-move_speed = 30.0
+player_damage = 20.0
+move_speed = 50.0
 max_health = 50
-xp_value = 10
+bleeds = true
+drops_items = Array[Resource("res://scenes/gui/inventory/scripts/item_data.gd")]([SubResource("Resource_55083")])
+wander_distance = 20
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vhn7c")
 animation = &"attack"
 autoplay = "idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2(-1, -3)
 shape = SubResource("CapsuleShape2D_o2m8v")
 
@@ -346,11 +372,23 @@ scale_amount_max = 4.0
 scale_amount_curve = SubResource("Curve_n8m5y")
 color = Color(0, 0, 0, 1)
 
-[node name="DeathAnimationTimer" type="Timer" parent="."]
-
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_l17p4")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
-[connection signal="timeout" from="DeathAnimationTimer" to="." method="_on_death_animation_timer_timeout"]
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 340
+
+[node name="DetectionBox" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_s1a42")
+
+[node name="IdleTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="CrySound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_rrrcs")
+volume_db = 2.5
+pitch_scale = 0.75

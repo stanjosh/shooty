@@ -7,8 +7,6 @@ extends Node
 var paused : bool = false
 
 
-
-
 func _process(_delta):
 	if Input.is_action_just_pressed("pause"):
 		pause()
