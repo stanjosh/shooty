@@ -437,5 +437,10 @@ script = ExtResource("3_sfksf")
 position = Vector2(-1, 0)
 zoom = Vector2(0.4, 0.4)
 
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "0,0"
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button" to="DungeonTiles" method="_on_button_pressed"]
