@@ -50,9 +50,10 @@ func _unhandled_input(event):
 		firing = false
 
 func _physics_process(delta):
-	var facing_angle = wrapi(floor(get_angle_to(get_parent().position)), 0, 8)
-	gun.flip_v = true if  facing_angle in range(0, 5) else false
-	gun.z_index = -1 if facing_angle == 7 else 4
+	var pivot = wrapi(snapped(global_rotation, PI/4) / (PI/4), 0, 8)
+	print(pivot)
+	gun.flip_v = true if  pivot in [3, 4, 5] else false
+	gun.z_index = -1 if pivot == 6 else 4
 
 	$PointLight2D.energy = clampf(float(heat_level) / float(heat_capacity) * 5, 0, 5)
 

@@ -115,6 +115,28 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
 text = "exit"
 flat = true
 
+[node name="NinePatchRect4" type="NinePatchRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+texture = ExtResource("3_aii4w")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="DungeonGen" type="Button" parent="MarginContainer/VBoxContainer/NinePatchRect4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_ke0ex")
+theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
+text = "test dungeon gen"
+flat = true
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/NinePatchRect2/play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/NinePatchRect3/options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/NinePatchRect/exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/NinePatchRect4/DungeonGen" to="." method="_on_dungeon_gen_pressed"]

@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3c3ugxdhlt5m"]
+
+[ext_resource type="Script" path="res://scenes/interactable/camera_switch.gd" id="1_rv52p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bxu1l"]
+size = Vector2(385.621, 1.52999)
+
+[node name="CameraSwitch" type="Node2D"]
+script = ExtResource("1_rv52p")
+
+[node name="CameraSwitchPositional" type="Area2D" parent="."]
+position = Vector2(0, -16)
+scale = Vector2(1, 20)
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CameraSwitchPositional"]
+shape = SubResource("RectangleShape2D_bxu1l")
+
+[node name="CameraSwitchFollow" type="Area2D" parent="."]
+position = Vector2(0, 16)
+scale = Vector2(1, 20)
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CameraSwitchFollow"]
+shape = SubResource("RectangleShape2D_bxu1l")
+
+[connection signal="body_exited" from="CameraSwitchPositional" to="." method="_on_camera_switch_positional_body_exited"]
+[connection signal="body_exited" from="CameraSwitchFollow" to="." method="_on_camera_switch_follow_body_exited"]

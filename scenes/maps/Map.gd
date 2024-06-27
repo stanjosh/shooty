@@ -14,6 +14,8 @@ func _ready():
 	if player_spawn:
 		player = PlayerManager.spawn_player_at(self, player_spawn.global_position)
 		$Objects.add_child(player)
+	else:
+		push_error("need a player spawn Marker2D assigned to map")
 	if camera_is_following:
 		player.camera.switch_to_following()
 	else:

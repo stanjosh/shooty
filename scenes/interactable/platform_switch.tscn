@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://dpm1fx8xjei74"]
+
+[ext_resource type="Script" path="res://scenes/maps/objects/PlatformSwitch.gd" id="1_ouxd0"]
+[ext_resource type="Texture2D" uid="uid://3esb1v2ef4fq" path="res://scenes/maps/tiles/map/tileset.png" id="2_6yisj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4v8iu"]
+size = Vector2(30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j50gr"]
+atlas = ExtResource("2_6yisj")
+region = Rect2(32.143, 192.766, 32.2091, 32.2091)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4kp35"]
+atlas = ExtResource("2_6yisj")
+region = Rect2(32.6255, 224.186, 32.1049, 32.2767)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_p4gig"]
+polygon = PackedVector2Array(-12, -15, -12, 11, 12, 11, 12, 11, 12, -15, -12, -15)
+
+[node name="PlatformSwitch" type="Node2D"]
+position = Vector2(624, 433)
+script = ExtResource("1_ouxd0")
+
+[node name="Platform" type="StaticBody2D" parent="."]
+collision_layer = 256
+collision_mask = 0
+
+[node name="PlatformCollider" type="CollisionShape2D" parent="Platform"]
+shape = SubResource("RectangleShape2D_4v8iu")
+
+[node name="Switch" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 208
+
+[node name="SwitchCollider" type="CollisionShape2D" parent="Switch"]
+shape = SubResource("RectangleShape2D_4v8iu")
+
+[node name="Off" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_j50gr")
+
+[node name="On" type="Sprite2D" parent="."]
+visible = false
+texture = SubResource("AtlasTexture_4kp35")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
+occluder = SubResource("OccluderPolygon2D_p4gig")
+
+[connection signal="body_entered" from="Switch" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Switch" to="." method="_on_area_2d_body_exited"]

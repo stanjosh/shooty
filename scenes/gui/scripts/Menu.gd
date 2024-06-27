@@ -17,3 +17,7 @@ func _on_options_pressed():
 
 func _on_exit_pressed():
 	get_tree().quit()
+
+
+func _on_dungeon_gen_pressed():
+	get_tree().change_scene_to_file("res://scenes/maps/random_rooms/random_dungeon.tscn")

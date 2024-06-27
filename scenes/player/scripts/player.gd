@@ -8,14 +8,14 @@ signal player_died
 @onready var sword := $pivot/sword
 @onready var animated_sprite_2d := $AnimatedSprite2D
 @onready var hitbox := $Hitbox
-@onready var camera := $PositionalCamera
 @onready var dash_cooldown := $DashCooldown
 @onready var interaction_area = $InteractionArea
+@onready var camera = $PositionalCamera
 
 
 @export var base_speed : float = 100.0
 @export var base_max_health : float = 100
-@export var base_dash_speed : float = 100
+@export var base_dash_speed : float = 250
 @export var base_dash_time : float = 0.5
 
 var speed : float = base_speed
@@ -53,6 +53,7 @@ enum PlayerState {
 var state : PlayerState = PlayerState.IDLE
 
 func _ready():
+	assert(camera)
 	health = base_max_health
 	print(health)
 	$DashTimer.wait_time = dash_time
@@ -63,22 +64,15 @@ func _ready():
 
 func _unhandled_input(event):
 	if state != PlayerState.DEAD:
-		
 
-		var input_direction : Vector2 = Input.get_vector("left", "right", "up", "down")
-		if state != PlayerState.DASHING:
-			velocity = input_direction * speed
-		else:
-			velocity = input_direction * (speed + dash_speed)
 
-		if Input.is_action_just_released("dash") and state != PlayerState.DASHING:
+		if event.is_action_released("dash") and state != PlayerState.DASHING:
 			state = PlayerState.DASHING
 			dash()
-		if Input.is_action_pressed("sword") and state != PlayerState.MELEE:
+		if event.is_action_pressed("sword") and state != PlayerState.MELEE:
 			state = PlayerState.MELEE if melee_attack() else PlayerState.IDLE
-		
-		if not input_direction:
-			velocity = Vector2(0,0)
+				
+
 		
 		if event.is_action_released("interact"):
 			var interactables = interaction_area.get_overlapping_areas().filter(func(area): return area is Interactable)
@@ -149,6 +143,14 @@ func animate():
 func _physics_process(_delta):
 	if state == PlayerState.DEAD:
 		hitbox.disabled = true
+	else:
+		var input_direction : Vector2 = Input.get_vector("left", "right", "up", "down")
+		if state != PlayerState.DASHING:
+			velocity = input_direction * speed
+		else:
+			velocity = input_direction * dash_speed
+		if not input_direction:
+			velocity = Vector2(0,0)
 	move_and_slide()
 	animate()
 

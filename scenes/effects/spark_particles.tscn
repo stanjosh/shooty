@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://7bcjy2jn38hv"]
+
+[sub_resource type="Curve" id="Curve_juof5"]
+_data = [Vector2(0, 0.197802), 0.0, 0.0, 0, 0, Vector2(0.550562, 0.21978), 0.0, 0.0, 0, 0, Vector2(0.808989, 0), -1.00534, 0.0, 0, 0]
+point_count = 3
+
+[node name="SparkParticles" type="CPUParticles2D"]
+visible = false
+position = Vector2(38, 712)
+amount = 20
+speed_scale = 2.59
+explosiveness = 1.0
+randomness = 1.0
+lifetime_randomness = 0.46
+gravity = Vector2(0, 30)
+initial_velocity_max = 90.0
+angle_min = -15.0
+scale_amount_min = 0.0
+scale_amount_max = 2.0
+split_scale = true
+scale_curve_x = null
+scale_curve_y = SubResource("Curve_juof5")
+color = Color(1, 1, 0, 1)

@@ -21,6 +21,7 @@ config/icon="res://scenes/gui/inventory/items/assets/Icon14_10.png"
 PlayerManager="*res://scenes/player/scripts/player_manager.gd"
 Hud="*res://scripts/hud.gd"
 SoundManager="*res://scripts/sound_manager.gd"
+DungeonGeneration="*res://scenes/maps/random_rooms/dungeon_generation.gd"
 
 [display]
 

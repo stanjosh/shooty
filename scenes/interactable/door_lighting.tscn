@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqde477snwvme"]
+
+[sub_resource type="Gradient" id="Gradient_j187n"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_asuwa"]
+gradient = SubResource("Gradient_j187n")
+fill_from = Vector2(0.448718, 0)
+fill_to = Vector2(0.504274, 1)
+
+[node name="DoorLighting" type="PointLight2D"]
+position = Vector2(624, 498)
+rotation = -3.14159
+scale = Vector2(1.48853, -1.2081)
+color = Color(0.526328, 0.487954, 0.435164, 1)
+energy = 2.95
+texture = SubResource("GradientTexture2D_asuwa")
