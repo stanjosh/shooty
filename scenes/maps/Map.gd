@@ -6,54 +6,24 @@ class_name Map
 
 var player : CharacterBody2D
 @export var camera_is_following : bool = false
-@export var player_spawn : Marker2D
+@export var player_spawn : Marker2D = null
 
 
 
 func _ready():
+	assert(player_spawn, "Put a spawn point on the map.")
 	if player_spawn:
 		player = PlayerManager.spawn_player_at(self, player_spawn.global_position)
-		$Objects.add_child(player)
+		add_child(player)
 	else:
 		push_error("need a player spawn Marker2D assigned to map")
 	if camera_is_following:
-		player.camera.switch_to_following()
+		PlayerManager.switch_camera(PlayerCamera.CameraType.FOLLOW)
 	else:
-		player.camera.switch_to_positional( player.global_position )
-		player.camera.current_screen = player_spawn.global_position
-
-	for mob in $Mobs.get_children():
-		if mob is Mob:
-			mob.player = player
-			
-
-
-func _on_camera_switch_positional_body_exited(body):
-	if body is Player:
-		player.camera.switch_to_positional( global_position )
-
-
-func _on_camera_switch_follow_body_exited(body):
-	if body is Player:
-		player.camera.switch_to_following()
-
-
-func _on_mine_slider_body_entered(body):
-	if body is Mine:
-		body.linear_damp = 0.8
-		
-
-
-func _on_mine_slider_body_exited(body):
-	if body is Mine:
-		body.linear_damp = 5.5
+		PlayerManager.switch_camera(PlayerCamera.CameraType.POSITIONAL)
 
 
 
 
-
-
-
-
-func _on_platform_switch_switched(value : bool):
-	print(value)
+func _on_tracking_camera_area_body_entered(body):
+	pass # Replace with function body.

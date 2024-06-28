@@ -3,14 +3,14 @@ class_name Player
 
 signal player_died
 
-@onready var world = $".."
 
+@onready var player_camera = $PlayerCamera
 @onready var sword := $pivot/sword
 @onready var animated_sprite_2d := $AnimatedSprite2D
 @onready var hitbox := $Hitbox
 @onready var dash_cooldown := $DashCooldown
 @onready var interaction_area = $InteractionArea
-@onready var camera = $PositionalCamera
+
 
 
 @export var base_speed : float = 100.0
@@ -53,7 +53,7 @@ enum PlayerState {
 var state : PlayerState = PlayerState.IDLE
 
 func _ready():
-	assert(camera)
+	assert(player_camera != null) 
 	health = base_max_health
 	print(health)
 	$DashTimer.wait_time = dash_time
@@ -160,7 +160,6 @@ func get_danger():
 func dash() -> void:
 	can_dash = false
 	print("dash_time: ", dash_time)
-	hitbox.disabled = true
 	$DashTimer.wait_time = dash_time
 	$DashTimer.start()
 	$DashParticles.lifetime = 2 * dash_time
@@ -280,5 +279,4 @@ func _on_dash_cooldown_timeout():
 func _on_dash_timer_timeout():
 	print("dash timer timeout")
 	set_deferred("state", PlayerState.IDLE)
-	hitbox.disabled = false
 	dash_cooldown.start()

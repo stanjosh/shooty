@@ -51,7 +51,6 @@ func _unhandled_input(event):
 
 func _physics_process(delta):
 	var pivot = wrapi(snapped(global_rotation, PI/4) / (PI/4), 0, 8)
-	print(pivot)
 	gun.flip_v = true if  pivot in [3, 4, 5] else false
 	gun.z_index = -1 if pivot == 6 else 4
 

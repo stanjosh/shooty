@@ -4,12 +4,11 @@ class DungeonRoom:
 	var connected_rooms := {}
 	var number_of_connections = 0
 	var position : Vector2i
-	var exit: bool = false
+	var big_room: bool = false
 
 var min_rooms = 6
 var max_rooms = 12
-
-var generation_chance = 20
+var generation_chance = 15
 
 
 

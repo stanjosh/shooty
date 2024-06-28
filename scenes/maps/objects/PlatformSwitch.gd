@@ -8,7 +8,7 @@ extends Node2D
 
 @export var active : bool = false
 
-signal Switched
+signal switched
 
 func _ready():
 	if active:

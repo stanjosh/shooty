@@ -7,6 +7,7 @@ signal game_over
 signal level_up(changes)
 signal give_item(item : PackedScene)
 
+
 var current_xp : int = 0
 var level_up_xp : int = 100
 var held_items : Array[PackedScene]
@@ -29,6 +30,7 @@ func give_xp(value):
 	
 
 
+
 func spawn_player_at(map: Map, global_position: Vector2) -> Player:
 	var new_player = PLAYER.instantiate()
 	new_player.current_map = map
@@ -37,6 +39,9 @@ func spawn_player_at(map: Map, global_position: Vector2) -> Player:
 	player = new_player
 	return new_player
 
+func switch_camera(camera_type: PlayerCamera.CameraType, limits: Array[float] = []):
+	player.player_camera.switch_camera(camera_type, limits)
+	
 func _on_player_died():
 	game_over.emit()
 

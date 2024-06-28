@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://d4cth4x5r7vdn"]
+[gd_scene load_steps=19 format=3 uid="uid://d4cth4x5r7vdn"]
 
 [ext_resource type="Texture2D" uid="uid://3esb1v2ef4fq" path="res://scenes/maps/tiles/map/tileset.png" id="1_lpd0c"]
+[ext_resource type="Script" path="res://scenes/maps/Map.gd" id="1_sva66"]
 [ext_resource type="Texture2D" uid="uid://dtjmapaam1pgx" path="res://scenes/maps/tiles/map/tileset_top.png" id="2_rreb0"]
 [ext_resource type="Script" path="res://scenes/maps/random_rooms/random_dungeon.gd" id="3_sfksf"]
 
@@ -18,6 +19,15 @@ tile_data = PackedInt32Array(0, 65538, 2, 65536, 2, 1, 131072, 2, 1, 196608, 655
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_nicy1"]
 tile_data = PackedInt32Array(0, 131074, 1, 65536, 2, 6, 131072, 131074, 1, 1, 65538, 0, 65537, 2, 6, 131073, 65538, 2, 2, 65538, 0, 65538, 2, 6, 131074, 65538, 2, 3, 2, 1, 65539, 2, 6, 131075, 2, 1)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_hnd44"]
+tile_data = PackedInt32Array(0, 196610, 6, 65536, 196610, 6, 1, 2, 1, 65537, 2, 1, 2, 393218, 1, 65538, 393218, 1, 3, 393218, 1, 65539, 393218, 1, 4, 393218, 1, 65540, 393218, 1, 5, 393218, 1, 65541, 393218, 1, 6, 393218, 1, 65542, 393218, 1, 7, 393218, 1, 65543, 393218, 1, 8, 393218, 1, 65544, 393218, 1, 9, 393218, 1, 65545, 393218, 1, 10, 393218, 1, 65546, 393218, 1, 11, 131074, 1, 65547, 131074, 1, 12, 196610, 6, 65548, 196610, 6)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_y1yja"]
+tile_data = PackedInt32Array(0, 3, 1, 65536, 393218, 1, 131072, 3, 0, 1, 65539, 1, 65537, 393218, 1, 131073, 65539, 0, 2, 131075, 1, 65538, 393218, 1, 131074, 131075, 0)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_xx8u6"]
+tile_data = PackedInt32Array(0, 3, 1, 65536, 393218, 1, 131072, 393218, 1, 196608, 3, 0, 1, 65539, 1, 65537, 393218, 1, 131073, 393218, 1, 196609, 65539, 0, 2, 131075, 1, 65538, 393218, 1, 131074, 393218, 1, 196610, 131075, 0)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0atpw"]
 vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)
@@ -405,8 +415,13 @@ pattern_1 = SubResource("TileMapPattern_vfmsf")
 pattern_2 = SubResource("TileMapPattern_vkqkp")
 pattern_3 = SubResource("TileMapPattern_tk5o5")
 pattern_4 = SubResource("TileMapPattern_nicy1")
+pattern_5 = SubResource("TileMapPattern_hnd44")
+pattern_6 = SubResource("TileMapPattern_y1yja")
+pattern_7 = SubResource("TileMapPattern_xx8u6")
 
-[node name="DungeonGenTest" type="Node2D"]
+[node name="RandomDungeon" type="Node2D" node_paths=PackedStringArray("player_spawn")]
+script = ExtResource("1_sva66")
+player_spawn = NodePath("PlayerSpawn")
 
 [node name="Button" type="Button" parent="."]
 offset_left = -1527.0
@@ -425,6 +440,7 @@ format = 2
 layer_0/name = "background"
 layer_0/y_sort_enabled = true
 layer_0/z_index = -1
+layer_0/tile_data = PackedInt32Array(0, 2, 8, 65536, 2, 8, 1, 2, 8, 65537, 2, 8, 131072, 2, 8, 131073, 2, 8, 2, 2, 8, 65538, 2, 8, 131074, 2, 8)
 layer_1/name = "midground"
 layer_1/z_index = 20
 layer_1/navigation_enabled = false
@@ -433,11 +449,10 @@ script = ExtResource("3_sfksf")
 
 [node name="MapNode" type="Node2D" parent="DungeonTiles"]
 
-[node name="Camera2D" type="Camera2D" parent="DungeonTiles"]
-position = Vector2(-1, 0)
-zoom = Vector2(0.4, 0.4)
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+unique_name_in_owner = true
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="PlayerSpawn"]
 offset_right = 40.0
 offset_bottom = 23.0
 text = "0,0"
