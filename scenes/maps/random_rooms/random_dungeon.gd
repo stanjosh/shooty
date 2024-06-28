@@ -50,14 +50,12 @@ func connect_big_rooms(top_room_pos, bottom_room_pos):
 	
 func make_big_room(room) -> bool:
 	if room.connected_rooms.has(Vector2i(0, 1)) \
+		and dungeon.has(room.position + Vector2i(0, 1)) \
 		and not room.connected_rooms[Vector2i(0, 1)].big_room:
 		var top_room = dungeon.find_key(room)
 		var bottom_room = dungeon.find_key(room.connected_rooms[Vector2i(0, 1)])
-		if randi()%100 < 25 and room.connected_rooms.has(Vector2i(0, 1))\
-		and dungeon.has(room.position + Vector2i(0, 1)):
-			
+		if randi()%100 < 25:
 			connect_big_rooms(top_room, bottom_room)
-			
 			return true
 	return false
 
