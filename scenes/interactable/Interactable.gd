@@ -3,7 +3,7 @@ class_name Interactable
 
 signal interacted
 
-func interact(player):
+func interact(player : Player):
 	interacted.emit(player)
 
 func _on_body_entered(body):

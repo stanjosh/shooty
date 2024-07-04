@@ -3,14 +3,18 @@ extends Control
 
 const PICKUP_ITEM = preload("res://scenes/gui/inventory/items/pickup_item.tscn")
 
+
 var grabbed_slot_data: SlotData
 var external_inventory_owner
 
-@onready var player_inventory = $VSplitContainer/PlayerInventory
+
+@onready var item_inventory = $PlayerInventory/ItemInventory
+@onready var equip_inventory = $PlayerInventory/EquipInventory
+
 @onready var grabbed_slot = $GrabbedSlot
 @onready var external_inventory : Control = $ExternalInventory
-@onready var equip_inventory = $VSplitContainer/EquipInventory
 @onready var player = PlayerManager.player
+
 
 
 
@@ -25,10 +29,23 @@ func _physics_process(_delta):
 		external_inventory.set_position(ext_pos)
 
 func _ready():
-	player.toggle_inventory.connect(toggle_inventory_interface)
-	set_player_inventory_data(player.inventory_data)
-	set_equip_inventory_data(player.equip_inventory_data)
+	
+	PlayerManager.player.toggle_inventory.connect(toggle_inventory_interface)
+	InventoryManager.connect("refresh_interface", refresh)
+	set_player_inventory_data(PlayerManager.player.inventory_data)
+	set_equip_inventory_data(PlayerManager.player.equip_inventory_datas)
+	get_interactables()
+	refresh()
+	
+func refresh(target = null):
+	if target:
+		if target is Player:
+			target.toggle_inventory.connect(toggle_inventory_interface)
+		if target is Chest:
+			target.toggle_inventory.connect(toggle_inventory_interface)
 
+
+func get_interactables():
 	for node in get_tree().get_nodes_in_group("external_inventory"):
 		node.toggle_inventory.connect(toggle_inventory_interface)
 
@@ -70,21 +87,25 @@ func clear_external_inventory():
 func drop_slot_data_in_map(slot_data):
 	var pick_up = PICKUP_ITEM.instantiate()
 	pick_up.slot_data = slot_data
-	pick_up.position = player.get_global_mouse_position()
-	PlayerManager.player.current_map.add_child(pick_up)
-
-
-
-
+	pick_up.position = PlayerManager.player.get_global_mouse_position()
+	MapManager.current_map.add_child(pick_up)
 
 
 func set_player_inventory_data(inventory_data: InventoryData):
 	inventory_data.inventory_interact.connect(on_inventory_interact)
-	player_inventory.set_inventory_data(inventory_data)
+	item_inventory.set_inventory_data(inventory_data)
 
-func set_equip_inventory_data(inventory_data: InventoryData):
-	inventory_data.inventory_interact.connect(on_inventory_interact)
-	equip_inventory.set_inventory_data(inventory_data)
+
+func set_equip_inventory_data(inventory_datas: Array[InventoryDataEquip]):
+	print("set equip")
+	for inventory_data in inventory_datas:
+		print(inventory_data.upgrade_target)
+		var INVENTORY = load("res://scenes/gui/inventory/inventory.tscn")
+		var new_inventory = INVENTORY.instantiate()
+		equip_inventory.add_child(new_inventory)
+		inventory_data.inventory_interact.connect(on_inventory_interact)
+		new_inventory.set_inventory_data(inventory_data)
+
 
 func on_inventory_interact(inventory_data: InventoryData, index: int, button: int):
 	match [grabbed_slot_data, button]:

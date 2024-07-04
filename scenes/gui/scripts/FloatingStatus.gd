@@ -6,14 +6,14 @@ extends Control
 var display_value : String
 var value
 var endpoint : Vector2
-var vector: float
+var vector: Vector2
 
 func _ready():
 	if value is int and value > 3:
 		value = "%s" % value
 	if value is String:
 		display_value = value
-	endpoint = Vector2( -12, 0).rotated(vector) if vector else Vector2( -12, 0)
+	endpoint = Vector2( -12, 0) - vector.normalized()
 
 func _process(delta):
 	if display_time.time_left > 0:

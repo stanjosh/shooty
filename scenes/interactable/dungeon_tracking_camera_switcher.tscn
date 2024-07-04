@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://c20jsiwa6d3yy"]
 
-[ext_resource type="Script" path="res://scenes/interactable/CameraSwitch.gd" id="1_fpmsc"]
+[ext_resource type="Script" path="res://scenes/interactable/camera_switch.gd" id="1_l3tae"]
 
 [node name="DungeonTrackingCameraSwitcher" type="Node2D"]
-script = ExtResource("1_fpmsc")
+script = ExtResource("1_l3tae")
 
 [node name="TrackingCameraArea" type="Area2D" parent="."]
 collision_layer = 16

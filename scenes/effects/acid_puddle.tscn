@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://chk284feajxkw"]
+
+[ext_resource type="Script" path="res://scenes/effects/acid_puddle.gd" id="1_khw01"]
+
+[sub_resource type="Gradient" id="Gradient_t3h3f"]
+offsets = PackedFloat32Array(0.408669, 0.69969)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_iictm"]
+gradient = SubResource("Gradient_t3h3f")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_b8cjf"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_pffgf"]
+width = 32
+height = 32
+noise = SubResource("FastNoiseLite_b8cjf")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nnqcq"]
+
+[sub_resource type="Curve" id="Curve_l8cmg"]
+max_value = 10.0
+_data = [Vector2(0, 7.65502), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_cbylo"]
+max_value = 2.0
+_data = [Vector2(0.011236, 0), 0.0, 0.0, 0, 0, Vector2(0.741573, 1.05494), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_l41yb"]
+colors = PackedColorArray(0, 0.852735, 0, 1, 0.114303, 0.221, 4.81308e-08, 1)
+
+[node name="AcidPuddle" type="Area2D"]
+scale = Vector2(1.02866, 0.608912)
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("1_khw01")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+modulate = Color(0.295405, 0.596165, 3.46541e-06, 1)
+clip_children = 1
+scale = Vector2(0.3306, 0.3306)
+texture = SubResource("GradientTexture2D_iictm")
+
+[node name="Sprite2D" type="Sprite2D" parent="Sprite2D2"]
+scale = Vector2(3.98685, 3.98685)
+texture = SubResource("NoiseTexture2D_pffgf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_nnqcq")
+
+[node name="PoisonParticles" type="CPUParticles2D" parent="."]
+amount = 100
+emission_shape = 2
+emission_sphere_radius = 9.0
+gravity = Vector2(0, -40)
+damping_max = 10.0
+damping_curve = SubResource("Curve_l8cmg")
+scale_amount_min = 0.0
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_cbylo")
+color_ramp = SubResource("Gradient_l41yb")

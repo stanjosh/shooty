@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://qb3bwb4m8fjl"]
+
+[ext_resource type="Script" path="res://scenes/maps/scripts/room_mobs.gd" id="1_74qvf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_na1ac"]
+
+[node name="RoomMobs" type="Area2D"]
+script = ExtResource("1_74qvf")
+
+[node name="Mobs" type="Node2D" parent="."]
+scale = Vector2(1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_na1ac")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

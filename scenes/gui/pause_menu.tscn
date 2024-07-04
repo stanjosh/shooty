@@ -1,15 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://b6f0gsccyr0bw"]
+[gd_scene load_steps=6 format=3 uid="uid://b6f0gsccyr0bw"]
 
 [ext_resource type="Script" path="res://scenes/gui/scripts/pause_menu.gd" id="1_02sbp"]
-[ext_resource type="Shader" path="res://scenes/gui/PauseMenu.gdshader" id="1_jttqv"]
 [ext_resource type="FontFile" uid="uid://w38canxb0m7h" path="res://assets/m3x6.ttf" id="1_kolk5"]
 [ext_resource type="FontFile" uid="uid://m1jk0peka30j" path="res://assets/m6x11.ttf" id="4_tmjx7"]
 [ext_resource type="Texture2D" uid="uid://pq257rnhg4kq" path="res://scenes/gui/UI_Flat_Frame_01_Lite.png" id="4_tw3cl"]
-[ext_resource type="PackedScene" uid="uid://cshxn3hr142mq" path="res://scenes/gui/status.tscn" id="5_m1edf"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8id1r"]
-shader = ExtResource("1_jttqv")
-shader_parameter/lod = 0.0
 
 [sub_resource type="Theme" id="Theme_knvcr"]
 default_font = ExtResource("1_kolk5")
@@ -17,7 +11,6 @@ default_font_size = 32
 
 [node name="PauseMenu" type="Control"]
 process_mode = 3
-material = SubResource("ShaderMaterial_8id1r")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,28 +34,13 @@ offset_bottom = 33.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
-layout_mode = 2
-
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(480, 240)
-layout_mode = 2
-texture = ExtResource("4_tw3cl")
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-
-[node name="Status" parent="MarginContainer/HBoxContainer/NinePatchRect" instance=ExtResource("5_m1edf")]
-layout_mode = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(240, 40)
 layout_mode = 2
 texture = ExtResource("4_tw3cl")
@@ -71,7 +49,7 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 
-[node name="Resume" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/NinePatchRect"]
+[node name="Resume" type="Button" parent="MarginContainer/VBoxContainer/NinePatchRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -82,7 +60,7 @@ theme_override_fonts/font = ExtResource("4_tmjx7")
 text = "Resume"
 flat = true
 
-[node name="NinePatchRect2" type="NinePatchRect" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="NinePatchRect2" type="NinePatchRect" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 texture = ExtResource("4_tw3cl")
@@ -91,7 +69,7 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 
-[node name="Quit" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/NinePatchRect2"]
+[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer/NinePatchRect2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -102,5 +80,5 @@ theme_override_fonts/font = ExtResource("4_tmjx7")
 text = "Quit"
 flat = true
 
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/NinePatchRect/Resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/NinePatchRect2/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/NinePatchRect/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/NinePatchRect2/Quit" to="." method="_on_quit_pressed"]

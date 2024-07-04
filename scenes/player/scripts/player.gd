@@ -4,33 +4,53 @@ class_name Player
 signal player_died
 
 
-@onready var player_camera = $PlayerCamera
 @onready var sword := $pivot/sword
 @onready var animated_sprite_2d := $AnimatedSprite2D
 @onready var hitbox := $Hitbox
-@onready var dash_cooldown := $DashCooldown
+@onready var dash_cooldown_timer := $DashCooldown
 @onready var interaction_area = $InteractionArea
+@onready var inflictions = $Inflictions
 
 
 
 @export var base_speed : float = 100.0
 @export var base_max_health : float = 100
-@export var base_dash_speed : float = 250
-@export var base_dash_time : float = 0.5
+@export var base_dash_speed : float = 180
+@export var base_dash_cooldown : float = 2
+@export var dash_time : float = .5
 
-var speed : float = base_speed
-var max_health : float = base_max_health
-var dash_speed : float = base_dash_speed
-var dash_time : float = base_dash_time
+var speed : float = 0:
+	get:
+		return speed + base_speed
 
-var health : float = max_health
+var max_health : float = 0  :
+	set(value):
+		health = clampf(health, 0, max_health)
+		max_health = value
+	get:
+		return max_health + base_max_health
+	
+var dash_speed : float = 0 :
+	get:
+		return dash_speed + base_dash_speed
 
-@export var inventory_data : InventoryData
-@export var equip_inventory_data : InventoryDataEquip
+var dash_cooldown : float = 0 :
+	set(new_value):
+		dash_cooldown_timer.wait_time = new_value
+		dash_cooldown = new_value
+	get:
+		return dash_cooldown + base_dash_cooldown
+
+var health : float = max_health :
+	set(value):
+		health = clampf(value, 0, max_health)
+		Hud.update_hud.emit(Hud.Element.HEALTH, health, max_health)
+
+@export var inventory_data : InventoryData = InventoryData.new()
+@export var equip_inventory_datas : Array[InventoryDataEquip]
 
 var can_dash : bool = true
 var status : Dictionary
-var stat_mods : Array[UpgradeDef]
 
 var current_level : int = 1
 var is_alive : bool = true
@@ -38,9 +58,7 @@ var animation_lock : bool = false
 var melee_attacking : bool = false
 var dashing : bool = false
 var danger_level : float
-
-var current_map : Map
-
+var knockback := Vector2.ZERO
 signal toggle_inventory
 
 enum PlayerState {
@@ -53,20 +71,24 @@ enum PlayerState {
 var state : PlayerState = PlayerState.IDLE
 
 func _ready():
-	assert(player_camera != null) 
 	health = base_max_health
 	print(health)
 	$DashTimer.wait_time = dash_time
-	equip_inventory_data.connect("inventory_updated", equip_items)
+	for equip_inventory_data in equip_inventory_datas:
+		equip_inventory_data.connect("inventory_updated", equip_items)
 	PlayerManager.level_up.connect(_on_level_up)
-	update_status()
+	InventoryManager.refresh(self)
+	for stat in stat_names.values():
+		update_status_panel(stat)
 
 
 func _unhandled_input(event):
 	if state != PlayerState.DEAD:
 
 
-		if event.is_action_released("dash") and state != PlayerState.DASHING:
+		if event.is_action_released("dash") \
+		and state != PlayerState.DASHING \
+		and dash_cooldown_timer.is_stopped():
 			state = PlayerState.DASHING
 			dash()
 		if event.is_action_pressed("sword") and state != PlayerState.MELEE:
@@ -116,7 +138,7 @@ func animate():
 				if state == PlayerState.MELEE:
 					animated_sprite_2d.flip_h = true if pivot == 5 else false
 					current_animation = "up_attack"
-				elif velocity:
+				elif abs(velocity - knockback):
 					current_animation = "up_walk"
 				else:
 					current_animation = "up_idle"
@@ -124,7 +146,7 @@ func animate():
 				if state == PlayerState.MELEE:
 					animated_sprite_2d.flip_h = false if pivot == 2 else true
 					current_animation = "down_attack"
-				elif velocity:
+				elif abs(velocity - knockback):
 					current_animation = "down_walk"
 				else:
 					current_animation = "down_idle"
@@ -132,7 +154,7 @@ func animate():
 				animated_sprite_2d.flip_h = true if pivot in [3, 4] else false
 				if state == PlayerState.MELEE:
 					current_animation = "x_attack"
-				elif velocity:
+				elif abs(velocity - knockback):
 					current_animation = "x_walk"
 				else:
 					current_animation = "x_idle"
@@ -142,6 +164,7 @@ func animate():
 
 func _physics_process(_delta):
 	if state == PlayerState.DEAD:
+		velocity = Vector2.ZERO
 		hitbox.disabled = true
 	else:
 		var input_direction : Vector2 = Input.get_vector("left", "right", "up", "down")
@@ -151,14 +174,13 @@ func _physics_process(_delta):
 			velocity = input_direction * dash_speed
 		if not input_direction:
 			velocity = Vector2(0,0)
+	knockback = lerp(knockback, Vector2.ZERO, .1)
+	velocity = velocity + knockback
 	move_and_slide()
 	animate()
 
-func get_danger():
-	return danger_level
 
 func dash() -> void:
-	can_dash = false
 	print("dash_time: ", dash_time)
 	$DashTimer.wait_time = dash_time
 	$DashTimer.start()
@@ -174,18 +196,18 @@ func melee_attack() -> bool:
 			mines.front().explode()
 	return sword.attack()
 
-func take_damage(hit, vector):
-	health -= hit
-	
-	var tween: Tween = create_tween()
-	tween.tween_property(self, "global_position", global_position + Vector2(2 * hit , 2 * hit).rotated(vector), .10).set_trans(Tween.TRANS_BOUNCE).from(global_position)
+func take_damage(hit: float, vector: Vector2, extra_force: float = 0):
+	hit = snapped(hit, 1)
+	Hud.float_message(["%s"%hit], global_position, vector )
+	var tween = get_tree().create_tween()
 	tween.tween_property(animated_sprite_2d, "modulate:v", 1, 0.25).from(15)
-	
+	health -= hit
+	knockback = Vector2(20 * hit + extra_force, 20 * hit + extra_force) * vector
 	if health <= 0:
 		health = 0
 		die()
 
-	Hud.update_hud.emit(Hud.Element.HEALTH, health, max_health)
+
 
 func die():
 	state = PlayerState.DEAD
@@ -200,7 +222,7 @@ func die():
 
 func heal(value):
 	health = clampf(health + value, 0, max_health)
-	Hud.update_hud.emit(Hud.Element.HEALTH, health, max_health)
+
 
 var level_changes : Dictionary = {
 		1 : {
@@ -226,44 +248,50 @@ var level_changes : Dictionary = {
 		},
 	}
 
-func update_status():
-	max_health = base_max_health
-	speed = base_speed
-	dash_speed = base_dash_speed
+var stat_names = {
+	EquipStat.StatName.AREA : "speed",
+	EquipStat.StatName.ACCURACY : "dash_speed",
+	EquipStat.StatName.COOLDOWN : "dash_cooldown",
+	EquipStat.StatName.CAPACITY : "max_health",
+	EquipStat.StatName.SPECIAL : "speed" 
+}
 
-	for level_reward in level_changes[current_level]:
-		set(level_reward, get(level_reward) + level_changes[current_level][level_reward])
-	for item in stat_mods:
-		set(item.upgrade_stat, get(item.upgrade_stat) + item.upgrade_value)
-	health = clampf(health, 0, max_health)
-	status = {
-		"level" : current_level,
-		"speed" : speed,
-		"max_health" : max_health,
-		"dash_speed" : dash_speed,
-		"dash_time" : dash_time
+
+
+func update_status_panel(stat_name: String):
+	var pretty_names := {
+		 "current_level" : "Player level",
+		 "speed" : "Move speed",
+		 "max_health" : "Player health",
+		 "dash_cooldown" : "Dash cooldown", 
+		 "dash_speed" : "Dash speed",
 	}
-	for item in status.keys():
-		Hud.stats[item] = status[item]
-	Hud.update_hud.emit(Hud.Element.HEALTH, health, max_health)
-	print("updated status")
+	Hud.update_stats.emit(pretty_names[stat_name], get(stat_name))
 
-func equip_items(_inventory_data):
-	stat_mods.clear()
-	for slot_data in _inventory_data.slot_datas:
-		if slot_data and slot_data.item_data and slot_data.item_data.upgrades:
-			for item in slot_data.item_data.upgrades:
-				if item.upgrade_target == "player":
-					stat_mods.push_front(item)
-	update_status()
+var current_stat_upgrades : Dictionary
+
+func equip_items(_inventory_data: InventoryDataEquip):
+	if _inventory_data.upgrade_target == InventoryDataEquip.UpgradeTarget.PLAYER:
+		current_stat_upgrades.clear()
+		
+		current_stat_upgrades = _inventory_data.consolidated()
+		print(current_stat_upgrades)
+		for stat_name in stat_names:
+			var value = current_stat_upgrades[stat_name] if current_stat_upgrades.has(stat_name) else 0
+			stat_name = stat_names[stat_name]
+			
+			set(stat_name, value)
+			update_status_panel(stat_name)
+
 
 func _on_level_up():
+	for level_reward in level_changes[current_level]:
+		set(level_reward, get(level_reward) + level_changes[current_level][level_reward])
 	current_level = clampi(current_level + 1, 0, level_changes.size())
 	var level_up_message : Array[String] = ["level %s!" % current_level]
 	for level_reward in level_changes[current_level]:
 		level_up_message.push_back("%s + %s" % [level_reward.replace("_", " "), level_changes[current_level][level_reward]])
 	Hud.float_message(level_up_message, global_position)
-	update_status()
 
 func _on_animated_sprite_2d_animation_finished():
 	if state != PlayerState.DEAD:
@@ -279,4 +307,4 @@ func _on_dash_cooldown_timeout():
 func _on_dash_timer_timeout():
 	print("dash timer timeout")
 	set_deferred("state", PlayerState.IDLE)
-	dash_cooldown.start()
+	dash_cooldown_timer.start()

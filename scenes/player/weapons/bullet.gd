@@ -1,7 +1,7 @@
 extends Node2D
 
 
-const HIT_MARKER = preload("res://scenes/effects/HitMarker.tscn")
+const HIT_MARKER = preload("res://scenes/effects/hit_marker.tscn")
 @export var speed : float = 16
 @export var dropoff : float = 40
 @export var heat_generated : float = 7
@@ -26,7 +26,7 @@ func _on_body_entered(body):
 	hit_marker.global_position = global_position
 	get_parent().add_child(hit_marker)
 	if body.has_method("take_damage"):
-		body.take_damage(damage, global_position.angle_to_point(body.global_position))
+		body.take_damage(damage, Vector2.LEFT.rotated(global_rotation))
 		damage -= randi_range(1, 3)
 	if piercing == 0:
 		queue_free()

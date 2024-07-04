@@ -1,28 +1,8 @@
-[gd_scene load_steps=52 format=3 uid="uid://bwqbgwl7hvop0"]
+[gd_scene load_steps=53 format=3 uid="uid://bwqbgwl7hvop0"]
 
 [ext_resource type="Script" path="res://scenes/mobs/medioid/medioid.gd" id="1_yr66h"]
-[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/item_data_equip.gd" id="2_l0dwf"]
 [ext_resource type="Texture2D" uid="uid://btwmwvowecsnm" path="res://scenes/mobs/medioid/50x31 Monster 2 spritesheet without shadows.png" id="2_l6jj3"]
-[ext_resource type="Texture2D" uid="uid://df885ibdqhbli" path="res://scenes/gui/inventory/items/assets/Icon14_11.png" id="3_8mk5r"]
 [ext_resource type="AudioStream" uid="uid://d3x73rcw18qob" path="res://assets/medioid.wav" id="3_rrrcs"]
-[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/upgrade_def.gd" id="4_fm47d"]
-
-[sub_resource type="Resource" id="Resource_mp7fy"]
-script = ExtResource("4_fm47d")
-upgrade_stat = "cooldown"
-upgrade_value = 0.5
-upgrade_target = "gun"
-
-[sub_resource type="Resource" id="Resource_55083"]
-script = ExtResource("2_l0dwf")
-upgrades = Array[ExtResource("4_fm47d")]([SubResource("Resource_mp7fy")])
-name = "Diffuser Crystal"
-description = "Diffuses heat.
-
-cool"
-stackable = false
-texture = ExtResource("3_8mk5r")
-drop_rarity = 0.99
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0ycxn"]
 atlas = ExtResource("2_l6jj3")
@@ -327,8 +307,159 @@ point_count = 2
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_l17p4"]
 polygon = PackedVector2Array(-6, -1, -4, -9, 2, -9, 2, -3, 0, 2, -7, 2)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_s1a42"]
-radius = 91.0494
+[sub_resource type="CircleShape2D" id="CircleShape2D_flxgo"]
+radius = 15.0333
+
+[sub_resource type="Animation" id="Animation_4bvtf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hurtbox/CollisionShape2D:shape")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("CircleShape2D_flxgo")]
+}
+
+[sub_resource type="Animation" id="Animation_pg2jh"]
+resource_name = "attack"
+length = 0.666673
+step = 0.0666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.466667, 0.666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [&"attack", &"idle"]
+}
+
+[sub_resource type="Animation" id="Animation_od7g6"]
+resource_name = "charge"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DetectionArea/Line2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, false]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DetectionArea/Line2D:modulate:r")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0.505344, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.505344, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.1, 0.3, 0.4, 0.6, 0.7)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DetectionArea/Line2D:modulate:g")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0.505344, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.505344, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.1, 0.3, 0.4, 0.6, 0.7)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("DetectionArea/Line2D:modulate:b")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0.505344, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.505344, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.1, 0.3, 0.4, 0.6, 0.7)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("DetectionArea/Line2D:modulate:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.1, 0.3, 0.4, 0.6, 0.7)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AnimatedSprite2D:speed_scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 3, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 0.7, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hp836"]
+_data = {
+"RESET": SubResource("Animation_4bvtf"),
+"attack": SubResource("Animation_pg2jh"),
+"charge": SubResource("Animation_od7g6")
+}
+
+[sub_resource type="Curve" id="Curve_l2dsx"]
+_data = [Vector2(0, 0), 0.0, 1.98343, 0, 0, Vector2(0.504178, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sa3gc"]
 
 [node name="medioid" type="CharacterBody2D"]
 collision_layer = 64
@@ -338,16 +469,19 @@ slide_on_ceiling = false
 floor_stop_on_slope = false
 floor_block_on_wall = false
 script = ExtResource("1_yr66h")
-player_damage = 20.0
-move_speed = 50.0
+spawn_weight = 0.5
+chase_time = 8.0
+move_speed = 60.0
+acceleration = 2.0
+wander_distance = 50.0
 max_health = 50
 bleeds = true
-drops_items = Array[Resource("res://scenes/gui/inventory/scripts/item_data.gd")]([SubResource("Resource_55083")])
-wander_distance = 20
+cooldown = 3.0
+player_damage = 20.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vhn7c")
-animation = &"attack"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
@@ -375,15 +509,6 @@ color = Color(0, 0, 0, 1)
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_l17p4")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-
-[node name="DetectionArea" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 340
-
-[node name="DetectionBox" type="CollisionShape2D" parent="DetectionArea"]
-shape = SubResource("CircleShape2D_s1a42")
-
 [node name="IdleTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
@@ -392,3 +517,41 @@ one_shot = true
 stream = ExtResource("3_rrrcs")
 volume_db = 2.5
 pitch_scale = 0.75
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="HurtboxAnim" type="AnimationPlayer" parent="Hurtbox"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_hp836")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_flxgo")
+disabled = true
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="Line2D" type="Line2D" parent="DetectionArea"]
+visible = false
+position = Vector2(4.54054, 0)
+scale = Vector2(0.567568, 0.567568)
+points = PackedVector2Array(2, -10, 19, 0, 2, 10)
+width_curve = SubResource("Curve_l2dsx")
+default_color = Color(0.973614, 0, 0.251822, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+position = Vector2(25, 0)
+rotation = 0.785397
+scale = Vector2(3.62386, 3.62386)
+shape = SubResource("RectangleShape2D_sa3gc")
+
+[node name="RayCast2D" type="RayCast2D" parent="DetectionArea"]
+visible = false
+rotation = -1.57285
+target_position = Vector2(0.000455359, 205)
+collision_mask = 496

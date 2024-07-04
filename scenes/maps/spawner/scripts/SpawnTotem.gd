@@ -1,7 +1,6 @@
 extends Area2D
 
 @export var survival_scene : PackedScene
-@onready var map = get_node("/root/Game/World/Map")
 
 
 @onready var survival_area : Area2D = survival_scene.instantiate()
@@ -15,5 +14,5 @@ func _ready():
 
 func _on_body_entered(_body):
 	if overlaps_body(PlayerManager.player):
-		map.call_deferred("add_child", survival_area)
+		MapManager.current_map.call_deferred("add_child", survival_area)
 		queue_free()

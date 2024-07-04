@@ -13,6 +13,7 @@ var level_up_xp : int = 100
 var held_items : Array[PackedScene]
 
 var player : Player = PLAYER.instantiate()
+var player_camera : PlayerCamera
 
 func _ready():
 	Hud.update_hud.emit(Hud.Element.XP, current_xp, level_up_xp)
@@ -31,18 +32,24 @@ func give_xp(value):
 
 
 
-func spawn_player_at(map: Map, global_position: Vector2) -> Player:
+func spawn_player(position: Vector2, map: Map) -> Player:
+	print("spawning player")
+	player_camera = PlayerCamera.new()
 	var new_player = PLAYER.instantiate()
-	new_player.current_map = map
-	new_player.position = global_position
 	new_player.player_died.connect(_on_player_died)
+	new_player.global_position = position
+	player.queue_free()
 	player = new_player
-	return new_player
+	map.call_deferred("add_child", player)
+	player.call_deferred("add_child", player_camera)
+	player_camera.call_deferred("switch_camera", map.current_camera_type)
+	return player
 
-func switch_camera(camera_type: PlayerCamera.CameraType, limits: Array[float] = []):
-	player.player_camera.switch_camera(camera_type, limits)
+func switch_camera(camera_type: PlayerCamera.CameraType, limits: Array[int] = []):
+	player_camera.switch_camera(camera_type, limits)
 	
 func _on_player_died():
+	
 	game_over.emit()
 
 func get_global_position() -> Vector2:

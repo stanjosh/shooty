@@ -1,13 +1,16 @@
 extends StaticBody2D
+class_name Chest
 
 signal toggle_inventory(external_inventory_owner)
 signal interactable_area_exited()
 @onready var interface_anchor = $InterfaceAnchor
 
-@export var inventory_data: InventoryData
+@export var inventory_data: InventoryData = InventoryData.new()
 @export var key_item: ItemData
 var accessed : bool = false
 
+func _ready():
+	InventoryManager.refresh(self)
 
 func open():
 	accessed = true

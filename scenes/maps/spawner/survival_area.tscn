@@ -1,0 +1,120 @@
+[gd_scene load_steps=13 format=3 uid="uid://3j1sn12jdmir"]
+
+[ext_resource type="Script" path="res://scenes/maps/spawner/SurvivalArea.gd" id="1_hfxbc"]
+[ext_resource type="PackedScene" uid="uid://cmq4kav7bbo5s" path="res://scenes/maps/spawner/spawn_wave.tscn" id="3_m5ov3"]
+[ext_resource type="PackedScene" uid="uid://ctvpcfm5heb5" path="res://scenes/mobs/tiny/tiny.tscn" id="4_on70m"]
+[ext_resource type="PackedScene" uid="uid://bwqbgwl7hvop0" path="res://scenes/mobs/medioid/medioid.tscn" id="5_gf0h6"]
+[ext_resource type="PackedScene" uid="uid://d0ea3013fce28" path="res://scenes/mobs/bat/bat.tscn" id="6_r4sby"]
+
+[sub_resource type="Curve" id="Curve_e27jp"]
+max_value = 30.0
+_data = [Vector2(0, 0), 0.0, 1.24039, 0, 0, Vector2(0.24937, 12.324), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_p4e6e"]
+max_value = 3.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.501259, 0.687078), 0.0, 0.0, 0, 0, Vector2(1, 0), -0.770023, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_74tse"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.0779221, 0.175325)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_laqsj"]
+gradient = SubResource("Gradient_74tse")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_3w0wd"]
+vertices = PackedVector2Array(205, -92, 209, 119, 98, 210, -94, 209, -202, 85, -202, -87, -97, -205, 126, -208)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-213.462, -91.0256, -101.923, -214.744, 132.051, -219.231, 214.744, -96.1538, 219.872, 123.718, 101.923, 220.513, -100, 218.59, -212.179, 90.3846)])
+source_geometry_group_name = &"navigation_polygon_source_group"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0b5dl"]
+radius = 13.1774
+
+[sub_resource type="Curve2D" id="Curve2D_bvbb0"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 57.0953, -43.955, 0, 0, 0, 0, 84.885, -18.7264, 0, 0, 0, 0, 84.885, 25.4887, 0, 0, 0, 0, 40.9267, 45.2554, 0, 0, 0, 0, -39.9162, 44.7352, 0, 0, 0, 0, -85.3903, 17.686, 0, 0, 0, 0, -84.3797, -18.2062, 0, 0, 0, 0, -41.432, -44.7352, 0, 0, 0, 0, 57.0953, -43.955)
+}
+point_count = 9
+
+[node name="SurvivalArea" type="Area2D"]
+visibility_layer = 2
+collision_layer = 32
+collision_mask = 84
+script = ExtResource("1_hfxbc")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+scale = Vector2(2.44, 2.44)
+amount = 200
+lifetime = 2.0
+speed_scale = 0.5
+lifetime_randomness = 0.27
+emission_shape = 2
+emission_sphere_radius = 80.0
+gravity = Vector2(0, 0)
+orbit_velocity_min = -0.15
+orbit_velocity_max = 0.15
+damping_max = 30.0
+damping_curve = SubResource("Curve_e27jp")
+scale_amount_max = 3.0
+scale_amount_curve = SubResource("Curve_p4e6e")
+color = Color(0, 0, 0, 1)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(2.77122, 2.77122)
+energy = 1.42
+blend_mode = 1
+texture = SubResource("GradientTexture2D_laqsj")
+
+[node name="EnemyArea" type="NavigationRegion2D" parent="."]
+scale = Vector2(0.823338, 0.823338)
+navigation_polygon = SubResource("NavigationPolygon_3w0wd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(10.785, 11.166)
+shape = SubResource("CircleShape2D_0b5dl")
+
+[node name="BetweenWaveTime" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="SpawnPath" type="Path2D" parent="."]
+scale = Vector2(1.97915, 3.84484)
+curve = SubResource("Curve2D_bvbb0")
+
+[node name="SpawnPoint" type="PathFollow2D" parent="SpawnPath"]
+position = Vector2(57.0953, -43.955)
+rotation = 0.73713
+
+[node name="Spawner" type="Node2D" parent="."]
+position = Vector2(0.0157623, -0.0139542)
+scale = Vector2(0.0484447, 0.0599842)
+
+[node name="SpawnWave" parent="Spawner" instance=ExtResource("3_m5ov3")]
+danger_level = 1.0
+spawn_speed = 0.216
+enemy1 = ExtResource("4_on70m")
+enemy1_number = 40
+
+[node name="SpawnWave2" parent="Spawner" instance=ExtResource("3_m5ov3")]
+enemy1 = ExtResource("5_gf0h6")
+enemy1_number = 4
+enemy2 = ExtResource("6_r4sby")
+enemy2_number = 20
+
+[node name="SpawnWave3" parent="Spawner" instance=ExtResource("3_m5ov3")]
+danger_level = 3.0
+enemy1 = ExtResource("5_gf0h6")
+enemy1_number = 4
+enemy2 = ExtResource("4_on70m")
+enemy2_number = 20
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="spawns_done" from="." to="." method="_on_spawns_done"]
+[connection signal="timeout" from="BetweenWaveTime" to="." method="_on_between_wave_time_timeout"]

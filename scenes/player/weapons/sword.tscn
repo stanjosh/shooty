@@ -11,7 +11,7 @@ radius = 27.3602
 
 [sub_resource type="Curve" id="Curve_d6y5x"]
 max_value = 3.0
-_data = [Vector2(0, 1.47686), 0.0, 0.0, 0, 0, Vector2(0.118388, 0.310993), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 1.47686), 0.0, 0.0, 0, 0, Vector2(0.313187, 0.674191), -3.91338, -3.91338, 0, 0, Vector2(0.758242, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [node name="sword" type="Node2D"]
@@ -46,19 +46,22 @@ scale = Vector2(1.66667, 1.94593)
 shape = SubResource("CircleShape2D_1ovo8")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="hitbox"]
-position = Vector2(39.592, 1.41399)
-rotation = 1.5708
-skew = 1.01055
+position = Vector2(24.038, 1.414)
+rotation = -3.07886
 emitting = false
-amount = 100
+amount = 20
 lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
-emission_shape = 1
-emission_sphere_radius = 29.44
+emission_shape = 2
+emission_sphere_radius = 44.82
+direction = Vector2(-20, 0)
+spread = 24.17
 gravity = Vector2(0, -120)
-radial_accel_min = -60.58
-radial_accel_max = 67.31
+initial_velocity_min = 34.5
+initial_velocity_max = 87.51
+orbit_velocity_min = 0.08
+orbit_velocity_max = 1.2
 scale_amount_min = 0.0
 scale_amount_max = 3.0
 scale_amount_curve = SubResource("Curve_d6y5x")

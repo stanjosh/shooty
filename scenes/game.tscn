@@ -12,5 +12,3 @@ script = ExtResource("1_h310b")
 [node name="Hud" parent="." instance=ExtResource("2_k6aik")]
 unique_name_in_owner = true
 process_mode = 3
-
-[connection signal="drop_slot_data" from="Hud" to="." method="_on_inventory_interface_drop_slot_data"]

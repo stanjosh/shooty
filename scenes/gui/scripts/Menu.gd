@@ -20,4 +20,8 @@ func _on_exit_pressed():
 
 
 func _on_dungeon_gen_pressed():
-	get_tree().change_scene_to_file("res://scenes/maps/random_rooms/random_dungeon.tscn")
+	MapManager.default_map = "testing"
+	get_tree().change_scene_to_file("res://scenes/game.tscn")
+	
+
+

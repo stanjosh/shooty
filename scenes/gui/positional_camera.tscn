@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bmt1u4ih578ps"]
-
-[ext_resource type="Script" path="res://scenes/player/scripts/PositionalCamera.gd" id="1_nhycr"]
-
-[node name="PositionalCamera" type="Camera2D"]
-top_level = true
-zoom = Vector2(3, 3)
-position_smoothing_enabled = true
-script = ExtResource("1_nhycr")

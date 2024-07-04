@@ -1,0 +1,8 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://tn3whhmed7xv"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_peg25"]
+load_path = "res://.godot/imported/door_spritesheet.png-a1374a65aec13d5728253df7cf163574.ctex"
+
+[resource]
+atlas = SubResource("CompressedTexture2D_peg25")
+region = Rect2(0, 64, 96, 32)

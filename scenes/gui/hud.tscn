@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://7w31v3ug280y"]
+[gd_scene load_steps=29 format=3 uid="uid://7w31v3ug280y"]
 
 [ext_resource type="Script" path="res://scenes/gui/scripts/hud.gd" id="1_sbawl"]
 [ext_resource type="FontFile" uid="uid://m1jk0peka30j" path="res://assets/m6x11.ttf" id="2_y8uil"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://ubaicyh12ctv" path="res://scenes/gui/inventory/inventory.tscn" id="5_fnxsd"]
 [ext_resource type="PackedScene" uid="uid://d1lua354iq30d" path="res://scenes/gui/inventory/slot.tscn" id="6_phlc7"]
 [ext_resource type="Texture2D" uid="uid://bpclk7ym07oa2" path="res://scenes/gui/orb_shine.png" id="6_q16a3"]
+[ext_resource type="PackedScene" uid="uid://cshxn3hr142mq" path="res://scenes/gui/status.tscn" id="12_pihbl"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_xjdpx"]
 font = ExtResource("3_nky2f")
@@ -320,37 +321,29 @@ visible = false
 layout_mode = 0
 size_flags_vertical = 0
 
-[node name="VSplitContainer" type="VSplitContainer" parent="InventoryInterface"]
+[node name="PlayerInventory" type="VSplitContainer" parent="InventoryInterface"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -624.0
-offset_top = 271.0
-offset_right = 624.0
-offset_bottom = 299.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="PlayerInventory" parent="InventoryInterface/VSplitContainer" instance=ExtResource("5_fnxsd")]
-layout_mode = 2
-
-[node name="EquipInventory" parent="InventoryInterface/VSplitContainer" instance=ExtResource("5_fnxsd")]
-layout_mode = 2
-size_flags_vertical = 8
-
-[node name="HSplitContainer" type="HSplitContainer" parent="InventoryInterface"]
-layout_mode = 1
-anchors_preset = 12
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_top = -28.0
+offset_left = -4.0
+offset_top = -20.0
+offset_right = 4.0
 grow_horizontal = 2
 grow_vertical = 0
-split_offset = 624
+
+[node name="ItemInventory" parent="InventoryInterface/PlayerInventory" instance=ExtResource("5_fnxsd")]
+layout_mode = 2
+
+[node name="EquipInventory" type="GridContainer" parent="InventoryInterface/PlayerInventory"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 3
+
+[node name="Status" parent="InventoryInterface" instance=ExtResource("12_pihbl")]
+layout_mode = 1
 
 [node name="GameOver" type="Control" parent="."]
 visible = false

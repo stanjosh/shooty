@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bbeoibxw545vm"]
 
-[ext_resource type="Script" path="res://scenes/FireEffect.gd" id="1_74iar"]
+[ext_resource type="Script" path="res://scenes/effects/scripts/fire_effect.gd" id="1_74iar"]
 
 [sub_resource type="Curve" id="Curve_pt4pa"]
 max_value = 10.0

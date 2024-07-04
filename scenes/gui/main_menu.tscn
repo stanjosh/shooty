@@ -1,0 +1,142 @@
+[gd_scene load_steps=9 format=3 uid="uid://dqcb23bdlbcxw"]
+
+[ext_resource type="FontFile" uid="uid://w38canxb0m7h" path="res://assets/m3x6.ttf" id="1_746pb"]
+[ext_resource type="Script" path="res://scenes/gui/scripts/Menu.gd" id="2_rjvbg"]
+[ext_resource type="Texture2D" uid="uid://pq257rnhg4kq" path="res://scenes/gui/UI_Flat_Frame_01_Lite.png" id="3_kt44v"]
+[ext_resource type="FontFile" uid="uid://m1jk0peka30j" path="res://assets/m6x11.ttf" id="4_nqvy1"]
+
+[sub_resource type="Theme" id="Theme_ajg7v"]
+default_font = ExtResource("1_746pb")
+default_font_size = 32
+
+[sub_resource type="Theme" id="Theme_nwmpy"]
+
+[sub_resource type="Theme" id="Theme_e68rp"]
+default_font = ExtResource("1_746pb")
+default_font_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dkqd6"]
+content_margin_left = 85.0
+content_margin_top = 4.0
+content_margin_right = 85.0
+content_margin_bottom = 4.0
+bg_color = Color(0.814387, 0.909493, 0.950738, 1)
+anti_aliasing = false
+
+[node name="Menu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_ajg7v")
+script = ExtResource("2_rjvbg")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = -58.0
+offset_right = 147.0
+offset_bottom = 58.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_nwmpy")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme = SubResource("Theme_e68rp")
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+texture = ExtResource("3_kt44v")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="play" type="Button" parent="MarginContainer/VBoxContainer/NinePatchRect2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_nqvy1")
+text = "start"
+flat = true
+
+[node name="NinePatchRect3" type="NinePatchRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+texture = ExtResource("3_kt44v")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="options" type="Button" parent="MarginContainer/VBoxContainer/NinePatchRect3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_nqvy1")
+theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
+text = "fullscreen"
+flat = true
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+texture = ExtResource("3_kt44v")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="exit" type="Button" parent="MarginContainer/VBoxContainer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_nqvy1")
+theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
+text = "exit"
+flat = true
+
+[node name="NinePatchRect4" type="NinePatchRect" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+texture = ExtResource("3_kt44v")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="DungeonGen" type="Button" parent="MarginContainer/VBoxContainer/NinePatchRect4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_nqvy1")
+theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
+text = "testing map"
+flat = true
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/NinePatchRect2/play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/NinePatchRect3/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/NinePatchRect/exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/NinePatchRect4/DungeonGen" to="." method="_on_dungeon_gen_pressed"]

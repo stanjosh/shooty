@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://ctvpcfm5heb5"]
+[gd_scene load_steps=48 format=3 uid="uid://ctvpcfm5heb5"]
 
 [ext_resource type="Script" path="res://scenes/mobs/tiny/tiny.gd" id="1_jvk6x"]
 [ext_resource type="Resource" uid="uid://m4jkoof7bmtu" path="res://scenes/gui/inventory/items/memory_card.tres" id="2_m30tc"]
@@ -275,20 +275,88 @@ point_count = 2
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_1xpxy"]
 polygon = PackedVector2Array(-4, -1, -3, -5, -1, -5, 1, -2, 1, -1)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_uv1w7"]
-radius = 97.1854
+[sub_resource type="CircleShape2D" id="CircleShape2D_p4nic"]
+radius = 21.0238
 
-[node name="tiny" type="CharacterBody2D"]
+[sub_resource type="Animation" id="Animation_m8gk6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"attack"]
+}
+
+[sub_resource type="Animation" id="Animation_pg2jh"]
+resource_name = "attack"
+length = 0.466674
+step = 0.0666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4002, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"attack"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hp836"]
+_data = {
+"RESET": SubResource("Animation_m8gk6"),
+"attack": SubResource("Animation_pg2jh")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ave6y"]
+
+[node name="tiny" type="CharacterBody2D" groups=["mobs", "tiny"]]
 script = ExtResource("1_jvk6x")
-player_damage = 2.0
-move_speed = 80.0
+spawn_weight = 0.08
+move_speed = 125.0
+acceleration = 1.4
+wander_distance = 20.0
+max_health = 11
 drops_items = Array[Resource("res://scenes/gui/inventory/scripts/item_data.gd")]([ExtResource("3_rhfvr"), ExtResource("2_m30tc")])
-wander_distance = 30
+cooldown = 0.75
+player_damage = 4.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 10
 sprite_frames = SubResource("SpriteFrames_6873n")
-animation = &"die"
+animation = &"attack"
 autoplay = "idle"
 offset = Vector2(0, -3)
 
@@ -314,15 +382,6 @@ color = Color(0, 0, 0, 1)
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_1xpxy")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-
-[node name="DetectionArea" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 340
-
-[node name="DetectionBox" type="CollisionShape2D" parent="DetectionArea"]
-shape = SubResource("CircleShape2D_uv1w7")
-
 [node name="IdleTimer" type="Timer" parent="."]
 one_shot = true
 
@@ -330,4 +389,35 @@ one_shot = true
 stream = ExtResource("3_2lgnn")
 pitch_scale = 1.16
 
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(1, -1)
+shape = SubResource("CircleShape2D_p4nic")
+disabled = true
+
+[node name="HurtboxAnim" type="AnimationPlayer" parent="Hurtbox"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_hp836")
+}
+
+[node name="DetectionArea" type="Area2D" parent="."]
+position = Vector2(1, 0)
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+position = Vector2(25, 0)
+rotation = 0.785397
+scale = Vector2(3.62386, 3.62386)
+shape = SubResource("RectangleShape2D_ave6y")
+
+[node name="RayCast2D" type="RayCast2D" parent="DetectionArea"]
+rotation = -1.58089
+target_position = Vector2(-1.00913, 99.9949)
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="body_entered" from="DetectionArea" to="." method="wake_up"]
