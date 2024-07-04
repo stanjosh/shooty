@@ -7,9 +7,9 @@
 [ext_resource type="Resource" uid="uid://m4jkoof7bmtu" path="res://scenes/gui/inventory/items/memory_card.tres" id="3_k4n8i"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data_equip.gd" id="3_kc8by"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/slot_data.gd" id="4_ymcwa"]
-[ext_resource type="PackedScene" uid="uid://6qxco026ufkq" path="res://scenes/player/weapons/bullet.tscn" id="8_dogu2"]
 [ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/player/weapons/gun.tscn" id="9_dxnlg"]
 [ext_resource type="Script" path="res://scenes/player/weapons/projectile.gd" id="9_s8jtd"]
+[ext_resource type="PackedScene" uid="uid://b1t30j567yq2k" path="res://scenes/player/weapons/lightning.tscn" id="9_tun0x"]
 [ext_resource type="PackedScene" uid="uid://7tx8y7bexiry" path="res://scenes/player/weapons/sword.tscn" id="12_4m10m"]
 [ext_resource type="AudioStream" uid="uid://bbtkod66evvx0" path="res://scenes/player/assets/dust_noise.wav" id="13_srm1x"]
 
@@ -591,14 +591,9 @@ max_value = 2.0
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.254408, 1.21022), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="Resource" id="Resource_x0fvl"]
+[sub_resource type="Resource" id="Resource_knn8r"]
 script = ExtResource("9_s8jtd")
-scene = ExtResource("8_dogu2")
-speed = 30.0
-dropoff = 40.0
-heat_generated = 10.0
-damage = 5
-piercing = 2
+scene = ExtResource("9_tun0x")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vrwak"]
 radius = 5.0
@@ -693,7 +688,7 @@ position = Vector2(0, -1)
 [node name="gun" parent="pivot" instance=ExtResource("9_dxnlg")]
 y_sort_enabled = false
 position = Vector2(6, 0)
-projectile = SubResource("Resource_x0fvl")
+projectile = SubResource("Resource_knn8r")
 
 [node name="sword" parent="pivot" instance=ExtResource("12_4m10m")]
 

@@ -53,7 +53,6 @@ var state : GunState :
 		state = value
 		$SteamParticles.emitting = false
 		$SteamParticles2.emitting = false
-		$EjectParticles.emitting = false
 
 func _ready():
 	for inventory_data in PlayerManager.player.equip_inventory_datas:
@@ -98,7 +97,7 @@ func _physics_process(delta):
 				$SteamParticles2.emitting = true
 				overheat_sound_played = true
 				
-	print(GunState.keys()[state], " | ", heat_level)
+	#print(GunState.keys()[state], " | ", heat_level)
 	cool_off(delta)
 	shot_time -=  delta * 100 + fire_rate
 
@@ -114,16 +113,15 @@ func shoot():
 
 
 	for n in pellets:
-		heat_level +=  projectile.heat_generated
+		
 		var new_bullet = projectile.get_scene()
+		heat_level +=  new_bullet.heat_generated
 		new_bullet.global_position = to_global(position)
 		var accuracy_calc = 1 - (accuracy / 100)
 		new_bullet.global_rotation = global_rotation + randf_range(-accuracy_calc, accuracy_calc)
 		add_child(new_bullet)
 		if n == 0:
 			shot_time = 100
-			$GunFire.play()
-			$EjectParticles.emitting = true
 	var fire_anim = get_tree().create_tween()
 	fire_anim.tween_property(gun, "position:x", clamp(gun.position.x - 2, 0, -4), .3).set_trans(Tween.TRANS_ELASTIC)
 	fire_anim.tween_property(gun, "position:x", original_pos.x, .3).set_trans(Tween.TRANS_LINEAR)

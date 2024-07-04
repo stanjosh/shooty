@@ -21,11 +21,3 @@ func spawn_player():
 		assert(player_spawn, "Put a spawn point on the map.")
 
 
-func unload():
-	var packed_scene = PackedScene.new()
-	for child in get_children():
-		child.set_owner(self)
-	var node = get_tree().get_current_scene()
-	packed_scene.pack(node)
-	
-	MapManager.save(name, packed_scene)

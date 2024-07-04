@@ -4,11 +4,16 @@ extends Node2D
 const HIT_MARKER = preload("res://scenes/effects/hit_marker.tscn")
 @export var speed : float = 16
 @export var dropoff : float = 40
-@export var heat_generated : float = 7
+@export var heat_generated : float = 10
 @export var damage : int = 5
 @export var piercing : int = 0
+@onready var eject_particles = $EjectParticles
 
+@onready var gun_fire = $GunFire
 
+func _ready():
+	gun_fire.play()
+	eject_particles.emitting = true
 
 func _physics_process(delta):
 	if dropoff <= 0:

@@ -1,40 +1,35 @@
 extends Node2D
 
 
-const LIGHTNING_BOLT = preload("res://scenes/effects/action_line.tscn")
-@onready var world = get_node("/root/Game/World")
-@export var speed : float = 50
-@export var dropoff : float = 1
-@export var user : CharacterBody2D
-var direction : Vector2
-var piercing : int = 10
-var damage : int = 50
+
+const ZAP_LINE = preload("res://scenes/effects/ZapLine.tscn")
+@onready var hurtbox = $Hurtbox
+
+@onready var ray_cast_2d = $RayCast2D
+
+@export var speed : float = 120
+@export var dropoff : float = .25
+@export var heat_generated : float = 10
+@export var piercing : int = 10
+@export var damage : int = 50
+@onready var zap_sound = $ZapSound
 
 var lightning_targets : Array
 
-func _ready():
-	lightning_targets.push_front(global_position)
-	$Area2D.global_position = get_global_mouse_position()
-	lightning_targets.push_front(get_global_mouse_position())
-	var zap = LIGHTNING_BOLT.instantiate()
-	zap.lightning = lightning_targets
-	world.add_child(zap)
-	lightning_targets.clear()
+var target_position : Vector2
 
-func _physics_process(delta):
-	var bodies = $Area2D.get_overlapping_bodies()
-	if piercing > 0:
-		if bodies:
-			for body in bodies:
-				bodies.shuffle()
-				lightning_targets.push_front(body)
-				piercing -= 1
-	if lightning_targets:
-		for target in lightning_targets:
-			target.take_damage(damage / lightning_targets.size(), global_rotation)
-		var zap = LIGHTNING_BOLT.instantiate()
-		zap.lightning = lightning_targets.map(func(target): return target.global_position)
-		world.add_child(zap)
+func _ready():
+	target_position = get_global_mouse_position()
+	zap_sound.play()
 
 	
-	queue_free()
+func _physics_process(delta):
+	dropoff -= 1 * delta
+	ray_cast_2d.target_position.y = global_position.distance_to(get_global_mouse_position())
+	if ray_cast_2d.is_colliding():
+		if ray_cast_2d.get_collider() is Mob:
+			var body_position = ray_cast_2d.get_collider().global_position
+			hurtbox.global_position = body_position
+	
+	if dropoff <= 0:
+		queue_free()
