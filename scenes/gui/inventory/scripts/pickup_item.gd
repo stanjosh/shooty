@@ -15,5 +15,5 @@ func _ready():
 
 func _on_body_entered(body):
 	body.inventory_data.pick_up_slot_data(slot_data)
-	Hud.float_message(["+%s (%s)" % [slot_data.item_data.name, slot_data.quantity]], global_position)
+	UIManager.float_message(["+%s (%s)" % [slot_data.item_data.name, slot_data.quantity]], global_position)
 	queue_free()

@@ -226,7 +226,7 @@ columns = 3
 [node name="Status" parent="InventoryInterface" instance=ExtResource("12_pihbl")]
 layout_mode = 1
 
-[node name="GameOverMenu" type="Control" parent="."]
+[node name="GameOver" type="Control" parent="."]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -238,7 +238,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("7_trp5y")
 
-[node name="MarginContainer" type="MarginContainer" parent="GameOverMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="GameOver"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -252,10 +252,10 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameOverMenu/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOver/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="GameOverMenu/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="GameOver/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -263,7 +263,7 @@ theme_override_fonts/font = ExtResource("2_y8uil")
 theme_override_font_sizes/font_size = 64
 text = "Game Over"
 
-[node name="RestartButton" type="Button" parent="GameOverMenu/MarginContainer/VBoxContainer"]
+[node name="RestartButton" type="Button" parent="GameOver/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(240, 40)
 layout_mode = 2
 size_flags_vertical = 8
@@ -501,7 +501,7 @@ label_settings = SubResource("LabelSettings_xjdpx")
 vertical_alignment = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="MainMenu" type="Control" parent="."]
+[node name="Menu" type="Control" parent="."]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -512,7 +512,7 @@ grow_vertical = 2
 theme = SubResource("Theme_ajg7v")
 script = ExtResource("16_rt1tu")
 
-[node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="Menu"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -527,11 +527,11 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_nwmpy")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/MarginContainer"]
 layout_mode = 2
 theme = SubResource("Theme_e68rp")
 
-[node name="NinePatchRect2" type="NinePatchRect" parent="MainMenu/MarginContainer/VBoxContainer"]
+[node name="NinePatchRect2" type="NinePatchRect" parent="Menu/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 texture = ExtResource("4_1ljwl")
@@ -540,7 +540,7 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 
-[node name="play" type="Button" parent="MainMenu/MarginContainer/VBoxContainer/NinePatchRect2"]
+[node name="play" type="Button" parent="Menu/MarginContainer/VBoxContainer/NinePatchRect2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -551,7 +551,7 @@ theme_override_fonts/font = ExtResource("2_y8uil")
 text = "start"
 flat = true
 
-[node name="NinePatchRect3" type="NinePatchRect" parent="MainMenu/MarginContainer/VBoxContainer"]
+[node name="NinePatchRect3" type="NinePatchRect" parent="Menu/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 texture = ExtResource("4_1ljwl")
@@ -560,7 +560,7 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 
-[node name="options" type="Button" parent="MainMenu/MarginContainer/VBoxContainer/NinePatchRect3"]
+[node name="options" type="Button" parent="Menu/MarginContainer/VBoxContainer/NinePatchRect3"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -572,7 +572,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
 text = "fullscreen"
 flat = true
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MainMenu/MarginContainer/VBoxContainer"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Menu/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 texture = ExtResource("4_1ljwl")
@@ -581,7 +581,7 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 
-[node name="exit" type="Button" parent="MainMenu/MarginContainer/VBoxContainer/NinePatchRect"]
+[node name="exit" type="Button" parent="Menu/MarginContainer/VBoxContainer/NinePatchRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -593,7 +593,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
 text = "exit"
 flat = true
 
-[node name="NinePatchRect4" type="NinePatchRect" parent="MainMenu/MarginContainer/VBoxContainer"]
+[node name="NinePatchRect4" type="NinePatchRect" parent="Menu/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 texture = ExtResource("4_1ljwl")
@@ -602,7 +602,7 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 
-[node name="DungeonGen" type="Button" parent="MainMenu/MarginContainer/VBoxContainer/NinePatchRect4"]
+[node name="DungeonGen" type="Button" parent="Menu/MarginContainer/VBoxContainer/NinePatchRect4"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -618,8 +618,8 @@ flat = true
 [connection signal="pressed" from="PauseMenu/MarginContainer/VBoxContainer/NinePatchRect2/Quit" to="." method="_on_quit_pressed"]
 [connection signal="gui_input" from="InventoryInterface" to="InventoryInterface" method="_on_gui_input"]
 [connection signal="visibility_changed" from="InventoryInterface" to="InventoryInterface" method="_on_visibility_changed"]
-[connection signal="pressed" from="GameOverMenu/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
-[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect2/play" to="MainMenu" method="_on_play_pressed"]
-[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect3/options" to="MainMenu" method="_on_options_pressed"]
-[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect/exit" to="MainMenu" method="_on_exit_pressed"]
-[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect4/DungeonGen" to="MainMenu" method="_on_dungeon_gen_pressed"]
+[connection signal="pressed" from="GameOver/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/NinePatchRect2/play" to="Menu" method="_on_play_pressed"]
+[connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/NinePatchRect3/options" to="Menu" method="_on_options_pressed"]
+[connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/NinePatchRect/exit" to="Menu" method="_on_exit_pressed"]
+[connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/NinePatchRect4/DungeonGen" to="Menu" method="_on_dungeon_gen_pressed"]

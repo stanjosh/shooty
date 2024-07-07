@@ -16,7 +16,7 @@ var player : Player = PLAYER.instantiate()
 var player_camera : PlayerCamera
 
 func _ready():
-	Hud.update_hud.emit(Hud.Element.XP, current_xp, level_up_xp)
+	UIManager.update_hud.emit("xp", current_xp, level_up_xp)
 
 func use_slot_data(slot_data : SlotData):
 	slot_data.item_data.use(player)
@@ -27,7 +27,7 @@ func give_xp(value):
 		current_xp = 0
 		level_up_xp = snapped(level_up_xp + level_up_xp * .04 , 1)
 		level_up.emit()
-	Hud.update_hud.emit(Hud.Element.XP, current_xp, level_up_xp)
+	UIManager.update_hud.emit("xp", current_xp, level_up_xp)
 	
 
 

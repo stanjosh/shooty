@@ -214,7 +214,7 @@ func animate():
 func take_damage(hit, vector: Vector2, extra_force: float = 0):
 	chase_timer = chase_time
 	state = MobState.CHASING
-	Hud.float_message(["%s" % hit], global_position, -vector * global_position)
+	UIManager.float_message(["%s" % hit], global_position, -vector * global_position)
 	var tween: Tween = create_tween()
 	tween.tween_property(animated_sprite_2d, "modulate:v", 1, 0.25).set_trans(Tween.TRANS_ELASTIC).from(15)
 	print(vector)

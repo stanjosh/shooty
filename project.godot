@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Shooty"
 config/version="0.1"
-run/main_scene="res://scenes/gui/main_menu.tscn"
+run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://scenes/gui/inventory/items/assets/Icon14_10.png"
 
@@ -20,11 +20,10 @@ config/icon="res://scenes/gui/inventory/items/assets/Icon14_10.png"
 
 Settings="*res://scripts/settings.gd"
 PlayerManager="*res://scenes/player/scripts/player_manager.gd"
-Hud="*res://scripts/hud.gd"
+UIManager="*res://scripts/UI_manager.gd"
 SoundManager="*res://scripts/sound_manager.gd"
 DungeonGeneration="*res://scenes/maps/scripts/dungeon_generation.gd"
 MapManager="*res://scripts/map_manager.gd"
-InventoryManager="*res://scripts/inventory_manager.gd"
 
 [display]
 
@@ -33,7 +32,7 @@ window/size/viewport_height=864
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_width"
 window/handheld/orientation=1
-mouse_cursor/custom_image="res://scenes/gui/cursor.png"
+mouse_cursor/custom_image="res://scenes/gui/assets/cursor.png"
 
 [editor_plugins]
 

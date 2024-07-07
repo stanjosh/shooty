@@ -71,7 +71,7 @@ var stat_names = {
 func update_status():
 
 	for item in status.keys():
-		Hud.update_stats.emit(item, status[item])
+		UIManager.update_stats.emit(item, status[item])
 
 var current_stat_upgrades : Dictionary
 
@@ -95,4 +95,4 @@ func update_status_panel(stat_name: String):
 		"damage" : "sword damage",
 		"knockback" : "sword knockback"
 	}
-	Hud.update_stats.emit(pretty_names[stat_name], get(stat_name))
+	UIManager.update_stats.emit(pretty_names[stat_name], get(stat_name))

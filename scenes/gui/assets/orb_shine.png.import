@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgrl3he2a8ogu"
-path="res://.godot/imported/orb.png-d8ae347e2bd90309108905dbb37c084c.ctex"
+uid="uid://bpclk7ym07oa2"
+path="res://.godot/imported/orb_shine.png-52c71feeb9046746a511bda5dccbf4af.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/gui/orb.png"
-dest_files=["res://.godot/imported/orb.png-d8ae347e2bd90309108905dbb37c084c.ctex"]
+source_file="res://scenes/gui/assets/orb_shine.png"
+dest_files=["res://.godot/imported/orb_shine.png-52c71feeb9046746a511bda5dccbf4af.ctex"]
 
 [params]
 

@@ -1,5 +1,5 @@
 extends Control
-
+class_name InventoryInterface
 
 const PICKUP_ITEM = preload("res://scenes/gui/inventory/items/pickup_item.tscn")
 
@@ -30,16 +30,17 @@ func _physics_process(_delta):
 
 func _ready():
 	
-	PlayerManager.player.toggle_inventory.connect(toggle_inventory_interface)
-	InventoryManager.connect("refresh_interface", refresh)
-	set_player_inventory_data(PlayerManager.player.inventory_data)
-	set_equip_inventory_data(PlayerManager.player.equip_inventory_datas)
+	
+	UIManager.connect("refresh_interface", refresh)
+
 	get_interactables()
 	refresh()
 	
 func refresh(target = null):
 	if target:
 		if target is Player:
+			set_player_inventory_data(target.inventory_data)
+			set_equip_inventory_data(target.equip_inventory_datas)
 			target.toggle_inventory.connect(toggle_inventory_interface)
 		if target is Chest:
 			target.toggle_inventory.connect(toggle_inventory_interface)

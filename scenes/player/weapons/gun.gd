@@ -36,7 +36,7 @@ var heat_level : float = 0 :
 	set(value):
 		heat_level = value
 		$Gun/PointLight2D.energy = inverse_lerp(heat_capacity, heat_level, .02)
-		Hud.update_hud.emit(Hud.Element.HEAT, value, heat_capacity)
+		UIManager.update_hud.emit("heat", value, heat_capacity)
 
 var shot_time : int = 0
 var original_pos
@@ -57,7 +57,7 @@ var state : GunState :
 func _ready():
 	for inventory_data in PlayerManager.player.equip_inventory_datas:
 		inventory_data.connect("inventory_updated", equip_items)
-	Hud.update_hud.emit(Hud.Element.HEAT, heat_level, 100)
+	UIManager.update_hud.emit("heat", heat_level, 100)
 	original_pos = gun.position
 	for stat in stat_names.values():
 		update_status_panel(stat)
@@ -165,7 +165,7 @@ func update_status_panel(stat_name: String):
 		"pellets" : "Gun projectiles",
 		"cooldown" : "Gun cooling rate"
 	}
-	Hud.update_stats.emit(pretty_names[stat_name], get(stat_name))
+	UIManager.update_stats.emit(pretty_names[stat_name], get(stat_name))
 
 func _on_overheat_timeout():
 	state = GunState.COOLING

@@ -44,7 +44,7 @@ var dash_cooldown : float = 0 :
 var health : float = max_health :
 	set(value):
 		health = clampf(value, 0, max_health)
-		Hud.update_hud.emit(Hud.Element.HEALTH, health, max_health)
+		UIManager.update_hud.emit("health", health, max_health)
 
 @export var inventory_data : InventoryData = InventoryData.new()
 @export var equip_inventory_datas : Array[InventoryDataEquip]
@@ -77,7 +77,7 @@ func _ready():
 	for equip_inventory_data in equip_inventory_datas:
 		equip_inventory_data.connect("inventory_updated", equip_items)
 	PlayerManager.level_up.connect(_on_level_up)
-	InventoryManager.refresh(self)
+	UIManager.refresh_interface.emit(self)
 	for stat in stat_names.values():
 		update_status_panel(stat)
 
@@ -198,7 +198,7 @@ func melee_attack() -> bool:
 
 func take_damage(hit: float, vector: Vector2, extra_force: float = 0):
 	hit = snapped(hit, 1)
-	Hud.float_message(["%s"%hit], global_position, vector )
+	UIManager.float_message(["%s"%hit], global_position, vector )
 	var tween = get_tree().create_tween()
 	tween.tween_property(animated_sprite_2d, "modulate:v", 1, 0.25).from(15)
 	health -= hit
@@ -266,7 +266,7 @@ func update_status_panel(stat_name: String):
 		 "dash_cooldown" : "Dash cooldown", 
 		 "dash_speed" : "Dash speed",
 	}
-	Hud.update_stats.emit(pretty_names[stat_name], get(stat_name))
+	UIManager.update_stats.emit(pretty_names[stat_name], get(stat_name))
 
 var current_stat_upgrades : Dictionary
 
@@ -291,7 +291,7 @@ func _on_level_up():
 	var level_up_message : Array[String] = ["level %s!" % current_level]
 	for level_reward in level_changes[current_level]:
 		level_up_message.push_back("%s + %s" % [level_reward.replace("_", " "), level_changes[current_level][level_reward]])
-	Hud.float_message(level_up_message, global_position)
+	UIManager.float_message(level_up_message, global_position)
 
 func _on_animated_sprite_2d_animation_finished():
 	if state != PlayerState.DEAD:

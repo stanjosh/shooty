@@ -10,7 +10,7 @@ signal interactable_area_exited()
 var accessed : bool = false
 
 func _ready():
-	InventoryManager.refresh(self)
+	UIManager.refresh_interface.emit(self)
 
 func open():
 	accessed = true
@@ -38,9 +38,9 @@ func _on_interactable_area_interacted(player):
 		var player_inventory : InventoryData = player.inventory_data
 		var key = player_inventory.use_key_item(key_item)
 		if key:
-			Hud.float_message(["Used %s" % key_item.name], player.global_position)
+			UIManager.float_message(["Used %s" % key_item.name], player.global_position)
 			key_item = null
 			open()
 		else:
-			Hud.float_message(["Need a %s" % key_item.name], player.global_position)
+			UIManager.float_message(["Need a %s" % key_item.name], player.global_position)
 
