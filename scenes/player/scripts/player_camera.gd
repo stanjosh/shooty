@@ -38,12 +38,12 @@ func switch_camera(camera_type: CameraType, limits: Array[int] = []):
 
 	print("switch to : ", CameraType.keys()[camera_type])
 
-
+	_reset_limits()
 	match camera_type:
 		state:
 			pass
 		CameraType.FOLLOW:
-			_reset_limits()
+
 			state = CameraType.FOLLOW
 			switch_to_following()
 		CameraType.POSITIONAL:

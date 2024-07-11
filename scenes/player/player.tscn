@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data_equip.gd" id="3_kc8by"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/slot_data.gd" id="4_ymcwa"]
 [ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/player/weapons/gun/gun.tscn" id="8_iqjqy"]
-[ext_resource type="Resource" uid="uid://b5advxgkf2ak" path="res://scenes/player/weapons/gun/bullet/bullet_resource.tres" id="9_efrv7"]
+[ext_resource type="Resource" uid="uid://l65tmgbbs5ma" path="res://scenes/player/weapons/gun/flame/flame_resource.tres" id="9_1i10p"]
 [ext_resource type="PackedScene" uid="uid://7tx8y7bexiry" path="res://scenes/player/weapons/sword/sword.tscn" id="11_u8h2i"]
 [ext_resource type="AudioStream" uid="uid://bbtkod66evvx0" path="res://scenes/player/assets/dust_noise.wav" id="13_srm1x"]
 
@@ -683,7 +683,7 @@ position = Vector2(0, -1)
 [node name="gun" parent="pivot" instance=ExtResource("8_iqjqy")]
 y_sort_enabled = false
 position = Vector2(6, 0)
-ordinance = ExtResource("9_efrv7")
+ordinance = ExtResource("9_1i10p")
 
 [node name="sword" parent="pivot" instance=ExtResource("11_u8h2i")]
 

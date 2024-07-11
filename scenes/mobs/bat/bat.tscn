@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/mobs/bat/bat.gd" id="1_32x6b"]
 [ext_resource type="Texture2D" uid="uid://2hdawy0rwcft" path="res://scenes/mobs/bat/flying-head.png" id="2_umbw3"]
-[ext_resource type="AudioStream" uid="uid://32p6gad7nt60" path="res://assets/noise_growl.wav" id="3_us472"]
+[ext_resource type="AudioStream" uid="uid://inu2lksay71q" path="res://assets/bat.wav" id="3_g0711"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g0bct"]
 atlas = ExtResource("2_umbw3")
@@ -285,7 +285,8 @@ wait_time = 0.25
 one_shot = true
 
 [node name="CrySound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_us472")
+stream = ExtResource("3_g0711")
+volume_db = -3.466
 pitch_scale = 1.4
 
 [node name="Hurtbox" type="Area2D" parent="."]
