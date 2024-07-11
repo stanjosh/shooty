@@ -117,7 +117,7 @@ func _unhandled_input(event):
 		if abs(xAxisRL) > deadzone || abs(yAxisUD) > deadzone:
 			$pivot.rotation = Vector2(xAxisRL, yAxisUD).angle()
 			aim_point = $pivot/angle.global_position
-			Input.warp_mouse(get_viewport_transform().get_origin() + velocity.normalized())
+			Input.warp_mouse(lerp($pivot/angle.get_global_transform_with_canvas().origin, self.get_global_transform_with_canvas().origin, .3))
 		else:
 			
 			aim_point = get_global_mouse_position()

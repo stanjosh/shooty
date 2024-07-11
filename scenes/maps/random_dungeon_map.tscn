@@ -428,6 +428,7 @@ layer_2/name = "roof"
 layer_2/z_index = 20
 layer_2/tile_data = PackedInt32Array()
 script = ExtResource("4_irpp8")
+current_camera_type = 1
 player_spawn = NodePath("PlayerSpawn")
 mobs = NodePath("Mobs")
 objects = NodePath("Objects")

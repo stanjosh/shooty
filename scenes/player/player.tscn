@@ -1,4 +1,4 @@
-[gd_scene load_steps=92 format=3 uid="uid://ckq8owam8nxv4"]
+[gd_scene load_steps=91 format=3 uid="uid://ckq8owam8nxv4"]
 
 [ext_resource type="Script" path="res://scenes/player/scripts/player.gd" id="1_1x1bv"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data.gd" id="2_dkkut"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/player/weapons/gun/gun.tscn" id="8_iqjqy"]
 [ext_resource type="Resource" uid="uid://b5advxgkf2ak" path="res://scenes/player/weapons/gun/bullet/bullet_resource.tres" id="9_efrv7"]
 [ext_resource type="PackedScene" uid="uid://7tx8y7bexiry" path="res://scenes/player/weapons/sword/sword.tscn" id="11_u8h2i"]
-[ext_resource type="Script" path="res://scenes/player/scripts/player_camera.gd" id="12_2iaox"]
 [ext_resource type="AudioStream" uid="uid://bbtkod66evvx0" path="res://scenes/player/assets/dust_noise.wav" id="13_srm1x"]
 
 [sub_resource type="Resource" id="Resource_rlbd5"]
@@ -690,7 +689,7 @@ ordinance = ExtResource("9_efrv7")
 
 [node name="angle" type="Marker2D" parent="pivot"]
 unique_name_in_owner = true
-position = Vector2(10, 0)
+position = Vector2(114, 0)
 
 [node name="Area2D" type="Area2D" parent="pivot"]
 visible = false
@@ -718,9 +717,6 @@ occluder = SubResource("OccluderPolygon2D_16s8t")
 stream = ExtResource("13_srm1x")
 
 [node name="Inflictions" type="Node2D" parent="."]
-
-[node name="PlayerCamera" type="Camera2D" parent="."]
-script = ExtResource("12_2iaox")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]

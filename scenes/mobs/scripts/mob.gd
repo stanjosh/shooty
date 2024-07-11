@@ -103,7 +103,7 @@ func set_collisions():
 			set_collision_mask_value(i, true)
 		set_collision_layer_value(7, true)
 	else:
-		for i in [2, 3, 5, 8]:
+		for i in [2, 3, 5, 8, 9]:
 			set_collision_mask_value(i, true)
 		set_collision_layer_value(3, true)
 

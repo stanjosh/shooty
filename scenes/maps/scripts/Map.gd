@@ -37,6 +37,7 @@ func _ready():
 func spawn_player():
 	
 	PlayerManager.get_player().global_position = player_spawn.global_position
-	PlayerManager.player_camera.reset_smoothing()
+	PlayerManager.switch_camera(current_camera_type)
+
 
 
