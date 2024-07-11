@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=3 uid="uid://ckq8owam8nxv4"]
+[gd_scene load_steps=92 format=3 uid="uid://ckq8owam8nxv4"]
 
 [ext_resource type="Script" path="res://scenes/player/scripts/player.gd" id="1_1x1bv"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data.gd" id="2_dkkut"]
@@ -7,10 +7,10 @@
 [ext_resource type="Resource" uid="uid://m4jkoof7bmtu" path="res://scenes/gui/inventory/items/memory_card.tres" id="3_k4n8i"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data_equip.gd" id="3_kc8by"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/slot_data.gd" id="4_ymcwa"]
-[ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/player/weapons/gun.tscn" id="9_dxnlg"]
-[ext_resource type="Script" path="res://scenes/player/weapons/projectile.gd" id="9_s8jtd"]
-[ext_resource type="PackedScene" uid="uid://b1t30j567yq2k" path="res://scenes/player/weapons/lightning.tscn" id="9_tun0x"]
-[ext_resource type="PackedScene" uid="uid://7tx8y7bexiry" path="res://scenes/player/weapons/sword.tscn" id="12_4m10m"]
+[ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/player/weapons/gun/gun.tscn" id="8_iqjqy"]
+[ext_resource type="Resource" uid="uid://b5advxgkf2ak" path="res://scenes/player/weapons/gun/bullet/bullet_resource.tres" id="9_efrv7"]
+[ext_resource type="PackedScene" uid="uid://7tx8y7bexiry" path="res://scenes/player/weapons/sword/sword.tscn" id="11_u8h2i"]
+[ext_resource type="Script" path="res://scenes/player/scripts/player_camera.gd" id="12_2iaox"]
 [ext_resource type="AudioStream" uid="uid://bbtkod66evvx0" path="res://scenes/player/assets/dust_noise.wav" id="13_srm1x"]
 
 [sub_resource type="Resource" id="Resource_rlbd5"]
@@ -591,16 +591,12 @@ max_value = 2.0
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.254408, 1.21022), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="Resource" id="Resource_knn8r"]
-script = ExtResource("9_s8jtd")
-scene = ExtResource("9_tun0x")
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vrwak"]
 radius = 5.0
 height = 126.0
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_16s8t"]
-polygon = PackedVector2Array(-5, 10, -6, 9, -6, 7, -5, 6, 5, 6, 6, 7, 6, 9, 5, 10)
+polygon = PackedVector2Array(0, 8, 0, -6, 0, -6, 0, 8)
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 16
@@ -685,12 +681,12 @@ color = Color(0, 0, 0, 1)
 [node name="pivot" type="Marker2D" parent="."]
 position = Vector2(0, -1)
 
-[node name="gun" parent="pivot" instance=ExtResource("9_dxnlg")]
+[node name="gun" parent="pivot" instance=ExtResource("8_iqjqy")]
 y_sort_enabled = false
 position = Vector2(6, 0)
-projectile = SubResource("Resource_knn8r")
+ordinance = ExtResource("9_efrv7")
 
-[node name="sword" parent="pivot" instance=ExtResource("12_4m10m")]
+[node name="sword" parent="pivot" instance=ExtResource("11_u8h2i")]
 
 [node name="angle" type="Marker2D" parent="pivot"]
 unique_name_in_owner = true
@@ -714,12 +710,17 @@ one_shot = true
 one_shot = true
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+show_behind_parent = true
+position = Vector2(0, -2)
 occluder = SubResource("OccluderPolygon2D_16s8t")
 
 [node name="DashSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("13_srm1x")
 
 [node name="Inflictions" type="Node2D" parent="."]
+
+[node name="PlayerCamera" type="Camera2D" parent="."]
+script = ExtResource("12_2iaox")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]

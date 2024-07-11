@@ -21,25 +21,25 @@ signal player_died
 
 var speed : float = 0:
 	get:
-		return speed + base_speed
+		return base_speed + speed
 
 var max_health : float = 0  :
 	set(value):
-		health = clampf(health, 0, max_health)
 		max_health = value
+		health = clampf(health, 0, max_health)
 	get:
-		return max_health + base_max_health
+		return base_max_health + (max_health * 10)
 	
 var dash_speed : float = 0 :
 	get:
-		return dash_speed + base_dash_speed
+		return base_dash_speed + (dash_speed * 5)
 
 var dash_cooldown : float = 0 :
 	set(new_value):
-		dash_cooldown_timer.wait_time = new_value
-		dash_cooldown = new_value
+		dash_cooldown_timer.wait_time = base_dash_cooldown - (dash_cooldown * 0.25)
+		dash_cooldown = clampf(new_value, 0, 4)
 	get:
-		return dash_cooldown + base_dash_cooldown
+		return base_dash_cooldown - (dash_cooldown * 0.25)
 
 var health : float = max_health :
 	set(value):
@@ -69,6 +69,7 @@ enum PlayerState {
 }
 
 var state : PlayerState = PlayerState.IDLE
+var aim_point : Vector2
 
 func _ready():
 	health = base_max_health
@@ -115,8 +116,12 @@ func _unhandled_input(event):
 		var yAxisUD = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
 		if abs(xAxisRL) > deadzone || abs(yAxisUD) > deadzone:
 			$pivot.rotation = Vector2(xAxisRL, yAxisUD).angle()
-		else:	
-			$pivot.look_at(get_global_mouse_position())
+			aim_point = $pivot/angle.global_position
+			Input.warp_mouse(get_viewport_transform().get_origin() + velocity.normalized())
+		else:
+			
+			aim_point = get_global_mouse_position()
+			$pivot.look_at(aim_point)
 
 func animate():
 	var current_animation : String
@@ -132,7 +137,7 @@ func animate():
 				current_animation = "up_dash"
 	
 	elif not animation_lock:
-		var pivot = wrapi(snapped(get_angle_to(get_global_mouse_position()), PI/4) / (PI/4), 1, 8)
+		var pivot = wrapi(snapped(get_angle_to(aim_point), PI/4) / (PI/4), 1, 8)
 		match pivot:
 			5:
 				if state == PlayerState.MELEE:
@@ -174,7 +179,7 @@ func _physics_process(_delta):
 			velocity = input_direction * dash_speed
 		if not input_direction:
 			velocity = Vector2(0,0)
-	knockback = lerp(knockback, Vector2.ZERO, .1)
+	knockback = lerp(knockback, Vector2.ZERO, .2)
 	velocity = velocity + knockback
 	move_and_slide()
 	animate()
@@ -202,7 +207,7 @@ func take_damage(hit: float, vector: Vector2, extra_force: float = 0):
 	var tween = get_tree().create_tween()
 	tween.tween_property(animated_sprite_2d, "modulate:v", 1, 0.25).from(15)
 	health -= hit
-	knockback = Vector2(20 * hit + extra_force, 20 * hit + extra_force) * vector
+	knockback = Vector2(20 * hit + extra_force, 20 * hit + extra_force) * -vector
 	if health <= 0:
 		health = 0
 		die()
@@ -249,11 +254,11 @@ var level_changes : Dictionary = {
 	}
 
 var stat_names = {
-	EquipStat.StatName.AREA : "speed",
-	EquipStat.StatName.ACCURACY : "dash_speed",
-	EquipStat.StatName.COOLDOWN : "dash_cooldown",
-	EquipStat.StatName.CAPACITY : "max_health",
-	EquipStat.StatName.SPECIAL : "speed" 
+	ItemDataEquip.StatName.AREA : "speed",
+	ItemDataEquip.StatName.ACCURACY : "dash_speed",
+	ItemDataEquip.StatName.COOLDOWN : "dash_cooldown",
+	ItemDataEquip.StatName.CAPACITY : "max_health",
+	ItemDataEquip.StatName.SPECIAL : "speed" 
 }
 
 

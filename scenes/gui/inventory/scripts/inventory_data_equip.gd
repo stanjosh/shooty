@@ -45,7 +45,6 @@ func consolidated() -> Dictionary:
 		and slot_data.item_data != null \
 		and slot_data.item_data is ItemDataEquip:
 			equip_stats.append(slot_data.item_data.consolidated_equip_stats())
-	
 	for i in equip_stats:
 		for k in i:
 			stat_dict[k] = 0

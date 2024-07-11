@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://cpo01df866622"]
+
+[ext_resource type="Script" path="res://scenes/effects/poison_effect.gd" id="1_6dphq"]
+
+[sub_resource type="Curve" id="Curve_1s5ga"]
+max_value = 10.0
+_data = [Vector2(0.129683, 5.52988), 0.0, 0.0, 0, 0, Vector2(0.365994, 0), 0.0, 0.0, 0, 0, Vector2(0.737752, 2.81849), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_cbylo"]
+max_value = 2.0
+_data = [Vector2(0.011236, 0), 0.0, 0.0, 0, 0, Vector2(0.149856, 1.42841), 0.0, 0.0, 0, 0, Vector2(0.397695, 0.505073), 0.0, 0.0, 0, 0, Vector2(0.821326, 0.97407), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Gradient" id="Gradient_l41yb"]
+offsets = PackedFloat32Array(0, 0.840125)
+colors = PackedColorArray(0, 0.852735, 0, 1, 0.114303, 0.221, 4.81308e-08, 1)
+
+[node name="PoisonEffect" type="Node2D"]
+script = ExtResource("1_6dphq")
+
+[node name="PoisonParticles" type="CPUParticles2D" parent="."]
+position = Vector2(0, -6)
+amount = 24
+emission_shape = 1
+emission_sphere_radius = 2.0
+spread = 86.31
+gravity = Vector2(0, -60)
+damping_max = 10.0
+damping_curve = SubResource("Curve_1s5ga")
+scale_amount_min = 0.0
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_cbylo")
+color_ramp = SubResource("Gradient_l41yb")

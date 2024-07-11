@@ -13,8 +13,6 @@ var external_inventory_owner
 
 @onready var grabbed_slot = $GrabbedSlot
 @onready var external_inventory : Control = $ExternalInventory
-@onready var player = PlayerManager.player
-
 
 
 

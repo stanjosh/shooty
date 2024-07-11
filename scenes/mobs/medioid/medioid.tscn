@@ -291,22 +291,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o2m8v"]
-radius = 6.0
-height = 16.0
-
-[sub_resource type="Curve" id="Curve_a54kw"]
-max_value = 100.0
-_data = [Vector2(0, 95.5581), 0.0, -247.968, 0, 0, Vector2(1, 4.49886), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_n8m5y"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_l17p4"]
-polygon = PackedVector2Array(-6, -1, -4, -9, 2, -9, 2, -3, 0, 2, -7, 2)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_flxgo"]
 radius = 15.0333
 
@@ -455,6 +439,22 @@ _data = {
 "charge": SubResource("Animation_od7g6")
 }
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o2m8v"]
+radius = 6.0
+height = 16.0
+
+[sub_resource type="Curve" id="Curve_a54kw"]
+max_value = 100.0
+_data = [Vector2(0, 95.5581), 0.0, -247.968, 0, 0, Vector2(1, 4.49886), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_n8m5y"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_l17p4"]
+polygon = PackedVector2Array(-6, -1, -4, -9, 2, -9, 2, -3, 0, 2, -7, 2)
+
 [sub_resource type="Curve" id="Curve_l2dsx"]
 _data = [Vector2(0, 0), 0.0, 1.98343, 0, 0, Vector2(0.504178, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
@@ -483,6 +483,12 @@ player_damage = 20.0
 sprite_frames = SubResource("SpriteFrames_vhn7c")
 animation = &"idle"
 autoplay = "idle"
+
+[node name="HurtboxAnim" type="AnimationPlayer" parent="AnimatedSprite2D"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_hp836")
+}
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2(-1, -3)
@@ -521,12 +527,6 @@ pitch_scale = 0.75
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 16
-
-[node name="HurtboxAnim" type="AnimationPlayer" parent="Hurtbox"]
-root_node = NodePath("../..")
-libraries = {
-"": SubResource("AnimationLibrary_hp836")
-}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CircleShape2D_flxgo")

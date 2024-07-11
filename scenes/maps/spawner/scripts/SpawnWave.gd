@@ -2,7 +2,7 @@ extends Node2D
 class_name SpawnWave
 
 const SPAWN_PARTICLES = preload("res://scenes/maps/spawner/spawn_particles.tscn")
-@onready var world = get_node("/root/Game/World")
+
 
 @export_range(1, 10) var danger_level : float
 @export_range(0.1, 1) var spawn_speed : float = 1
@@ -59,8 +59,8 @@ func _on_spawn_timer_timeout():
 		enemy.global_position = spawn_point.global_position
 		enemy.difficulty_scalar = danger_level
 		enemy.strategy = Mob.MobStrategy.CHASE
-		world.add_child(particles)
-		world.add_child(enemy)
+		MapManager.current_map.add_child(particles)
+		MapManager.current_map.add_child(enemy)
 	else:
 		spawn_timer.stop()
 		print("wave complete")

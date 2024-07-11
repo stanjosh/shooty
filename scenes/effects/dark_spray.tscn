@@ -207,8 +207,6 @@ animations = [{
 }]
 
 [node name="death_spray" type="Node2D" groups=["sprays"]]
-z_index = -1
-y_sort_enabled = true
 script = ExtResource("1_4veat")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

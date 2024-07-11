@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Ordinance" load_steps=3 format=3 uid="uid://b5advxgkf2ak"]
+
+[ext_resource type="PackedScene" uid="uid://6qxco026ufkq" path="res://scenes/player/weapons/gun/bullet/bullet.tscn" id="1_16mse"]
+[ext_resource type="Script" path="res://scenes/player/weapons/gun/ordinance_resource.gd" id="1_cyfm2"]
+
+[resource]
+script = ExtResource("1_cyfm2")
+scene = ExtResource("1_16mse")
+shot_type = 1

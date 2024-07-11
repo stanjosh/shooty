@@ -14,11 +14,29 @@
 [ext_resource type="Script" path="res://scenes/gui/scripts/game_over.gd" id="7_trp5y"]
 [ext_resource type="Script" path="res://scenes/gui/scripts/heads_up_display.gd" id="8_2kria"]
 [ext_resource type="PackedScene" uid="uid://cshxn3hr142mq" path="res://scenes/gui/status.tscn" id="12_pihbl"]
-[ext_resource type="Script" path="res://scenes/gui/scripts/Menu.gd" id="16_rt1tu"]
+[ext_resource type="Script" path="res://scenes/gui/scripts/main_menu.gd" id="15_gk2a1"]
 
 [sub_resource type="Theme" id="Theme_knvcr"]
 default_font = ExtResource("3_nky2f")
 default_font_size = 32
+
+[sub_resource type="Theme" id="Theme_ajg7v"]
+default_font = ExtResource("3_nky2f")
+default_font_size = 32
+
+[sub_resource type="Theme" id="Theme_nwmpy"]
+
+[sub_resource type="Theme" id="Theme_e68rp"]
+default_font = ExtResource("3_nky2f")
+default_font_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dkqd6"]
+content_margin_left = 85.0
+content_margin_top = 4.0
+content_margin_right = 85.0
+content_margin_bottom = 4.0
+bg_color = Color(0.814387, 0.909493, 0.950738, 1)
+anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjc1o"]
 bg_color = Color(0.97065, 0.59733, 0, 1)
@@ -85,25 +103,8 @@ point_count = 3
 offsets = PackedFloat32Array(0, 0.387534, 0.639566)
 colors = PackedColorArray(0.752941, 0, 0.0313726, 1, 0.773787, 0.0579044, 0.0287255, 1, 1, 0.686275, 0, 1)
 
-[sub_resource type="Theme" id="Theme_ajg7v"]
-default_font = ExtResource("3_nky2f")
-default_font_size = 32
-
-[sub_resource type="Theme" id="Theme_nwmpy"]
-
-[sub_resource type="Theme" id="Theme_e68rp"]
-default_font = ExtResource("3_nky2f")
-default_font_size = 32
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dkqd6"]
-content_margin_left = 85.0
-content_margin_top = 4.0
-content_margin_right = 85.0
-content_margin_bottom = 4.0
-bg_color = Color(0.814387, 0.909493, 0.950738, 1)
-anti_aliasing = false
-
 [node name="UserInterface" type="CanvasLayer"]
+process_mode = 3
 layer = 10
 script = ExtResource("1_sbawl")
 
@@ -178,329 +179,6 @@ theme_override_fonts/font = ExtResource("2_y8uil")
 text = "Quit"
 flat = true
 
-[node name="InventoryInterface" type="Control" parent="."]
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 2
-mouse_filter = 1
-script = ExtResource("4_ibc0o")
-
-[node name="GrabbedSlot" parent="InventoryInterface" instance=ExtResource("6_phlc7")]
-visible = false
-modulate = Color(1, 1, 1, 0.498039)
-self_modulate = Color(1, 1, 1, 0)
-layout_mode = 0
-mouse_filter = 1
-
-[node name="ExternalInventory" parent="InventoryInterface" instance=ExtResource("5_fnxsd")]
-visible = false
-layout_mode = 0
-size_flags_vertical = 0
-
-[node name="PlayerInventory" type="VSplitContainer" parent="InventoryInterface"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -4.0
-offset_top = -20.0
-offset_right = 4.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="ItemInventory" parent="InventoryInterface/PlayerInventory" instance=ExtResource("5_fnxsd")]
-layout_mode = 2
-
-[node name="EquipInventory" type="GridContainer" parent="InventoryInterface/PlayerInventory"]
-layout_mode = 2
-size_flags_vertical = 3
-columns = 3
-
-[node name="Status" parent="InventoryInterface" instance=ExtResource("12_pihbl")]
-layout_mode = 1
-
-[node name="GameOverMenu" type="Control" parent="."]
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-script = ExtResource("7_trp5y")
-
-[node name="MarginContainer" type="MarginContainer" parent="GameOverMenu"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="GameOverMenu/MarginContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="GameOverMenu/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_fonts/font = ExtResource("2_y8uil")
-theme_override_font_sizes/font_size = 64
-text = "Game Over"
-
-[node name="RestartButton" type="Button" parent="GameOverMenu/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(240, 40)
-layout_mode = 2
-size_flags_vertical = 8
-theme = SubResource("Theme_0sm5v")
-text = "Restart
-"
-
-[node name="HeadsUpDisplay" type="Control" parent="."]
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("8_2kria")
-metadata/_edit_use_anchors_ = true
-
-[node name="Bottom" type="HBoxContainer" parent="HeadsUpDisplay"]
-light_mask = 512
-visibility_layer = 512
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 60.0
-offset_top = 26.0
-offset_right = 60.0
-offset_bottom = 26.0
-grow_horizontal = 2
-grow_vertical = 0
-alignment = 1
-
-[node name="MineCounter" type="Label" parent="HeadsUpDisplay/Bottom"]
-visible = false
-light_mask = 512
-visibility_layer = 512
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_y8uil")
-text = "10/10"
-label_settings = SubResource("LabelSettings_xjdpx")
-horizontal_alignment = 1
-vertical_alignment = 2
-metadata/_edit_use_anchors_ = true
-
-[node name="HealthOrb" type="Control" parent="HeadsUpDisplay/Bottom"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 8
-script = ExtResource("3_rrq2n")
-
-[node name="Orb" type="TextureRect" parent="HeadsUpDisplay/Bottom/HealthOrb"]
-clip_children = 1
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -128.0
-offset_right = 128.0
-grow_vertical = 0
-texture = ExtResource("3_supl2")
-
-[node name="PlayerHealthBar2" type="ProgressBar" parent="HeadsUpDisplay/Bottom/HealthOrb/Orb"]
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_yswpx")
-theme_override_styles/fill = SubResource("StyleBoxFlat_n1l2n")
-value = 100.0
-fill_mode = 3
-show_percentage = false
-
-[node name="PlayerHealthBar" type="ProgressBar" parent="HeadsUpDisplay/Bottom/HealthOrb/Orb"]
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 1
-theme_override_styles/background = SubResource("StyleBoxEmpty_cc6ld")
-theme_override_styles/fill = SubResource("StyleBoxFlat_tr0qq")
-value = 100.0
-fill_mode = 3
-show_percentage = false
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="HeadsUpDisplay/Bottom/HealthOrb/Orb/PlayerHealthBar"]
-position = Vector2(63, 122)
-amount = 16
-lifetime = 3.0
-emission_shape = 1
-emission_sphere_radius = 64.0
-direction = Vector2(0, -1)
-spread = 0.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 60.0
-initial_velocity_max = 60.0
-damping_max = 20.0
-damping_curve = SubResource("Curve_7i10r")
-scale_amount_max = 2.0
-color = Color(0.754246, 0.291804, 1.05888e-06, 1)
-
-[node name="HealthCounter" type="Label" parent="HeadsUpDisplay/Bottom/HealthOrb/Orb"]
-light_mask = 512
-visibility_layer = 512
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -28.0
-offset_top = -42.0
-offset_right = 28.0
-offset_bottom = -16.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 4
-text = "100/100"
-label_settings = SubResource("LabelSettings_xjdpx")
-horizontal_alignment = 1
-vertical_alignment = 1
-justification_flags = 0
-
-[node name="TextureRect" type="TextureRect" parent="HeadsUpDisplay/Bottom/HealthOrb"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = -3.0
-offset_top = -135.0
-offset_right = 61.0
-offset_bottom = -71.0
-grow_vertical = 0
-scale = Vector2(2.12342, 2.12342)
-texture = ExtResource("6_q16a3")
-
-[node name="OverheatMeter" type="Control" parent="HeadsUpDisplay/Bottom"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 8
-script = ExtResource("5_3426p")
-
-[node name="OverheatBar" type="ProgressBar" parent="HeadsUpDisplay/Bottom/OverheatMeter"]
-clip_children = 1
-custom_minimum_size = Vector2(64, 128)
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -64.0
-offset_top = -196.0
-grow_horizontal = 0
-grow_vertical = 0
-size_flags_vertical = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_pcyw0")
-theme_override_styles/fill = SubResource("StyleBoxFlat_lcj4n")
-value = 100.0
-fill_mode = 3
-show_percentage = false
-
-[node name="TextureRect" type="TextureRect" parent="HeadsUpDisplay/Bottom/OverheatMeter/OverheatBar"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("GradientTexture2D_0c16i")
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="HeadsUpDisplay/Bottom/OverheatMeter/OverheatBar"]
-position = Vector2(31, 78)
-amount = 100
-emission_shape = 2
-emission_sphere_radius = 28.0
-direction = Vector2(0, -1)
-spread = 0.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 50.0
-initial_velocity_max = 60.0
-damping_max = 20.0
-damping_curve = SubResource("Curve_i314n")
-scale_amount_min = 0.0
-scale_amount_max = 2.0
-scale_amount_curve = SubResource("Curve_gs0mh")
-color_ramp = SubResource("Gradient_o0psg")
-
-[node name="AmmoCounter" type="Label" parent="HeadsUpDisplay/Bottom/OverheatMeter/OverheatBar"]
-visible = false
-light_mask = 512
-visibility_layer = 512
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -26.0
-grow_horizontal = 0
-grow_vertical = 0
-size_flags_horizontal = 8
-size_flags_vertical = 8
-text = "20/20"
-label_settings = SubResource("LabelSettings_xjdpx")
-horizontal_alignment = 2
-vertical_alignment = 2
-
-[node name="TopLeft" type="MarginContainer" parent="HeadsUpDisplay"]
-light_mask = 512
-visibility_layer = 512
-layout_mode = 0
-offset_right = 174.0
-offset_bottom = 78.0
-size_flags_horizontal = 8
-
-[node name="XPCounter" type="Label" parent="HeadsUpDisplay/TopLeft"]
-light_mask = 512
-visibility_layer = 512
-layout_mode = 2
-size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_y8uil")
-label_settings = SubResource("LabelSettings_xjdpx")
-vertical_alignment = 2
-metadata/_edit_use_anchors_ = true
-
 [node name="MainMenu" type="Control" parent="."]
 process_mode = 3
 layout_mode = 3
@@ -509,8 +187,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme = SubResource("Theme_ajg7v")
-script = ExtResource("16_rt1tu")
+script = ExtResource("15_gk2a1")
 
 [node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
 layout_mode = 1
@@ -614,12 +293,333 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
 text = "testing map"
 flat = true
 
-[connection signal="pressed" from="PauseMenu/MarginContainer/VBoxContainer/NinePatchRect/Resume" to="." method="_on_resume_pressed"]
+[node name="InventoryInterface" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+mouse_filter = 1
+script = ExtResource("4_ibc0o")
+
+[node name="GrabbedSlot" parent="InventoryInterface" instance=ExtResource("6_phlc7")]
+visible = false
+modulate = Color(1, 1, 1, 0.498039)
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+
+[node name="ExternalInventory" parent="InventoryInterface" instance=ExtResource("5_fnxsd")]
+visible = false
+layout_mode = 0
+size_flags_vertical = 0
+mouse_filter = 0
+
+[node name="PlayerInventory" type="VSplitContainer" parent="InventoryInterface"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -20.0
+offset_right = 4.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ItemInventory" parent="InventoryInterface/PlayerInventory" instance=ExtResource("5_fnxsd")]
+layout_mode = 2
+
+[node name="EquipInventory" type="GridContainer" parent="InventoryInterface/PlayerInventory"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 3
+
+[node name="Status" parent="InventoryInterface" instance=ExtResource("12_pihbl")]
+layout_mode = 1
+
+[node name="GameOverMenu" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("7_trp5y")
+
+[node name="MarginContainer" type="MarginContainer" parent="GameOverMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GameOverMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_y8uil")
+theme_override_font_sizes/font_size = 64
+text = "Game Over"
+
+[node name="RestartButton" type="Button" parent="GameOverMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(240, 40)
+layout_mode = 2
+size_flags_vertical = 8
+theme = SubResource("Theme_0sm5v")
+text = "Restart
+"
+
+[node name="HeadsUpDisplay" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("8_2kria")
+metadata/_edit_use_anchors_ = true
+
+[node name="Bottom" type="HBoxContainer" parent="HeadsUpDisplay"]
+light_mask = 512
+visibility_layer = 512
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MineCounter" type="Label" parent="HeadsUpDisplay/Bottom"]
+visible = false
+light_mask = 512
+visibility_layer = 512
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_y8uil")
+text = "10/10"
+label_settings = SubResource("LabelSettings_xjdpx")
+horizontal_alignment = 1
+vertical_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HealthOrb" type="Control" parent="HeadsUpDisplay/Bottom"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 8
+mouse_filter = 2
+script = ExtResource("3_rrq2n")
+
+[node name="Orb" type="TextureRect" parent="HeadsUpDisplay/Bottom/HealthOrb"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_right = 128.0
+grow_vertical = 0
+texture = ExtResource("3_supl2")
+
+[node name="PlayerHealthBar2" type="ProgressBar" parent="HeadsUpDisplay/Bottom/HealthOrb/Orb"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_yswpx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_n1l2n")
+value = 100.0
+fill_mode = 3
+show_percentage = false
+
+[node name="PlayerHealthBar" type="ProgressBar" parent="HeadsUpDisplay/Bottom/HealthOrb/Orb"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxEmpty_cc6ld")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tr0qq")
+value = 100.0
+fill_mode = 3
+show_percentage = false
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="HeadsUpDisplay/Bottom/HealthOrb/Orb/PlayerHealthBar"]
+position = Vector2(63, 122)
+amount = 16
+lifetime = 3.0
+emission_shape = 1
+emission_sphere_radius = 64.0
+direction = Vector2(0, -1)
+spread = 0.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 60.0
+initial_velocity_max = 60.0
+damping_max = 20.0
+damping_curve = SubResource("Curve_7i10r")
+scale_amount_max = 2.0
+color = Color(0.754246, 0.291804, 1.05888e-06, 1)
+
+[node name="HealthCounter" type="Label" parent="HeadsUpDisplay/Bottom/HealthOrb/Orb"]
+light_mask = 512
+visibility_layer = 512
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -28.0
+offset_top = -42.0
+offset_right = 28.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+text = "100/100"
+label_settings = SubResource("LabelSettings_xjdpx")
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 0
+
+[node name="TextureRect" type="TextureRect" parent="HeadsUpDisplay/Bottom/HealthOrb"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = -135.0
+offset_right = 61.0
+offset_bottom = -71.0
+grow_vertical = 0
+scale = Vector2(2.12342, 2.12342)
+texture = ExtResource("6_q16a3")
+
+[node name="OverheatMeter" type="Control" parent="HeadsUpDisplay/Bottom"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+mouse_filter = 2
+script = ExtResource("5_3426p")
+
+[node name="OverheatBar" type="ProgressBar" parent="HeadsUpDisplay/Bottom/OverheatMeter"]
+clip_children = 1
+custom_minimum_size = Vector2(64, 128)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -196.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_pcyw0")
+theme_override_styles/fill = SubResource("StyleBoxFlat_lcj4n")
+value = 100.0
+fill_mode = 3
+show_percentage = false
+
+[node name="TextureRect" type="TextureRect" parent="HeadsUpDisplay/Bottom/OverheatMeter/OverheatBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_0c16i")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="HeadsUpDisplay/Bottom/OverheatMeter/OverheatBar"]
+position = Vector2(31, 78)
+amount = 100
+emission_shape = 2
+emission_sphere_radius = 28.0
+direction = Vector2(0, -1)
+spread = 0.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 60.0
+damping_max = 20.0
+damping_curve = SubResource("Curve_i314n")
+scale_amount_min = 0.0
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_gs0mh")
+color_ramp = SubResource("Gradient_o0psg")
+
+[node name="AmmoCounter" type="Label" parent="HeadsUpDisplay/Bottom/OverheatMeter/OverheatBar"]
+visible = false
+light_mask = 512
+visibility_layer = 512
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -26.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "20/20"
+label_settings = SubResource("LabelSettings_xjdpx")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="TopLeft" type="MarginContainer" parent="HeadsUpDisplay"]
+light_mask = 512
+visibility_layer = 512
+layout_mode = 0
+offset_right = 174.0
+offset_bottom = 78.0
+size_flags_horizontal = 8
+
+[node name="XPCounter" type="Label" parent="HeadsUpDisplay/TopLeft"]
+light_mask = 512
+visibility_layer = 512
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_y8uil")
+label_settings = SubResource("LabelSettings_xjdpx")
+vertical_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="PauseMenu/MarginContainer/VBoxContainer/NinePatchRect/Resume" to="." method="_on_pause_pressed"]
 [connection signal="pressed" from="PauseMenu/MarginContainer/VBoxContainer/NinePatchRect2/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect2/play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect3/options" to="MainMenu" method="_on_options_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect/exit" to="MainMenu" method="_on_exit_pressed"]
+[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect4/DungeonGen" to="." method="_on_dungeon_gen_pressed"]
 [connection signal="gui_input" from="InventoryInterface" to="InventoryInterface" method="_on_gui_input"]
 [connection signal="visibility_changed" from="InventoryInterface" to="InventoryInterface" method="_on_visibility_changed"]
 [connection signal="pressed" from="GameOverMenu/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
-[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect2/play" to="MainMenu" method="_on_play_pressed"]
-[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect3/options" to="MainMenu" method="_on_options_pressed"]
-[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect/exit" to="MainMenu" method="_on_exit_pressed"]
-[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect4/DungeonGen" to="MainMenu" method="_on_dungeon_gen_pressed"]

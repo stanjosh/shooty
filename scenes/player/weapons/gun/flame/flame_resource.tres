@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="Ordinance" load_steps=2 format=3 uid="uid://l65tmgbbs5ma"]
+
+[ext_resource type="Script" path="res://scenes/player/weapons/gun/ordinance_resource.gd" id="1_sxft8"]
+
+[resource]
+script = ExtResource("1_sxft8")
+shot_type = 0

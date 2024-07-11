@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://bbeoibxw545vm"]
+
+[ext_resource type="Script" path="res://scenes/effects/scripts/fire_effect.gd" id="1_74iar"]
+
+[sub_resource type="Curve" id="Curve_pt4pa"]
+max_value = 10.0
+_data = [Vector2(0, 1.75824), 0.0, 0.0, 0, 0, Vector2(0.393258, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_sw5ec"]
+max_value = 3.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.140449, 1.28571), 0.0, 0.0, 0, 0, Vector2(0.269663, 0.758242), -6.19414, -6.19414, 0, 0, Vector2(0.606742, 0), 0.0, 0.0, 0, 0, Vector2(0.797753, 0.824176), -7.62857, -7.62857, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 6
+
+[sub_resource type="Gradient" id="Gradient_il6ga"]
+offsets = PackedFloat32Array(0, 0.333333, 0.513333, 0.76)
+colors = PackedColorArray(1, 0.423529, 0, 1, 1, 0.678431, 0.0470588, 0.682353, 1, 1, 1, 1, 0.0941176, 0.0941176, 0.0941176, 0.384314)
+
+[sub_resource type="Gradient" id="Gradient_nsjr7"]
+offsets = PackedFloat32Array(0.142857, 0.603896, 0.720779)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.0659229, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4a7qb"]
+gradient = SubResource("Gradient_nsjr7")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="FireEffect" type="Node2D"]
+script = ExtResource("1_74iar")
+
+[node name="FireParticles" type="CPUParticles2D" parent="."]
+amount = 100
+lifetime = 2.0
+randomness = 0.8
+lifetime_randomness = 0.16
+emission_shape = 2
+emission_sphere_radius = 7.74
+gravity = Vector2(0, -80)
+radial_accel_min = -15.0
+radial_accel_max = 15.0
+damping_max = 20.0
+damping_curve = SubResource("Curve_pt4pa")
+scale_amount_max = 3.0
+scale_amount_curve = SubResource("Curve_sw5ec")
+color_ramp = SubResource("Gradient_il6ga")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+show_behind_parent = true
+z_index = 5
+color = Color(0.820983, 0.500432, 1.15514e-06, 0.72549)
+energy = 0.0
+shadow_color = Color(0, 0, 0, 1)
+texture = SubResource("GradientTexture2D_4a7qb")

@@ -1,16 +1,17 @@
 extends Node
 
-@onready var world = %World
 
-var paused: bool = true
-
-func _ready():
-	UiManager.connect("pause_game", pause)
+var paused: bool = false
 
 func pause():
 	
 	if paused:
-		%World.process_mode = Node.PROCESS_MODE_ALWAYS
+		MapManager.process_mode = Node.PROCESS_MODE_ALWAYS
 	else:
-		%World.process_mode = Node.PROCESS_MODE_DISABLED
+		MapManager.process_mode = Node.PROCESS_MODE_DISABLED
 	paused = !paused
+
+func _ready():
+	UIManager.connect("pause_game", pause)
+
+

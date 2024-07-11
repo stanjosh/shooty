@@ -3,7 +3,6 @@ extends CanvasLayer
 
 signal drop_slot_data(slot_data)
 signal update_stats(key, value)
-signal pause_game()
 
 
 @onready var pause_menu = $PauseMenu
@@ -13,8 +12,6 @@ signal pause_game()
 @onready var main_menu = $MainMenu
 
 
-var paused: bool
-
 enum MenuName {
 	PAUSE,
 	MAIN,
@@ -23,7 +20,10 @@ enum MenuName {
 	HUD
 }
 
-
+func _ready():
+	UIManager.connect("pause_game", _on_pause_pressed)
+	UIManager.connect("game_over", _on_game_over)
+	
 func mode(menu : MenuName = MenuName.HUD):
 	for child in get_children():
 		child.hide()
@@ -36,29 +36,18 @@ func mode(menu : MenuName = MenuName.HUD):
 			pause_menu.show()
 		MenuName.MAIN:
 			main_menu.show()
-		MenuName.HUD:
-			heads_up_display.show()
 		_:
+			heads_up_display.show()
 			pass
 
+func _on_pause_pressed():
+	if !$"/root/Game".paused:
+		mode(MenuName.PAUSE)
+	else:
+		mode()
 
-
-
-const FLOATING_STATUS = preload("res://scenes/effects/floating_status.tscn")
-func float_message(message : Array[String], global_position, vector : Vector2 = Vector2.ZERO):
-	var lines = message.size()
-	for line in message:
-		var status_msg = FLOATING_STATUS.instantiate()
-		lines -= 1
-		status_msg.position = global_position
-		status_msg.position = Vector2(global_position.x, global_position.y - 8 * lines)
-		status_msg.value = line
-		status_msg.vector = vector
-		call_deferred("add_child", status_msg)
-
-func _process(_delta):
-	if Input.is_action_just_pressed("pause"):
-		UiManager.pause_game.emit()
+func  _on_game_over():
+	mode(MenuName.GAME_OVER)
 
 func _on_quit_pressed():
 	get_tree().quit()
@@ -66,7 +55,17 @@ func _on_quit_pressed():
 func _on_inventory_interface_drop_slot_data(slot_data):
 	drop_slot_data.emit(slot_data)
 
-
 func _on_restart_button_pressed():
-	get_tree().change_scene_to_file("res://scenes/game.tscn")
+	mode()
+	MapManager.current_map.spawn_player()
+
+func _on_play_pressed():
+	mode(MenuName.HUD)
+	MapManager.load_map()
+
+
+func _on_dungeon_gen_pressed():
+	mode(MenuName.HUD)
+	MapManager.load_map("testing")
+
 

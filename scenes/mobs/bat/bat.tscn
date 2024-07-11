@@ -183,17 +183,6 @@ animations = [{
 "speed": 15.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_hxphe"]
-radius = 8.0
-
-[sub_resource type="Curve" id="Curve_rui1n"]
-max_value = 2.0
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0730479, 2), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fwwg6"]
-size = Vector2(17.9804, 10.2941)
-
 [sub_resource type="Animation" id="Animation_m8gk6"]
 length = 0.001
 tracks/0/type = "value"
@@ -231,6 +220,17 @@ _data = {
 "attack": SubResource("Animation_pg2jh")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_hxphe"]
+radius = 8.0
+
+[sub_resource type="Curve" id="Curve_rui1n"]
+max_value = 2.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0730479, 2), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fwwg6"]
+size = Vector2(17.9804, 10.2941)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hirq5"]
 
 [node name="bat" type="CharacterBody2D"]
@@ -253,6 +253,12 @@ sprite_frames = SubResource("SpriteFrames_6873n")
 animation = &"attack"
 autoplay = "idle"
 offset = Vector2(0, -20)
+
+[node name="HurtboxAnim" type="AnimationPlayer" parent="AnimatedSprite2D"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_hp836")
+}
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2(-1, -1)
@@ -293,12 +299,6 @@ position = Vector2(-2.38419e-07, 4.90196)
 scale = Vector2(1.00872, 1)
 shape = SubResource("RectangleShape2D_fwwg6")
 disabled = true
-
-[node name="HurtboxAnim" type="AnimationPlayer" parent="Hurtbox"]
-root_node = NodePath("../..")
-libraries = {
-"": SubResource("AnimationLibrary_hp836")
-}
 
 [node name="DetectionArea" type="Area2D" parent="."]
 collision_layer = 0
