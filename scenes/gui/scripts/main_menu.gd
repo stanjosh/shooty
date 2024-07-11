@@ -3,6 +3,7 @@ class_name MainMenu
 
 var fullscreen : bool = false
 @onready var play = $MarginContainer/VBoxContainer/NinePatchRect2/play
+
 func _ready():
 	play.grab_focus()
 
