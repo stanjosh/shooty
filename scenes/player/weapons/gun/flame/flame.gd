@@ -35,8 +35,9 @@ func _physics_process(delta):
 		eject_particles.gravity = Vector2.UP * 140
 		if ray_cast_2d.is_colliding():
 			var pos = ray_cast_2d.get_collision_point()
-			print(dropoff * (position.distance_to(to_local(pos)) * .01))
-			beam_length = (position.distance_to(to_local(pos))) / dropoff + 3
+			if ray_cast_2d.get_collision_mask_value(8) or ray_cast_2d.get_collision_mask_value(9):
+				print(dropoff * (position.distance_to(to_local(pos)) * .01))
+				beam_length = (position.distance_to(to_local(pos))) / dropoff + 3
 			hit_particles.emitting = true
 			hit_particles.global_position = pos
 			hit_particles.emission_sphere_radius = beam_length / dropoff
