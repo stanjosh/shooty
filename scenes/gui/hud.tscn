@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://cd0uh1gl3j2yw"]
+[gd_scene load_steps=39 format=3 uid="uid://cd0uh1gl3j2yw"]
 
 [ext_resource type="Script" path="res://scenes/gui/scripts/user_interface.gd" id="1_sbawl"]
 [ext_resource type="FontFile" uid="uid://m1jk0peka30j" path="res://assets/m6x11.ttf" id="2_y8uil"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_interface.gd" id="4_ibc0o"]
 [ext_resource type="Script" path="res://scenes/gui/scripts/OverheatMeter.gd" id="5_3426p"]
 [ext_resource type="PackedScene" uid="uid://ubaicyh12ctv" path="res://scenes/gui/inventory/inventory.tscn" id="5_fnxsd"]
+[ext_resource type="Shader" path="res://scenes/gui/hud.gdshader" id="5_qa7h8"]
 [ext_resource type="PackedScene" uid="uid://d1lua354iq30d" path="res://scenes/gui/inventory/slot.tscn" id="6_phlc7"]
 [ext_resource type="Texture2D" uid="uid://bpclk7ym07oa2" path="res://scenes/gui/assets/orb_shine.png" id="6_q16a3"]
 [ext_resource type="Script" path="res://scenes/gui/scripts/game_over.gd" id="7_trp5y"]
@@ -19,6 +20,10 @@
 [sub_resource type="Theme" id="Theme_knvcr"]
 default_font = ExtResource("3_nky2f")
 default_font_size = 32
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6vqbe"]
+shader = ExtResource("5_qa7h8")
+shader_parameter/lod = 0.0
 
 [sub_resource type="Theme" id="Theme_ajg7v"]
 default_font = ExtResource("3_nky2f")
@@ -178,6 +183,15 @@ grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_y8uil")
 text = "Quit"
 flat = true
+
+[node name="Panel" type="Panel" parent="PauseMenu"]
+material = SubResource("ShaderMaterial_6vqbe")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="MainMenu" type="Control" parent="."]
 process_mode = 3

@@ -31,8 +31,6 @@ func _get_configuration_warnings():
 
 func _ready():
 	z_index = -2
-	spawn_player()
-
 
 func spawn_player():
 	

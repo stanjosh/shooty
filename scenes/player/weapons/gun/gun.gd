@@ -92,7 +92,7 @@ func _physics_process(delta):
 				for child in barrel.get_children():
 					child.emitting = true
 					child.damage *= pellets
-					child.global_rotation_degrees = global_rotation_degrees + randfn(0, accuracy / 100)
+					child.projectile.global_rotation_degrees = global_rotation_degrees + randfn(0, accuracy / 100)
 					heat_level += child.heat_generated * delta
 			if heat_level >= heat_capacity:
 				state = GunState.OVERHEATED
