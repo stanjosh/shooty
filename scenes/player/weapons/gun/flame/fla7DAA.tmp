@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://diypynu285b7h"]
+[gd_scene load_steps=9 format=3 uid="uid://diypynu285b7h"]
 
 [ext_resource type="Script" path="res://scenes/player/weapons/gun/flame/flame.gd" id="1_qbfmn"]
 [ext_resource type="AudioStream" uid="uid://c2rgro4hrmduo" path="res://assets/hiss_noise.wav" id="2_3o5kf"]
@@ -31,10 +31,6 @@ point_count = 5
 [sub_resource type="Gradient" id="Gradient_kglda"]
 offsets = PackedFloat32Array(0, 0.118834, 0.475336, 0.540359)
 colors = PackedColorArray(0.576471, 0.972549, 1, 0.227451, 1, 0.642363, 0.336072, 1, 0.533333, 0.262745, 0, 1, 0, 0, 0, 0.32549)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_omiep"]
-closed = false
-polygon = PackedVector2Array(0, -2, 0, 2)
 
 [node name="Flame" type="Node2D"]
 script = ExtResource("1_qbfmn")
@@ -106,8 +102,5 @@ scale_amount_min = 0.0
 scale_amount_max = 2.0
 scale_amount_curve = SubResource("Curve_a6xkf")
 color_ramp = SubResource("Gradient_kglda")
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-occluder = SubResource("OccluderPolygon2D_omiep")
 
 [connection signal="body_entered" from="projectile" to="." method="_on_projectile_body_entered"]

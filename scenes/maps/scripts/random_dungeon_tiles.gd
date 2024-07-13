@@ -72,21 +72,21 @@ func maybe_lock_door(door_position, door_rotation = 0) -> bool:
 func create_camera_area(room, connected_room) -> void:
 	var tracking_area = DUNGEON_TRACKING_CAMERA_SWITCHER.instantiate()
 	if room.position.x == connected_room.position.x:
-		tracking_area.global_position.x = ((room_size.x * room.position.x + room_size.x / 2) * tile_set.tile_size.x) + tile_set.tile_size.x / 2
+		tracking_area.global_position.x = ((room_size.x * room.position.x + room_size.x / 2.0) * tile_set.tile_size.x) + tile_set.tile_size.x / 2.0
 		tracking_area.global_position.y = (room_size.y * connected_room.position.y * tile_set.tile_size.y)
 		objects.add_child(tracking_area)
-		tracking_area.resize_area( Vector2i(room_size.x, room_size.y * 2) * (tile_set.tile_size) / 2)
+		tracking_area.resize_area( Vector2i(room_size.x, room_size.y * 2) * (tile_set.tile_size) / 2.0)
 	if room.position.y == connected_room.position.y:
-		tracking_area.global_position.y = ((room_size.y * room.position.y + room_size.y / 2) * tile_set.tile_size.y) + tile_set.tile_size.y / 2
+		tracking_area.global_position.y = ((room_size.y * room.position.y + room_size.y / 2.0) * tile_set.tile_size.y) + tile_set.tile_size.y / 2.0
 		tracking_area.global_position.x = (room_size.x * connected_room.position.x * tile_set.tile_size.x)
 		objects.add_child(tracking_area)
-		tracking_area.resize_area( Vector2i(room_size.x * 2, room_size.y) * (tile_set.tile_size) / 2)
+		tracking_area.resize_area( Vector2i(room_size.x * 2, room_size.y) * (tile_set.tile_size) / 2.0)
 
 func create_mob_area(room) -> void:
 	var mob_room = ROOM_MOBS.instantiate()
 	mobs.add_child(mob_room)
-	mob_room.global_position.x = ((room_size.x * room.position.x + room_size.x / 2) * tile_set.tile_size.x) + tile_set.tile_size.x / 2
-	mob_room.global_position.y = ((room_size.y * room.position.y + room_size.y / 2) * tile_set.tile_size.y) + tile_set.tile_size.y / 2	
+	mob_room.global_position.x = ((room_size.x * room.position.x + room_size.x / 2) * tile_set.tile_size.x) + tile_set.tile_size.x / 2.0
+	mob_room.global_position.y = ((room_size.y * room.position.y + room_size.y / 2) * tile_set.tile_size.y) + tile_set.tile_size.y / 2.0
 	mob_room.spawn_room()
 	mob_room.resize_area(Vector2i(room_size.x - 3, room_size.y - 3) * (tile_set.tile_size) / 2)
 	

@@ -23,9 +23,9 @@ func spawn_room():
 	collision_shape_2d.shape.extents = Vector2(Settings.ROOM_SIZE - Vector2i(3, 3)) * Settings.TILE_SIZE / 2
 	var spawn_capacity = monster_capacity
 	var shape : RectangleShape2D = collision_shape_2d.shape
-	var area = shape.extents
+	var area = Vector2i(shape.extents)
 	while spawn_capacity > 0:
-		var pos = shape.get_rect().get_center() + Vector2(randi_range(int(-area.x), int(area.x)), randi_range(int(-area.y), int(area.y)))
+		var pos = Vector2i(shape.get_rect().position) + Vector2i(randi() % area.x, randi() % area.y) + Vector2i(Settings.TILE_SIZE * .5)
 		var mob = spawn_mob(pos)
 		add_child(mob)
 		spawn_capacity -= mob.spawn_weight

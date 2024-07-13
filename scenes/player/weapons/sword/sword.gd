@@ -83,9 +83,8 @@ func update_status():
 var current_stat_upgrades : Dictionary
 
 func equip_items(_inventory_data: InventoryDataEquip):
-	if _inventory_data.upgrade_target == InventoryDataEquip.UpgradeTarget.SWORD:
+	if _inventory_data.upgrade_target == InventoryDataEquip.UpgradeTarget.MELEE:
 		current_stat_upgrades.clear()
-		
 		current_stat_upgrades = _inventory_data.consolidated()
 		print(current_stat_upgrades)
 		for stat_name in stat_names:

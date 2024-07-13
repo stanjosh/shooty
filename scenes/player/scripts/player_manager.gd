@@ -1,7 +1,7 @@
 extends Node
 
 const PLAYER = preload("res://scenes/player/player.tscn")
-
+@onready var game = get_node("/root/Game")
 signal level_up(changes)
 signal give_item(item : PackedScene)
 signal player_died
@@ -20,7 +20,7 @@ func _ready():
 func use_slot_data(slot_data : SlotData):
 	slot_data.item_data.use(player)
 
-func give_xp(value):
+func give_xp(value: int):
 	current_xp += value
 	if current_xp >= level_up_xp:
 		current_xp = 0
@@ -34,7 +34,7 @@ func get_player() -> Player:
 		player = PLAYER.instantiate()
 		player_camera = PlayerCamera.new()
 		player.add_child(player_camera)
-		add_child(player)
+		game.add_child(player)
 	return player
 
 func switch_camera(camera_type: PlayerCamera.CameraType, limits: Array[int] = []):

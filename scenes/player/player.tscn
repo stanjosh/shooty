@@ -39,6 +39,10 @@ slot_color = Color(0, 0, 1, 1)
 upgrade_target = 0
 slot_datas = Array[ExtResource("4_ymcwa")]([null, null])
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_16s8t"]
+closed = false
+polygon = PackedVector2Array(1, 7, 1, 9, 1, 7, 0, 5, 0, -1, 0, 5, -1, 7, -1, 9)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i1gu7"]
 height = 24.0
 
@@ -594,9 +598,6 @@ point_count = 3
 radius = 5.0
 height = 126.0
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_16s8t"]
-polygon = PackedVector2Array(0, 8, 0, -6, 0, -6, 0, 8)
-
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 16
 collision_mask = 240
@@ -608,6 +609,11 @@ platform_on_leave = 2
 script = ExtResource("1_1x1bv")
 inventory_data = SubResource("Resource_ep5nu")
 equip_inventory_datas = Array[ExtResource("3_kc8by")]([SubResource("Resource_44i3v"), SubResource("Resource_fqw3w"), SubResource("Resource_a2nu7")])
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+show_behind_parent = true
+position = Vector2(0, -2)
+occluder = SubResource("OccluderPolygon2D_16s8t")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 scale = Vector2(0.658063, 0.658063)
@@ -644,6 +650,8 @@ emitting = false
 amount = 60
 one_shot = true
 explosiveness = 0.2
+randomness = 0.1
+lifetime_randomness = 0.2
 spread = 10.0
 gravity = Vector2(0, -20)
 initial_velocity_max = 60.0
@@ -686,6 +694,7 @@ position = Vector2(6, 0)
 ordinance = ExtResource("9_1i10p")
 
 [node name="sword" parent="pivot" instance=ExtResource("11_u8h2i")]
+position = Vector2(0, 1)
 
 [node name="angle" type="Marker2D" parent="pivot"]
 unique_name_in_owner = true
@@ -707,11 +716,6 @@ one_shot = true
 
 [node name="DashTimer" type="Timer" parent="."]
 one_shot = true
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-show_behind_parent = true
-position = Vector2(0, -2)
-occluder = SubResource("OccluderPolygon2D_16s8t")
 
 [node name="DashSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("13_srm1x")

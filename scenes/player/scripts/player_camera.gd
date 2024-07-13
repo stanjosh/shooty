@@ -57,7 +57,7 @@ func switch_camera(camera_type: CameraType, limits: Array[int] = []):
 			state = CameraType.FOLLOW
 			switch_to_following()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	match state:
 		CameraType.POSITIONAL:
 			var parent_screen : Vector2 = ( get_parent().global_position / screen_size ).floor()

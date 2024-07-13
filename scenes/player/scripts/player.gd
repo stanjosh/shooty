@@ -189,7 +189,7 @@ func dash() -> void:
 	print("dash_time: ", dash_time)
 	$DashTimer.wait_time = dash_time
 	$DashTimer.start()
-	$DashParticles.lifetime = 2 * dash_time
+	$DashParticles.lifetime = dash_time
 	$DashParticles.emitting = true
 	$DashSound.play()
 
@@ -230,25 +230,24 @@ func heal(value):
 
 
 var level_changes : Dictionary = {
-		1 : {
-		},
 		2 : {
-			"max_health" : 2
+			"max_health" : 2,
+			"dash_time" : 1
 		},
 		3 : {
-			"max_health" : 3,
+			"max_health" : 1,
 			"speed" : 4
 		},
 		4 : {
-			"max_health" : 4,
+			"max_health" : 2,
 
 		},
 		5 : {
-			"max_health" : 5,
-			"speed" : 4
+			"max_health" : 1,
+			"dash_speed" : 4
 		},
 		6 : {
-			"max_health" : 6,
+			"max_health" : 1,
 
 		},
 	}
@@ -290,9 +289,9 @@ func equip_items(_inventory_data: InventoryDataEquip):
 
 
 func _on_level_up():
-	for level_reward in level_changes[current_level]:
-		set(level_reward, get(level_reward) + level_changes[current_level][level_reward])
 	current_level = clampi(current_level + 1, 0, level_changes.size())
+	for level_reward in level_changes[current_level]:
+		set(level_reward, level_changes[current_level][level_reward])
 	var level_up_message : Array[String] = ["level %s!" % current_level]
 	for level_reward in level_changes[current_level]:
 		level_up_message.push_back("%s + %s" % [level_reward.replace("_", " "), level_changes[current_level][level_reward]])

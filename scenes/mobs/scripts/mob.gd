@@ -58,7 +58,8 @@ var attack_cooldown : float = cooldown :
 enum MobStrategy {
 	CHASE,
 	LAZY,
-	PATH
+	PATH,
+	WAIT
 }
 
 
@@ -230,12 +231,11 @@ func take_damage(hit, vector: Vector2, extra_force: float = 0):
 	if health <= 0:
 		die(vector)
 
-func die(vector: Vector2):
+func die(_vector):
 	state = MobState.DEAD
 	hitbox.set_deferred("disabled", true)
 	var timer = Timer.new()
 	timer.connect("timeout", _on_death_animation_timer_timeout)
-	PlayerManager.give_xp(xp_value)
 	
 	drop_loot()	
 	

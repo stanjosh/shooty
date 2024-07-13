@@ -23,7 +23,7 @@ default_font_size = 32
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6vqbe"]
 shader = ExtResource("5_qa7h8")
-shader_parameter/lod = 0.0
+shader_parameter/lod = 0.625
 
 [sub_resource type="Theme" id="Theme_ajg7v"]
 default_font = ExtResource("3_nky2f")
@@ -124,6 +124,16 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_knvcr")
 
+[node name="Panel" type="Panel" parent="PauseMenu"]
+material = SubResource("ShaderMaterial_6vqbe")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
 [node name="MarginContainer" type="MarginContainer" parent="PauseMenu"]
 layout_mode = 1
 anchors_preset = 8
@@ -183,15 +193,6 @@ grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_y8uil")
 text = "Quit"
 flat = true
-
-[node name="Panel" type="Panel" parent="PauseMenu"]
-material = SubResource("ShaderMaterial_6vqbe")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="MainMenu" type="Control" parent="."]
 process_mode = 3

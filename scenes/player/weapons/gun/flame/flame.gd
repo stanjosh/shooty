@@ -26,8 +26,6 @@ var emitting: bool = false
 func _physics_process(delta):
 	hit_particles.emitting = false
 	eject_particles.emitting = true
-	projectile.position = get_parent().global_position
-	projectile.rotation = get_parent().global_rotation
 	cooldown -= 1 * delta
 	if emitting:
 		print("emit")
@@ -46,21 +44,20 @@ func _physics_process(delta):
 		eject_particles.speed_scale = 4
 		eject_particles.gravity = Vector2.UP * 40
 		beam_length = lerpf(beam_length, 0, .2)
-	projectile.scale.x = beam_length
+	projectile.set_deferred("position", get_parent().global_position)
+	projectile.set_deferred("rotation", get_parent().global_rotation)
+	projectile.set_deferred("scale", Vector2(beam_length, 1))
 	
 	point_light_2d.energy = clampf(beam_length -1 , .2, 1.2)
 	point_light_2d.scale.y = lerpf(scale.x, 0, .8)
 	
 
 func _on_projectile_body_entered(body):
-	var hit_marker = HIT_MARKER.instantiate()
-	body.add_child(hit_marker)
 	if body.has_method("take_damage"):
-		body.add_child(hit_marker)
-		body.take_damage(damage, Vector2.LEFT.rotated(global_rotation))
+		body.take_damage(damage, Vector2.LEFT.rotated(randf()))
 		if cooldown <= 0:
 			cooldown = .2
 			var new_burning : Infliction = BURNING_EFFECT.instantiate()
 			new_burning.period /= damage
 			new_burning.position += Vector2(-1, -8)
-			body.add_child(new_burning)
+			body.call_deferred("add_child", new_burning)

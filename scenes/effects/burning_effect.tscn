@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bbeoibxw545vm"]
+[gd_scene load_steps=8 format=3 uid="uid://bgktgybvplf4o"]
 
 [ext_resource type="Script" path="res://scenes/effects/scripts/fire_effect.gd" id="1_74iar"]
 
@@ -24,6 +24,9 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.0659229, 1, 1, 1, 0)
 gradient = SubResource("Gradient_nsjr7")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k2y35"]
+radius = 14.1421
 
 [node name="FireEffect" type="Node2D"]
 script = ExtResource("1_74iar")
@@ -51,3 +54,9 @@ color = Color(0.820983, 0.500432, 1.15514e-06, 0.72549)
 energy = 0.0
 shadow_color = Color(0, 0, 0, 1)
 texture = SubResource("GradientTexture2D_4a7qb")
+
+[node name="Spread" type="Area2D" parent="."]
+collision_layer = 68
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spread"]
+shape = SubResource("CircleShape2D_k2y35")

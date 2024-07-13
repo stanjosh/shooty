@@ -3,7 +3,7 @@ class_name InventoryDataEquip
 
 enum UpgradeTarget {
 	GUN,
-	SWORD,
+	MELEE,
 	PLAYER
 }
 
@@ -38,7 +38,7 @@ func pick_up_slot_data(slot_data : SlotData) -> bool:
 	return super.pick_up_slot_data(slot_data)
 
 func consolidated() -> Dictionary:
-	var stat_dict : Dictionary
+	var stat_dict : Dictionary = {}
 	var equip_stats := []
 	for slot_data in slot_datas:
 		if slot_data != null \

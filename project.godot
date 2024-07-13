@@ -22,7 +22,6 @@ Settings="*res://scripts/settings.gd"
 PlayerManager="*res://scenes/player/scripts/player_manager.gd"
 MapManager="*res://scripts/map_manager.gd"
 UIManager="*res://scripts/UI_manager.gd"
-SoundManager="*res://scripts/sound_manager.gd"
 DungeonGeneration="*res://scenes/maps/scripts/dungeon_generation.gd"
 
 [display]
