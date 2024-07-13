@@ -86,6 +86,7 @@ func _physics_process(delta):
 			child.emitting = false
 	match state:
 		GunState.FIRING:
+			print("firing.")
 			if shot_time <= 0 and ordinance.shot_type == Ordinance.Shoots.PROJECTILE:
 				shoot()
 			elif ordinance.shot_type == Ordinance.Shoots.STREAM:

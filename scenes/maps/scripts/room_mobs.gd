@@ -1,7 +1,5 @@
 extends Area2D
 
-signal wake_up
-
 const TINY = preload("res://scenes/mobs/tiny/tiny.tscn")
 const MEDIOID = preload("res://scenes/mobs/medioid/medioid.tscn")
 const BAT = preload("res://scenes/mobs/bat/bat.tscn")
@@ -32,10 +30,13 @@ func spawn_room():
 	print(mobs.get_child_count())
 
 func spawn_mob(pos):
-	var mob : Mob = enemies.pick_random().instantiate().init(self, Mob.MobStrategy.LAZY, pos)
+	var mob : Mob = enemies.pick_random().instantiate().init(Mob.MobStrategy.LAZY, pos)
 	return mob
 
 
 func _on_body_entered(body):
 	if body is Player:
-		wake_up.emit()
+		for child in get_children():
+			if child is Mob:
+				child.chase_timer = 2
+				child.state = Mob.MobState.CHASING

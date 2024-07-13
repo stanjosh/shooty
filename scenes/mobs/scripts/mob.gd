@@ -75,10 +75,7 @@ var state : MobState = MobState.IDLE
 var health : int
 
 
-func init(init_external_detection_area : Area2D = null, init_strategy: MobStrategy = MobStrategy.LAZY, pos : Vector2 = global_position):
-	if init_external_detection_area != null:
-		external_detection_area = init_external_detection_area
-		external_detection_area.connect("body_entered", wake_up)
+func init(init_strategy: MobStrategy = MobStrategy.LAZY, pos : Vector2 = global_position):
 	if init_strategy == MobStrategy.LAZY:
 		state = MobState.IDLE
 	elif init_strategy == MobStrategy.CHASE:
@@ -86,7 +83,6 @@ func init(init_external_detection_area : Area2D = null, init_strategy: MobStrate
 	global_position = pos
 	move_target = global_position
 	original_pos = global_position
-	print(pos, " ", global_position, " ", move_target)
 	return self
 
 func _ready():
@@ -224,7 +220,6 @@ func take_damage(hit, vector: Vector2, extra_force: float = 0):
 	UIManager.float_message(["%s" % hit], global_position, -vector * global_position)
 	var tween: Tween = create_tween()
 	tween.tween_property(animated_sprite_2d, "modulate:v", 1, 0.25).set_trans(Tween.TRANS_ELASTIC).from(15)
-	print(vector)
 	knockback = Vector2(hit + extra_force, hit + extra_force) * -vector
 	if health > 0:
 		health -= hit

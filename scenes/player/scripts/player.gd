@@ -89,7 +89,7 @@ func _unhandled_input(event):
 
 		if event.is_action_released("dash") \
 		and state != PlayerState.DASHING \
-		and dash_cooldown_timer.is_stopped():
+		and can_dash:
 			state = PlayerState.DASHING
 			dash()
 		if event.is_action_pressed("sword") and state != PlayerState.MELEE:
@@ -187,6 +187,7 @@ func _physics_process(_delta):
 
 func dash() -> void:
 	print("dash_time: ", dash_time)
+	can_dash = false
 	$DashTimer.wait_time = dash_time
 	$DashTimer.start()
 	$DashParticles.lifetime = dash_time

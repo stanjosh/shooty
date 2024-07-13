@@ -5,6 +5,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_na1ac"]
 
 [node name="RoomMobs" type="Area2D"]
+collision_layer = 16
+collision_mask = 16
 script = ExtResource("1_74qvf")
 
 [node name="Mobs" type="Node2D" parent="."]

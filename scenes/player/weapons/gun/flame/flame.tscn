@@ -3,17 +3,6 @@
 [ext_resource type="Script" path="res://scenes/player/weapons/gun/flame/flame.gd" id="1_qbfmn"]
 [ext_resource type="AudioStream" uid="uid://c2rgro4hrmduo" path="res://assets/hiss_noise.wav" id="2_3o5kf"]
 
-[sub_resource type="Gradient" id="Gradient_yn5dq"]
-offsets = PackedFloat32Array(0.00666667, 0.537778)
-colors = PackedColorArray(0.883409, 0.56564, 0, 1, 1, 0.462745, 0.235294, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_fmnm6"]
-gradient = SubResource("Gradient_yn5dq")
-width = 128
-height = 128
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_yp23k"]
 b = Vector2(-1.28015e-05, 9)
 
@@ -36,6 +25,17 @@ colors = PackedColorArray(0.576471, 0.972549, 1, 0.227451, 1, 0.642363, 0.336072
 closed = false
 polygon = PackedVector2Array(0, -2, 0, 2)
 
+[sub_resource type="Gradient" id="Gradient_yn5dq"]
+offsets = PackedFloat32Array(0.00666667, 0.537778)
+colors = PackedColorArray(0.883409, 0.56564, 0, 1, 1, 0.462745, 0.235294, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fmnm6"]
+gradient = SubResource("Gradient_yn5dq")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="Flame" type="Node2D"]
 script = ExtResource("1_qbfmn")
 
@@ -43,15 +43,6 @@ script = ExtResource("1_qbfmn")
 top_level = true
 collision_layer = 32
 collision_mask = 198
-
-[node name="PointLight2D" type="PointLight2D" parent="projectile"]
-position = Vector2(1, 0)
-rotation = -1.5708
-scale = Vector2(2.11639, 0.727138)
-color = Color(1, 0.530813, 0.32379, 1)
-shadow_enabled = true
-shadow_color = Color(0, 0, 0, 0.415686)
-texture = SubResource("GradientTexture2D_fmnm6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="projectile"]
 position = Vector2(1, -2.27374e-13)
@@ -109,5 +100,13 @@ color_ramp = SubResource("Gradient_kglda")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_omiep")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(10, 0)
+rotation = -1.5708
+color = Color(1, 0.530813, 0.32379, 1)
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.415686)
+texture = SubResource("GradientTexture2D_fmnm6")
 
 [connection signal="body_entered" from="projectile" to="." method="_on_projectile_body_entered"]
