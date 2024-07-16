@@ -1,4 +1,4 @@
-extends Node2D
+extends Weapon
 class_name RangedWeaponNode
 
 @onready var weapon_sprite : Sprite2D = $Gun
@@ -40,6 +40,15 @@ var heat_level : float = 0 :
 		$Gun/PointLight2D.energy = inverse_lerp(heat_capacity, heat_level, .3)
 		UIManager.update_hud.emit("heat", value, heat_capacity)
 
+
+var pretty_names := {
+		"heat_capacity" : "Gun heat capacity",
+		"accuracy" : "Gun accuracy",
+		"fire_rate" : "Gun fire rate",
+		"pellets" : "Gun projectiles",
+		"cooldown" : "Gun cooling rate"
+	}
+
 var shot_time : int = 0
 var original_pos
 var original_light_energy 
@@ -59,12 +68,9 @@ var state : GunState :
 func _ready():
 	if ordinance.shot_type == Ordinance.Shoots.STREAM:
 		projectile_origin.add_child(ordinance.get_scene())
-	for inventory_data in PlayerManager.player.equip_inventory_datas:
-		inventory_data.connect("inventory_updated", equip_items)
 	UIManager.update_hud.emit("heat", heat_level, 100)
 	original_pos = weapon_sprite.position
-	for stat in stat_names.values():
-		update_status_panel(stat)
+	return super._ready()
 		
 
 func _unhandled_input(event):
@@ -142,43 +148,6 @@ func shoot():
 
 		
 
-
-var stat_names = {
-	ItemDataEquip.StatName.AREA : "pellets",
-	ItemDataEquip.StatName.ACCURACY : "accuracy",
-	ItemDataEquip.StatName.COOLDOWN : "fire_rate",
-	ItemDataEquip.StatName.CAPACITY : "heat_capacity",
-	ItemDataEquip.StatName.SPECIAL : "cooldown"
-}
-
-
-
-var current_stat_upgrades : Dictionary
-
-func equip_items(_inventory_data: InventoryDataEquip):
-	if _inventory_data.upgrade_target == InventoryDataEquip.UpgradeTarget.GUN:
-		current_stat_upgrades.clear()
-		
-		current_stat_upgrades = _inventory_data.consolidated()
-		print(current_stat_upgrades)
-		for stat_name in stat_names:
-			var value = current_stat_upgrades[stat_name] if current_stat_upgrades.has(stat_name) else 0
-			stat_name = stat_names[stat_name]
-			
-			set(stat_name, value)
-			update_status_panel(stat_name)
-
-
-
-func update_status_panel(stat_name: String):
-	var pretty_names := {
-		"heat_capacity" : "Gun heat capacity",
-		"accuracy" : "Gun accuracy",
-		"fire_rate" : "Gun fire rate",
-		"pellets" : "Gun projectiles",
-		"cooldown" : "Gun cooling rate"
-	}
-	UIManager.update_stats.emit(pretty_names[stat_name], get(stat_name))
 
 func _on_overheat_timeout():
 	state = GunState.COOLING

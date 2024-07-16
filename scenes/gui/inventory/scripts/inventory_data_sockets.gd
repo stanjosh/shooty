@@ -1,19 +1,12 @@
 extends InventoryData
-class_name InventoryDataEquip
-
-enum UpgradeTarget {
-	GUN,
-	MELEE,
-	PLAYER
-}
+class_name InventoryDataSockets
 
 @export var slot_color : Color
-@export var upgrade_target : UpgradeTarget
 
 
 func drop_slot_data(grabbed_slot_data: SlotData, index: int) -> SlotData:
 	
-	if not grabbed_slot_data.item_data is ItemDataEquip:
+	if not grabbed_slot_data.item_data is ItemDataSocketable:
 
 		return grabbed_slot_data
 
@@ -23,7 +16,7 @@ func drop_slot_data(grabbed_slot_data: SlotData, index: int) -> SlotData:
 	
 func drop_single_slot_data(grabbed_slot_data: SlotData, index: int) -> SlotData:
 	
-	if not grabbed_slot_data.item_data is ItemDataEquip:
+	if not grabbed_slot_data.item_data is ItemDataSocketable:
 
 		return grabbed_slot_data
 
@@ -43,7 +36,7 @@ func consolidated() -> Dictionary:
 	for slot_data in slot_datas:
 		if slot_data != null \
 		and slot_data.item_data != null \
-		and slot_data.item_data is ItemDataEquip:
+		and slot_data.item_data is ItemDataSocketable:
 			equip_stats.append(slot_data.item_data.consolidated_equip_stats())
 	for i in equip_stats:
 		for k in i:

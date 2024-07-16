@@ -48,7 +48,7 @@ var health : float = max_health :
 		UIManager.update_hud.emit("health", health, max_health)
 
 @export var inventory_data : InventoryData = InventoryData.new()
-@export var equip_inventory_datas : Array[InventoryDataEquip]
+
 
 var can_dash : bool = true
 var status : Dictionary
@@ -76,12 +76,9 @@ func _ready():
 	health = base_max_health
 	print(health)
 	$DashTimer.wait_time = dash_time
-	for equip_inventory_data in equip_inventory_datas:
-		equip_inventory_data.connect("inventory_updated", equip_items)
 	PlayerManager.level_up.connect(_on_level_up)
 	UIManager.refresh_interface.emit(self)
-	for stat in stat_names.values():
-		update_status_panel(stat)
+	update_status_panel()
 
 
 func _unhandled_input(event):
@@ -254,17 +251,8 @@ var level_changes : Dictionary = {
 		},
 	}
 
-var stat_names = {
-	ItemDataEquip.StatName.AREA : "speed",
-	ItemDataEquip.StatName.ACCURACY : "dash_speed",
-	ItemDataEquip.StatName.COOLDOWN : "dash_cooldown",
-	ItemDataEquip.StatName.CAPACITY : "max_health",
-	ItemDataEquip.StatName.SPECIAL : "speed" 
-}
 
-
-
-func update_status_panel(stat_name: String):
+func update_status_panel(stat_name: String = ""):
 	var pretty_names := {
 		 "current_level" : "Player level",
 		 "speed" : "Move speed",
@@ -272,22 +260,14 @@ func update_status_panel(stat_name: String):
 		 "dash_cooldown" : "Dash cooldown", 
 		 "dash_speed" : "Dash speed",
 	}
-	UIManager.update_stats.emit(pretty_names[stat_name], get(stat_name))
+	if !stat_name:
+		for stat in pretty_names.keys():
+			UIManager.update_stats.emit(pretty_names[stat], get(stat))
+	else:
+		UIManager.update_stats.emit(pretty_names[stat_name], get(stat_name))
+	
 
 var current_stat_upgrades : Dictionary
-
-func equip_items(_inventory_data: InventoryDataEquip):
-	if _inventory_data.upgrade_target == InventoryDataEquip.UpgradeTarget.PLAYER:
-		current_stat_upgrades.clear()
-		
-		current_stat_upgrades = _inventory_data.consolidated()
-		print(current_stat_upgrades)
-		for stat_name in stat_names:
-			var value = current_stat_upgrades[stat_name] if current_stat_upgrades.has(stat_name) else 0
-			stat_name = stat_names[stat_name]
-			
-			set(stat_name, value)
-			update_status_panel(stat_name)
 
 
 func _on_level_up():

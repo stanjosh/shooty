@@ -1,5 +1,5 @@
 extends ItemData
-class_name ItemDataEquip
+class_name ItemDataSocketable
 
 @export var random : bool = true
 @export var area : int = 0

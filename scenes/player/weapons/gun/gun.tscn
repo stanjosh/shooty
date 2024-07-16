@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://hb5jqo0vv4x3"]
 
-[ext_resource type="Script" path="res://scenes/player/weapons/gun/gun.gd" id="1_ola0b"]
+[ext_resource type="Script" path="res://scenes/player/weapons/gun/weapon_ranged.gd" id="1_ola0b"]
 [ext_resource type="Texture2D" uid="uid://bgqscqcpm7vpp" path="res://scenes/player/assets/gun sprite.png" id="2_8i273"]
 [ext_resource type="AudioStream" uid="uid://c2rgro4hrmduo" path="res://assets/hiss_noise.wav" id="5_gscw8"]
 
@@ -18,7 +18,7 @@ max_value = 2.0
 _data = [Vector2(0, 1.16008), 0.0, 0.0, 0, 0, Vector2(0.702771, 0.733848), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[node name="gun" type="Node2D"]
+[node name="RangedWeapon" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_ola0b")
 

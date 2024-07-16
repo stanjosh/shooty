@@ -15,7 +15,7 @@ func populate_item_grid(inventory_data: InventoryData) -> void:
 		
 	for slot_data in inventory_data.slot_datas:
 		var slot = SLOT.instantiate()
-		if inventory_data is InventoryDataEquip:
+		if inventory_data is InventoryDataSockets:
 			slot.self_modulate = inventory_data.slot_color
 		item_grid.add_child(slot)
 		slot.slot_clicked.connect(inventory_data.on_slot_clicked)

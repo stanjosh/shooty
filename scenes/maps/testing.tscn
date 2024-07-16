@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/maps/scripts/Map.gd" id="1_mrbw4"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data.gd" id="3_0wb5o"]
 [ext_resource type="PackedScene" uid="uid://dc50hqke2q756" path="res://scenes/interactable/chest.tscn" id="3_1n7vv"]
-[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/item_data_equip.gd" id="4_42yp2"]
+[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/item_data_socketable.gd" id="4_42yp2"]
 [ext_resource type="PackedScene" uid="uid://chk284feajxkw" path="res://scenes/effects/acid_puddle.tscn" id="4_ft3xn"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/slot_data.gd" id="6_6tnuq"]
 [ext_resource type="Texture2D" uid="uid://1yui2w5jnc03" path="res://scenes/gui/inventory/items/assets/Icon14_07.png" id="6_8rrgl"]

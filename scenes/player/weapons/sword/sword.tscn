@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://7tx8y7bexiry"]
 
-[ext_resource type="Script" path="res://scenes/player/weapons/sword/sword.gd" id="1_41o6r"]
+[ext_resource type="Script" path="res://scenes/player/weapons/sword/weapon_melee.gd" id="1_41o6r"]
 [ext_resource type="AudioStream" uid="uid://r4bp64uibej5" path="res://scenes/player/assets/blade_1.wav" id="3_8otfm"]
 [ext_resource type="AudioStream" uid="uid://mjlrf7owlvcl" path="res://scenes/player/assets/blade_2.wav" id="4_7vioj"]
 [ext_resource type="AudioStream" uid="uid://c3tjix00n3eov" path="res://scenes/player/assets/blade_3.wav" id="5_bks16"]

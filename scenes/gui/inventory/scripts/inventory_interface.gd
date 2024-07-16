@@ -38,7 +38,6 @@ func refresh(target = null):
 	if target:
 		if target is Player:
 			set_player_inventory_data(target.inventory_data)
-			set_equip_inventory_data(target.equip_inventory_datas)
 			target.toggle_inventory.connect(toggle_inventory_interface)
 		if target is Chest:
 			target.toggle_inventory.connect(toggle_inventory_interface)
@@ -95,7 +94,7 @@ func set_player_inventory_data(inventory_data: InventoryData):
 	item_inventory.set_inventory_data(inventory_data)
 
 
-func set_equip_inventory_data(inventory_datas: Array[InventoryDataEquip]):
+func set_equip_inventory_data(inventory_datas: Array[InventoryDataSockets]):
 	print("set equip")
 	for inventory_data in inventory_datas:
 		print(inventory_data.upgrade_target)

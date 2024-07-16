@@ -1,5 +1,6 @@
 extends Resource
-class_name Ordinance
+class_name ItemDataOrdinance
+
 
 @export var scene : PackedScene
 enum Shoots {

@@ -1,5 +1,6 @@
-extends Node2D
+extends Weapon
 class_name MeleeWeaponNode
+
 
 @onready var hitbox = $hitbox
 @onready var cooldown_timer = $cooldown
@@ -35,12 +36,17 @@ var knockback : float = 0 :
 
 var status : Dictionary
 
+var pretty_names := {
+		"melee_range" : "sword range",
+		"melee_area" : "sword area",
+		"cooldown" : "sword cooldown",
+		"damage" : "sword damage",
+		"knockback" : "sword knockback"
+	}
+
 func _ready():
-	for inventory_data in PlayerManager.player.equip_inventory_datas:
-		inventory_data.connect("inventory_updated", equip_items)
 	cooldown_timer.wait_time = cooldown
-	for stat in stat_names.values():
-		update_status_panel(stat)
+	return super._ready()
 
 
 func attack() -> bool:
@@ -67,39 +73,3 @@ func attack() -> bool:
 	else:
 		return false
 
-var stat_names = {
-	ItemDataEquip.StatName.AREA : "melee_area",
-	ItemDataEquip.StatName.ACCURACY : "melee_range",
-	ItemDataEquip.StatName.COOLDOWN : "cooldown",
-	ItemDataEquip.StatName.CAPACITY : "damage",
-	ItemDataEquip.StatName.SPECIAL : "knockback"
-}
-
-
-func update_status():
-
-	for item in status.keys():
-		UIManager.update_stats.emit(item, status[item])
-
-var current_stat_upgrades : Dictionary
-
-func equip_items(_inventory_data: InventoryDataEquip):
-	if _inventory_data.upgrade_target == InventoryDataEquip.UpgradeTarget.MELEE:
-		current_stat_upgrades.clear()
-		current_stat_upgrades = _inventory_data.consolidated()
-		print(current_stat_upgrades)
-		for stat_name in stat_names:
-			var value = current_stat_upgrades[stat_name] if current_stat_upgrades.has(stat_name) else 0
-			stat_name = stat_names[stat_name]
-			set(stat_name, value)
-			update_status_panel(stat_name)
-
-func update_status_panel(stat_name: String):
-	var pretty_names := {
-		"melee_range" : "sword range",
-		"melee_area" : "sword area",
-		"cooldown" : "sword cooldown",
-		"damage" : "sword damage",
-		"knockback" : "sword knockback"
-	}
-	UIManager.update_stats.emit(pretty_names[stat_name], get(stat_name))
