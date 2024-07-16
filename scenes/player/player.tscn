@@ -598,7 +598,7 @@ point_count = 3
 radius = 5.0
 height = 126.0
 
-[node name="player" type="CharacterBody2D" groups=["player"]]
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("melee_node", "ranged_node") groups=["player"]]
 collision_layer = 16
 collision_mask = 240
 motion_mode = 1
@@ -607,6 +607,8 @@ floor_stop_on_slope = false
 floor_block_on_wall = false
 platform_on_leave = 2
 script = ExtResource("1_1x1bv")
+melee_node = NodePath("pivot/sword")
+ranged_node = NodePath("pivot/gun")
 inventory_data = SubResource("Resource_ep5nu")
 equip_inventory_datas = Array[ExtResource("3_kc8by")]([SubResource("Resource_44i3v"), SubResource("Resource_fqw3w"), SubResource("Resource_a2nu7")])
 

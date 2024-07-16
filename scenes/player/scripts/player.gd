@@ -4,7 +4,8 @@ class_name Player
 signal player_died
 
 
-@onready var sword := $pivot/sword
+@export var melee_node : MeleeWeaponNode
+@export var ranged_node : RangedWeaponNode
 @onready var animated_sprite_2d := $AnimatedSprite2D
 @onready var hitbox := $Hitbox
 @onready var dash_cooldown_timer := $DashCooldown
@@ -195,12 +196,12 @@ func dash() -> void:
 	$DashSound.play()
 
 func melee_attack() -> bool:
-	var mines = $pivot/Area2D.get_overlapping_bodies().filter(func(body): return body is Mine)
-	if mines:
-		global_position = mines.front().global_position
-		if not mines.front().delay:
-			mines.front().explode()
-	return sword.attack()
+	#var mines = $pivot/Area2D.get_overlapping_bodies().filter(func(body): return body is Mine)
+	#if mines:
+		#global_position = mines.front().global_position
+		#if not mines.front().delay:
+			#mines.front().explode()
+	return melee_node.attack()
 
 func take_damage(hit: float, vector: Vector2, extra_force: float = 0):
 	hit = snapped(hit, 1)

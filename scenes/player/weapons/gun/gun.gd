@@ -1,9 +1,8 @@
 extends Node2D
-class_name Gun
+class_name RangedWeaponNode
 
-
-@onready var gun = $Gun
-@onready var barrel = $Barrel
+@onready var weapon_sprite : Sprite2D = $Gun
+@onready var projectile_origin : Node2D = $Barrel
 
 @export var base_fire_rate : float = 3
 @export var base_accuracy : float = 85
@@ -59,11 +58,11 @@ var state : GunState :
 
 func _ready():
 	if ordinance.shot_type == Ordinance.Shoots.STREAM:
-		barrel.add_child(ordinance.get_scene())
+		projectile_origin.add_child(ordinance.get_scene())
 	for inventory_data in PlayerManager.player.equip_inventory_datas:
 		inventory_data.connect("inventory_updated", equip_items)
 	UIManager.update_hud.emit("heat", heat_level, 100)
-	original_pos = gun.position
+	original_pos = weapon_sprite.position
 	for stat in stat_names.values():
 		update_status_panel(stat)
 		
@@ -79,18 +78,17 @@ func _unhandled_input(event):
 
 func _physics_process(delta):
 	var pivot = wrapi(snapped(global_rotation, PI/4) / (PI/4), 0, 8)
-	gun.flip_v = true if  pivot in [3, 4, 5] else false
-	gun.z_index = -1 if pivot == 6 else 4
+	weapon_sprite.flip_v = true if  pivot in [3, 4, 5] else false
+	weapon_sprite.z_index = -1 if pivot == 6 else 4
 	if ordinance.shot_type == Ordinance.Shoots.STREAM:
-		for child in barrel.get_children():
+		for child in projectile_origin.get_children():
 			child.emitting = false
 	match state:
 		GunState.FIRING:
-			print("firing.")
 			if shot_time <= 0 and ordinance.shot_type == Ordinance.Shoots.PROJECTILE:
 				shoot()
 			elif ordinance.shot_type == Ordinance.Shoots.STREAM:
-				for child in barrel.get_children():
+				for child in projectile_origin.get_children():
 					child.emitting = true
 					child.damage *= pellets
 					child.projectile.global_rotation_degrees = global_rotation_degrees + randfn(0, accuracy / 100)
@@ -131,15 +129,15 @@ func shoot():
 		
 		var new_bullet = ordinance.get_scene()
 		heat_level +=  new_bullet.heat_generated
-		new_bullet.global_position = to_global(barrel.position)
+		new_bullet.global_position = to_global(projectile_origin.position)
 		
 		new_bullet.global_rotation_degrees = global_rotation_degrees + randfn(0, accuracy / 100)
-		barrel.add_child(new_bullet)
+		projectile_origin.add_child(new_bullet)
 		if n == 0:
 			shot_time = 100
 	var fire_anim = get_tree().create_tween()
-	fire_anim.tween_property(gun, "position:x", clamp(gun.position.x - 2, 0, -4), .3).set_trans(Tween.TRANS_ELASTIC)
-	fire_anim.tween_property(gun, "position:x", original_pos.x, .3).set_trans(Tween.TRANS_LINEAR)
+	fire_anim.tween_property(weapon_sprite, "position:x", clamp(weapon_sprite.position.x - 2, 0, -4), .3).set_trans(Tween.TRANS_ELASTIC)
+	fire_anim.tween_property(weapon_sprite, "position:x", original_pos.x, .3).set_trans(Tween.TRANS_LINEAR)
 		
 
 		

@@ -1,8 +1,9 @@
 extends Node2D
-class_name Sword
+class_name MeleeWeaponNode
 
 @onready var hitbox = $hitbox
 @onready var cooldown_timer = $cooldown
+var hold_time : float = 0
 @onready var slash : CPUParticles2D = $hitbox/CPUParticles2D
 @export_range(1, 2) var base_melee_range : float = 1
 @export_range(1, 2) var base_melee_area : float = 1
