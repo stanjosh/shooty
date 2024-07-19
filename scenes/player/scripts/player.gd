@@ -54,11 +54,6 @@ var can_dash : bool = true
 var status : Dictionary
 
 var current_level : int = 1
-var is_alive : bool = true
-var animation_lock : bool = false
-var melee_attacking : bool = false
-var dashing : bool = false
-var danger_level : float
 var knockback := Vector2.ZERO
 signal toggle_inventory
 
@@ -134,7 +129,7 @@ func animate():
 			else:
 				current_animation = "up_dash"
 	
-	elif not animation_lock:
+	else:
 		var pivot = wrapi(snapped(get_angle_to(aim_point), PI/4) / (PI/4), 1, 8)
 		match pivot:
 			5:
@@ -162,8 +157,6 @@ func animate():
 				else:
 					current_animation = "x_idle"
 	animated_sprite_2d.play(current_animation)
-	if state in [PlayerState.MELEE, PlayerState.DEAD]:
-		animation_lock = true
 
 func _physics_process(_delta):
 	if state == PlayerState.DEAD:
@@ -216,7 +209,6 @@ func take_damage(hit: float, vector: Vector2, extra_force: float = 0):
 func die():
 	state = PlayerState.DEAD
 	animated_sprite_2d.play("die")
-	animation_lock = true
 	velocity = Vector2.ZERO
 	$pivot.process_mode = Node.PROCESS_MODE_DISABLED
 	$DeathParticles.emitting = true

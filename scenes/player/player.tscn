@@ -698,11 +698,6 @@ position = Vector2(0, -1)
 [node name="gun" parent="pivot" instance=ExtResource("8_iqjqy")]
 y_sort_enabled = false
 position = Vector2(6, 0)
-base_fire_rate = 3.0
-base_accuracy = 85.0
-base_pellets = 1
-base_cooldown = 0.25
-base_heat_capacity = 100.0
 ordinance = ExtResource("9_1i10p")
 socket_data = SubResource("Resource_jov4o")
 
