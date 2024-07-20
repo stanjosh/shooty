@@ -1,4 +1,4 @@
-extends Weapon
+extends Node2D
 class_name MeleeWeaponNode
 
 
@@ -46,7 +46,7 @@ var pretty_names := {
 
 func _ready():
 	cooldown_timer.wait_time = cooldown
-	return super._ready()
+
 
 
 func attack() -> bool:

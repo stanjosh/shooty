@@ -4,8 +4,8 @@ class_name Player
 signal player_died
 
 
-@export var melee_node : MeleeWeaponNode
-@export var ranged_node : RangedWeaponNode
+@export var melee_node : EquippableMeleeWeapon
+@export var ranged_node : EquippableRangedWeapon
 @onready var animated_sprite_2d := $AnimatedSprite2D
 @onready var hitbox := $Hitbox
 @onready var dash_cooldown_timer := $DashCooldown

@@ -1,4 +1,4 @@
-extends Weapon
+extends Node2D
 class_name RangedWeaponNode
 
 @onready var weapon_sprite : Sprite2D = $Gun
@@ -70,7 +70,7 @@ func _ready():
 		projectile_origin.add_child(ordinance.get_scene())
 	UIManager.update_hud.emit("heat", heat_level, 100)
 	original_pos = weapon_sprite.position
-	return super._ready()
+
 		
 
 func _unhandled_input(event):

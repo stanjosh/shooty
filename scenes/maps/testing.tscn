@@ -1,18 +1,12 @@
-[gd_scene load_steps=27 format=3 uid="uid://g34sice0rusi"]
+[gd_scene load_steps=16 format=3 uid="uid://g34sice0rusi"]
 
 [ext_resource type="Script" path="res://scenes/maps/scripts/Map.gd" id="1_mrbw4"]
-[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data.gd" id="3_0wb5o"]
 [ext_resource type="PackedScene" uid="uid://dc50hqke2q756" path="res://scenes/interactable/chest.tscn" id="3_1n7vv"]
-[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/item_data_socketable.gd" id="4_42yp2"]
 [ext_resource type="PackedScene" uid="uid://chk284feajxkw" path="res://scenes/effects/acid_puddle.tscn" id="4_ft3xn"]
-[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/slot_data.gd" id="6_6tnuq"]
-[ext_resource type="Texture2D" uid="uid://1yui2w5jnc03" path="res://scenes/gui/inventory/items/assets/Icon14_07.png" id="6_8rrgl"]
-[ext_resource type="Texture2D" uid="uid://ddqquiclpkbx" path="res://scenes/gui/inventory/items/assets/Icon14_05.png" id="8_mkdck"]
 [ext_resource type="Texture2D" uid="uid://3esb1v2ef4fq" path="res://scenes/maps/tiles/map/tileset.png" id="9_mbq84"]
 [ext_resource type="PackedScene" uid="uid://ctvpcfm5heb5" path="res://scenes/mobs/tiny/tiny.tscn" id="10_8msfn"]
 [ext_resource type="PackedScene" uid="uid://rku7rhrv2em3" path="res://scenes/maps/spawner/spawn_totem.tscn" id="11_jogjk"]
 [ext_resource type="PackedScene" uid="uid://3j1sn12jdmir" path="res://scenes/maps/spawner/survival_area.tscn" id="12_8glq1"]
-[ext_resource type="PackedScene" uid="uid://dk4rqkmo2sfl" path="res://scenes/mobs/shocker/shocker.tscn" id="14_hb57l"]
 [ext_resource type="PackedScene" uid="uid://bwqbgwl7hvop0" path="res://scenes/mobs/medioid/medioid.tscn" id="15_7lo35"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_3dhe1"]
@@ -295,48 +289,6 @@ pattern_2 = SubResource("TileMapPattern_vkqkp")
 pattern_3 = SubResource("TileMapPattern_tk5o5")
 pattern_4 = SubResource("TileMapPattern_nicy1")
 
-[sub_resource type="Resource" id="Resource_qeunk"]
-script = ExtResource("4_42yp2")
-random = true
-area = 5
-accuracy = 6
-cooldown = 7
-capacity = 3
-special = 2
-name = ""
-description = ""
-stackable = false
-texture = ExtResource("6_8rrgl")
-drop_rarity = 0.0
-
-[sub_resource type="Resource" id="Resource_rwq4h"]
-script = ExtResource("6_6tnuq")
-item_data = SubResource("Resource_qeunk")
-quantity = 1
-
-[sub_resource type="Resource" id="Resource_0kws7"]
-script = ExtResource("4_42yp2")
-random = true
-area = 7
-accuracy = 4
-cooldown = 5
-capacity = 4
-special = 2
-name = ""
-description = "wires"
-stackable = false
-texture = ExtResource("8_mkdck")
-drop_rarity = 0.0
-
-[sub_resource type="Resource" id="Resource_o7ngf"]
-script = ExtResource("6_6tnuq")
-item_data = SubResource("Resource_0kws7")
-quantity = 1
-
-[sub_resource type="Resource" id="Resource_e7hct"]
-script = ExtResource("3_0wb5o")
-slot_datas = Array[ExtResource("6_6tnuq")]([SubResource("Resource_rwq4h"), null, SubResource("Resource_o7ngf"), null, null, null])
-
 [node name="TestMap" type="TileMap" node_paths=PackedStringArray("player_spawn", "mobs", "objects")]
 z_index = -2
 tile_set = SubResource("TileSet_ucolf")
@@ -353,7 +305,6 @@ objects = NodePath("Objects")
 
 [node name="Chest" parent="Objects" instance=ExtResource("3_1n7vv")]
 position = Vector2(0, -46)
-inventory_data = SubResource("Resource_e7hct")
 
 [node name="AcidPuddle" parent="Objects" instance=ExtResource("4_ft3xn")]
 z_index = 1
@@ -388,6 +339,3 @@ position = Vector2(-84, -180)
 
 [node name="medioid3" parent="Mobs" instance=ExtResource("15_7lo35")]
 position = Vector2(-173, -221)
-
-[node name="Shocker" parent="." instance=ExtResource("14_hb57l")]
-position = Vector2(382, -107)

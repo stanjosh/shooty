@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Ordinance" load_steps=3 format=3 uid="uid://l65tmgbbs5ma"]
 
 [ext_resource type="PackedScene" uid="uid://diypynu285b7h" path="res://scenes/player/weapons/gun/flame/flame.tscn" id="1_8xmvr"]
-[ext_resource type="Script" path="res://scenes/player/weapons/gun/ordinance_resource.gd" id="1_sxft8"]
+[ext_resource type="Script" path="res://scenes/player/weapons/gun/equippable_ranged_weapon.gd" id="1_sxft8"]
 
 [resource]
 script = ExtResource("1_sxft8")
