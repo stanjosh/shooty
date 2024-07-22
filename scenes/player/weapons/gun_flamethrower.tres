@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquippableRangedWeapon" load_steps=4 format=3 uid="uid://4n5gdh3ancsh"]
+
+[ext_resource type="PackedScene" uid="uid://diypynu285b7h" path="res://scenes/player/weapons/gun/flame/flame.tscn" id="1_yju2d"]
+[ext_resource type="Texture2D" uid="uid://ctl2q14ucnew2" path="res://scenes/player/weapons/gun/sprites/gun2.png" id="2_l6gc5"]
+[ext_resource type="Script" path="res://scenes/player/weapons/gun/equippable_ranged_weapon.gd" id="3_djeq7"]
+
+[resource]
+script = ExtResource("3_djeq7")
+base_fire_rate = 3.0
+base_accuracy = 85.0
+base_pellets = 3
+base_cooldown = 0.25
+base_heat_capacity = 100.0
+shot_type = 0
+equipment_sprite = ExtResource("2_l6gc5")
+effect_scene = ExtResource("1_yju2d")
+name = "flamethrower"

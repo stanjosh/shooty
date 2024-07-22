@@ -1,20 +1,14 @@
-[gd_scene load_steps=89 format=3 uid="uid://ckq8owam8nxv4"]
+[gd_scene load_steps=85 format=3 uid="uid://ckq8owam8nxv4"]
 
 [ext_resource type="Script" path="res://scenes/player/scripts/player.gd" id="1_1x1bv"]
-[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data.gd" id="2_dkkut"]
 [ext_resource type="Texture2D" uid="uid://c50fe2l5ie5ci" path="res://scenes/player/assets/Hero Blue 54x53 Sprite.png" id="2_hlcqq"]
 [ext_resource type="Texture2D" uid="uid://cnluagwjgu7r7" path="res://assets/Extra/Shadow.png" id="3_gr2x3"]
-[ext_resource type="PackedScene" uid="uid://6qxco026ufkq" path="res://scenes/player/weapons/gun/bullet/bullet.tscn" id="6_1rpcv"]
-[ext_resource type="Texture2D" uid="uid://dqlid774523h1" path="res://scenes/player/weapons/gun/sprites/gun16.png" id="7_avrhx"]
+[ext_resource type="PackedScene" uid="uid://diypynu285b7h" path="res://scenes/player/weapons/gun/flame/flame.tscn" id="5_oosj3"]
+[ext_resource type="Texture2D" uid="uid://bgqscqcpm7vpp" path="res://scenes/player/assets/gun sprite.png" id="6_j1uv5"]
 [ext_resource type="Script" path="res://scenes/player/weapons/gun/equippable_ranged_weapon.gd" id="7_o28ul"]
 [ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/player/weapons/gun/gun.tscn" id="8_iqjqy"]
-[ext_resource type="Script" path="res://scenes/player/weapons/gun/equippable_melee_weapon.gd" id="10_anfds"]
 [ext_resource type="PackedScene" uid="uid://7tx8y7bexiry" path="res://scenes/player/weapons/sword/sword.tscn" id="11_u8h2i"]
 [ext_resource type="AudioStream" uid="uid://bbtkod66evvx0" path="res://scenes/player/assets/dust_noise.wav" id="13_srm1x"]
-
-[sub_resource type="Resource" id="Resource_wpf0x"]
-script = ExtResource("2_dkkut")
-slot_datas = Array[Resource("res://scenes/gui/inventory/scripts/slot_data.gd")]([null, null, null, null, null, null])
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_16s8t"]
 closed = false
@@ -571,34 +565,23 @@ max_value = 2.0
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.254408, 1.21022), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="Resource" id="Resource_3frdj"]
+[sub_resource type="Resource" id="Resource_0jc1i"]
 script = ExtResource("7_o28ul")
-base_fire_rate = 10.0
-base_accuracy = 45.0
+base_fire_rate = 3.0
+base_accuracy = 85.0
 base_pellets = 1
 base_cooldown = 0.25
-heat_generated = 5.0
 base_heat_capacity = 100.0
-shot_type = 1
-equipment_sprite = ExtResource("7_avrhx")
-effect_scene = ExtResource("6_1rpcv")
-name = "machine gun"
-
-[sub_resource type="Resource" id="Resource_0hqgb"]
-script = ExtResource("10_anfds")
-base_melee_range = 1.0
-base_melee_area = 1.0
-base_cooldown = 1.0
-base_knockback = 20.0
-base_damage = 20
-speed = 40.0
+shot_type = 0
+equipment_sprite = ExtResource("6_j1uv5")
+effect_scene = ExtResource("5_oosj3")
 name = ""
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vrwak"]
 radius = 5.0
 height = 126.0
 
-[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("melee_node") groups=["player"]]
+[node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 16
 collision_mask = 240
 motion_mode = 1
@@ -607,8 +590,6 @@ floor_stop_on_slope = false
 floor_block_on_wall = false
 platform_on_leave = 2
 script = ExtResource("1_1x1bv")
-melee_node = NodePath("pivot/sword")
-inventory_data = SubResource("Resource_wpf0x")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 show_behind_parent = true
@@ -691,11 +672,9 @@ position = Vector2(0, -1)
 [node name="gun" parent="pivot" instance=ExtResource("8_iqjqy")]
 y_sort_enabled = false
 position = Vector2(6, 0)
-ordinance = SubResource("Resource_3frdj")
+ordinance = SubResource("Resource_0jc1i")
 
 [node name="sword" parent="pivot" instance=ExtResource("11_u8h2i")]
-cutting = true
-ordinance = SubResource("Resource_0hqgb")
 
 [node name="angle" type="Marker2D" parent="pivot"]
 unique_name_in_owner = true

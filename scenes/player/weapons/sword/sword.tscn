@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://7tx8y7bexiry"]
+[gd_scene load_steps=10 format=3 uid="uid://7tx8y7bexiry"]
 
 [ext_resource type="Script" path="res://scenes/player/weapons/sword/weapon_melee.gd" id="1_41o6r"]
 [ext_resource type="AudioStream" uid="uid://r4bp64uibej5" path="res://scenes/player/assets/blade_1.wav" id="3_8otfm"]
 [ext_resource type="AudioStream" uid="uid://mjlrf7owlvcl" path="res://scenes/player/assets/blade_2.wav" id="4_7vioj"]
 [ext_resource type="AudioStream" uid="uid://c3tjix00n3eov" path="res://scenes/player/assets/blade_3.wav" id="5_bks16"]
 [ext_resource type="AudioStream" uid="uid://ds7lpn11nb2x1" path="res://scenes/player/assets/sword_sheathed.mp3" id="6_5qr3b"]
+[ext_resource type="Texture2D" uid="uid://cgdekabmng4cu" path="res://scenes/player/weapons/sword/sword.png" id="6_kkrgo"]
+[ext_resource type="Texture2D" uid="uid://2o2pbmsk5cic" path="res://scenes/player/weapons/sword/sheath.png" id="7_eao25"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1ovo8"]
 radius = 27.3602
@@ -15,7 +17,6 @@ _data = [Vector2(0, 1.47686), 0.0, 0.0, 0, 0, Vector2(0.313187, 0.674191), -3.91
 point_count = 3
 
 [node name="sword" type="Node2D"]
-scale = Vector2(0.707213, 0.707213)
 script = ExtResource("1_41o6r")
 
 [node name="blade_1" type="AudioStreamPlayer" parent="."]
@@ -68,3 +69,19 @@ scale_amount_curve = SubResource("Curve_d6y5x")
 
 [node name="cooldown" type="Timer" parent="."]
 one_shot = true
+
+[node name="Sword" type="Sprite2D" parent="."]
+visible = false
+rotation = 3.14159
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_kkrgo")
+offset = Vector2(-1, -8)
+flip_v = true
+
+[node name="Sheath" type="Sprite2D" parent="."]
+visible = false
+rotation = 3.14159
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_eao25")
+offset = Vector2(-1, -8)
+flip_v = true

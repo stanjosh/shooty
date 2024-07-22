@@ -217,7 +217,7 @@ func take_damage(hit, vector: Vector2, extra_force: float = 0):
 	chase_timer = chase_time
 	if state == MobState.IDLE:
 		state = MobState.CHASING
-	UIManager.float_message(["%s" % hit], global_position, -vector * global_position)
+	UIManager.float_message(["%s" % hit], global_position, -vector)
 	var tween: Tween = create_tween()
 	tween.tween_property(animated_sprite_2d, "modulate:v", 1, 0.25).set_trans(Tween.TRANS_ELASTIC).from(15)
 	knockback = Vector2(hit + extra_force, hit + extra_force) * -vector
@@ -255,7 +255,7 @@ func drop_loot():
 
 
 func wake_up(body):
-	if body is Player or Ordinance:
+	if body is Player:
 		state = MobState.CHASING
 
 func _on_death_animation_timer_timeout():

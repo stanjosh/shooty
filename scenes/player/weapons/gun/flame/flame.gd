@@ -21,7 +21,8 @@ var cooldown = 0
 var beam_length = 0
 var emitting: bool = false
 
-
+func _ready():
+	prints(damage)
 
 func _physics_process(delta):
 	hit_particles.emitting = false
@@ -54,10 +55,11 @@ func _physics_process(delta):
 
 func _on_projectile_body_entered(body):
 	if body.has_method("take_damage"):
+		print(damage)
 		body.take_damage(damage, Vector2.LEFT.rotated(randf()))
 		if cooldown <= 0:
 			cooldown = .2
 			var new_burning : Infliction = BURNING_EFFECT.instantiate()
-			new_burning.period /= damage
+			new_burning.period = damage
 			new_burning.position += Vector2(-1, -8)
 			body.call_deferred("add_child", new_burning)

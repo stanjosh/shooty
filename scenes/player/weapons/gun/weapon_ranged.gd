@@ -3,42 +3,15 @@ class_name RangedWeaponNode
 
 @onready var weapon_sprite : Sprite2D = $Gun
 @onready var projectile_origin : Node2D = $Barrel
+@export var ordinance : EquippableRangedWeapon
 
-@export var base_fire_rate : float = 3
-@export var base_accuracy : float = 85
-@export var base_pellets : int = 1
-@export var base_cooldown : float = .25
-@export var base_heat_capacity : float = 100
-@export var ordinance : Ordinance
-
-
-
-var fire_rate : float = 0 :
-	get:
-		return fire_rate + base_fire_rate
-
-var accuracy : float = 0 :
-	get:
-		return base_accuracy + (accuracy * .5)
-	
-var pellets : int = 0 :
-	get:
-		return pellets + base_pellets
-
-var heat_capacity : float = 0 :
-	get:
-		return base_heat_capacity + (heat_capacity * 5)
-
-var cooldown : float = 0 :
-	get:
-		return base_cooldown + (cooldown * .125)
 
 var item_name : String = "Gun"
 var heat_level : float = 0 :
 	set(value):
-		heat_level = clampf(value, 0, heat_capacity)
-		$Gun/PointLight2D.energy = inverse_lerp(heat_capacity, heat_level, .3)
-		UIManager.update_hud.emit("heat", value, heat_capacity)
+		heat_level = clampf(value, 0, ordinance.heat_capacity)
+		$Gun/PointLight2D.energy = inverse_lerp(ordinance.heat_capacity, heat_level, .3)
+		UIManager.update_hud.emit("heat", value, ordinance.heat_capacity)
 
 
 var pretty_names := {
@@ -66,7 +39,8 @@ var state : GunState :
 		$SteamParticles2.emitting = false
 
 func _ready():
-	if ordinance.shot_type == Ordinance.Shoots.STREAM:
+	weapon_sprite.texture = ordinance.equipment_sprite
+	if ordinance.shot_type == EquippableRangedWeapon.Shoots.STREAM:
 		projectile_origin.add_child(ordinance.get_scene())
 	UIManager.update_hud.emit("heat", heat_level, 100)
 	original_pos = weapon_sprite.position
@@ -86,20 +60,20 @@ func _physics_process(delta):
 	var pivot = wrapi(snapped(global_rotation, PI/4) / (PI/4), 0, 8)
 	weapon_sprite.flip_v = true if  pivot in [3, 4, 5] else false
 	weapon_sprite.z_index = -1 if pivot == 6 else 4
-	if ordinance.shot_type == Ordinance.Shoots.STREAM:
+	if ordinance.shot_type == EquippableRangedWeapon.Shoots.STREAM:
 		for child in projectile_origin.get_children():
 			child.emitting = false
 	match state:
 		GunState.FIRING:
-			if shot_time <= 0 and ordinance.shot_type == Ordinance.Shoots.PROJECTILE:
+			if shot_time <= 0 and ordinance.shot_type == EquippableRangedWeapon.Shoots.PROJECTILE:
 				shoot()
-			elif ordinance.shot_type == Ordinance.Shoots.STREAM:
+			elif ordinance.shot_type == EquippableRangedWeapon.Shoots.STREAM:
 				for child in projectile_origin.get_children():
 					child.emitting = true
-					child.damage *= pellets
-					child.projectile.global_rotation_degrees = global_rotation_degrees + randfn(0, accuracy / 100)
-					heat_level += child.heat_generated * delta
-			if heat_level >= heat_capacity:
+					#child.damage *= ordinance.pellets
+					child.projectile.global_rotation_degrees = global_rotation_degrees + randfn(0, ordinance.accuracy / 100)
+					heat_level += ordinance.heat_generated * delta
+			if heat_level >= ordinance.heat_capacity:
 				state = GunState.OVERHEATED
 		GunState.COOLING:
 
@@ -107,23 +81,23 @@ func _physics_process(delta):
 			cool_off(delta * 2)
 		GunState.OVERHEATED:
 			if not overheat_sound_played:
-				$Overheat.wait_time = heat_capacity * delta
+				$Overheat.wait_time = ordinance.heat_capacity * 4 * delta
 				$Overheat.start()
 				$OverheatHiss.play()
-				$SteamParticles.lifetime = cooldown
-				$SteamParticles2.lifetime = cooldown
+				$SteamParticles.lifetime = ordinance.heat_capacity * delta
+				$SteamParticles2.lifetime = ordinance.heat_capacity * delta
 				$SteamParticles.emitting = true
 				$SteamParticles2.emitting = true
 				overheat_sound_played = true
 				
 	#print(GunState.keys()[state], " | ", heat_level)
 	cool_off(delta)
-	shot_time -=  delta * 100 + fire_rate
+	shot_time -=  delta * 100 + ordinance.fire_rate
 
 
 func cool_off(delta):
 	if !is_zero_approx(heat_level):
-		heat_level = lerp(heat_level, 0.0, cooldown * delta)
+		heat_level = lerp(heat_level, 0.0, ordinance.cooldown * delta)
 	else:
 		heat_level = 0
 
@@ -131,13 +105,12 @@ func cool_off(delta):
 func shoot():
 
 
-	for n in pellets:
+	for n in ordinance.pellets:
 		
 		var new_bullet = ordinance.get_scene()
-		heat_level +=  new_bullet.heat_generated
+		heat_level +=  ordinance.heat_generated
 		new_bullet.global_position = to_global(projectile_origin.position)
-		
-		new_bullet.global_rotation_degrees = global_rotation_degrees + randfn(0, accuracy / 100)
+		new_bullet.global_rotation_degrees = global_rotation_degrees + randfn(0, ordinance.accuracy / 100)
 		projectile_origin.add_child(new_bullet)
 		if n == 0:
 			shot_time = 100

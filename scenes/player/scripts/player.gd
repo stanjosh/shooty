@@ -4,7 +4,7 @@ class_name Player
 signal player_died
 
 
-@export var melee_node : EquippableMeleeWeapon
+@export var melee_node : MeleeWeaponNode
 @export var ranged_node : EquippableRangedWeapon
 @onready var animated_sprite_2d := $AnimatedSprite2D
 @onready var hitbox := $Hitbox
@@ -86,7 +86,7 @@ func _unhandled_input(event):
 			state = PlayerState.DASHING
 			dash()
 		if event.is_action_pressed("sword") and state != PlayerState.MELEE:
-			state = PlayerState.MELEE if melee_attack() else PlayerState.IDLE
+			state = PlayerState.MELEE if melee_node.attack() else PlayerState.IDLE
 				
 
 		
@@ -185,13 +185,6 @@ func dash() -> void:
 	$DashParticles.emitting = true
 	$DashSound.play()
 
-func melee_attack() -> bool:
-	#var mines = $pivot/Area2D.get_overlapping_bodies().filter(func(body): return body is Mine)
-	#if mines:
-		#global_position = mines.front().global_position
-		#if not mines.front().delay:
-			#mines.front().explode()
-	return melee_node.attack()
 
 func take_damage(hit: float, vector: Vector2, extra_force: float = 0):
 	hit = snapped(hit, 1)

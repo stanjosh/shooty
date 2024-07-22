@@ -26,6 +26,6 @@ func _on_area_2d_body_entered(body):
 		if damage >= 2:
 			var angle = global_position.angle_to_point(body.global_position)
 			body.take_damage(area_damage, angle)
-	if body is Spray:
-		body.queue_free()
+	#if body is BloodSpray:
+		#body.queue_free()
 
