@@ -163,7 +163,7 @@ func _physics_process(delta):
 
 
 func damage_player():
-	PlayerManager.player.take_damage(player_damage, global_position.direction_to(PlayerManager.player.global_position).rotated(global_rotation))
+	PlayerManager.player.take_damage(player_damage, -global_position.direction_to(PlayerManager.player.global_position).rotated(global_rotation))
 
 func chase(delta, chase_target : CharacterBody2D = PlayerManager.player) -> void:
 	if not cry_played:

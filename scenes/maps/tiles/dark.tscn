@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://top4c0k62mk6"]
+
+[ext_resource type="Shader" path="res://scenes/maps/darkness.gdshader" id="1_h0fxj"]
+
+[sub_resource type="Gradient" id="Gradient_x2ohw"]
+offsets = PackedFloat32Array(0, 0.997778)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_84l1t"]
+noise_type = 3
+seed = 6
+frequency = 0.1683
+fractal_type = 2
+fractal_octaves = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6iga4"]
+width = 32
+height = 32
+invert = true
+generate_mipmaps = false
+seamless = true
+bump_strength = 18.9
+color_ramp = SubResource("Gradient_x2ohw")
+noise = SubResource("FastNoiseLite_84l1t")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8ow33"]
+shader = ExtResource("1_h0fxj")
+shader_parameter/scroll1 = Vector2(0.02, 0.31)
+shader_parameter/scroll2 = Vector2(-0.35, 0.425)
+shader_parameter/offset_time = 0.34
+shader_parameter/texture2 = SubResource("NoiseTexture2D_6iga4")
+
+[sub_resource type="Gradient" id="Gradient_v71or"]
+offsets = PackedFloat32Array(0, 0.997778)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1rayo"]
+noise_type = 3
+frequency = 0.1195
+fractal_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_03i4s"]
+width = 32
+height = 32
+invert = true
+seamless = true
+color_ramp = SubResource("Gradient_v71or")
+noise = SubResource("FastNoiseLite_1rayo")
+
+[node name="Sprite2D" type="Sprite2D"]
+material = SubResource("ShaderMaterial_8ow33")
+texture = SubResource("NoiseTexture2D_03i4s")

@@ -4,7 +4,7 @@
 [ext_resource type="AudioStream" uid="uid://c2rgro4hrmduo" path="res://assets/hiss_noise.wav" id="2_3o5kf"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_yp23k"]
-b = Vector2(-1.28015e-05, 9)
+b = Vector2(-7.95168e-06, 10.983)
 
 [sub_resource type="Curve" id="Curve_gibsx"]
 min_value = -20.0
@@ -18,8 +18,8 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1e-05, 0), 0.0, 0.0, 0, 0, Vecto
 point_count = 5
 
 [sub_resource type="Gradient" id="Gradient_kglda"]
-offsets = PackedFloat32Array(0, 0.118834, 0.475336, 0.540359)
-colors = PackedColorArray(0.576471, 0.972549, 1, 0.227451, 1, 0.642363, 0.336072, 1, 0.533333, 0.262745, 0, 1, 0, 0, 0, 0.32549)
+offsets = PackedFloat32Array(0.0515695, 0.125561, 0.390135, 0.475336, 0.540359)
+colors = PackedColorArray(1, 1, 1, 1, 0.682353, 0.384314, 0.0392157, 0.827451, 0.697399, 0.413478, 0.0847266, 0.788256, 1, 1, 1, 0, 0, 0, 0, 0.32549)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_omiep"]
 closed = false
@@ -45,9 +45,9 @@ collision_layer = 32
 collision_mask = 198
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="projectile"]
-position = Vector2(1, -2.27374e-13)
+position = Vector2(0, 3.25261e-19)
 rotation = -1.5708
-scale = Vector2(5, 1)
+scale = Vector2(4.09724, 0.819447)
 shape = SubResource("SegmentShape2D_yp23k")
 
 [node name="GunFire" type="AudioStreamPlayer2D" parent="projectile"]
@@ -74,8 +74,9 @@ color_ramp = SubResource("Gradient_kglda")
 
 [node name="RayCast2D" type="RayCast2D" parent="projectile"]
 rotation = -1.57079
-target_position = Vector2(2.22127e-05, 10)
+target_position = Vector2(6.90182e-05, 11)
 collision_mask = 452
+hit_from_inside = true
 
 [node name="HitParticles" type="CPUParticles2D" parent="."]
 z_index = 3
@@ -99,10 +100,11 @@ scale_amount_curve = SubResource("Curve_a6xkf")
 color_ramp = SubResource("Gradient_kglda")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+position = Vector2(-2, 0)
 occluder = SubResource("OccluderPolygon2D_omiep")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(10, 0)
+position = Vector2(8, 0)
 rotation = -1.5708
 color = Color(1, 0.530813, 0.32379, 1)
 shadow_enabled = true

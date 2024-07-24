@@ -332,26 +332,15 @@ layout_mode = 0
 size_flags_vertical = 0
 mouse_filter = 0
 
-[node name="PlayerInventory" type="VSplitContainer" parent="InventoryInterface"]
+[node name="PlayerInventory" type="BoxContainer" parent="InventoryInterface"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -4.0
-offset_top = -20.0
-offset_right = 4.0
 grow_horizontal = 2
 grow_vertical = 0
-
-[node name="ItemInventory" parent="InventoryInterface/PlayerInventory" instance=ExtResource("5_fnxsd")]
-layout_mode = 2
-
-[node name="EquipInventory" type="GridContainer" parent="InventoryInterface/PlayerInventory"]
-layout_mode = 2
-size_flags_vertical = 3
-columns = 3
 
 [node name="Status" parent="InventoryInterface" instance=ExtResource("12_pihbl")]
 layout_mode = 1

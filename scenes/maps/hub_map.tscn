@@ -308,8 +308,10 @@ quantity = 3
 [sub_resource type="Resource" id="Resource_idyag"]
 script = ExtResource("4_3d555")
 slot_datas = Array[ExtResource("6_ndw23")]([SubResource("Resource_dpepo"), SubResource("Resource_k83fw"), SubResource("Resource_8aw1a"), null, null, null])
+color = Color(1, 1, 1, 1)
 
 [node name="InsideHub" type="TileMap" node_paths=PackedStringArray("player_spawn", "mobs", "objects")]
+z_index = -2
 z_as_relative = false
 y_sort_enabled = true
 tile_set = SubResource("TileSet_1dt73")

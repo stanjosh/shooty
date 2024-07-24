@@ -5,7 +5,7 @@ signal inventory_interact(inventory_data: InventoryData, index: int, button: int
 signal inventory_updated(inventory_data: InventoryData)
 
 @export var slot_datas: Array[SlotData]
-
+@export var color : Color = Color("white")
 
 func grab_slot_data(index: int) -> SlotData:
 	var slot_data = slot_datas[index]

@@ -8,8 +8,7 @@ var grabbed_slot_data: SlotData
 var external_inventory_owner
 
 
-@onready var item_inventory = $PlayerInventory/ItemInventory
-@onready var equip_inventory = $PlayerInventory/EquipInventory
+@onready var player_inventory = $PlayerInventory
 
 @onready var grabbed_slot = $GrabbedSlot
 @onready var external_inventory : Control = $ExternalInventory
@@ -28,7 +27,6 @@ func _physics_process(_delta):
 
 func _ready():
 	
-	
 	UIManager.connect("refresh_interface", refresh)
 
 	get_interactables()
@@ -37,7 +35,8 @@ func _ready():
 func refresh(target = null):
 	if target:
 		if target is Player:
-			set_player_inventory_data(target.inventory_data)
+			for inventory_data in PlayerManager.player.inventory_datas:
+				set_player_inventory_data(inventory_data)
 			target.toggle_inventory.connect(toggle_inventory_interface)
 		if target is Chest:
 			target.toggle_inventory.connect(toggle_inventory_interface)
@@ -90,19 +89,11 @@ func drop_slot_data_in_map(slot_data):
 
 
 func set_player_inventory_data(inventory_data: InventoryData):
+	var INVENTORY = load("res://scenes/gui/inventory/inventory.tscn")
+	var new_inventory = INVENTORY.instantiate()
+	player_inventory.add_child(new_inventory)
 	inventory_data.inventory_interact.connect(on_inventory_interact)
-	item_inventory.set_inventory_data(inventory_data)
-
-
-func set_equip_inventory_data(inventory_datas: Array[InventoryDataSockets]):
-	print("set equip")
-	for inventory_data in inventory_datas:
-		print(inventory_data.upgrade_target)
-		var INVENTORY = load("res://scenes/gui/inventory/inventory.tscn")
-		var new_inventory = INVENTORY.instantiate()
-		equip_inventory.add_child(new_inventory)
-		inventory_data.inventory_interact.connect(on_inventory_interact)
-		new_inventory.set_inventory_data(inventory_data)
+	new_inventory.set_inventory_data(inventory_data)
 
 
 func on_inventory_interact(inventory_data: InventoryData, index: int, button: int):

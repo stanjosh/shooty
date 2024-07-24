@@ -40,7 +40,7 @@ func _physics_process(delta):
 			hit_particles.emission_sphere_radius = beam_length / dropoff
 		beam_length = lerpf(beam_length, dropoff, .04)
 	else:
-		eject_particles.speed_scale = 4
+		eject_particles.speed_scale = 3
 		eject_particles.gravity = Vector2.UP * 40
 		beam_length = lerpf(beam_length, 0, .2)
 	projectile.set_deferred("position", get_parent().global_position)

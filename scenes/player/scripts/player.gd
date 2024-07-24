@@ -3,9 +3,8 @@ class_name Player
 
 signal player_died
 
-
-@export var melee_node : MeleeWeaponNode
-@export var ranged_node : EquippableRangedWeapon
+@onready var ranged_node = $pivot/RangedNode
+@onready var melee_node = $pivot/MeleeNode
 @onready var animated_sprite_2d := $AnimatedSprite2D
 @onready var hitbox := $Hitbox
 @onready var dash_cooldown_timer := $DashCooldown
@@ -48,7 +47,10 @@ var health : float = max_health :
 		UIManager.update_hud.emit("health", health, max_health)
 
 @export var inventory_data : InventoryData = InventoryData.new()
+@export var melee_weapon : InventoryDataEquip = InventoryDataEquip.new()
+@export var ranged_weapon : InventoryDataEquip = InventoryDataEquip.new()
 
+@onready var inventory_datas = [melee_weapon, ranged_weapon, inventory_data]
 
 var can_dash : bool = true
 var status : Dictionary
@@ -68,11 +70,14 @@ var state : PlayerState = PlayerState.IDLE
 var aim_point : Vector2
 
 func _ready():
+
 	health = base_max_health
 	print(health)
 	$DashTimer.wait_time = dash_time
 	PlayerManager.level_up.connect(_on_level_up)
 	UIManager.refresh_interface.emit(self)
+	ranged_node.set_equip(ranged_weapon.get_equipped())
+	melee_node.set_equip(melee_weapon.get_equipped())
 	update_status_panel()
 
 
@@ -118,6 +123,8 @@ func _unhandled_input(event):
 
 func animate():
 	var current_animation : String
+	ranged_node.visible = false if state == PlayerState.MELEE else true
+	$SwordSprite.visible = false if state == PlayerState.MELEE else true
 	
 	if state == PlayerState.DASHING:
 		if abs(velocity.x) > abs(velocity.y):
@@ -131,6 +138,8 @@ func animate():
 	
 	else:
 		var pivot = wrapi(snapped(get_angle_to(aim_point), PI/4) / (PI/4), 1, 8)
+		$SwordSprite.z_index = 3 if pivot in [1, 5, 6, 7, 8] else 1
+		$SwordSprite.flip_h = true if pivot in [2, 3, 4] else false
 		match pivot:
 			5:
 				if state == PlayerState.MELEE:
