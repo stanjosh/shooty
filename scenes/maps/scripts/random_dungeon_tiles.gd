@@ -2,8 +2,8 @@ extends Map
 class_name RandomDungeonTiles
 
 const ROOM_MOBS = preload("res://scenes/maps/spawner/room_mobs.tscn")
-const DUNGEON_TRACKING_CAMERA_SWITCHER = preload("res://scenes/interactable/dungeon_tracking_camera_switcher.tscn")
-const DOOR = preload("res://scenes/interactable/door.tscn")
+const DUNGEON_TRACKING_CAMERA_SWITCHER = preload("res://scenes/objects/interactable/dungeon_tracking_camera_switcher.tscn")
+const DOOR = preload("res://scenes/objects/interactable/door.tscn")
 var room_size = Settings.ROOM_SIZE
 
 var room_pattern : TileMapPattern = tile_set.get_pattern(0)

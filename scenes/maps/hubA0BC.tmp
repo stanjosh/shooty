@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://gll7ax2pniki"]
+[gd_scene load_steps=30 format=3 uid="uid://gll7ax2pniki"]
 
 [ext_resource type="Script" path="res://scenes/maps/scripts/Map.gd" id="1_vvbc0"]
 [ext_resource type="Texture2D" uid="uid://3esb1v2ef4fq" path="res://scenes/maps/tiles/map/tileset.png" id="2_0dr5g"]
@@ -11,10 +11,10 @@
 [ext_resource type="PackedScene" uid="uid://cwpr57qo4ctp0" path="res://scenes/maps/objects/warp_zone.tscn" id="9_s23k6"]
 [ext_resource type="PackedScene" uid="uid://d3df20gjcfbj7" path="res://scenes/gui/inventory/items/pickup_item.tscn" id="10_life1"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/item_data_equippable.gd" id="11_tktwn"]
-[ext_resource type="Texture2D" uid="uid://htv5wpd5apne" path="res://scenes/weapons/ranged/gun/sprites/gun1.png" id="12_80y81"]
-[ext_resource type="PackedScene" uid="uid://6qxco026ufkq" path="res://scenes/weapons/ranged/gun/bullet.tscn" id="15_50b1i"]
-[ext_resource type="Texture2D" uid="uid://gjkyjeq0da3w" path="res://scenes/weapons/ranged/gun/sprites/gun6.png" id="16_droad"]
-[ext_resource type="PackedScene" uid="uid://diypynu285b7h" path="res://scenes/weapons/ranged/flamethrower.tscn" id="17_vd354"]
+[ext_resource type="Texture2D" uid="uid://s773ijqbrm0d" path="res://scenes/weapons/ranged/gun/sprites/gun3.png" id="12_gsand"]
+[ext_resource type="Texture2D" uid="uid://df885ibdqhbli" path="res://scenes/gui/inventory/items/assets/Icon14_11.png" id="12_rk1mv"]
+[ext_resource type="Script" path="res://scenes/weapons/weapon_info.gd" id="13_48hdw"]
+[ext_resource type="PackedScene" uid="uid://6qxco026ufkq" path="res://scenes/weapons/ranged/gun/bullet.tscn" id="14_adbjg"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_3dhe1"]
 tile_data = PackedInt32Array(0, 65539, 2, 65536, 65539, 3, 131072, 65539, 4, 1, 196610, 6, 65537, 196610, 6, 131073, 196610, 6, 2, 393218, 1, 65538, 393218, 1, 131074, 393218, 1, 3, 3, 2, 65539, 3, 3, 131075, 3, 4)
@@ -316,54 +316,35 @@ script = ExtResource("4_3d555")
 slot_datas = Array[ExtResource("6_ndw23")]([SubResource("Resource_dpepo"), SubResource("Resource_k83fw"), SubResource("Resource_8aw1a"), null, null, null])
 color = Color(1, 1, 1, 1)
 
-[sub_resource type="Resource" id="Resource_cd02a"]
-script = ExtResource("11_tktwn")
-equip_type = 2
-equip_texture = ExtResource("12_80y81")
-weapon_effect = ExtResource("17_vd354")
+[sub_resource type="Resource" id="Resource_mdcku"]
+script = ExtResource("13_48hdw")
+equip_texture = ExtResource("12_gsand")
+item_name = "gun"
+description = "it gun"
+weapon_effect = ExtResource("14_adbjg")
 base_damage = 0
 base_cooldown = 0.0
 heat_generated = 0.0
 base_fire_rate = 0.0
-base_heat_capacity = 100.0
+base_heat_capacity = 0.0
 base_pellets = 0
 base_area = 0.0
 base_range = 0.0
 base_knockback = 0.0
-name = "gun"
-description = "a gun"
+cutting = false
+
+[sub_resource type="Resource" id="Resource_cd02a"]
+script = ExtResource("11_tktwn")
+weapon_info = SubResource("Resource_mdcku")
+name = ""
+description = ""
 stackable = false
-texture = ExtResource("12_80y81")
+texture = ExtResource("12_rk1mv")
 drop_rarity = 0.0
 
 [sub_resource type="Resource" id="Resource_0sljm"]
 script = ExtResource("6_ndw23")
 item_data = SubResource("Resource_cd02a")
-quantity = 1
-
-[sub_resource type="Resource" id="Resource_630g5"]
-script = ExtResource("11_tktwn")
-equip_type = 1
-equip_texture = ExtResource("16_droad")
-weapon_effect = ExtResource("15_50b1i")
-base_damage = 0
-base_cooldown = 0.0
-heat_generated = 0.0
-base_fire_rate = 0.0
-base_heat_capacity = 100.0
-base_pellets = 0
-base_area = 0.0
-base_range = 0.0
-base_knockback = 0.0
-name = "flamethrower"
-description = ""
-stackable = false
-texture = ExtResource("16_droad")
-drop_rarity = 0.0
-
-[sub_resource type="Resource" id="Resource_fnp45"]
-script = ExtResource("6_ndw23")
-item_data = SubResource("Resource_630g5")
 quantity = 1
 
 [node name="InsideHub" type="TileMap" node_paths=PackedStringArray("player_spawn", "mobs", "objects")]
@@ -416,7 +397,3 @@ position = Vector2(611, 540)
 [node name="PickupItem" parent="." instance=ExtResource("10_life1")]
 position = Vector2(529, 541)
 slot_data = SubResource("Resource_0sljm")
-
-[node name="PickupItem2" parent="." instance=ExtResource("10_life1")]
-position = Vector2(541, 515)
-slot_data = SubResource("Resource_fnp45")

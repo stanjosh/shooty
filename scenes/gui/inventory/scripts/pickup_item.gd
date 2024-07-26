@@ -1,9 +1,14 @@
+@tool
 extends Area2D
+class_name PickupItem
 
 @export var slot_data : SlotData
 
 @onready var sprite_2d = $Sprite2D
 @onready var quantity_label = $Sprite2D/QuantityLabel
+
+func _get_configuration_warnings():
+	update_configuration_warnings()
 
 func _ready():
 	sprite_2d.texture = slot_data.item_data.texture

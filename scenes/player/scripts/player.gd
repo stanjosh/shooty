@@ -3,15 +3,22 @@ class_name Player
 
 signal player_died
 
-@onready var ranged_node = $pivot/RangedNode
-@onready var melee_node = $pivot/MeleeNode
+const RANGED = preload("res://scenes/weapons/ranged/weapon_ranged.tscn")
+const MELEE = preload("res://scenes/weapons/melee/weapon_melee.tscn")
+const STREAM = preload("res://scenes/weapons/ranged/weapon_ranged_stream.gd")
+const PROJECTILE = preload("res://scenes/weapons/ranged/weapon_ranged_projectile.gd")
+
 @onready var animated_sprite_2d := $AnimatedSprite2D
 @onready var hitbox := $Hitbox
 @onready var dash_cooldown_timer := $DashCooldown
 @onready var interaction_area = $InteractionArea
 @onready var inflictions = $Inflictions
 
-
+@onready var weapons = $Weapons
+@onready var melee_weapon_node = $Weapons/MeleeWeapon
+@onready var ranged_weapon_node = $Weapons/RangedWeapon
+var melee_weapon_info : ItemDataEquippable
+var ranged_weapon_info : ItemDataEquippable
 
 @export var base_speed : float = 100.0
 @export var base_max_health : float = 100
@@ -47,10 +54,11 @@ var health : float = max_health :
 		UIManager.update_hud.emit("health", health, max_health)
 
 @export var inventory_data : InventoryData = InventoryData.new()
-@export var melee_weapon : InventoryDataEquip = InventoryDataEquip.new()
-@export var ranged_weapon : InventoryDataEquip = InventoryDataEquip.new()
+@export var melee_inventory_data : InventoryData = InventoryData.new()
+@export var ranged_inventory_data : InventoryData = InventoryData.new()
 
-@onready var inventory_datas = [melee_weapon, ranged_weapon, inventory_data]
+
+@onready var inventory_datas = [inventory_data, melee_inventory_data, ranged_inventory_data]
 
 var can_dash : bool = true
 var status : Dictionary
@@ -69,19 +77,20 @@ enum PlayerState {
 var state : PlayerState = PlayerState.IDLE
 var aim_point : Vector2
 
-func _ready():
-
+func _ready() -> void:
+	melee_inventory_data.inventory_updated.connect(_on_change_equip)
+	ranged_inventory_data.inventory_updated.connect(_on_change_equip)
+	
 	health = base_max_health
 	print(health)
 	$DashTimer.wait_time = dash_time
 	PlayerManager.level_up.connect(_on_level_up)
 	UIManager.refresh_interface.emit(self)
-	ranged_node.set_equip(ranged_weapon.get_equipped())
-	melee_node.set_equip(melee_weapon.get_equipped())
+	
 	update_status_panel()
 
 
-func _unhandled_input(event):
+func _unhandled_input(event) -> void:
 	if state != PlayerState.DEAD:
 
 
@@ -90,11 +99,7 @@ func _unhandled_input(event):
 		and can_dash:
 			state = PlayerState.DASHING
 			dash()
-		if event.is_action_pressed("sword") and state != PlayerState.MELEE:
-			state = PlayerState.MELEE if melee_node.attack() else PlayerState.IDLE
-				
 
-		
 		if event.is_action_released("interact"):
 			var interactables = interaction_area.get_overlapping_areas().filter(func(area): return area is Interactable)
 			if interactables:
@@ -113,17 +118,16 @@ func _unhandled_input(event):
 		var xAxisRL = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
 		var yAxisUD = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
 		if abs(xAxisRL) > deadzone || abs(yAxisUD) > deadzone:
-			$pivot.rotation = Vector2(xAxisRL, yAxisUD).angle()
-			aim_point = $pivot/angle.global_position
-			Input.warp_mouse(lerp($pivot/angle.get_global_transform_with_canvas().origin, self.get_global_transform_with_canvas().origin, .3))
+			$Weapons.rotation = Vector2(xAxisRL, yAxisUD).angle()
+			aim_point = $AimPoint.global_position
+			Input.warp_mouse(lerp($AimPoint.get_global_transform_with_canvas().origin, self.get_global_transform_with_canvas().origin, .3))
 		else:
 			
 			aim_point = get_global_mouse_position()
-			$pivot.look_at(aim_point)
+			$Weapons.look_at(aim_point)
 
-func animate():
+func animate() -> void:
 	var current_animation : String
-	ranged_node.visible = false if state == PlayerState.MELEE else true
 	$SwordSprite.visible = false if state == PlayerState.MELEE else true
 	
 	if state == PlayerState.DASHING:
@@ -167,7 +171,7 @@ func animate():
 					current_animation = "x_idle"
 	animated_sprite_2d.play(current_animation)
 
-func _physics_process(_delta):
+func _physics_process(_delta) -> void:
 	if state == PlayerState.DEAD:
 		velocity = Vector2.ZERO
 		hitbox.disabled = true
@@ -195,7 +199,7 @@ func dash() -> void:
 	$DashSound.play()
 
 
-func take_damage(hit: float, vector: Vector2, extra_force: float = 0):
+func take_damage(hit: float, vector: Vector2, extra_force: float = 0) -> void:
 	hit = snapped(hit, 1)
 	UIManager.float_message(["%s"%hit], global_position, vector )
 	var tween = get_tree().create_tween()
@@ -208,11 +212,11 @@ func take_damage(hit: float, vector: Vector2, extra_force: float = 0):
 
 
 
-func die():
+func die() -> void:
 	state = PlayerState.DEAD
 	animated_sprite_2d.play("die")
 	velocity = Vector2.ZERO
-	$pivot.process_mode = Node.PROCESS_MODE_DISABLED
+	$Weapons.process_mode = Node.PROCESS_MODE_DISABLED
 	$DeathParticles.emitting = true
 	player_died.emit()
 	var tween :Tween = create_tween()
@@ -246,7 +250,7 @@ var level_changes : Dictionary = {
 	}
 
 
-func update_status_panel(stat_name: String = ""):
+func update_status_panel(stat_name: String = "") -> void:
 	var pretty_names := {
 		 "current_level" : "Player level",
 		 "speed" : "Move speed",
@@ -264,7 +268,7 @@ func update_status_panel(stat_name: String = ""):
 var current_stat_upgrades : Dictionary
 
 
-func _on_level_up():
+func _on_level_up() -> void:
 	current_level = clampi(current_level + 1, 0, level_changes.size())
 	for level_reward in level_changes[current_level]:
 		set(level_reward, level_changes[current_level][level_reward])
@@ -273,18 +277,63 @@ func _on_level_up():
 		level_up_message.push_back("%s + %s" % [level_reward.replace("_", " "), level_changes[current_level][level_reward]])
 	UIManager.float_message(level_up_message, global_position)
 
-func _on_animated_sprite_2d_animation_finished():
+func equip_weapon(weapon_info : ItemDataEquippable) -> void:
+	var new_weapon
+	match weapon_info.equip_type:
+		ItemDataEquippable.EquipType.RANGED:
+			ranged_weapon_info = weapon_info
+			new_weapon = RANGED.instantiate()
+			new_weapon.set_script(PROJECTILE)
+			ranged_weapon_node = new_weapon
+		ItemDataEquippable.EquipType.STREAM:
+			ranged_weapon_info = weapon_info
+			new_weapon = RANGED.instantiate()
+			new_weapon.set_script(STREAM)
+			ranged_weapon_node = new_weapon
+		ItemDataEquippable.EquipType.MELEE:
+			melee_weapon_info = weapon_info
+			new_weapon = MELEE.instantiate()
+			ranged_weapon_node = new_weapon
+			melee_weapon_node.connect("melee_attacking", _on_melee_attack)
+	new_weapon.weapon_info = weapon_info
+	weapons.add_child(new_weapon)
+	
+	
+
+func _on_change_equip(_inventory_data: InventoryDataEquip) -> void:
+	if _inventory_data.get_equipped() != null:
+		equip_weapon(_inventory_data.get_equipped())
+	else:
+		if _inventory_data.equip_type == ItemDataEquippable.EquipType.MELEE:
+			print("unequip 1")
+			melee_weapon_node.queue_free()
+			melee_weapon_info = null
+		elif _inventory_data.equip_type == ItemDataEquippable.EquipType.RANGED \
+			or _inventory_data.equip_type == ItemDataEquippable.EquipType.STREAM:
+			ranged_weapon_node.queue_free()
+			ranged_weapon_info = null
+
+
+
+
+
+
+
+func _on_melee_attack() -> void:
+	state = PlayerState.MELEE
+
+func _on_animated_sprite_2d_animation_finished() -> void:
 	if state != PlayerState.DEAD:
 		state = PlayerState.IDLE
 		set_deferred("animation_lock", false)
 	
 
-func _on_dash_cooldown_timeout():
+func _on_dash_cooldown_timeout() -> void:
 	print("dash cooldown timeout")
 	set_deferred("can_dash", true)
 
 
-func _on_dash_timer_timeout():
+func _on_dash_timer_timeout() -> void:
 	print("dash timer timeout")
 	set_deferred("state", PlayerState.IDLE)
 	dash_cooldown_timer.start()

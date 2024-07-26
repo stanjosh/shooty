@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/maps/scripts/Map.gd" id="1_mrbw4"]
 [ext_resource type="PackedScene" uid="uid://top4c0k62mk6" path="res://scenes/maps/tiles/dark.tscn" id="2_3o00c"]
-[ext_resource type="PackedScene" uid="uid://dc50hqke2q756" path="res://scenes/interactable/chest.tscn" id="3_1n7vv"]
+[ext_resource type="PackedScene" uid="uid://dc50hqke2q756" path="res://scenes/objects/interactable/chest.tscn" id="4_akbvj"]
 [ext_resource type="PackedScene" uid="uid://chk284feajxkw" path="res://scenes/effects/acid_puddle.tscn" id="4_ft3xn"]
 [ext_resource type="Texture2D" uid="uid://3esb1v2ef4fq" path="res://scenes/maps/tiles/map/tileset.png" id="9_mbq84"]
 [ext_resource type="PackedScene" uid="uid://ctvpcfm5heb5" path="res://scenes/mobs/tiny/tiny.tscn" id="10_8msfn"]
@@ -309,7 +309,7 @@ objects = NodePath("Objects")
 
 [node name="Objects" type="Node2D" parent="."]
 
-[node name="Chest" parent="Objects" instance=ExtResource("3_1n7vv")]
+[node name="Chest" parent="Objects" instance=ExtResource("4_akbvj")]
 position = Vector2(0, -46)
 
 [node name="AcidPuddle" parent="Objects" instance=ExtResource("4_ft3xn")]

@@ -15,13 +15,11 @@ color = Color(1, 1, 1, 1)
 
 [sub_resource type="Resource" id="Resource_b8h6j"]
 script = ExtResource("3_shur2")
-equip_type = 1
 slot_datas = Array[Resource("res://scenes/gui/inventory/scripts/slot_data.gd")]([null])
 color = Color(1, 0, 0, 1)
 
 [sub_resource type="Resource" id="Resource_yjieb"]
 script = ExtResource("3_shur2")
-equip_type = 0
 slot_datas = Array[Resource("res://scenes/gui/inventory/scripts/slot_data.gd")]([null])
 color = Color(0, 1, 1, 1)
 

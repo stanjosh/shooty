@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dkpcrglxuf8od"]
 
 [ext_resource type="Script" path="res://scenes/effects/scripts/zap_line.gd" id="1_4a87c"]
-[ext_resource type="Texture2D" uid="uid://cbokp1qpikobf" path="res://scenes/player/weapons/zap.png" id="2_gii5s"]
+[ext_resource type="Texture2D" uid="uid://cbokp1qpikobf" path="res://scenes/weapons/ranged/lightning/zap.png" id="2_gii5s"]
 
 [node name="action_line" type="Node2D" groups=["zaps"]]
 top_level = true
