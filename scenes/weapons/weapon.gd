@@ -3,9 +3,9 @@ class_name Weapon
 
 @onready var weapon_info : ItemDataEquippable
 
-var range : float = 0 :
+var weapon_range : float = 0 :
 	get:
-		return weapon_info.base_range + (range * .15)
+		return weapon_info.base_range + (weapon_range * .15)
 
 var cooldown : float = 0 :
 	get:

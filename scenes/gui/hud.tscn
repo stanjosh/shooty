@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://cd0uh1gl3j2yw"]
+[gd_scene load_steps=41 format=3 uid="uid://cd0uh1gl3j2yw"]
 
 [ext_resource type="Script" path="res://scenes/gui/scripts/user_interface.gd" id="1_sbawl"]
 [ext_resource type="FontFile" uid="uid://m1jk0peka30j" path="res://assets/m6x11.ttf" id="2_y8uil"]
@@ -12,10 +12,12 @@
 [ext_resource type="Shader" path="res://scenes/gui/hud.gdshader" id="5_qa7h8"]
 [ext_resource type="PackedScene" uid="uid://d1lua354iq30d" path="res://scenes/gui/inventory/slot.tscn" id="6_phlc7"]
 [ext_resource type="Texture2D" uid="uid://bpclk7ym07oa2" path="res://scenes/gui/assets/orb_shine.png" id="6_q16a3"]
+[ext_resource type="Script" path="res://scenes/gui/highscore.gd" id="7_q6tje"]
 [ext_resource type="Script" path="res://scenes/gui/scripts/game_over.gd" id="7_trp5y"]
 [ext_resource type="Script" path="res://scenes/gui/scripts/heads_up_display.gd" id="8_2kria"]
 [ext_resource type="PackedScene" uid="uid://cshxn3hr142mq" path="res://scenes/gui/status.tscn" id="12_pihbl"]
 [ext_resource type="Script" path="res://scenes/gui/scripts/main_menu.gd" id="15_gk2a1"]
+[ext_resource type="Script" path="res://scenes/gui/GoogleOauth.gd" id="18_1ebyr"]
 
 [sub_resource type="Theme" id="Theme_knvcr"]
 default_font = ExtResource("3_nky2f")
@@ -307,6 +309,30 @@ theme_override_fonts/font = ExtResource("2_y8uil")
 theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
 text = "testing map"
 flat = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="MainMenu"]
+layout_mode = 0
+offset_right = 419.0
+offset_bottom = 505.0
+
+[node name="Control" type="Control" parent="MainMenu/MarginContainer2"]
+layout_mode = 2
+script = ExtResource("7_q6tje")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="MainMenu/MarginContainer2/Control"]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MainMenu/MarginContainer2/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "score1
+score2
+score3
+etc"
 
 [node name="InventoryInterface" type="Control" parent="."]
 visible = false
@@ -724,6 +750,20 @@ layout_mode = 2
 size_flags_vertical = 6
 text = "HEY LOREM LOREM"
 
+[node name="GoogleOauth" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("18_1ebyr")
+
+[node name="Button" type="Button" parent="GoogleOauth"]
+process_mode = 3
+layout_mode = 0
+offset_left = 321.0
+offset_top = 118.0
+offset_right = 430.0
+offset_bottom = 149.0
+text = "google oauth"
+
 [connection signal="pressed" from="PauseMenu/MarginContainer/VBoxContainer/NinePatchRect/Resume" to="." method="_on_pause_pressed"]
 [connection signal="pressed" from="PauseMenu/MarginContainer/VBoxContainer/NinePatchRect2/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect2/play" to="." method="_on_play_pressed"]
@@ -733,3 +773,4 @@ text = "HEY LOREM LOREM"
 [connection signal="gui_input" from="InventoryInterface" to="InventoryInterface" method="_on_gui_input"]
 [connection signal="visibility_changed" from="InventoryInterface" to="InventoryInterface" method="_on_visibility_changed"]
 [connection signal="pressed" from="GameOverMenu/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="GoogleOauth/Button" to="GoogleOauth" method="_on_button_pressed"]

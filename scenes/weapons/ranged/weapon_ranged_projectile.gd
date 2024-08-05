@@ -1,7 +1,7 @@
 extends WeaponRanged
 class_name WeaponRangedProjectile
 
-var shot_time : int = 0
+var shot_time : float = 0
 
 func shoot():
 	if shot_time <= 0:

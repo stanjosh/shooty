@@ -17,7 +17,7 @@ func attack() -> void:
 	if not cooldown_timer.time_left:
 		effect.play()
 		
-		hitbox.scale = Vector2(range, area)
+		hitbox.scale = Vector2(weapon_range, area)
 
 		var mobs : Array = hitbox.get_overlapping_bodies()
 		if mobs:

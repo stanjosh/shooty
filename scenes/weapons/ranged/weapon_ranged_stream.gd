@@ -3,11 +3,11 @@ class_name WeaponRangedStream
 
 @onready var ordinance : StreamOrdinance = weapon_info.weapon_effect.instantiate()
 
-func _ready() -> void:
+func _ready():
 	projectile_origin.add_child(ordinance)
 	return super._ready()
 
-func _physics_process(delta) -> void:
+func _physics_process(delta):
 	
 	heat_level += weapon_info.heat_generated * delta
 	if Input.is_action_just_released("shoot"):

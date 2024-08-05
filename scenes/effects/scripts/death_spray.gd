@@ -10,7 +10,7 @@ func _init(body: CharacterBody2D, angle: Vector2):
 	spray.direction = angle + Vector2(randf_range(-0.5, 0.5), 0)
 	spray.emitting = true
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	spray.direction *= randf()
 	if not spray.emitting:
 		queue_free()
