@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://cd0uh1gl3j2yw"]
+[gd_scene load_steps=42 format=3 uid="uid://cd0uh1gl3j2yw"]
 
 [ext_resource type="Script" path="res://scenes/gui/scripts/user_interface.gd" id="1_sbawl"]
 [ext_resource type="FontFile" uid="uid://m1jk0peka30j" path="res://assets/m6x11.ttf" id="2_y8uil"]
@@ -17,7 +17,7 @@
 [ext_resource type="Script" path="res://scenes/gui/scripts/heads_up_display.gd" id="8_2kria"]
 [ext_resource type="PackedScene" uid="uid://cshxn3hr142mq" path="res://scenes/gui/status.tscn" id="12_pihbl"]
 [ext_resource type="Script" path="res://scenes/gui/scripts/main_menu.gd" id="15_gk2a1"]
-[ext_resource type="Script" path="res://scenes/gui/GoogleOauth.gd" id="18_1ebyr"]
+[ext_resource type="Script" path="res://scenes/gui/GoogleOauth2Button.gd" id="18_otx8e"]
 
 [sub_resource type="Theme" id="Theme_knvcr"]
 default_font = ExtResource("3_nky2f")
@@ -44,6 +44,9 @@ content_margin_right = 85.0
 content_margin_bottom = 4.0
 bg_color = Color(0.814387, 0.909493, 0.950738, 1)
 anti_aliasing = false
+
+[sub_resource type="Theme" id="Theme_ukkpe"]
+default_font = ExtResource("2_y8uil")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjc1o"]
 bg_color = Color(0.97065, 0.59733, 0, 1)
@@ -309,6 +312,48 @@ theme_override_fonts/font = ExtResource("2_y8uil")
 theme_override_styles/normal = SubResource("StyleBoxFlat_dkqd6")
 text = "testing map"
 flat = true
+
+[node name="NinePatchRect5" type="NinePatchRect" parent="MainMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+texture = ExtResource("4_1ljwl")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="GoogleOauth2Button" type="Button" parent="MainMenu/MarginContainer/VBoxContainer/NinePatchRect5"]
+process_mode = 3
+custom_minimum_size = Vector2(135, 35)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("18_otx8e")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MainMenu/MarginContainer/VBoxContainer/NinePatchRect5/GoogleOauth2Button"]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -14.0
+offset_right = 0.5
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = SubResource("Theme_ukkpe")
+bbcode_enabled = true
+text = "Sign in with Google"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
 
 [node name="MarginContainer2" type="MarginContainer" parent="MainMenu"]
 layout_mode = 0
@@ -750,27 +795,15 @@ layout_mode = 2
 size_flags_vertical = 6
 text = "HEY LOREM LOREM"
 
-[node name="GoogleOauth" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-script = ExtResource("18_1ebyr")
-
-[node name="Button" type="Button" parent="GoogleOauth"]
-process_mode = 3
-layout_mode = 0
-offset_left = 321.0
-offset_top = 118.0
-offset_right = 430.0
-offset_bottom = 149.0
-text = "google oauth"
-
 [connection signal="pressed" from="PauseMenu/MarginContainer/VBoxContainer/NinePatchRect/Resume" to="." method="_on_pause_pressed"]
 [connection signal="pressed" from="PauseMenu/MarginContainer/VBoxContainer/NinePatchRect2/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect2/play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect3/options" to="MainMenu" method="_on_options_pressed"]
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect/exit" to="MainMenu" method="_on_exit_pressed"]
 [connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect4/DungeonGen" to="." method="_on_dungeon_gen_pressed"]
+[connection signal="mouse_entered" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect5/GoogleOauth2Button" to="MainMenu/MarginContainer/VBoxContainer/NinePatchRect5/GoogleOauth2Button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect5/GoogleOauth2Button" to="MainMenu/MarginContainer/VBoxContainer/NinePatchRect5/GoogleOauth2Button" method="_on_mouse_exited"]
+[connection signal="pressed" from="MainMenu/MarginContainer/VBoxContainer/NinePatchRect5/GoogleOauth2Button" to="MainMenu/MarginContainer/VBoxContainer/NinePatchRect5/GoogleOauth2Button" method="_on_pressed"]
 [connection signal="gui_input" from="InventoryInterface" to="InventoryInterface" method="_on_gui_input"]
 [connection signal="visibility_changed" from="InventoryInterface" to="InventoryInterface" method="_on_visibility_changed"]
 [connection signal="pressed" from="GameOverMenu/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
-[connection signal="pressed" from="GoogleOauth/Button" to="GoogleOauth" method="_on_button_pressed"]

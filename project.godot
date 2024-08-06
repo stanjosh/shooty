@@ -18,6 +18,7 @@ config/icon="res://scenes/gui/inventory/items/assets/Icon14_10.png"
 
 [autoload]
 
+Env="*res://env.gd"
 Settings="*res://scripts/settings.gd"
 PlayerManager="*res://scenes/player/scripts/player_manager.gd"
 MapManager="*res://scripts/map_manager.gd"
