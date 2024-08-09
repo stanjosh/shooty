@@ -1,6 +1,10 @@
 extends InventoryData
 class_name InventoryDataEquip
 
+func _init(num_slots : int = 1):
+	for i in range(num_slots):
+		slot_datas.resize(num_slots)
+
 func drop_slot_data(grabbed_slot_data: SlotData, index: int) -> SlotData:
 	if not grabbed_slot_data.item_data is ItemDataEquippable:
 		return grabbed_slot_data

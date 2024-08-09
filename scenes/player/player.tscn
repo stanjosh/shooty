@@ -1,18 +1,15 @@
-[gd_scene load_steps=86 format=3 uid="uid://ckq8owam8nxv4"]
+[gd_scene load_steps=81 format=3 uid="uid://ckq8owam8nxv4"]
 
 [ext_resource type="Script" path="res://scenes/player/scripts/player.gd" id="1_1x1bv"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data.gd" id="2_dkkut"]
 [ext_resource type="Texture2D" uid="uid://c50fe2l5ie5ci" path="res://scenes/player/assets/Hero Blue 54x53 Sprite.png" id="2_hlcqq"]
 [ext_resource type="Texture2D" uid="uid://cnluagwjgu7r7" path="res://assets/Extra/Shadow.png" id="3_gr2x3"]
-[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data_equip.gd" id="6_pc426"]
 [ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/weapons/ranged/weapon_ranged.tscn" id="6_x7oke"]
-[ext_resource type="Resource" uid="uid://dsbcx63otsnl5" path="res://scenes/player/default_gun_item_data.tres" id="7_6t1ss"]
-[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/slot_data.gd" id="8_fr7m2"]
 [ext_resource type="AudioStream" uid="uid://bbtkod66evvx0" path="res://scenes/player/assets/dust_noise.wav" id="13_srm1x"]
 
 [sub_resource type="Resource" id="Resource_ep12i"]
 script = ExtResource("2_dkkut")
-slot_datas = Array[ExtResource("8_fr7m2")]([null, null, null, null, null, null])
+slot_datas = Array[Resource("res://scenes/gui/inventory/scripts/slot_data.gd")]([null, null, null, null, null, null])
 color = Color(1, 1, 1, 1)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_16s8t"]
@@ -570,16 +567,6 @@ max_value = 2.0
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.254408, 1.21022), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="Resource" id="Resource_2es26"]
-script = ExtResource("8_fr7m2")
-item_data = ExtResource("7_6t1ss")
-quantity = 1
-
-[sub_resource type="Resource" id="Resource_qy55e"]
-script = ExtResource("6_pc426")
-slot_datas = Array[ExtResource("8_fr7m2")]([SubResource("Resource_2es26"), null])
-color = Color(1, 1, 1, 1)
-
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 16
 collision_mask = 240
@@ -674,7 +661,6 @@ position = Vector2(114, -1)
 position = Vector2(0, -1)
 
 [node name="RangedWeapon" parent="Weapons" instance=ExtResource("6_x7oke")]
-inventory_data = SubResource("Resource_qy55e")
 
 [node name="DashCooldown" type="Timer" parent="."]
 wait_time = 2.0

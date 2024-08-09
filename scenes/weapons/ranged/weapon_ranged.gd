@@ -7,12 +7,13 @@ const BULLET = preload("res://scenes/weapons/ranged/gun/bullet.tscn")
 @onready var point_light_2d : PointLight2D = $WeaponSprite/PointLight2D
 @onready var progress_bar : ProgressBar = $WeaponSprite/ProgressBar
 @onready var weapon_sprite : Sprite2D = $WeaponSprite
-@export var inventory_data : InventoryDataEquip
 @onready var eject_particles = $EjectParticles
+@onready var inventory_data : InventoryDataEquip = InventoryDataEquip.new()
 
-var weapon_info : WeaponInfo
+@export var base_weapon_info : WeaponInfo = preload("res://scenes/weapons/ranged/gun/default_gun_info.tres")
+
+var weapon_info : WeaponInfo = base_weapon_info
 var shot_time : float = 0
-
 
 
 
@@ -117,4 +118,7 @@ func charge(delta):
 
 
 func _on_change_equip(_inventory_data : InventoryDataEquip) -> void:
-	weapon_info = _inventory_data.consolidated_weapon_info()
+	var new_weapon_info = _inventory_data.consolidated_weapon_info()
+	for property in new_weapon_info.get_property_list():
+		if property["usage"] == 4102:
+			weapon_info.set(property.name, new_weapon_info.get(property.name) + base_weapon_info.get(property.name))
