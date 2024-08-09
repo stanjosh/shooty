@@ -19,9 +19,11 @@ func _ready():
 
 
 func _on_body_entered(body):
+	var message : Array[String]
 	if slot_data.item_data and slot_data.item_data.get("use_immediately"):
 		slot_data.item_data.use(body)
 	else:
+		message = ["+%s (%s)" % [slot_data.item_data.name, slot_data.quantity]]
 		body.inventory_data.pick_up_slot_data(slot_data)
-		UIManager.float_message(["+%s (%s)" % [slot_data.item_data.name, slot_data.quantity]], global_position)
+		GUI.float_message(message, self)
 	queue_free()

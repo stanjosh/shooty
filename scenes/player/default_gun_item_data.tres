@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemDataEquippable" load_steps=5 format=3 uid="uid://dsbcx63otsnl5"]
+
+[ext_resource type="Texture2D" uid="uid://bgqscqcpm7vpp" path="res://scenes/weapons/ranged/gun sprite.png" id="1_56l25"]
+[ext_resource type="PackedScene" uid="uid://6qxco026ufkq" path="res://scenes/weapons/ranged/gun/bullet.tscn" id="2_r5rlr"]
+[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/item_data_equip.gd" id="3_2pqmv"]
+[ext_resource type="Resource" uid="uid://d0oe7anse7lv0" path="res://scenes/weapons/ranged/gun/default_gun_info.tres" id="4_m0hwl"]
+
+[resource]
+script = ExtResource("3_2pqmv")
+ordinance_scene = ExtResource("2_r5rlr")
+equip_texture = ExtResource("1_56l25")
+weapon_info = ExtResource("4_m0hwl")
+name = ""
+description = ""
+stackable = false
+texture = ExtResource("1_56l25")
+drop_rarity = 0.0

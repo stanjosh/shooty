@@ -1,7 +1,5 @@
 extends Area2D
 
-
-
 signal spawns_done
 
 @onready var point_light_2d = $PointLight2D

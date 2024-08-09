@@ -3,11 +3,6 @@ class_name Player
 
 signal player_died
 
-const RANGED = preload("res://scenes/weapons/ranged/weapon_ranged.tscn")
-const MELEE = preload("res://scenes/weapons/melee/weapon_melee.tscn")
-const STREAM = preload("res://scenes/weapons/ranged/weapon_ranged_stream.gd")
-const PROJECTILE = preload("res://scenes/weapons/ranged/weapon_ranged_projectile.gd")
-
 @onready var animated_sprite_2d := $AnimatedSprite2D
 @onready var hitbox := $Hitbox
 @onready var dash_cooldown_timer := $DashCooldown
@@ -15,10 +10,7 @@ const PROJECTILE = preload("res://scenes/weapons/ranged/weapon_ranged_projectile
 @onready var inflictions = $Inflictions
 
 @onready var weapons = $Weapons
-@onready var melee_weapon_node = $Weapons/MeleeWeapon
-@onready var ranged_weapon_node = $Weapons/RangedWeapon
-var melee_weapon_info : ItemDataEquippable
-var ranged_weapon_info : ItemDataEquippable
+
 
 @export var base_speed : float = 100.0
 @export var base_max_health : float = 100
@@ -51,14 +43,9 @@ var dash_cooldown : float = 0 :
 var health : float = max_health :
 	set(value):
 		health = clampf(value, 0, max_health)
-		UIManager.update_hud.emit("health", health, max_health)
+		GUI.hud.update("health", health, max_health)
 
-@export var inventory_data : InventoryData = InventoryData.new()
-@export var melee_inventory_data : InventoryData = InventoryData.new()
-@export var ranged_inventory_data : InventoryData = InventoryData.new()
-
-
-@onready var inventory_datas = [inventory_data, melee_inventory_data, ranged_inventory_data]
+@export var inventory_data : InventoryData
 
 var can_dash : bool = true
 var status : Dictionary
@@ -78,22 +65,14 @@ var state : PlayerState = PlayerState.IDLE
 var aim_point : Vector2
 
 func _ready() -> void:
-	melee_inventory_data.inventory_updated.connect(_on_change_equip)
-	ranged_inventory_data.inventory_updated.connect(_on_change_equip)
-	
-	health = base_max_health
 	print(health)
 	$DashTimer.wait_time = dash_time
 	PlayerManager.level_up.connect(_on_level_up)
-	UIManager.refresh_interface.emit(self)
-	
+	GUI.refresh_interface.emit(self)
 	update_status_panel()
-
 
 func _unhandled_input(event) -> void:
 	if state != PlayerState.DEAD:
-
-
 		if event.is_action_released("dash") \
 		and state != PlayerState.DASHING \
 		and can_dash:
@@ -110,8 +89,6 @@ func _unhandled_input(event) -> void:
 
 		if event.is_action_released("inv"):
 			toggle_inventory.emit()
-
-
 
 		var deadzone = 0.5
 		#var controllerangle = Vector2.ZERO
@@ -201,7 +178,7 @@ func dash() -> void:
 
 func take_damage(hit: float, vector: Vector2, extra_force: float = 0) -> void:
 	hit = snapped(hit, 1)
-	UIManager.float_message(["%s"%hit], global_position, vector )
+	GUI.float_message(["%s"%hit], self, vector )
 	var tween = get_tree().create_tween()
 	tween.tween_property(animated_sprite_2d, "modulate:v", 1, 0.25).from(15)
 	health -= hit
@@ -260,9 +237,9 @@ func update_status_panel(stat_name: String = "") -> void:
 	}
 	if !stat_name:
 		for stat in pretty_names.keys():
-			UIManager.update_stats.emit(pretty_names[stat], get(stat))
+			GUI.update_stats.emit(pretty_names[stat], get(stat))
 	else:
-		UIManager.update_stats.emit(pretty_names[stat_name], get(stat_name))
+		GUI.update_stats.emit(pretty_names[stat_name], get(stat_name))
 	
 
 var current_stat_upgrades : Dictionary
@@ -275,49 +252,7 @@ func _on_level_up() -> void:
 	var level_up_message : Array[String] = ["level %s!" % current_level]
 	for level_reward in level_changes[current_level]:
 		level_up_message.push_back("%s + %s" % [level_reward.replace("_", " "), level_changes[current_level][level_reward]])
-	UIManager.float_message(level_up_message, global_position)
-
-func equip_weapon(weapon_info : ItemDataEquippable) -> void:
-	var new_weapon
-	match weapon_info.equip_type:
-		ItemDataEquippable.EquipType.RANGED:
-			ranged_weapon_info = weapon_info
-			new_weapon = RANGED.instantiate()
-			new_weapon.set_script(PROJECTILE)
-			ranged_weapon_node = new_weapon
-		ItemDataEquippable.EquipType.STREAM:
-			ranged_weapon_info = weapon_info
-			new_weapon = RANGED.instantiate()
-			new_weapon.set_script(STREAM)
-			ranged_weapon_node = new_weapon
-		ItemDataEquippable.EquipType.MELEE:
-			melee_weapon_info = weapon_info
-			new_weapon = MELEE.instantiate()
-			ranged_weapon_node = new_weapon
-			melee_weapon_node.connect("melee_attacking", _on_melee_attack)
-	new_weapon.weapon_info = weapon_info
-	weapons.add_child(new_weapon)
-	
-	
-
-func _on_change_equip(_inventory_data: InventoryDataEquip) -> void:
-	if _inventory_data.get_equipped() != null:
-		equip_weapon(_inventory_data.get_equipped())
-	else:
-		if _inventory_data.equip_type == ItemDataEquippable.EquipType.MELEE:
-			print("unequip 1")
-			melee_weapon_node.queue_free()
-			melee_weapon_info = null
-		elif _inventory_data.equip_type == ItemDataEquippable.EquipType.RANGED \
-			or _inventory_data.equip_type == ItemDataEquippable.EquipType.STREAM:
-			ranged_weapon_node.queue_free()
-			ranged_weapon_info = null
-
-
-
-
-
-
+	GUI.float_message(level_up_message, self)
 
 func _on_melee_attack() -> void:
 	state = PlayerState.MELEE

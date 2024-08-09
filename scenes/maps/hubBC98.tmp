@@ -1,7 +1,42 @@
-[gd_scene load_steps=3 format=3 uid="uid://yc62a0kh3vja"]
+[gd_scene load_steps=12 format=3 uid="uid://yc62a0kh3vja"]
 
 [ext_resource type="Script" path="res://scenes/maps/scripts/Map.gd" id="1_vvbc0"]
 [ext_resource type="TileSet" uid="uid://cilymrbdsnpkd" path="res://scenes/maps/tiles/dungeon_map.tres" id="1_y4obi"]
+[ext_resource type="Texture2D" uid="uid://o2mmjktxhn82" path="res://scenes/weapons/ranged/gun/sprites/gun7.png" id="4_0248f"]
+[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/slot_data.gd" id="6_ndw23"]
+[ext_resource type="Script" path="res://scenes/weapons/ranged/weapon_info.gd" id="7_ior4a"]
+[ext_resource type="PackedScene" uid="uid://d3df20gjcfbj7" path="res://scenes/gui/inventory/items/pickup_item.tscn" id="10_life1"]
+[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/item_data_equippable.gd" id="11_tktwn"]
+[ext_resource type="PackedScene" uid="uid://diypynu285b7h" path="res://scenes/weapons/ranged/flamethrower.tscn" id="17_vd354"]
+
+[sub_resource type="Resource" id="Resource_7a6gf"]
+script = ExtResource("7_ior4a")
+damage = 10
+heat_generated = 10.0
+fire_rate = 10.0
+pellets = 1
+area = 0.0
+range = 0.0
+knockback = 4.0
+speed = 24.0
+piercing = 1
+multishot = 1
+
+[sub_resource type="Resource" id="Resource_n2852"]
+script = ExtResource("11_tktwn")
+ordinance_scene = ExtResource("17_vd354")
+equip_texture = ExtResource("4_0248f")
+weapon_info = SubResource("Resource_7a6gf")
+name = ""
+description = ""
+stackable = false
+texture = ExtResource("4_0248f")
+drop_rarity = 0.0
+
+[sub_resource type="Resource" id="Resource_wltls"]
+script = ExtResource("6_ndw23")
+item_data = SubResource("Resource_n2852")
+quantity = 1
 
 [node name="HubMap" type="TileMap" node_paths=PackedStringArray("player_spawn", "mobs", "objects")]
 z_index = -2
@@ -18,3 +53,7 @@ objects = NodePath("Objects")
 [node name="Mobs" type="Node2D" parent="."]
 
 [node name="Objects" type="Node2D" parent="."]
+
+[node name="PickupItem" parent="." instance=ExtResource("10_life1")]
+position = Vector2(-19, 21)
+slot_data = SubResource("Resource_wltls")

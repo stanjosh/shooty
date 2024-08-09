@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="WeaponInfo" load_steps=2 format=3 uid="uid://d0oe7anse7lv0"]
+
+[ext_resource type="Script" path="res://scenes/weapons/ranged/weapon_info.gd" id="1_k6s1s"]
+
+[resource]
+script = ExtResource("1_k6s1s")
+damage = 5
+heat_generated = 10.0
+fire_rate = 5.0
+pellets = 1
+area = 0.0
+shot_range = 40.0
+knockback = 5.0
+speed = 300.0
+piercing = 2
+infliction_chance = 0.0

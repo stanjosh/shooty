@@ -1,45 +1,32 @@
-extends Node2D
-class_name StreamOrdinance
+extends WeaponOrdinance
 
 const BURNING_EFFECT = preload("res://scenes/effects/burning_effect.tscn")
-const HIT_MARKER = preload("res://scenes/effects/hit_marker.tscn")
-@export var speed : float = 24
-@export var dropoff : float = 16
-@export var heat_generated : float = 75
-@export var damage : int = 3
 
 @onready var eject_particles = $projectile/EjectParticles
-
-
 @onready var projectile : Area2D = $projectile
 @onready var gun_fire : AudioStreamPlayer2D= $projectile/GunFire
 @onready var hit_particles : CPUParticles2D = $HitParticles
 @onready var ray_cast_2d = $projectile/RayCast2D
 @onready var point_light_2d = $PointLight2D
 
-
-var cooldown = 0
 var beam_length = 0
-var emitting: bool = false
-
-func _ready():
-	prints(speed, dropoff, damage)
 
 func _physics_process(delta):
+
 	hit_particles.emitting = false
 	eject_particles.emitting = true
-	cooldown -= 1 * delta
-	if emitting:
+	if firing:
 		eject_particles.speed_scale = 3
 		eject_particles.gravity = Vector2.UP * 140
 		if ray_cast_2d.is_colliding():
 			var pos = ray_cast_2d.get_collision_point()
 			if ray_cast_2d.get_collision_mask_value(8) or ray_cast_2d.get_collision_mask_value(9):
-				beam_length = (position.distance_to(to_local(pos))) / dropoff + 3
+				beam_length = (position.distance_to(to_local(pos))) / weapon_info.shot_range
 			hit_particles.emitting = true
 			hit_particles.global_position = pos
-			hit_particles.emission_sphere_radius = beam_length / dropoff
-		beam_length = lerpf(beam_length, dropoff, .04)
+			hit_particles.emission_sphere_radius = beam_length / weapon_info.shot_range
+		beam_length = lerpf(beam_length, weapon_info.shot_range, .04)
+		increase_heat_level.emit(heat_generated * 10 * delta)
 	else:
 		eject_particles.speed_scale = 3
 		eject_particles.gravity = Vector2.UP * 40
@@ -55,12 +42,8 @@ func _physics_process(delta):
 	
 
 func _on_projectile_body_entered(body):
-	if body.has_method("take_damage"):
-		print(damage)
-		body.take_damage(damage, Vector2.LEFT.rotated(randf()))
-		if cooldown <= 0:
-			cooldown = .2
-			var new_burning : Infliction = BURNING_EFFECT.instantiate()
-			new_burning.period = damage
-			new_burning.position += Vector2(-1, -8)
-			body.call_deferred("add_child", new_burning)
+	if randf_range(0, 100) > infliction_chance :
+		var new_burning : Infliction = BURNING_EFFECT.instantiate()
+		new_burning.period = damage
+		new_burning.position += Vector2(-1, -8)
+		body.call_deferred("add_child", new_burning)

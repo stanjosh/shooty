@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://baj1g8b4rrm7p"]
+[gd_scene load_steps=7 format=3 uid="uid://baj1g8b4rrm7p"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_h310b"]
-[ext_resource type="PackedScene" uid="uid://cd0uh1gl3j2yw" path="res://scenes/gui/hud.tscn" id="2_k6aik"]
 [ext_resource type="Texture2D" uid="uid://5lfpiruyc36x" path="res://scenes/maps/backgrounds/1-Blue_640x360.png" id="4_jg3sw"]
 [ext_resource type="Texture2D" uid="uid://nvlvw83aigtj" path="res://scenes/maps/backgrounds/1-Green_640x360.png" id="6_nap0u"]
 [ext_resource type="Texture2D" uid="uid://dk1p2fxsgks36" path="res://scenes/maps/backgrounds/1-Purple_640x360.png" id="8_pfcef"]
@@ -10,9 +9,6 @@
 
 [node name="Game" type="Node"]
 script = ExtResource("1_h310b")
-
-[node name="Hud" parent="." instance=ExtResource("2_k6aik")]
-unique_name_in_owner = true
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 scroll_ignore_camera_zoom = true

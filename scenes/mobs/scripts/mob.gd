@@ -7,7 +7,7 @@ const PICKUP_ITEM = preload("res://scenes/gui/inventory/items/pickup_item.tscn")
 
 
 #@onready var navigation_agent_2d := $NavigationAgent2D
-@onready var cpu_particles_2d := $CPUParticles2D
+@onready var cpu_particles_2d : CPUParticles2D = $CPUParticles2D
 @onready var hurtbox : Area2D = $Hurtbox
 @onready var idle_timer : Timer = $IdleTimer
 @onready var cry_sound : AudioStreamPlayer2D = $CrySound
@@ -217,7 +217,8 @@ func take_damage(hit, vector: Vector2, extra_force: float = 0):
 	chase_timer = chase_time
 	if state == MobState.IDLE:
 		state = MobState.CHASING
-	UIManager.float_message(["%s" % hit], global_position, -vector)
+
+	GUI.float_message(["%s" % hit], self, -vector)
 	var tween: Tween = create_tween()
 	tween.tween_property(animated_sprite_2d, "modulate:v", 1, 0.25).set_trans(Tween.TRANS_ELASTIC).from(15)
 	knockback = Vector2(hit + extra_force, hit + extra_force) * -vector

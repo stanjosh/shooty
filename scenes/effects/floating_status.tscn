@@ -3,10 +3,9 @@
 [ext_resource type="Script" path="res://scenes/gui/scripts/FloatingStatus.gd" id="1_lf8tb"]
 [ext_resource type="FontFile" uid="uid://w38canxb0m7h" path="res://assets/m3x6.ttf" id="2_jrodl"]
 
-[sub_resource type="Theme" id="Theme_qj4c3"]
+[sub_resource type="Theme" id="Theme_p2mxo"]
 default_font = ExtResource("2_jrodl")
-default_font_size = 6
-Label/font_sizes/font_size = 16
+default_font_size = 16
 
 [node name="ui_float_status" type="Control"]
 light_mask = 524288
@@ -14,24 +13,33 @@ z_index = 100
 z_as_relative = false
 layout_mode = 3
 anchors_preset = 0
+scale = Vector2(3, 3)
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_lf8tb")
 
 [node name="display_time" type="Timer" parent="."]
 one_shot = true
 autostart = true
 
-[node name="FloatingLabel" type="Label" parent="."]
+[node name="FloatingLabel" type="RichTextLabel" parent="."]
 light_mask = 512
 visibility_layer = 512
 z_index = 12
 y_sort_enabled = true
-layout_mode = 0
-offset_left = -6.0
-offset_top = -23.0
-offset_right = 6.0
-offset_bottom = -10.0
-pivot_offset = Vector2(5.98203, 6.13126)
-theme = SubResource("Theme_qj4c3")
+texture_filter = 3
+clip_contents = false
+layout_mode = 1
+offset_right = 28.0
+offset_bottom = 13.0
+theme = SubResource("Theme_p2mxo")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-text = "pee"
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "peedddd"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false

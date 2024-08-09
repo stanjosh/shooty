@@ -3,13 +3,31 @@ extends CanvasLayer
 
 signal drop_slot_data(slot_data)
 signal update_stats(key, value)
-
+signal refresh_interface(target)
 
 @onready var pause_menu = $PauseMenu
 @onready var inventory_interface = $InventoryInterface
 @onready var game_over_menu = $GameOverMenu
-@onready var heads_up_display = $HeadsUpDisplay
+@onready var hud = $HeadsUpDisplay
 @onready var main_menu = $MainMenu
+
+const FLOATING_STATUS = preload("res://scenes/effects/floating_status.tscn")
+
+func _input(event):
+	if event.is_action_pressed("pause"):
+		mode(MenuName.PAUSE)
+
+func float_message(message : Array, body : Node2D, vector : Vector2 = Vector2.ZERO):
+	print(message[0])
+	var position = body.get_global_transform_with_canvas().origin
+	var lines = message.size()
+	for line in message:
+		var status_msg = FLOATING_STATUS.instantiate()
+		status_msg.position = Vector2(position.x + 64, position.y - 32 * lines)
+		lines -= 1
+		status_msg.value = line
+		status_msg.vector = vector
+		hud.add_child(status_msg)
 
 
 enum MenuName {
@@ -20,10 +38,6 @@ enum MenuName {
 	HUD
 }
 
-func _ready():
-	UIManager.connect("pause_game", _on_pause_pressed)
-	UIManager.connect("game_over", _on_game_over)
-	
 func mode(menu : MenuName = MenuName.HUD):
 	for child in get_children():
 		child.hide()
@@ -37,7 +51,7 @@ func mode(menu : MenuName = MenuName.HUD):
 		MenuName.MAIN:
 			main_menu.show()
 		_:
-			heads_up_display.show()
+			hud.show()
 			pass
 
 func _on_pause_pressed():

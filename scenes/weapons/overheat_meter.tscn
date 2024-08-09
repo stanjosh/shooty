@@ -1,0 +1,115 @@
+[gd_scene load_steps=11 format=3 uid="uid://b8gc0kmpxxmcg"]
+
+[ext_resource type="FontFile" uid="uid://w38canxb0m7h" path="res://assets/m3x6.ttf" id="2_wo2bs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pcyw0"]
+bg_color = Color(0.6, 0.6, 0.6, 0.00392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lcj4n"]
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+
+[sub_resource type="GDScript" id="GDScript_ovmey"]
+script/source = "extends ProgressBar
+
+func _process(_delta):
+	$AmmoCounter.text = \"%s / %s\" % [snapped(value, 1), snapped(max_value, 1)]
+	var tween = get_tree().create_tween()
+	tween.tween_property(self, \"value\", value, .3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+"
+
+[sub_resource type="Gradient" id="Gradient_a22ms"]
+offsets = PackedFloat32Array(0.286863, 0.798928)
+colors = PackedColorArray(1, 0.686275, 0, 1, 0.752941, 0, 0.0313726, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0c16i"]
+gradient = SubResource("Gradient_a22ms")
+fill = 1
+fill_from = Vector2(0.5, 1)
+
+[sub_resource type="Curve" id="Curve_i314n"]
+max_value = 20.0
+_data = [Vector2(0, 3.70299), 0.0, 0.0, 0, 1, Vector2(0.214106, 3.70299), 0.0, 0.0, 0, 0, Vector2(0.609572, 10.0964), 0.0, 0.0, 0, 0, Vector2(1, 3.95371), -15.7333, 0.0, 1, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_gs0mh"]
+max_value = 2.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.435768, 2), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_o0psg"]
+offsets = PackedFloat32Array(0, 0.387534, 0.639566)
+colors = PackedColorArray(0.752941, 0, 0.0313726, 1, 0.773787, 0.0579044, 0.0287255, 1, 1, 0.686275, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_xjdpx"]
+font = ExtResource("2_wo2bs")
+font_size = 32
+outline_size = 12
+outline_color = Color(0, 0, 0, 1)
+
+[node name="OverheatMeter" type="ProgressBar"]
+clip_children = 1
+custom_minimum_size = Vector2(64, 128)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -196.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_pcyw0")
+theme_override_styles/fill = SubResource("StyleBoxFlat_lcj4n")
+value = 100.0
+fill_mode = 3
+show_percentage = false
+script = SubResource("GDScript_ovmey")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_0c16i")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(31, 78)
+amount = 100
+emission_shape = 2
+emission_sphere_radius = 28.0
+direction = Vector2(0, -1)
+spread = 0.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 60.0
+damping_max = 20.0
+damping_curve = SubResource("Curve_i314n")
+scale_amount_min = 0.0
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_gs0mh")
+color_ramp = SubResource("Gradient_o0psg")
+
+[node name="AmmoCounter" type="Label" parent="."]
+visible = false
+light_mask = 512
+visibility_layer = 512
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -26.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "20/20"
+label_settings = SubResource("LabelSettings_xjdpx")
+horizontal_alignment = 2
+vertical_alignment = 2

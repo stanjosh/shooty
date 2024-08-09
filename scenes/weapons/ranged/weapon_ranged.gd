@@ -1,22 +1,37 @@
-extends Weapon
-class_name WeaponRanged
+extends Node2D
+class_name Weapon
 
-@onready var weapon_sprite : Sprite2D = $Gun
-@onready var projectile_origin : Node2D = $Barrel
+const BULLET = preload("res://scenes/weapons/ranged/gun/bullet.tscn")
 
+@onready var ordinance_origin = $WeaponSprite/OrdinanceOrigin
+@onready var point_light_2d : PointLight2D = $WeaponSprite/PointLight2D
+@onready var progress_bar : ProgressBar = $WeaponSprite/ProgressBar
+@onready var weapon_sprite : Sprite2D = $WeaponSprite
+@export var inventory_data : InventoryDataEquip
+@onready var eject_particles = $EjectParticles
+
+var weapon_info : WeaponInfo
+var shot_time : float = 0
+
+
+
+
+var heat_capacity : float = 100.0
 var heat_level : float = 0 :
 	set(value):
 		heat_level = clampf(value, 0, heat_capacity)
-		$Gun/PointLight2D.energy = inverse_lerp(heat_capacity, heat_level, .3)
-		UIManager.update_hud.emit("heat", value, heat_capacity)
-
-
+		point_light_2d.energy = lerpf(0, 1, heat_level * .05)
+		var scale_offset = lerpf(0, 0.5, heat_level * .02)
+		point_light_2d.scale = Vector2(scale_offset, scale_offset)
+		progress_bar.value = clampf(heat_level , 0, heat_capacity)
+var charge_level : float = 0
 var original_pos
 var original_light_energy 
 
 enum WeaponState {
 	COOLING,
 	FIRING,
+	CHARGING,
 	OVERHEATED
 }
 
@@ -27,18 +42,21 @@ var state : WeaponState :
 		$SteamParticles2.emitting = false
 
 func _ready():
-	UIManager.update_hud.emit("heat", heat_level, 100)
+	inventory_data.inventory_updated.connect(_on_change_equip)
+	_on_change_equip(inventory_data)
+	GUI.refresh_interface.emit(self)
 	original_pos = weapon_sprite.position
-	weapon_sprite.texture = weapon_info.equip_texture
 
 func _unhandled_input(event):
 	
-	if event.is_action_pressed("shoot"):
-		if not state == WeaponState.OVERHEATED:
-			state = WeaponState.FIRING
-	elif event.is_action_released("shoot"):
-		if not state == WeaponState.OVERHEATED:
+	if not state == WeaponState.OVERHEATED:
+		if event.is_action_released("shoot"):
 			state = WeaponState.COOLING
+		elif event.is_action_pressed("shoot"):
+			state = WeaponState.FIRING
+		
+
+			
 
 func _physics_process(delta):
 	var pivot = wrapi(snapped(global_rotation, PI/4) / (PI/4), 0, 8)
@@ -47,36 +65,56 @@ func _physics_process(delta):
 	var fire_anim = get_tree().create_tween()
 	match state:
 		WeaponState.FIRING:
-			shoot()
+			if shot_time <= 0:
+				fire()
 			if heat_level >= heat_capacity:
 				$OverheatHiss.play()
 				state = WeaponState.OVERHEATED
+			cool_off(16 * delta)
 			fire_anim.tween_property(weapon_sprite, "position:x", clampi(original_pos.x - 4, 0, original_pos.x - 4), .08).set_trans(Tween.TRANS_ELASTIC)
+		WeaponState.CHARGING:
+			charge(delta)
 		WeaponState.COOLING:
-			cool_off(delta * 2)
+			cool_off(50 * delta)
 		WeaponState.OVERHEATED:
 			overheat(delta)
+			cool_off(24 * delta)
 			if heat_level / heat_capacity < .6:
 				state = WeaponState.COOLING
+	shot_time -=  delta * 100 + weapon_info.fire_rate
 	fire_anim.tween_property(weapon_sprite, "position:x", original_pos.x, .05).set_trans(Tween.TRANS_LINEAR)
-	cool_off(delta)
-
 
 func overheat(delta):
+
 	$SteamParticles.lifetime = heat_capacity * delta
 	$SteamParticles2.lifetime = heat_capacity * delta
 	$SteamParticles.emitting = true
 	$SteamParticles2.emitting = true
 
-
 func cool_off(delta):
-	if !is_zero_approx(heat_level):
-		heat_level = lerp(heat_level, 0.0, cooldown * delta)
+	if heat_level >= 1:
+		heat_level -= delta
 	else:
 		heat_level = 0
 
+func fire():
+	eject_particles.emitting = true
+	for n in weapon_info.pellets:
+		var new_bullet = BULLET.instantiate()
+		new_bullet.weapon_info = weapon_info
+		new_bullet.damage += charge_level
+		charge_level = 0
+		new_bullet.global_position = ordinance_origin.global_position
+		new_bullet.global_rotation_degrees = global_rotation_degrees + randfn(0, weapon_info.area / 100)
+		add_child(new_bullet)
+		heat_level += weapon_info.heat_generated
+	shot_time = 100
 
-func shoot():
+func charge(delta):
+	heat_level += weapon_info.heat_generated * 5 * delta
+	charge_level = heat_level * .05
 	pass
 
 
+func _on_change_equip(_inventory_data : InventoryDataEquip) -> void:
+	weapon_info = _inventory_data.consolidated_weapon_info()

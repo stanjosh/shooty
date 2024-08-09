@@ -79,8 +79,6 @@ func get_token_from_auth(auth_code):
 		"redirect_uri=http://%s:%s" % [binding, port],
 		"grant_type=authorization_code"
 	])
-	
-
 	var response : Dictionary = await _http_post(token_req, body)
 	print("token request completed")
 	print(response)
@@ -90,6 +88,7 @@ func get_token_from_auth(auth_code):
 	token = response["access_token"]
 	refresh_token = response["refresh_token"]
 	prints("token:", token, "refresh token:", refresh_token)
+	user_info = await get_user_info()
 	token_authorized.emit()
 	save_tokens()
 
@@ -105,7 +104,7 @@ func refresh_tokens() -> bool:
 	var response : Dictionary = await _http_post(token_req, body)
 	print(response)
 	if response.has("error"):
-		push_error(response["error"], " : ", response["error_description"])
+		push_warning(response["error"], " : ", response["error_description"])
 		return false
 	elif response.get("access_token"):
 		token = response["access_token"]

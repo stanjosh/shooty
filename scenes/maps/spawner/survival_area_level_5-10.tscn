@@ -1,8 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://muuq3e4kfwat"]
+[gd_scene load_steps=10 format=3 uid="uid://dnokh3iu4ovp6"]
 
-[ext_resource type="Script" path="res://scenes/maps/survival_node.gd" id="1_j8ku8"]
-[ext_resource type="Texture2D" uid="uid://bphq252khlf6r" path="res://scenes/mobs/Untitled.png" id="2_s3ic7"]
-[ext_resource type="PackedScene" uid="uid://1rsycjl1j2mk" path="res://scenes/maps/spawner/spawner.tscn" id="2_ynsq2"]
+[ext_resource type="Script" path="res://scenes/maps/spawner/survival_node.gd" id="1_vy40p"]
+[ext_resource type="Texture2D" uid="uid://bphq252khlf6r" path="res://scenes/maps/spawner/spawn_totem.png" id="2_gve4o"]
+[ext_resource type="PackedScene" uid="uid://1rsycjl1j2mk" path="res://scenes/maps/spawner/spawner.tscn" id="3_2jq5k"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0b5dl"]
 
@@ -34,7 +34,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-89.1655, -58.9668, -23
 source_geometry_group_name = &"navigation_polygon_source_group"
 
 [node name="SurvivalArea" type="Node2D"]
-script = ExtResource("1_j8ku8")
+script = ExtResource("1_vy40p")
 
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2(-2.00012, -0.805542)
@@ -70,11 +70,11 @@ color = Color(0, 0, 0, 1)
 [node name="Untitled" type="Sprite2D" parent="Area2D"]
 position = Vector2(0.0717034, 0.0717052)
 scale = Vector2(0.0717016, 0.0717016)
-texture = ExtResource("2_s3ic7")
+texture = ExtResource("2_gve4o")
 
 [node name="EnemyArea" type="NavigationRegion2D" parent="Area2D"]
 position = Vector2(0.143412, -0.0856445)
 scale = Vector2(0.0900636, 0.0899812)
 navigation_polygon = SubResource("NavigationPolygon_3w0wd")
 
-[node name="Spawner" parent="Area2D/EnemyArea" instance=ExtResource("2_ynsq2")]
+[node name="Spawner" parent="Area2D/EnemyArea" instance=ExtResource("3_2jq5k")]

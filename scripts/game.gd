@@ -3,6 +3,10 @@ extends Node
 
 var paused: bool = false
 
+func _input(event):
+	if event.is_action_pressed("pause"):
+		pause()
+
 func pause():
 	
 	if paused:
@@ -10,8 +14,3 @@ func pause():
 	else:
 		MapManager.process_mode = Node.PROCESS_MODE_DISABLED
 	paused = !paused
-
-func _ready():
-	UIManager.connect("pause_game", pause)
-
-
