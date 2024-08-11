@@ -10,5 +10,6 @@ class_name WeaponInfo
 @export var knockback : float
 @export var speed : float = 24
 @export var piercing : int = 1
+@export var cutting : bool = false
 @export_range(0, 100) var infliction_chance : float = 0
 

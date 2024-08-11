@@ -70,7 +70,7 @@ func _physics_process(delta):
 				fire()
 			if heat_level >= heat_capacity:
 				$OverheatHiss.play()
-				PlayerManager.player_camera.shake(30, 70, 1.4)
+				PlayerManager.player_camera.shake(5, 10, 1.8)
 				state = WeaponState.OVERHEATED
 			cool_off(16 * delta)
 			fire_anim.tween_property(weapon_sprite, "position:x", clampi(original_pos.x - 4, 0, original_pos.x - 4), .08).set_trans(Tween.TRANS_ELASTIC)
@@ -109,7 +109,7 @@ func fire():
 		add_child(new_bullet)
 		heat_level += weapon_info.heat_generated
 	shot_time = 100
-	PlayerManager.player_camera.shake(40, heat_level * .125, 4, Vector2.from_angle(global_rotation))
+	PlayerManager.player_camera.shake(10, heat_level * .125, 4, Vector2.from_angle(global_rotation))
 
 func charge(delta):
 	heat_level += weapon_info.heat_generated * 5 * delta
@@ -120,5 +120,8 @@ func charge(delta):
 func _on_change_equip(_inventory_data : InventoryDataEquip) -> void:
 	var new_weapon_info = _inventory_data.consolidated_weapon_info()
 	for property in new_weapon_info.get_property_list():
-		if property["usage"] == 4102:
+		print(property)
+		if property["type"] == 1 and new_weapon_info.get(property.name) == true:
+			weapon_info.set(property.name, new_weapon_info.get(property.name))
+		elif property["type"] == 2 or property["type"] == 3:
 			weapon_info.set(property.name, new_weapon_info.get(property.name) + BASE_WEAPON_INFO.get(property.name))

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cpo01df866622"]
 
-[ext_resource type="Script" path="res://scenes/effects/poison_effect.gd" id="1_6dphq"]
+[ext_resource type="Script" path="res://scenes/effects/poison_effect.gd" id="1_aw3px"]
 
 [sub_resource type="Curve" id="Curve_1s5ga"]
 max_value = 10.0
@@ -17,7 +17,7 @@ offsets = PackedFloat32Array(0, 0.840125)
 colors = PackedColorArray(0, 0.852735, 0, 1, 0.114303, 0.221, 4.81308e-08, 1)
 
 [node name="PoisonEffect" type="Node2D"]
-script = ExtResource("1_6dphq")
+script = ExtResource("1_aw3px")
 
 [node name="PoisonParticles" type="CPUParticles2D" parent="."]
 position = Vector2(0, -6)

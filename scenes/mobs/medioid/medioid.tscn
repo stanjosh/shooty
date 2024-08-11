@@ -1,8 +1,9 @@
-[gd_scene load_steps=53 format=3 uid="uid://bwqbgwl7hvop0"]
+[gd_scene load_steps=54 format=3 uid="uid://bwqbgwl7hvop0"]
 
 [ext_resource type="Script" path="res://scenes/mobs/medioid/medioid.gd" id="1_yr66h"]
 [ext_resource type="Texture2D" uid="uid://btwmwvowecsnm" path="res://scenes/mobs/medioid/50x31 Monster 2 spritesheet without shadows.png" id="2_l6jj3"]
 [ext_resource type="AudioStream" uid="uid://d3x73rcw18qob" path="res://assets/medioid.wav" id="3_rrrcs"]
+[ext_resource type="PackedScene" uid="uid://m6yd1qg2u8xo" path="res://scenes/gui/quick_health_bar.tscn" id="4_sba1r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0ycxn"]
 atlas = ExtResource("2_l6jj3")
@@ -491,6 +492,7 @@ libraries = {
 }
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-1, -3)
 shape = SubResource("CapsuleShape2D_o2m8v")
 
@@ -525,6 +527,7 @@ volume_db = 2.5
 pitch_scale = 0.75
 
 [node name="Hurtbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 16
 
@@ -533,6 +536,7 @@ shape = SubResource("CircleShape2D_flxgo")
 disabled = true
 
 [node name="DetectionArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 16
 
@@ -555,3 +559,5 @@ visible = false
 rotation = -1.57285
 target_position = Vector2(0.000455359, 205)
 collision_mask = 496
+
+[node name="HealthBar" parent="." instance=ExtResource("4_sba1r")]

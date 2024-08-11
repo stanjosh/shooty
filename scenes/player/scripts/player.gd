@@ -105,8 +105,8 @@ func _unhandled_input(event) -> void:
 
 func animate() -> void:
 	var current_animation : String
-	$SwordSprite.visible = false if state == PlayerState.MELEE else true
-	
+	%RangedWeapon.visible = false if state == PlayerState.MELEE else true
+	%MeleeWeapon.heat_level = %RangedWeapon.heat_level
 	if state == PlayerState.DASHING:
 		if abs(velocity.x) > abs(velocity.y):
 			animated_sprite_2d.flip_h = true if velocity.x < 0 else false
@@ -116,6 +116,7 @@ func animate() -> void:
 				current_animation = "down_dash"
 			else:
 				current_animation = "up_dash"
+	
 	
 	else:
 		var pivot = wrapi(snapped(get_angle_to(aim_point), PI/4) / (PI/4), 1, 8)
@@ -272,3 +273,5 @@ func _on_dash_timer_timeout() -> void:
 	print("dash timer timeout")
 	set_deferred("state", PlayerState.IDLE)
 	dash_cooldown_timer.start()
+
+

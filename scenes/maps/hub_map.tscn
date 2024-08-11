@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://yc62a0kh3vja"]
+[gd_scene load_steps=4 format=3 uid="uid://yc62a0kh3vja"]
 
 [ext_resource type="Script" path="res://scenes/maps/scripts/Map.gd" id="1_vvbc0"]
 [ext_resource type="TileSet" uid="uid://cilymrbdsnpkd" path="res://scenes/maps/tiles/dungeon_map.tres" id="1_y4obi"]
+[ext_resource type="PackedScene" uid="uid://bwqbgwl7hvop0" path="res://scenes/mobs/medioid/medioid.tscn" id="3_2ll1x"]
 
 [node name="HubMap" type="TileMap" node_paths=PackedStringArray("player_spawn", "mobs", "objects")]
 z_index = -2
@@ -18,3 +19,24 @@ objects = NodePath("Objects")
 [node name="Mobs" type="Node2D" parent="."]
 
 [node name="Objects" type="Node2D" parent="."]
+
+[node name="medioid" parent="." instance=ExtResource("3_2ll1x")]
+position = Vector2(-212, 98)
+
+[node name="medioid2" parent="." instance=ExtResource("3_2ll1x")]
+position = Vector2(-212, 18)
+
+[node name="medioid3" parent="." instance=ExtResource("3_2ll1x")]
+position = Vector2(-158, 183)
+
+[node name="medioid4" parent="." instance=ExtResource("3_2ll1x")]
+position = Vector2(-117, -51)
+
+[node name="medioid5" parent="." instance=ExtResource("3_2ll1x")]
+position = Vector2(40, 186)
+
+[node name="medioid6" parent="." instance=ExtResource("3_2ll1x")]
+position = Vector2(98, 72)
+
+[node name="medioid7" parent="." instance=ExtResource("3_2ll1x")]
+position = Vector2(87, -85)

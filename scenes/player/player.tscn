@@ -1,9 +1,10 @@
-[gd_scene load_steps=81 format=3 uid="uid://ckq8owam8nxv4"]
+[gd_scene load_steps=82 format=3 uid="uid://ckq8owam8nxv4"]
 
 [ext_resource type="Script" path="res://scenes/player/scripts/player.gd" id="1_1x1bv"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data.gd" id="2_dkkut"]
 [ext_resource type="Texture2D" uid="uid://c50fe2l5ie5ci" path="res://scenes/player/assets/Hero Blue 54x53 Sprite.png" id="2_hlcqq"]
 [ext_resource type="Texture2D" uid="uid://cnluagwjgu7r7" path="res://assets/Extra/Shadow.png" id="3_gr2x3"]
+[ext_resource type="PackedScene" uid="uid://7tx8y7bexiry" path="res://scenes/weapons/melee/weapon_melee.tscn" id="5_opj46"]
 [ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/weapons/ranged/weapon_ranged.tscn" id="6_x7oke"]
 [ext_resource type="AudioStream" uid="uid://bbtkod66evvx0" path="res://scenes/player/assets/dust_noise.wav" id="13_srm1x"]
 
@@ -660,7 +661,11 @@ position = Vector2(114, -1)
 [node name="Weapons" type="Node2D" parent="."]
 position = Vector2(0, -1)
 
+[node name="MeleeWeapon" parent="Weapons" instance=ExtResource("5_opj46")]
+unique_name_in_owner = true
+
 [node name="RangedWeapon" parent="Weapons" instance=ExtResource("6_x7oke")]
+unique_name_in_owner = true
 
 [node name="DashCooldown" type="Timer" parent="."]
 wait_time = 2.0
@@ -679,5 +684,6 @@ position = Vector2(0, 3)
 scale = Vector2(0.5, 0.5)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="melee_attack" from="Weapons/MeleeWeapon" to="." method="_on_melee_attack"]
 [connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]

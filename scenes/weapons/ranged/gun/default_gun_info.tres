@@ -13,4 +13,5 @@ shot_range = 70.0
 knockback = 5.0
 speed = 300.0
 piercing = 2
+cutting = true
 infliction_chance = 0.0

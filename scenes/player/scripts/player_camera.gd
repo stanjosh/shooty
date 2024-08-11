@@ -39,7 +39,8 @@ func shake(speed : float = shake_speed, strength : float = shake_strength, decay
 	shake_angle = angle
 
 func _ready():
-	
+	shake_noise.noise_type = FastNoiseLite.TYPE_VALUE
+	shake_noise.frequency = 1.2
 	zoom = Settings.CAMERA_ZOOM
 	position_smoothing_enabled = true
 

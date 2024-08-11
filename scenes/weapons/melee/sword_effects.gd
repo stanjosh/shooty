@@ -4,9 +4,13 @@ class_name MeleeWeaponEffect
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var animation_player = $AnimationPlayer
 
+
+
 var combo_step : int = 1
 var sheath_countdown : float = .5
 var sheathed : bool = true
+var heat_level : float = 0
+
 
 func play():
 	sheathed = false

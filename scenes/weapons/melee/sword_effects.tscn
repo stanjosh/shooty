@@ -239,6 +239,7 @@ _data = {
 }
 
 [node name="SwordEffects" type="Node2D"]
+use_parent_material = true
 script = ExtResource("1_0k3ju")
 
 [node name="sword_sheathed" type="AudioStreamPlayer" parent="."]
@@ -250,6 +251,7 @@ stream = ExtResource("3_da5fc")
 pitch_scale = 0.9
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_ut0ao")
 animation = &"none"
 
