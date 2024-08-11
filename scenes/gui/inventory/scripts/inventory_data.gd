@@ -5,7 +5,10 @@ signal inventory_interact(inventory_data: InventoryData, index: int, button: int
 signal inventory_updated(inventory_data: InventoryData)
 
 @export var slot_datas: Array[SlotData]
+@export var color : Color = Color("white")
 
+func size() -> int:
+	return slot_datas.filter(func(slot_data): return slot_data != null).size()
 
 func grab_slot_data(index: int) -> SlotData:
 	var slot_data = slot_datas[index]
@@ -84,6 +87,7 @@ func pick_up_slot_data(slot_data : SlotData) -> bool:
 			slot_datas[index] = slot_data
 			inventory_updated.emit(self)
 			return true	
+	
 	
 	return false
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://bkrrljjeydlgs"]
+[gd_scene load_steps=11 format=3 uid="uid://bkrrljjeydlgs"]
 
 [ext_resource type="Script" path="res://scenes/effects/scripts/blood_spray.gd" id="1_pwcdo"]
-[ext_resource type="Texture2D" uid="uid://de7nsq3oyurmj" path="res://scenes/player/assets/Bullet14x14.png" id="2_eeqrb"]
+[ext_resource type="Texture2D" uid="uid://de7nsq3oyurmj" path="res://scenes/weapons/ranged/gun/Bullet14x14.png" id="2_eeqrb"]
+[ext_resource type="AudioStream" uid="uid://yv7t68ydxac5" path="res://scenes/effects/hitHurt.wav" id="3_10ob7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lsn7s"]
 atlas = ExtResource("2_eeqrb")
@@ -65,5 +66,8 @@ animation = &"spray"
 autoplay = "spray"
 frame = 5
 frame_progress = 1.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_10ob7")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

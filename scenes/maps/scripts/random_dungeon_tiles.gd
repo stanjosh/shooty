@@ -1,11 +1,10 @@
-extends TileMap
+extends Map
 class_name RandomDungeonTiles
 
 const ROOM_MOBS = preload("res://scenes/maps/spawner/room_mobs.tscn")
-const DUNGEON_TRACKING_CAMERA_SWITCHER = preload("res://scenes/interactable/dungeon_tracking_camera_switcher.tscn")
-const DOOR = preload("res://scenes/interactable/door.tscn")
+const DUNGEON_TRACKING_CAMERA_SWITCHER = preload("res://scenes/objects/interactable/dungeon_tracking_camera_switcher.tscn")
+const DOOR = preload("res://scenes/objects/interactable/door.tscn")
 var room_size = Settings.ROOM_SIZE
-@onready var player_spawn = %PlayerSpawn
 
 var room_pattern : TileMapPattern = tile_set.get_pattern(0)
 var door_pattern_x : TileMapPattern = tile_set.get_pattern(5)
@@ -28,9 +27,12 @@ var new_seed : int = randi_range(-10000, 10000)
 func _ready():
 	dungeon = DungeonGeneration.generate(new_seed)
 	load_map()
+	return super._ready()
 
 func load_map():
-	for child in get_children():
+	for child in objects.get_children():
+		child.queue_free()
+	for child in mobs.get_children():
 		child.queue_free()
 	for room in dungeon.keys():
 		set_pattern(0, room * room_size, room_pattern)
@@ -63,29 +65,30 @@ func maybe_lock_door(door_position, door_rotation = 0) -> bool:
 		var offset = Vector2i(0, 3) if door_rotation else Vector2i(0, 0)
 		door.global_position = Vector2(door_position + offset)  * Settings.TILE_SIZE
 		door.rotation_degrees = door_rotation
-		add_child(door)
+		objects.add_child(door)
 		return true
 	return false
 
 func create_camera_area(room, connected_room) -> void:
 	var tracking_area = DUNGEON_TRACKING_CAMERA_SWITCHER.instantiate()
 	if room.position.x == connected_room.position.x:
-		tracking_area.global_position.x = ((room_size.x * room.position.x + room_size.x / 2) * tile_set.tile_size.x) + tile_set.tile_size.x / 2
+		tracking_area.global_position.x = ((room_size.x * room.position.x + room_size.x / 2.0) * tile_set.tile_size.x) + tile_set.tile_size.x / 2.0
 		tracking_area.global_position.y = (room_size.y * connected_room.position.y * tile_set.tile_size.y)
-		add_child(tracking_area)
-		tracking_area.resize_area( Vector2i(room_size.x, room_size.y * 2) * (tile_set.tile_size) / 2)
+		objects.add_child(tracking_area)
+		tracking_area.resize_area( Vector2i(room_size.x, room_size.y * 2) * (tile_set.tile_size) / 2.0)
 	if room.position.y == connected_room.position.y:
-		tracking_area.global_position.y = ((room_size.y * room.position.y + room_size.y / 2) * tile_set.tile_size.y) + tile_set.tile_size.y / 2
+		tracking_area.global_position.y = ((room_size.y * room.position.y + room_size.y / 2.0) * tile_set.tile_size.y) + tile_set.tile_size.y / 2.0
 		tracking_area.global_position.x = (room_size.x * connected_room.position.x * tile_set.tile_size.x)
-		add_child(tracking_area)
-		tracking_area.resize_area( Vector2i(room_size.x * 2, room_size.y) * (tile_set.tile_size) / 2)
+		objects.add_child(tracking_area)
+		tracking_area.resize_area( Vector2i(room_size.x * 2, room_size.y) * (tile_set.tile_size) / 2.0)
 
 func create_mob_area(room) -> void:
 	var mob_room = ROOM_MOBS.instantiate()
-	add_child(mob_room)
-	mob_room.global_position.x = ((room_size.x * room.position.x + room_size.x / 2) * tile_set.tile_size.x) + tile_set.tile_size.x / 2
-	mob_room.global_position.y = ((room_size.y * room.position.y + room_size.y / 2) * tile_set.tile_size.y) + tile_set.tile_size.y / 2	
+	mobs.add_child(mob_room)
+	mob_room.global_position.x = ((room_size.x * room.position.x + room_size.x / 2) * tile_set.tile_size.x) + tile_set.tile_size.x / 2.0
+	mob_room.global_position.y = ((room_size.y * room.position.y + room_size.y / 2) * tile_set.tile_size.y) + tile_set.tile_size.y / 2.0
 	mob_room.spawn_room()
+	mob_room.resize_area(Vector2i(room_size.x - 3, room_size.y - 3) * (tile_set.tile_size) / 2)
 	
 func draw_doors(room) -> void:
 	var random_offset = randi_range(-2, 2) if randi_range(0, 100) < 20 else 0
@@ -122,7 +125,7 @@ func draw_entrance() -> bool:
 		player_spawn.global_position.y = ((room_size.y * start_room.y + y_door_offset.y + 6) * tile_set.tile_size.y) + 16
 		var door = DOOR.instantiate()
 		door.global_position = Vector2(door_position) * Settings.TILE_SIZE 
-		add_child(door)
+		objects.add_child(door)
 		return true
 	return false
 

@@ -1,0 +1,91 @@
+[gd_scene load_steps=4 format=3 uid="uid://cshxn3hr142mq"]
+
+[ext_resource type="FontFile" uid="uid://m1jk0peka30j" path="res://assets/m6x11.ttf" id="1_51ia5"]
+[ext_resource type="Texture2D" uid="uid://pq257rnhg4kq" path="res://scenes/gui/UI_Flat_Frame_01_Lite.png" id="1_bewly"]
+
+[sub_resource type="GDScript" id="GDScript_o1qt4"]
+script/source = "extends Control
+
+
+
+@onready var player_stats = %PlayerStats
+var stats : Dictionary
+
+func _ready():
+	UIManager.update_stats.connect(update)
+
+
+func update(key, value):
+	player_stats.clear()
+	stats[key] = value
+	for item : String in stats.keys():
+		player_stats.append_text(\"%s : %s\\n\" % [item.replace(\"_\", \" \"), stats[item]])
+
+"
+
+[node name="Status" type="Control"]
+layout_mode = 3
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -320.0
+offset_right = 240.0
+offset_bottom = 320.0
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = SubResource("GDScript_o1qt4")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(320, 400)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -200.0
+offset_right = 320.0
+offset_bottom = 200.0
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
+layout_mode = 2
+texture = ExtResource("1_bewly")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PlayerStats" type="RichTextLabel" parent="MarginContainer/NinePatchRect/MarginContainer"]
+unique_name_in_owner = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_fonts/normal_font = ExtResource("1_51ia5")
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "lorem : 11
+Ipsum : 200
+lorem : 11
+Ipsum : 200
+lorem : 11
+Ipsum : 200"

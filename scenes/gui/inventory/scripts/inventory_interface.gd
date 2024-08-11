@@ -1,5 +1,5 @@
 extends Control
-
+class_name InventoryInterface
 
 const PICKUP_ITEM = preload("res://scenes/gui/inventory/items/pickup_item.tscn")
 
@@ -7,16 +7,9 @@ const PICKUP_ITEM = preload("res://scenes/gui/inventory/items/pickup_item.tscn")
 var grabbed_slot_data: SlotData
 var external_inventory_owner
 
-
-@onready var item_inventory = $PlayerInventory/ItemInventory
-@onready var equip_inventory = $PlayerInventory/EquipInventory
-
+@onready var player_inventory = $PlayerInventory
 @onready var grabbed_slot = $GrabbedSlot
 @onready var external_inventory : Control = $ExternalInventory
-@onready var player = PlayerManager.player
-
-
-
 
 func _physics_process(_delta):
 	if grabbed_slot.visible:
@@ -29,21 +22,18 @@ func _physics_process(_delta):
 		external_inventory.set_position(ext_pos)
 
 func _ready():
-	
-	PlayerManager.player.toggle_inventory.connect(toggle_inventory_interface)
-	InventoryManager.connect("refresh_interface", refresh)
-	set_player_inventory_data(PlayerManager.player.inventory_data)
-	set_equip_inventory_data(PlayerManager.player.equip_inventory_datas)
+	GUI.connect("refresh_interface", refresh)
 	get_interactables()
 	refresh()
-	
+
 func refresh(target = null):
 	if target:
-		if target is Player:
-			target.toggle_inventory.connect(toggle_inventory_interface)
+		if target is Player or target is Weapon:
+			set_player_inventory_data(target.inventory_data)
+			if target is Player:
+				target.toggle_inventory.connect(toggle_inventory_interface)
 		if target is Chest:
 			target.toggle_inventory.connect(toggle_inventory_interface)
-
 
 func get_interactables():
 	for node in get_tree().get_nodes_in_group("external_inventory"):
@@ -60,16 +50,19 @@ func toggle_inventory_interface(_external_inventory_owner = null):
 			external_inventory_owner.close()
 		visible = !visible
 
+func set_player_inventory_data(inventory_data: InventoryData):
+	var INVENTORY = load("res://scenes/gui/inventory/inventory.tscn")
+	var new_inventory = INVENTORY.instantiate()
+	player_inventory.add_child(new_inventory)
+	inventory_data.inventory_interact.connect(on_inventory_interact)
+	new_inventory.set_inventory_data(inventory_data)
+
 func set_external_inventory(_external_inventory_owner):
 	external_inventory_owner = _external_inventory_owner
-	print("set")
-	
-	
 	var inventory_data = external_inventory_owner.inventory_data
 	external_inventory_owner.interactable_area_exited.connect(clear_external_inventory)
 	inventory_data.inventory_interact.connect(on_inventory_interact)
 	external_inventory.set_inventory_data(inventory_data)
-	
 	external_inventory.show()
 
 func clear_external_inventory():
@@ -82,30 +75,11 @@ func clear_external_inventory():
 		external_inventory.hide()
 		external_inventory_owner = null
 
-
-
 func drop_slot_data_in_map(slot_data):
 	var pick_up = PICKUP_ITEM.instantiate()
 	pick_up.slot_data = slot_data
 	pick_up.position = PlayerManager.player.get_global_mouse_position()
 	MapManager.current_map.add_child(pick_up)
-
-
-func set_player_inventory_data(inventory_data: InventoryData):
-	inventory_data.inventory_interact.connect(on_inventory_interact)
-	item_inventory.set_inventory_data(inventory_data)
-
-
-func set_equip_inventory_data(inventory_datas: Array[InventoryDataEquip]):
-	print("set equip")
-	for inventory_data in inventory_datas:
-		print(inventory_data.upgrade_target)
-		var INVENTORY = load("res://scenes/gui/inventory/inventory.tscn")
-		var new_inventory = INVENTORY.instantiate()
-		equip_inventory.add_child(new_inventory)
-		inventory_data.inventory_interact.connect(on_inventory_interact)
-		new_inventory.set_inventory_data(inventory_data)
-
 
 func on_inventory_interact(inventory_data: InventoryData, index: int, button: int):
 	match [grabbed_slot_data, button]:
@@ -121,9 +95,7 @@ func on_inventory_interact(inventory_data: InventoryData, index: int, button: in
 		[_, MOUSE_BUTTON_RIGHT]:
 			grabbed_slot_data = inventory_data.drop_single_slot_data(grabbed_slot_data, index)
 			accept_event()
-	
 	update_grabbed_slot()
-
 
 func update_grabbed_slot() -> void:
 	if grabbed_slot_data:
@@ -131,7 +103,6 @@ func update_grabbed_slot() -> void:
 		grabbed_slot.show()
 	else:
 		grabbed_slot.hide()
-
 
 func _on_gui_input(event):
 	if not event.is_pressed():
@@ -149,7 +120,6 @@ func _on_gui_input(event):
 				if grabbed_slot_data.quantity < 1:
 					grabbed_slot_data = null
 		update_grabbed_slot()
-
 
 func _on_visibility_changed():
 	if not visible and grabbed_slot_data:

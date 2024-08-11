@@ -1,7 +1,9 @@
 extends Node
 
-const PICKUP_ITEM = preload("res://scenes/gui/inventory/items/pickup_item.tscn")
 
+const PICKUP_ITEM = preload("res://scenes/gui/inventory/items/pickup_item.tscn")
+@export var start_map : String = "hub"
+var current_map : Map
 var default_map = "hub"
 
 @export var maps : Dictionary = {
@@ -14,15 +16,15 @@ var default_map = "hub"
 var saved_scenes := {}
 
 
-@export var start_map : String = "hub"
-var current_map : Map
 
-func load_map(world, map_name: String = default_map):
+func load_map(map_name: String = default_map):
+	print("called world ", map_name )
+	var new_map = maps[map_name].instantiate()
 	if current_map:
-		world.call_deferred("remove_child", current_map)
-	current_map = maps.get(map_name).instantiate()
-	world.call_deferred("add_child", current_map)
-	
+		current_map.queue_free()
+	current_map = new_map
+	add_child(new_map)
+	new_map.spawn_player()
 
 func save_map(_map_name, _root_node):
 	pass

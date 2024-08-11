@@ -7,14 +7,14 @@ const PICKUP_ITEM = preload("res://scenes/gui/inventory/items/pickup_item.tscn")
 
 
 #@onready var navigation_agent_2d := $NavigationAgent2D
-@onready var cpu_particles_2d := $CPUParticles2D
+@onready var cpu_particles_2d : CPUParticles2D = $CPUParticles2D
 @onready var hurtbox : Area2D = $Hurtbox
 @onready var idle_timer : Timer = $IdleTimer
 @onready var cry_sound : AudioStreamPlayer2D = $CrySound
 @onready var animated_sprite_2d : AnimatedSprite2D = $AnimatedSprite2D
 @onready var hitbox := $Hitbox
 @onready var detection_area : Area2D = $DetectionArea
-@onready var hurtbox_anim : AnimationPlayer = $Hurtbox/HurtboxAnim
+@onready var hurtbox_anim = $AnimatedSprite2D/HurtboxAnim
 
 
 @export_category("Spawn")
@@ -58,7 +58,8 @@ var attack_cooldown : float = cooldown :
 enum MobStrategy {
 	CHASE,
 	LAZY,
-	PATH
+	PATH,
+	WAIT
 }
 
 
@@ -74,9 +75,7 @@ var state : MobState = MobState.IDLE
 var health : int
 
 
-func init(init_external_detection_area : Area2D, init_strategy: MobStrategy = MobStrategy.LAZY, pos : Vector2 = global_position):
-	if init_external_detection_area:
-		external_detection_area.body_entered.connect(wake_up)
+func init(init_strategy: MobStrategy = MobStrategy.LAZY, pos : Vector2 = global_position):
 	if init_strategy == MobStrategy.LAZY:
 		state = MobState.IDLE
 	elif init_strategy == MobStrategy.CHASE:
@@ -84,7 +83,6 @@ func init(init_external_detection_area : Area2D, init_strategy: MobStrategy = Mo
 	global_position = pos
 	move_target = global_position
 	original_pos = global_position
-	print(pos, " ", global_position, " ", move_target)
 	return self
 
 func _ready():
@@ -92,6 +90,7 @@ func _ready():
 	move_target = global_position
 	original_pos = global_position
 	health = max_health
+	z_index = 1
 	animated_sprite_2d.connect("animation_finished", _on_animation_finished)
 	set_collisions()
 
@@ -101,7 +100,7 @@ func set_collisions():
 			set_collision_mask_value(i, true)
 		set_collision_layer_value(7, true)
 	else:
-		for i in [2, 3, 5, 8]:
+		for i in [2, 3, 5, 8, 9]:
 			set_collision_mask_value(i, true)
 		set_collision_layer_value(3, true)
 
@@ -112,6 +111,8 @@ func _physics_process(delta):
 	var close_to_player = global_position.distance_to(PlayerManager.get_global_position()) < attack_distance
 	attack_cooldown -= 1 * delta
 	chase_timer -= 1 * delta
+	if health <= 0:
+		state = MobState.DEAD
 	match state:
 		MobState.SPECIAL:
 			pass
@@ -122,6 +123,7 @@ func _physics_process(delta):
 			if close_to_player and attack_cooldown <= 0:
 				velocity = Vector2(0,0)
 				if hurtbox.overlaps_body(PlayerManager.player):
+					attack_cooldown = cooldown
 					damage_player()
 					state = MobState.CHASING
 			else:
@@ -161,7 +163,7 @@ func _physics_process(delta):
 
 
 func damage_player():
-	PlayerManager.player.take_damage(player_damage, global_position.direction_to(PlayerManager.player.global_position).rotated(global_rotation))
+	PlayerManager.player.take_damage(player_damage, -global_position.direction_to(PlayerManager.player.global_position).rotated(global_rotation))
 
 func chase(delta, chase_target : CharacterBody2D = PlayerManager.player) -> void:
 	if not cry_played:
@@ -199,13 +201,13 @@ func animate():
 		match state:
 			MobState.ATTACKING:
 				hurtbox_anim.play("attack")
-				animated_sprite_2d.flip_h = false if global_position.x - PlayerManager.player.global_position.x < 0 else true
+				animated_sprite_2d.scale.x = 1 if global_position.x - PlayerManager.player.global_position.x < 0 else -1
 			MobState.IDLE, MobState.CHASING:
 				if !velocity:
 					current_animation = "idle"
 				if velocity.x != 0:
 					current_animation = "x_walk" if animated_sprite_2d.sprite_frames.has_animation("x_walk") else "idle"
-					animated_sprite_2d.flip_h = false if velocity.x > 0 else true
+					animated_sprite_2d.scale.x = 1 if velocity.x > 0 else -1
 				elif velocity.y > velocity.x:
 					current_animation = "y_walk" if animated_sprite_2d.sprite_frames.has_animation("y_walk") else "idle"
 
@@ -213,23 +215,23 @@ func animate():
 
 func take_damage(hit, vector: Vector2, extra_force: float = 0):
 	chase_timer = chase_time
-	state = MobState.CHASING
-	Hud.float_message(["%s" % hit], global_position, -vector * global_position)
+	if state == MobState.IDLE:
+		state = MobState.CHASING
+
+	GUI.float_message(["%s" % hit], self, -vector)
 	var tween: Tween = create_tween()
 	tween.tween_property(animated_sprite_2d, "modulate:v", 1, 0.25).set_trans(Tween.TRANS_ELASTIC).from(15)
-	print(vector)
 	knockback = Vector2(hit + extra_force, hit + extra_force) * -vector
 	if health > 0:
 		health -= hit
 	if health <= 0:
 		die(vector)
 
-func die(vector: Vector2):
+func die(_vector):
 	state = MobState.DEAD
 	hitbox.set_deferred("disabled", true)
 	var timer = Timer.new()
 	timer.connect("timeout", _on_death_animation_timer_timeout)
-	PlayerManager.give_xp(xp_value)
 	
 	drop_loot()	
 	
@@ -237,14 +239,7 @@ func die(vector: Vector2):
 		timer.wait_time = cpu_particles_2d.lifetime
 		cpu_particles_2d.emitting = true
 		timer.autostart = true
-	if bleeds:
-		const DARK_SPRAY = preload("res://scenes/effects/dark_spray.tscn")
-		var new_spray = DARK_SPRAY.instantiate()
-		new_spray.global_position = hitbox.global_position
-		new_spray.rotation = get_angle_to(-vector * global_position)
-		new_spray.scale = scale
-		get_parent().call_deferred("add_child", new_spray)
-
+	velocity = lerp(velocity, Vector2.ZERO, .2)
 	animated_sprite_2d.play("die")
 	add_child(timer)
 
@@ -257,11 +252,11 @@ func drop_loot():
 			pick_up.slot_data = SlotData.new()
 			pick_up.slot_data.item_data = new_item
 			pick_up.position = global_position
-			get_parent().call_deferred("add_child", pick_up)
+			MapManager.current_map.call_deferred("add_child", pick_up)
 
 
 func wake_up(body):
-	if body is Player and state != MobState.DEAD:
+	if body is Player:
 		state = MobState.CHASING
 
 func _on_death_animation_timer_timeout():

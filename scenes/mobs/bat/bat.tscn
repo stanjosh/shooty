@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/mobs/bat/bat.gd" id="1_32x6b"]
 [ext_resource type="Texture2D" uid="uid://2hdawy0rwcft" path="res://scenes/mobs/bat/flying-head.png" id="2_umbw3"]
-[ext_resource type="AudioStream" uid="uid://32p6gad7nt60" path="res://assets/noise_growl.wav" id="3_us472"]
+[ext_resource type="AudioStream" uid="uid://inu2lksay71q" path="res://assets/bat.wav" id="3_g0711"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g0bct"]
 atlas = ExtResource("2_umbw3")
@@ -183,17 +183,6 @@ animations = [{
 "speed": 15.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_hxphe"]
-radius = 8.0
-
-[sub_resource type="Curve" id="Curve_rui1n"]
-max_value = 2.0
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0730479, 2), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fwwg6"]
-size = Vector2(17.9804, 10.2941)
-
 [sub_resource type="Animation" id="Animation_m8gk6"]
 length = 0.001
 tracks/0/type = "value"
@@ -231,6 +220,17 @@ _data = {
 "attack": SubResource("Animation_pg2jh")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_hxphe"]
+radius = 8.0
+
+[sub_resource type="Curve" id="Curve_rui1n"]
+max_value = 2.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0730479, 2), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fwwg6"]
+size = Vector2(17.9804, 10.2941)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hirq5"]
 
 [node name="bat" type="CharacterBody2D"]
@@ -253,6 +253,12 @@ sprite_frames = SubResource("SpriteFrames_6873n")
 animation = &"attack"
 autoplay = "idle"
 offset = Vector2(0, -20)
+
+[node name="HurtboxAnim" type="AnimationPlayer" parent="AnimatedSprite2D"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_hp836")
+}
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2(-1, -1)
@@ -279,7 +285,8 @@ wait_time = 0.25
 one_shot = true
 
 [node name="CrySound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_us472")
+stream = ExtResource("3_g0711")
+volume_db = -3.466
 pitch_scale = 1.4
 
 [node name="Hurtbox" type="Area2D" parent="."]
@@ -293,12 +300,6 @@ position = Vector2(-2.38419e-07, 4.90196)
 scale = Vector2(1.00872, 1)
 shape = SubResource("RectangleShape2D_fwwg6")
 disabled = true
-
-[node name="HurtboxAnim" type="AnimationPlayer" parent="Hurtbox"]
-root_node = NodePath("../..")
-libraries = {
-"": SubResource("AnimationLibrary_hp836")
-}
 
 [node name="DetectionArea" type="Area2D" parent="."]
 collision_layer = 0

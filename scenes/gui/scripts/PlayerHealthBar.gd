@@ -1,11 +1,10 @@
 extends Control
 
-var max_health : float = PlayerManager.player.max_health
-var health : float = PlayerManager.player.health
+var max_health : float
+var health : float
 
 
 func _process(_delta):
-	health = PlayerManager.player.health
 	$Orb/PlayerHealthBar.max_value = max_health
 	$Orb/PlayerHealthBar2.max_value = max_health
 	$Orb/HealthCounter.text = "%s / %s" % [snapped(health, 1), snapped(max_health, 1)]

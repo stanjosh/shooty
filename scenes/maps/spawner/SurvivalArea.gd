@@ -1,7 +1,5 @@
 extends Area2D
 
-
-
 signal spawns_done
 
 @onready var point_light_2d = $PointLight2D
@@ -20,6 +18,7 @@ func _ready():
 		if child is SpawnWave:
 			wave_list.append(child)
 	active = true
+	PlayerManager.player.connect("player_died", _on_spawns_done)
 	begin_wave()
 
 
@@ -28,8 +27,8 @@ func _physics_process(delta):
 		if gradient_offset < 0.7:
 			activate_graphics(delta)
 		if rect.get_center().distance_to(to_local(player.global_position)) > rect.get_area() / PI:
-			player.take_damage(40 * delta, to_local(player.global_position).angle_to_point(rect.get_center()))
-	elif not PlayerManager.player.is_alive or not get_mobs() and not wave_list:
+			player.take_damage(40 * delta, (global_position - player.global_position).normalized(), 40)
+	elif not get_mobs() and not wave_list:
 		close_area(delta)
 	
 

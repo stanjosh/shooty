@@ -1,14 +1,12 @@
 [gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://m4jkoof7bmtu"]
 
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/item_data.gd" id="1_wsqyf"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_01g8g"]
-load_path = "res://.godot/imported/Icon14_09.png-33e91d0ac1c69cdd32154c63a1c33601.ctex"
+[ext_resource type="Texture2D" uid="uid://bt4x7wp22e01a" path="res://scenes/gui/inventory/items/assets/Icon14_09.png" id="2_khn6j"]
 
 [resource]
 script = ExtResource("1_wsqyf")
 name = "Memory Card"
 description = "A memory card used to save data."
 stackable = false
-texture = SubResource("CompressedTexture2D_01g8g")
+texture = ExtResource("2_khn6j")
 drop_rarity = 0.998

@@ -1,225 +1,29 @@
-[gd_scene load_steps=29 format=3 uid="uid://uxooh6uufd3x"]
+[gd_scene load_steps=3 format=3 uid="uid://uxooh6uufd3x"]
 
-[ext_resource type="Script" path="res://scenes/effects/scripts/death_spray.gd" id="1_4veat"]
-[ext_resource type="Texture2D" uid="uid://b32dv6rw5m8p2" path="res://assets/Extra/VFX Blood Batch 1_SpriteSheetRows.png" id="2_b1j0h"]
+[sub_resource type="Curve" id="Curve_m7qwd"]
+max_value = 100.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.791096, 99.0997), 0.000123766, 0.0, 0, 0]
+point_count = 2
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_g3lw4"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(0, 279, 110, 93)
+[sub_resource type="Curve" id="Curve_e5qj5"]
+max_value = 3.0
+_data = [Vector2(0, 0.839335), 0.0, 14.5899, 0, 0, Vector2(0.907534, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_h0r21"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(110, 279, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c61ye"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(220, 279, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kt0bu"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(330, 279, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xqpiw"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(0, 744, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jkcxw"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(110, 744, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gsc3j"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(220, 744, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_b04kn"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(330, 744, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qyib5"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(440, 744, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6i8xw"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(0, 372, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ema2p"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(110, 372, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vs0la"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(220, 372, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rfl0w"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(330, 372, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_axryh"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(440, 372, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tykju"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(550, 372, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ag8wx"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(0, 93, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_peorx"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(110, 93, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5mi5e"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(220, 93, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_j4uar"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(330, 93, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ps555"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(440, 93, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sj1pd"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(0, 465, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qi1r1"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(110, 465, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8gwsq"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(220, 465, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ul1g0"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(330, 465, 110, 93)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_47yww"]
-atlas = ExtResource("2_b1j0h")
-region = Rect2(440, 465, 110, 93)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_q67ds"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g3lw4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_h0r21")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c61ye")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kt0bu")
-}],
-"loop": false,
-"name": &"1",
-"speed": 25.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xqpiw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jkcxw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gsc3j")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_b04kn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qyib5")
-}],
-"loop": false,
-"name": &"2",
-"speed": 25.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6i8xw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ema2p")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vs0la")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rfl0w")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_axryh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tykju")
-}],
-"loop": false,
-"name": &"3",
-"speed": 25.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ag8wx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_peorx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5mi5e")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_j4uar")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ps555")
-}],
-"loop": false,
-"name": &"4",
-"speed": 25.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sj1pd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qi1r1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8gwsq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ul1g0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_47yww")
-}],
-"loop": false,
-"name": &"5",
-"speed": 25.0
-}]
-
-[node name="death_spray" type="Node2D" groups=["sprays"]]
-z_index = -1
-y_sort_enabled = true
-script = ExtResource("1_4veat")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-show_behind_parent = true
-position = Vector2(-9.53674e-07, 0)
-rotation = 0.785398
-scale = Vector2(0.5, 0.5)
-sprite_frames = SubResource("SpriteFrames_q67ds")
-animation = &"1"
-autoplay = "1"
-frame = 3
-frame_progress = 1.0
-offset = Vector2(22, -40)
+[node name="death_spray" type="CPUParticles2D" groups=["sprays"]]
+emitting = false
+amount = 80
+lifetime = 0.7
+one_shot = true
+explosiveness = 0.2
+randomness = 0.54
+emission_shape = 3
+emission_rect_extents = Vector2(1, 8)
+spread = 25.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 25.0
+initial_velocity_max = 200.0
+damping_max = 100.0
+damping_curve = SubResource("Curve_m7qwd")
+scale_amount_curve = SubResource("Curve_e5qj5")
+color = Color(0, 0, 0, 1)

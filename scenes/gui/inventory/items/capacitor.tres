@@ -1,14 +1,15 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://ckelwfbxqnkyt"]
+[gd_resource type="Resource" script_class="ItemDataConsumable" load_steps=3 format=3 uid="uid://ckelwfbxqnkyt"]
 
-[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/item_data.gd" id="1_2mt43"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fa7vu"]
-load_path = "res://.godot/imported/Icon14_20.png-2cdc0b4ba11d6a20b52d5fa013ea505a.ctex"
+[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/item_data_consumable.gd" id="1_cc6vn"]
+[ext_resource type="Texture2D" uid="uid://dtx0442dijdm8" path="res://scenes/gui/inventory/items/assets/Icon14_16.png" id="2_unfgi"]
 
 [resource]
-script = ExtResource("1_2mt43")
+script = ExtResource("1_cc6vn")
+use_immediately = true
+heal_value = 0
+xp_amount = 20
 name = "Capacitor"
 description = "A capacitor to hold electrical charge."
 stackable = true
-texture = SubResource("CompressedTexture2D_fa7vu")
-drop_rarity = 0.7
+texture = ExtResource("2_unfgi")
+drop_rarity = 0.1

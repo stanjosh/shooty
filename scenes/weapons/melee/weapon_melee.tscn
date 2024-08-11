@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://7tx8y7bexiry"]
+
+[ext_resource type="Shader" path="res://scenes/weapons/melee/heat.gdshader" id="1_atkdt"]
+[ext_resource type="Script" path="res://scenes/weapons/melee/weapon_melee.gd" id="1_ij3hx"]
+
+[sub_resource type="Gradient" id="Gradient_1q53y"]
+offsets = PackedFloat32Array(0.62963, 0.796296)
+colors = PackedColorArray(0.776471, 0.345098, 0, 1, 1, 1, 0.4, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fpnd2"]
+gradient = SubResource("Gradient_1q53y")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2es2k"]
+shader = ExtResource("1_atkdt")
+shader_parameter/mix_amount = 0.0
+shader_parameter/gradient = SubResource("GradientTexture1D_fpnd2")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1ovo8"]
+radius = 24.0
+
+[node name="MeleeWeapon" type="Node2D"]
+material = SubResource("ShaderMaterial_2es2k")
+script = ExtResource("1_ij3hx")
+
+[node name="hitbox" type="Area2D" parent="."]
+position = Vector2(14, 0)
+collision_layer = 0
+collision_mask = 102
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+position = Vector2(11, 0)
+shape = SubResource("CircleShape2D_1ovo8")
+
+[node name="cooldown" type="Timer" parent="."]
+one_shot = true

@@ -1,0 +1,264 @@
+[gd_scene load_steps=24 format=3 uid="uid://dqk0qfh8pgvoh"]
+
+[ext_resource type="Script" path="res://scenes/weapons/melee/sword_effects.gd" id="1_0k3ju"]
+[ext_resource type="AudioStream" uid="uid://b28ape8g37vaq" path="res://scenes/weapons/melee/assets/581594__samsterbirdies__sword-draw-unsheathe.wav" id="3_da5fc"]
+[ext_resource type="Texture2D" uid="uid://bqobi0a37jx14" path="res://scenes/weapons/melee/assets/SlashFX SimpleSmall Combo3 sheet.png" id="4_qwo7u"]
+[ext_resource type="Texture2D" uid="uid://dennp8sne57s1" path="res://scenes/weapons/melee/assets/SlashFX SimpleSmall Combo1 sheet.png" id="5_4gi03"]
+[ext_resource type="AudioStream" uid="uid://ds7lpn11nb2x1" path="res://scenes/weapons/melee/sword_sheathed.mp3" id="5_eos8y"]
+[ext_resource type="Texture2D" uid="uid://de5bmbwivdf0s" path="res://scenes/weapons/melee/assets/SlashFX SimpleSmall Combo2 sheet.png" id="6_b41nk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shyli"]
+atlas = ExtResource("4_qwo7u")
+region = Rect2(384, 32, 128, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_txfsi"]
+atlas = ExtResource("4_qwo7u")
+region = Rect2(256, 32, 128, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_av0wx"]
+atlas = ExtResource("4_qwo7u")
+region = Rect2(128, 32, 128, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kutq8"]
+atlas = ExtResource("4_qwo7u")
+region = Rect2(0, 32, 128, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cykhv"]
+atlas = ExtResource("5_4gi03")
+region = Rect2(0, 64, 128, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a30dl"]
+atlas = ExtResource("5_4gi03")
+region = Rect2(128, 64, 128, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6n5ew"]
+atlas = ExtResource("5_4gi03")
+region = Rect2(256, 64, 128, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_73jty"]
+atlas = ExtResource("6_b41nk")
+region = Rect2(0, 32, 128, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ikvk"]
+atlas = ExtResource("6_b41nk")
+region = Rect2(128, 32, 128, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwoep"]
+atlas = ExtResource("6_b41nk")
+region = Rect2(256, 32, 128, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3huvs"]
+atlas = ExtResource("6_b41nk")
+region = Rect2(384, 32, 128, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ut0ao"]
+animations = [{
+"frames": [],
+"loop": false,
+"name": &"none",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shyli")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_txfsi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_av0wx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kutq8")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"slash1",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_cykhv")
+}, {
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_a30dl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6n5ew")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"slash2",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_73jty")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ikvk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pwoep")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3huvs")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"slash3",
+"speed": 24.0
+}]
+
+[sub_resource type="Animation" id="Animation_drf1w"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"none"]
+}
+
+[sub_resource type="Animation" id="Animation_my6ae"]
+resource_name = "slash1"
+length = 0.125004
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0416667, 0.0833333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"slash1"]
+}
+
+[sub_resource type="Animation" id="Animation_ivy7x"]
+resource_name = "slash2"
+length = 0.125004
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0416667, 0.0833333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"slash2"]
+}
+
+[sub_resource type="Animation" id="Animation_r6xy6"]
+resource_name = "slash3"
+length = 0.166671
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"slash3"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0416667, 0.0833333, 0.125),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kr8qk"]
+_data = {
+"RESET": SubResource("Animation_drf1w"),
+"slash1": SubResource("Animation_my6ae"),
+"slash2": SubResource("Animation_ivy7x"),
+"slash3": SubResource("Animation_r6xy6")
+}
+
+[node name="SwordEffects" type="Node2D"]
+use_parent_material = true
+script = ExtResource("1_0k3ju")
+
+[node name="sword_sheathed" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_eos8y")
+volume_db = -7.629
+
+[node name="Shing" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_da5fc")
+pitch_scale = 0.9
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_ut0ao")
+animation = &"none"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_kr8qk")
+}
+
+[connection signal="finished" from="sword_sheathed" to="." method="_on_sword_sheathed_finished"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

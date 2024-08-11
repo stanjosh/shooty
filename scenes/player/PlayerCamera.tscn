@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://bmt1u4ih578ps"]
+[gd_scene load_steps=3 format=3 uid="uid://bmt1u4ih578ps"]
 
 [ext_resource type="Script" path="res://scenes/player/scripts/player_camera.gd" id="1_cidrt"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_rjeb8"]
+noise_type = 5
+
 [node name="PositionalCamera" type="Camera2D"]
 script = ExtResource("1_cidrt")
+shake_noise = SubResource("FastNoiseLite_rjeb8")

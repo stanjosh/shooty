@@ -1,31 +1,38 @@
-extends Node2D
+@tool
+extends TileMap
 class_name Map
 
-
-
-
-var player : CharacterBody2D
 @export var current_camera_type : PlayerCamera.CameraType = PlayerCamera.CameraType.FOLLOW
-@onready var player_spawn : Marker2D = $PlayerSpawn
+@export var player_spawn : Marker2D
+@export var mobs : Node2D
+@export var objects : Node2D 
 
+
+
+
+func _get_configuration_warnings():
+	var warning : Array[String] = []
+	if !is_instance_valid(player_spawn):
+		player_spawn = Marker2D.new()
+		player_spawn.name = "PlayerSpawn"
+		add_child(player_spawn, true)
+	if !is_instance_valid(mobs):
+		mobs = Node2D.new()
+		mobs.name = "Mobs"
+		add_child(mobs, true)
+	if !is_instance_valid(objects):
+		objects = Node2D.new()
+		objects.name = "Objects"
+		add_child(objects, true)
+	return warning
 
 func _ready():
-	spawn_player()
-
+	z_index = -2
 
 func spawn_player():
-	if player_spawn:
-		player = PlayerManager.spawn_player(player_spawn.global_position, self)
-	else:
-		push_error("need a player spawn Marker2D assigned to map")
-		assert(player_spawn, "Put a spawn point on the map.")
-
-
-func unload():
-	var packed_scene = PackedScene.new()
-	for child in get_children():
-		child.set_owner(self)
-	var node = get_tree().get_current_scene()
-	packed_scene.pack(node)
 	
-	MapManager.save(name, packed_scene)
+	PlayerManager.get_player().global_position = player_spawn.global_position
+	PlayerManager.switch_camera(current_camera_type)
+
+
+

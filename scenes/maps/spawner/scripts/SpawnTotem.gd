@@ -5,6 +5,7 @@ extends Area2D
 
 @onready var survival_area : Area2D = survival_scene.instantiate()
 
+
 func _ready():
 	survival_area.global_position = global_position
 

@@ -1,63 +1,37 @@
 extends InventoryData
 class_name InventoryDataEquip
 
-enum UpgradeTarget {
-	GUN,
-	SWORD,
-	PLAYER
-}
-
-@export var slot_color : Color
-@export var upgrade_target : UpgradeTarget
-
+func _init(num_slots : int = 1):
+	for i in range(num_slots):
+		slot_datas.resize(num_slots)
 
 func drop_slot_data(grabbed_slot_data: SlotData, index: int) -> SlotData:
-	
-	if not grabbed_slot_data.item_data is ItemDataEquip:
-
+	if not grabbed_slot_data.item_data is ItemDataEquippable:
 		return grabbed_slot_data
-
-	
 	return super.drop_slot_data(grabbed_slot_data, index)
-	
-	
+
 func drop_single_slot_data(grabbed_slot_data: SlotData, index: int) -> SlotData:
-	
-	if not grabbed_slot_data.item_data is ItemDataEquip:
-
+	if not grabbed_slot_data.item_data is ItemDataEquippable:
 		return grabbed_slot_data
-
-	
 	return super.drop_single_slot_data(grabbed_slot_data, index)
 
-func pick_up_slot_data(slot_data : SlotData) -> bool:
-	if slot_data.item_data.weapon_scene:
-		return slot_data.item_data.weapon_scene
+func grab_slot_data(index: int) -> SlotData:
+	return super.grab_slot_data(index)
 
+func get_weapon_infos():
+	return slot_datas.map(get_item_data)
 	
-	return super.pick_up_slot_data(slot_data)
+func get_item_data(slot_data : SlotData) -> WeaponInfo:
+	if slot_data and slot_data.item_data:
+		if slot_data.item_data is ItemDataEquippable:
+			return slot_data.item_data.weapon_info
+	return null
 
-func consolidated() -> Dictionary:
-	var stat_dict : Dictionary
-	var equip_stats := []
-	for slot_data in slot_datas:
-		if slot_data != null \
-		and slot_data.item_data != null \
-		and slot_data.item_data is ItemDataEquip:
-			equip_stats.append(slot_data.item_data.consolidated_equip_stats())
-	
-	for i in equip_stats:
-		for k in i:
-			stat_dict[k] = 0
-	print(stat_dict)
-	if equip_stats:
-		for i in equip_stats:
-			for k in i:
-				stat_dict[k] += i[k]
-	
-
-
-	return stat_dict
-
-
-	
+func consolidated_weapon_info() -> WeaponInfo:
+	var added_weapon_info : WeaponInfo = WeaponInfo.new()
+	for weapon_info in get_weapon_infos():
+		if weapon_info != null:
+			for property in weapon_info.get_property_list():
+				if property["usage"] == 4102:
+					added_weapon_info.set(property.name, added_weapon_info.get(property.name) + weapon_info.get(property.name))
+	return added_weapon_info

@@ -1,44 +1,21 @@
-[gd_scene load_steps=93 format=3 uid="uid://ckq8owam8nxv4"]
+[gd_scene load_steps=82 format=3 uid="uid://ckq8owam8nxv4"]
 
 [ext_resource type="Script" path="res://scenes/player/scripts/player.gd" id="1_1x1bv"]
 [ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data.gd" id="2_dkkut"]
 [ext_resource type="Texture2D" uid="uid://c50fe2l5ie5ci" path="res://scenes/player/assets/Hero Blue 54x53 Sprite.png" id="2_hlcqq"]
 [ext_resource type="Texture2D" uid="uid://cnluagwjgu7r7" path="res://assets/Extra/Shadow.png" id="3_gr2x3"]
-[ext_resource type="Resource" uid="uid://m4jkoof7bmtu" path="res://scenes/gui/inventory/items/memory_card.tres" id="3_k4n8i"]
-[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data_equip.gd" id="3_kc8by"]
-[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/slot_data.gd" id="4_ymcwa"]
-[ext_resource type="PackedScene" uid="uid://6qxco026ufkq" path="res://scenes/player/weapons/bullet.tscn" id="8_dogu2"]
-[ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/player/weapons/gun.tscn" id="9_dxnlg"]
-[ext_resource type="Script" path="res://scenes/player/weapons/projectile.gd" id="9_s8jtd"]
-[ext_resource type="PackedScene" uid="uid://7tx8y7bexiry" path="res://scenes/player/weapons/sword.tscn" id="12_4m10m"]
+[ext_resource type="PackedScene" uid="uid://7tx8y7bexiry" path="res://scenes/weapons/melee/weapon_melee.tscn" id="5_opj46"]
+[ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/weapons/ranged/weapon_ranged.tscn" id="6_x7oke"]
 [ext_resource type="AudioStream" uid="uid://bbtkod66evvx0" path="res://scenes/player/assets/dust_noise.wav" id="13_srm1x"]
 
-[sub_resource type="Resource" id="Resource_rlbd5"]
-script = ExtResource("4_ymcwa")
-item_data = ExtResource("3_k4n8i")
-quantity = 1
-
-[sub_resource type="Resource" id="Resource_ep5nu"]
+[sub_resource type="Resource" id="Resource_ep12i"]
 script = ExtResource("2_dkkut")
-slot_datas = Array[ExtResource("4_ymcwa")]([SubResource("Resource_rlbd5"), null, null, null, null, null, null, null, null, null, null, null])
+slot_datas = Array[Resource("res://scenes/gui/inventory/scripts/slot_data.gd")]([null, null, null, null, null, null])
+color = Color(1, 1, 1, 1)
 
-[sub_resource type="Resource" id="Resource_44i3v"]
-script = ExtResource("3_kc8by")
-slot_color = Color(0, 1, 0, 1)
-upgrade_target = 1
-slot_datas = Array[ExtResource("4_ymcwa")]([null, null])
-
-[sub_resource type="Resource" id="Resource_fqw3w"]
-script = ExtResource("3_kc8by")
-slot_color = Color(1, 0, 0, 1)
-upgrade_target = 2
-slot_datas = Array[ExtResource("4_ymcwa")]([null, null])
-
-[sub_resource type="Resource" id="Resource_a2nu7"]
-script = ExtResource("3_kc8by")
-slot_color = Color(0, 0, 1, 1)
-upgrade_target = 0
-slot_datas = Array[ExtResource("4_ymcwa")]([null, null])
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_16s8t"]
+closed = false
+polygon = PackedVector2Array(1, 7, 1, 9, 1, 7, 0, 5, 0, -1, 0, 5, -1, 7, -1, 9)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i1gu7"]
 height = 24.0
@@ -591,22 +568,6 @@ max_value = 2.0
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.254408, 1.21022), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="Resource" id="Resource_x0fvl"]
-script = ExtResource("9_s8jtd")
-scene = ExtResource("8_dogu2")
-speed = 30.0
-dropoff = 40.0
-heat_generated = 10.0
-damage = 5
-piercing = 2
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vrwak"]
-radius = 5.0
-height = 126.0
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_16s8t"]
-polygon = PackedVector2Array(-5, 10, -6, 9, -6, 7, -5, 6, 5, 6, 6, 7, 6, 9, 5, 10)
-
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 16
 collision_mask = 240
@@ -616,8 +577,12 @@ floor_stop_on_slope = false
 floor_block_on_wall = false
 platform_on_leave = 2
 script = ExtResource("1_1x1bv")
-inventory_data = SubResource("Resource_ep5nu")
-equip_inventory_datas = Array[ExtResource("3_kc8by")]([SubResource("Resource_44i3v"), SubResource("Resource_fqw3w"), SubResource("Resource_a2nu7")])
+inventory_data = SubResource("Resource_ep12i")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+show_behind_parent = true
+position = Vector2(0, -2)
+occluder = SubResource("OccluderPolygon2D_16s8t")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 scale = Vector2(0.658063, 0.658063)
@@ -654,6 +619,8 @@ emitting = false
 amount = 60
 one_shot = true
 explosiveness = 0.2
+randomness = 0.1
+lifetime_randomness = 0.2
 spread = 10.0
 gravity = Vector2(0, -20)
 initial_velocity_max = 60.0
@@ -687,29 +654,18 @@ scale_amount_max = 2.0
 scale_amount_curve = SubResource("Curve_x3gir")
 color = Color(0, 0, 0, 1)
 
-[node name="pivot" type="Marker2D" parent="."]
+[node name="AimPoint" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(114, -1)
+
+[node name="Weapons" type="Node2D" parent="."]
 position = Vector2(0, -1)
 
-[node name="gun" parent="pivot" instance=ExtResource("9_dxnlg")]
-y_sort_enabled = false
-position = Vector2(6, 0)
-projectile = SubResource("Resource_x0fvl")
-
-[node name="sword" parent="pivot" instance=ExtResource("12_4m10m")]
-
-[node name="angle" type="Marker2D" parent="pivot"]
+[node name="MeleeWeapon" parent="Weapons" instance=ExtResource("5_opj46")]
 unique_name_in_owner = true
-position = Vector2(10, 0)
 
-[node name="Area2D" type="Area2D" parent="pivot"]
-visible = false
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="pivot/Area2D"]
-position = Vector2(50, 0)
-rotation = -1.57079
-shape = SubResource("CapsuleShape2D_vrwak")
+[node name="RangedWeapon" parent="Weapons" instance=ExtResource("6_x7oke")]
+unique_name_in_owner = true
 
 [node name="DashCooldown" type="Timer" parent="."]
 wait_time = 2.0
@@ -718,14 +674,16 @@ one_shot = true
 [node name="DashTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-occluder = SubResource("OccluderPolygon2D_16s8t")
-
 [node name="DashSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("13_srm1x")
 
 [node name="Inflictions" type="Node2D" parent="."]
 
+[node name="SwordSprite" type="Sprite2D" parent="."]
+position = Vector2(0, 3)
+scale = Vector2(0.5, 0.5)
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="melee_attack" from="Weapons/MeleeWeapon" to="." method="_on_melee_attack"]
 [connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]

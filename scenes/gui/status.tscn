@@ -12,7 +12,7 @@ script/source = "extends Control
 var stats : Dictionary
 
 func _ready():
-	Hud.update_stats.connect(update)
+	GUI.update_stats.connect(update)
 
 
 func update(key, value):

@@ -16,7 +16,31 @@ var state : CameraType = CameraType.FOLLOW
 var y_coord : float
 var x_coord: float
 
+@export var shake_noise : FastNoiseLite = FastNoiseLite.new()
+var noise_index : float = 0.0
+@export var shake_speed : float = 100.0
+@export var shake_strength : float = 10.0
+@export var shake_decay : float = 3.0
+@export var shake_angle : Vector2 = Vector2(0,0)
+
+func get_shake_offset(delta : float) -> Vector2:
+	noise_index += delta * shake_speed
+	shake_strength = lerp(shake_strength, 0.0, shake_decay * delta)
+	#var random_offset = Vector2(randf_range(-shake_strength, shake_strength), randf_range(-shake_strength, shake_strength))
+	return Vector2(
+		shake_noise.get_noise_2d(1, noise_index) * shake_strength,
+		shake_noise.get_noise_2d(100, noise_index) * shake_strength
+	) + shake_angle * shake_strength
+	
+func shake(speed : float = shake_speed, strength : float = shake_strength, decay : float = shake_decay, angle : Vector2 = Vector2(0,0)):
+	shake_speed = speed
+	shake_strength = strength
+	shake_decay = decay
+	shake_angle = angle
+
 func _ready():
+	shake_noise.noise_type = FastNoiseLite.TYPE_VALUE
+	shake_noise.frequency = 1.2
 	zoom = Settings.CAMERA_ZOOM
 	position_smoothing_enabled = true
 
@@ -43,6 +67,7 @@ func switch_camera(camera_type: CameraType, limits: Array[int] = []):
 		state:
 			pass
 		CameraType.FOLLOW:
+
 			state = CameraType.FOLLOW
 			switch_to_following()
 		CameraType.POSITIONAL:
@@ -56,7 +81,7 @@ func switch_camera(camera_type: CameraType, limits: Array[int] = []):
 			state = CameraType.FOLLOW
 			switch_to_following()
 
-func _physics_process(delta):
+func _process(delta):
 	match state:
 		CameraType.POSITIONAL:
 			var parent_screen : Vector2 = ( get_parent().global_position / screen_size ).floor()
@@ -66,6 +91,7 @@ func _physics_process(delta):
 			pass
 		CameraType.LIMIT:
 			pass
+	offset = get_shake_offset(delta)
 
 func _reset_limits():
 	limit_top = -10000000
