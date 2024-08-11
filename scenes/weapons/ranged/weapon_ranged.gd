@@ -10,9 +10,9 @@ const BULLET = preload("res://scenes/weapons/ranged/gun/bullet.tscn")
 @onready var eject_particles = $EjectParticles
 @onready var inventory_data : InventoryDataEquip = InventoryDataEquip.new()
 
-@export var base_weapon_info : WeaponInfo = preload("res://scenes/weapons/ranged/gun/default_gun_info.tres")
+const BASE_WEAPON_INFO : WeaponInfo = preload("res://scenes/weapons/ranged/gun/default_gun_info.tres")
 
-var weapon_info : WeaponInfo = base_weapon_info
+var weapon_info : WeaponInfo = BASE_WEAPON_INFO
 var shot_time : float = 0
 
 
@@ -70,6 +70,7 @@ func _physics_process(delta):
 				fire()
 			if heat_level >= heat_capacity:
 				$OverheatHiss.play()
+				PlayerManager.player_camera.shake(30, 70, 1.4)
 				state = WeaponState.OVERHEATED
 			cool_off(16 * delta)
 			fire_anim.tween_property(weapon_sprite, "position:x", clampi(original_pos.x - 4, 0, original_pos.x - 4), .08).set_trans(Tween.TRANS_ELASTIC)
@@ -86,9 +87,7 @@ func _physics_process(delta):
 	fire_anim.tween_property(weapon_sprite, "position:x", original_pos.x, .05).set_trans(Tween.TRANS_LINEAR)
 
 func overheat(delta):
-
-	$SteamParticles.lifetime = heat_capacity * delta
-	$SteamParticles2.lifetime = heat_capacity * delta
+	
 	$SteamParticles.emitting = true
 	$SteamParticles2.emitting = true
 
@@ -110,6 +109,7 @@ func fire():
 		add_child(new_bullet)
 		heat_level += weapon_info.heat_generated
 	shot_time = 100
+	PlayerManager.player_camera.shake(40, heat_level * .125, 4, Vector2.from_angle(global_rotation))
 
 func charge(delta):
 	heat_level += weapon_info.heat_generated * 5 * delta
@@ -121,4 +121,4 @@ func _on_change_equip(_inventory_data : InventoryDataEquip) -> void:
 	var new_weapon_info = _inventory_data.consolidated_weapon_info()
 	for property in new_weapon_info.get_property_list():
 		if property["usage"] == 4102:
-			weapon_info.set(property.name, new_weapon_info.get(property.name) + base_weapon_info.get(property.name))
+			weapon_info.set(property.name, new_weapon_info.get(property.name) + BASE_WEAPON_INFO.get(property.name))

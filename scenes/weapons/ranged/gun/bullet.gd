@@ -18,7 +18,7 @@ func _physics_process(delta):
 	else:
 		var direction = Vector2.RIGHT.rotated(rotation)
 		position += direction * weapon_info.speed * delta
-		shot_range -= weapon_info.speed / 2 * delta
+		shot_range -= 40 * delta
 
 func _on_projectile_body_entered(body):
 
