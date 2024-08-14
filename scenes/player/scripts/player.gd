@@ -183,7 +183,7 @@ func take_damage(hit: float, vector: Vector2, extra_force: float = 0) -> void:
 	var tween = get_tree().create_tween()
 	tween.tween_property(animated_sprite_2d, "modulate:v", 1, 0.25).from(15)
 	health -= hit
-	knockback = Vector2(20 * hit + extra_force, 20 * hit + extra_force) * -vector
+	knockback = Vector2(20 * hit + extra_force, 20 * hit + extra_force) * vector
 	if health <= 0:
 		health = 0
 		die()

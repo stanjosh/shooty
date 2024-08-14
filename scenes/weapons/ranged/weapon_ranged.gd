@@ -79,15 +79,14 @@ func _physics_process(delta):
 		WeaponState.COOLING:
 			cool_off(50 * delta)
 		WeaponState.OVERHEATED:
-			overheat(delta)
+			overheat()
 			cool_off(24 * delta)
 			if heat_level / heat_capacity < .6:
 				state = WeaponState.COOLING
 	shot_time -=  delta * 100 + weapon_info.fire_rate
 	fire_anim.tween_property(weapon_sprite, "position:x", original_pos.x, .05).set_trans(Tween.TRANS_LINEAR)
 
-func overheat(delta):
-	
+func overheat():
 	$SteamParticles.emitting = true
 	$SteamParticles2.emitting = true
 

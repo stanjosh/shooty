@@ -25,8 +25,6 @@ func _on_projectile_body_entered(body):
 	if body.has_method("take_damage"):
 		body.take_damage(weapon_info.damage, Vector2.LEFT.rotated(global_rotation))
 		damage -= 1
-		if body.get("bleeds"):
-			BloodSpray.new(body, Vector2.LEFT.rotated(global_rotation))
 	if weapon_info.piercing == 0:
 		queue_free()
 	else:
