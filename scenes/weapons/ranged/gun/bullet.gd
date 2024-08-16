@@ -1,5 +1,5 @@
 extends WeaponOrdinance
-
+class_name Bullet
 
 @onready var gun_fire = $GunFire
 @onready var shot_range = weapon_info.shot_range
@@ -21,14 +21,15 @@ func _physics_process(delta):
 		shot_range -= 40 * delta
 
 func _on_projectile_body_entered(body):
-
 	if body.has_method("take_damage"):
-		body.take_damage(weapon_info.damage, Vector2.LEFT.rotated(global_rotation))
-		damage -= 1
+		deal_damage(body)
+
+
+func deal_damage(body: CharacterBody2D) -> void:
+	body.take_damage(weapon_info.damage, Vector2.LEFT.rotated(global_rotation))
+	damage -= 1
 	if weapon_info.piercing == 0:
 		queue_free()
 	else:
 		weapon_info.piercing -= 1
 	
-
-

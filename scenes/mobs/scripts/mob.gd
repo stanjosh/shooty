@@ -120,11 +120,11 @@ func _process(delta):
 			state = idle()
 		MobState.SPECIAL:
 			state = special_attack(delta)
-
-	print("state: ", MobState.keys()[state], \
-	" | detects player: ", detects_player(), \
-	" | close: ", hurtbox.overlaps_body(PlayerManager.player),\
-	" | idle timer: ", snapped(idle_timer.time_left, 1))
+	
+	#print("state: ", MobState.keys()[state], \
+	#" | detects player: ", detects_player(), \
+	#" | close: ", hurtbox.overlaps_body(PlayerManager.player),\
+	#" | idle timer: ", snapped(idle_timer.time_left, 1))
 	
 
 
@@ -236,9 +236,8 @@ func wake_up(body):
 
 func _on_animation_finished(_animation):
 	if _animation == "die":
-		queue_free() 
+		call_deferred("queue_free") 
 	if _animation == "attack":
 		if hurtbox.overlaps_body(PlayerManager.player):
 			damage_target(PlayerManager.player)
 		state = MobState.CHASING
-

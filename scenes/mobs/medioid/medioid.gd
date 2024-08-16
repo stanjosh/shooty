@@ -55,4 +55,3 @@ func charge(delta) -> MobState:
 		charging = false
 		return MobState.CHASING
 	return MobState.SPECIAL
-

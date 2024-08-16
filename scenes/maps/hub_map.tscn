@@ -18,7 +18,103 @@ objects = NodePath("Objects")
 
 [node name="Mobs" type="Node2D" parent="."]
 
-[node name="Objects" type="Node2D" parent="."]
-
-[node name="tiny" parent="." instance=ExtResource("3_q7ttm")]
+[node name="tiny" parent="Mobs" instance=ExtResource("3_q7ttm")]
 position = Vector2(-226.984, 134.256)
+
+[node name="tiny2" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-202, 94)
+
+[node name="tiny3" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-192, 42)
+
+[node name="tiny4" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-216, 61)
+
+[node name="tiny5" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-176, 70)
+
+[node name="tiny6" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-243, 97)
+
+[node name="tiny7" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-251, 64)
+
+[node name="tiny8" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-239, 30)
+
+[node name="tiny9" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-213, 4)
+
+[node name="tiny11" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-255, 3)
+
+[node name="tiny10" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-280, 33)
+
+[node name="tiny12" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-340.984, 64.256)
+
+[node name="tiny13" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-316, 24)
+
+[node name="tiny14" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-306, -28)
+
+[node name="tiny15" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-330, -9)
+
+[node name="tiny16" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-290, 0)
+
+[node name="tiny17" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-357, 27)
+
+[node name="tiny18" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-365, -6)
+
+[node name="tiny19" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-353, -40)
+
+[node name="tiny20" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-327, -66)
+
+[node name="tiny21" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-369, -67)
+
+[node name="tiny22" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-394, -37)
+
+[node name="tiny23" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-304.984, 228.256)
+
+[node name="tiny24" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-280, 188)
+
+[node name="tiny25" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-270, 136)
+
+[node name="tiny26" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-294, 155)
+
+[node name="tiny27" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-254, 164)
+
+[node name="tiny28" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-321, 191)
+
+[node name="tiny29" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-329, 158)
+
+[node name="tiny30" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-317, 124)
+
+[node name="tiny31" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-291, 98)
+
+[node name="tiny32" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-333, 97)
+
+[node name="tiny33" parent="Mobs" instance=ExtResource("3_q7ttm")]
+position = Vector2(-358, 127)
+
+[node name="Objects" type="Node2D" parent="."]

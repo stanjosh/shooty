@@ -33,6 +33,3 @@ func spawn_player():
 	
 	PlayerManager.get_player().global_position = player_spawn.global_position
 	PlayerManager.switch_camera(current_camera_type)
-
-
-

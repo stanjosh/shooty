@@ -1,44 +1,29 @@
-[gd_scene load_steps=18 format=3 uid="uid://ctvpcfm5heb5"]
+[gd_scene load_steps=16 format=3 uid="uid://ctvpcfm5heb5"]
 
 [ext_resource type="Script" path="res://scenes/mobs/tiny/tiny.gd" id="1_jvk6x"]
-[ext_resource type="Resource" uid="uid://m4jkoof7bmtu" path="res://scenes/gui/inventory/items/memory_card.tres" id="2_m30tc"]
-[ext_resource type="Texture2D" uid="uid://bvd2cd1barpad" path="res://scenes/mobs/tiny/34x15 Monster 1 without shadows.png" id="2_pf741"]
 [ext_resource type="AudioStream" uid="uid://bkgdn6bnd02pl" path="res://assets/tiny.wav" id="3_2lgnn"]
-[ext_resource type="Resource" uid="uid://ckelwfbxqnkyt" path="res://scenes/gui/inventory/items/capacitor.tres" id="3_rhfvr"]
 
 [sub_resource type="Animation" id="Animation_m8gk6"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/0/path = NodePath("Sprite2D:texture:region")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
+"update": 0,
+"values": [Rect2(0, 60, 34, 15)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:texture:region")
+tracks/1/path = NodePath("CPUParticles2D:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Rect2(0, 60, 34, 15)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("CPUParticles2D:emitting")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -52,43 +37,14 @@ step = 0.0666667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Hurtbox/CollisionShape2D:disabled")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4002, 0.466667),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [true, false, false, true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:texture:region")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [Rect2(0, 60, 34, 15), Rect2(34, 60, 34, 15), Rect2(68, 60, 34, 15), Rect2(102, 60, 34, 15), Rect2(136, 60, 34, 15), Rect2(170, 60, 34, 15), Rect2(204, 60, 34, 15)]
-}
-
-[sub_resource type="Animation" id="Animation_gj02b"]
-resource_name = "walk"
-length = 0.60001
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:texture:region")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [Rect2(0, 15, 34, 15), Rect2(34, 15, 34, 15), Rect2(68, 15, 34, 15), Rect2(102, 15, 34, 15), Rect2(136, 15, 34, 15), Rect2(170, 15, 34, 15)]
+"values": [Rect2(0, 60, 34, 15), Rect2(34, 60, 34, 15), Rect2(68, 60, 34, 15), Rect2(102, 60, 34, 15), Rect2(136, 60, 34, 15), Rect2(170, 60, 34, 15), Rect2(204, 60, 34, 15)]
 }
 
 [sub_resource type="Animation" id="Animation_b8pl4"]
@@ -136,6 +92,23 @@ tracks/0/keys = {
 "values": [Rect2(0, 0, 34, 15), Rect2(34, 0, 34, 15), Rect2(68, 0, 34, 15), Rect2(102, 0, 34, 15), Rect2(136, 0, 34, 15), Rect2(170, 0, 34, 15)]
 }
 
+[sub_resource type="Animation" id="Animation_gj02b"]
+resource_name = "walk"
+length = 0.60001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture:region")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(0, 15, 34, 15), Rect2(34, 15, 34, 15), Rect2(68, 15, 34, 15), Rect2(102, 15, 34, 15), Rect2(136, 15, 34, 15), Rect2(170, 15, 34, 15)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hp836"]
 _data = {
 "RESET": SubResource("Animation_m8gk6"),
@@ -145,8 +118,13 @@ _data = {
 "walk": SubResource("Animation_gj02b")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_r1nkj"]
-atlas = ExtResource("2_pf741")
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_d1pwh"]
+resource_local_to_scene = true
+load_path = "res://.godot/imported/34x15 Monster 1 without shadows.png-e3f792546a5e04e7c7cd0228b4be919d.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mpuyq"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_d1pwh")
 region = Rect2(0, 60, 34, 15)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hxphe"]
@@ -167,12 +145,13 @@ radius = 21.0238
 [node name="tiny" type="CharacterBody2D" groups=["mobs", "tiny"]]
 script = ExtResource("1_jvk6x")
 spawn_weight = 0.08
-move_speed = 125.0
+move_speed = 150.0
+inertia = 5.0
 acceleration = 1.4
 wander_distance = 20.0
 max_health = 11
-drops_items = Array[Resource("res://scenes/gui/inventory/scripts/item_data.gd")]([ExtResource("3_rhfvr"), ExtResource("2_m30tc")])
-player_damage = 4.0
+special_attack_cooldown = 3.0
+player_damage = 6.0
 
 [node name="Animation" type="AnimationPlayer" parent="."]
 libraries = {
@@ -180,7 +159,8 @@ libraries = {
 }
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("AtlasTexture_r1nkj")
+unique_name_in_owner = true
+texture = SubResource("AtlasTexture_mpuyq")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 visible = false
@@ -221,7 +201,6 @@ collision_mask = 16
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(1, -1)
 shape = SubResource("CircleShape2D_p4nic")
-disabled = true
 
 [node name="DetectionArea" type="Area2D" parent="."]
 visible = false

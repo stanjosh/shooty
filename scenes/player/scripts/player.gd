@@ -181,6 +181,7 @@ func take_damage(hit: float, vector: Vector2, extra_force: float = 0) -> void:
 	hit = snapped(hit, 1)
 	GUI.float_message(["%s"%hit], self, vector )
 	var tween = get_tree().create_tween()
+	$HurtSound.play()
 	tween.tween_property(animated_sprite_2d, "modulate:v", 1, 0.25).from(15)
 	health -= hit
 	knockback = Vector2(20 * hit + extra_force, 20 * hit + extra_force) * vector
@@ -273,5 +274,3 @@ func _on_dash_timer_timeout() -> void:
 	print("dash timer timeout")
 	set_deferred("state", PlayerState.IDLE)
 	dash_cooldown_timer.start()
-
-
