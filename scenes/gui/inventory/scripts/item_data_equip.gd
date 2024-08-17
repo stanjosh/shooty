@@ -11,4 +11,3 @@ func get_ordinance() -> WeaponOrdinance:
 	var ordinance : WeaponOrdinance = ordinance_scene.instantiate()
 	ordinance.weapon_info = weapon_info
 	return ordinance
-

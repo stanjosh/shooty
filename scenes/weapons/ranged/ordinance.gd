@@ -37,5 +37,3 @@ var heat_generated : float = 0 :
 
 func fire():
 	pass
-
-

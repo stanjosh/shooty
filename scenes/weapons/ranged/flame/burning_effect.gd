@@ -13,4 +13,3 @@ func activate():
 			body.add_child(self.duplicate())
 		
 	return super.activate()
-

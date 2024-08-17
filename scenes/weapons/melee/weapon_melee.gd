@@ -26,7 +26,7 @@ func _unhandled_input(event):
 func attack() -> void:
 	if not cooldown_timer.time_left:
 		material.set("shader_parameter/mix_amount", heat_level * .01)
-		var new_scale = Vector2(clamp(weapon_info.shot_range * .02, 0.5, 2), clamp(weapon_info.area * 1.2, 1, 2))
+		var new_scale = Vector2(clamp(weapon_info.damage_range * .02, 0.5, 2), clamp(weapon_info.damage_area * 1.2, 1, 2))
 		effect.scale = new_scale
 		effect.play()
 		cooldown_timer.start()
@@ -34,12 +34,12 @@ func attack() -> void:
 
 func damage(body):
 	if body.has_method("take_damage"):
-		body.take_damage(weapon_info.damage, Vector2.from_angle(global_rotation), weapon_info.knockback)
+		body.take_damage(weapon_info.damage, Vector2.from_angle(global_rotation), weapon_info.speed * .25)
 		apply_effects(body)
 		apply_inflictions(body)
 
 func apply_effects(body: CharacterBody2D) -> void:
-	if weapon_info.cutting and body.get("bleeds"):
+	if weapon_info.speed > 100 and body.get("bleeds"):
 		BloodSpray.new(Vector2.from_angle(global_rotation))
 
 func apply_inflictions(body: CharacterBody2D) -> void:

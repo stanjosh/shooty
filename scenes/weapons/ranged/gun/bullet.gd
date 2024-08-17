@@ -2,8 +2,8 @@ extends WeaponOrdinance
 class_name Bullet
 
 @onready var gun_fire = $GunFire
-@onready var shot_range = weapon_info.shot_range
-var charge : float = 0
+@onready var shot_range = weapon_info.damage_range
+@onready var remaining_speed = weapon_info.speed
 
 func _ready():
 	
@@ -11,7 +11,7 @@ func _ready():
 
 
 func _physics_process(delta):
-	
+	remaining_speed -= delta
 	if shot_range <= 0:
 		print("bullet died")
 		queue_free()
@@ -28,8 +28,8 @@ func _on_projectile_body_entered(body):
 func deal_damage(body: CharacterBody2D) -> void:
 	body.take_damage(weapon_info.damage, Vector2.LEFT.rotated(global_rotation))
 	damage -= 1
-	if weapon_info.piercing == 0:
+	if remaining_speed == 0:
 		queue_free()
 	else:
-		weapon_info.piercing -= 1
+		remaining_speed -= 2
 	

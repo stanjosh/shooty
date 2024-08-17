@@ -20,4 +20,3 @@ func activate():
 	lifetime -= 1
 	if lifetime == 0:
 		queue_free()
-

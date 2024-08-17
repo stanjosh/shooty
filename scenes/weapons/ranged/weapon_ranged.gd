@@ -98,14 +98,14 @@ func cool_off(delta):
 
 func fire():
 	eject_particles.emitting = true
-	for n in weapon_info.pellets:
+	for n in weapon_info.multishot:
 		var new_bullet = BULLET.instantiate()
 		new_bullet.weapon_info = weapon_info
 		new_bullet.damage += charge_level
 		charge_level = 0
 		new_bullet.global_position = ordinance_origin.global_position
-		new_bullet.global_rotation_degrees = global_rotation_degrees + randfn(0, weapon_info.area / 100)
-		add_child(new_bullet)
+		new_bullet.global_rotation_degrees = global_rotation_degrees + randfn(0, weapon_info.damage_area / 100)
+		MapManager.current_map.add_child(new_bullet)
 		heat_level += weapon_info.heat_generated
 	shot_time = 100
 	PlayerManager.player_camera.shake(10, heat_level * .125, 4, Vector2.from_angle(global_rotation))
