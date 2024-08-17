@@ -11,7 +11,7 @@ func _ready():
 	return super._ready()
 
 func special_attack(delta) -> MobState:
-	take_damage(max_health, Vector2(randf(), randf()), 40)
+	take_damage(max_health, Vector2.ZERO, 140)
 	return MobState.CHASING
 
 func take_damage(hit, vector: Vector2, extra_force: float = 0):

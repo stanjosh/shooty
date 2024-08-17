@@ -26,7 +26,7 @@ func _on_projectile_body_entered(body):
 
 
 func deal_damage(body: CharacterBody2D) -> void:
-	body.take_damage(weapon_info.damage, Vector2.LEFT.rotated(global_rotation))
+	body.take_damage(weapon_info.damage, Vector2.from_angle(rotation))
 	damage -= 1
 	if remaining_speed == 0:
 		queue_free()

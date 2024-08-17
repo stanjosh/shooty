@@ -13,7 +13,7 @@ func _ready():
 		value = "%s" % value
 	if value is String:
 		display_value = value
-	endpoint = Vector2( -12, 0) - vector.normalized()
+	endpoint = Vector2( -12, 0) - vector * 40
 
 func _process(delta):
 	if display_time.time_left > 0:

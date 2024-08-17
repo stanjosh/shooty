@@ -1,4 +1,4 @@
-extends Node
+extends Control
 class_name FloatMessage
 
 const FLOATING_STATUS = preload("res://scenes/effects/floating_status.tscn")
@@ -16,12 +16,12 @@ func _ready():
 
 func float_message(message : Array[String], body, vector : Vector2 = Vector2.ZERO):
 	print(message[0])
+	var pos = get_global_transform_with_canvas().get_origin()
 	var lines = message.size()
 	for line in message:
 		var status_msg = FLOATING_STATUS.instantiate()
 		lines -= 1
-		status_msg.position = body.global_position
-		status_msg.position = Vector2(body.global_position.x, body.global_position.y - 8 * lines)
+		status_msg.position = Vector2(pos.x, pos.y - 8 * lines)
 		status_msg.value = line
 		status_msg.vector = vector
 		body.call_deferred("add_child", status_msg)

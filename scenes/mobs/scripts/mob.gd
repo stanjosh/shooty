@@ -187,14 +187,14 @@ func damage_target(body: Node2D):
 		body.take_damage(player_damage, global_position.direction_to(body.global_position))
 
 func take_damage(hit, vector: Vector2, extra_force: float = 0):
-	knockback = Vector2(hit + extra_force, hit + extra_force) * -vector
+	GUI.float_message(["%s" % hit], self, vector * hit)
+	knockback = Vector2(hit + extra_force, hit + extra_force) * vector
 	chase_timer = chase_time
 	flash_sprite()
 	if state == MobState.IDLE:
 		state = MobState.CHASING
 	if bleeds:
-		add_child(BloodSpray.new(Vector2.from_angle(global_rotation)))
-	GUI.float_message(["%s" % hit], self, -vector)
+		add_child(BloodSpray.new(vector))
 	if health > 0:
 		health -= hit
 	if health <= 0:
