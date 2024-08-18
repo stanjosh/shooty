@@ -5,8 +5,10 @@ class_name Bullet
 @onready var shot_range = weapon_info.damage_range
 @onready var remaining_speed = weapon_info.speed
 
+var direction : Vector2
+
 func _ready():
-	
+	direction = Vector2.RIGHT.rotated(rotation)
 	gun_fire.play()
 
 
@@ -14,10 +16,9 @@ func _physics_process(delta):
 	remaining_speed -= delta
 	if shot_range <= 0:
 		print("bullet died")
-		queue_free()
+		end_bullet()
 	else:
-		var direction = Vector2.RIGHT.rotated(rotation)
-		position += direction * weapon_info.speed * delta
+		position += direction * remaining_speed * delta
 		shot_range -= 40 * delta
 
 func _on_projectile_body_entered(body):
@@ -26,10 +27,12 @@ func _on_projectile_body_entered(body):
 
 
 func deal_damage(body: CharacterBody2D) -> void:
-	body.take_damage(weapon_info.damage, Vector2.from_angle(rotation))
+	body.take_damage(weapon_info.damage, Vector2.RIGHT.rotated(rotation))
 	damage -= 1
 	if remaining_speed == 0:
-		queue_free()
+		end_bullet()
 	else:
 		remaining_speed -= 2
 	
+func end_bullet():
+	queue_free()

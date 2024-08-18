@@ -58,7 +58,8 @@ enum MobStrategy {
 	CHASE,
 	LAZY,
 	PATH,
-	WAIT
+	WAIT,
+	DUMMY
 }
 
 
@@ -68,7 +69,8 @@ enum MobState {
 	IDLE,
 	ATTACKING,
 	SPECIAL,
-	DEAD
+	DEAD,
+	DUMMY
 }
 
 var state : MobState = MobState.IDLE
@@ -77,6 +79,8 @@ var health : int
 func _ready():
 	if strategy == MobStrategy.CHASE:
 		state = MobState.CHASING
+	if strategy == MobStrategy.DUMMY:
+		state = MobState.DUMMY
 	animation.animation_finished.connect(_on_animation_finished)
 	detection_area.body_entered.connect(wake_up)
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
@@ -120,7 +124,9 @@ func _process(delta):
 			state = idle()
 		MobState.SPECIAL:
 			state = special_attack(delta)
-	
+		MobState.DUMMY:
+			health = clampi(lerp(health, max_health, delta), 1, max_health)
+			
 	#print("state: ", MobState.keys()[state], \
 	#" | detects player: ", detects_player(), \
 	#" | close: ", hurtbox.overlaps_body(PlayerManager.player),\

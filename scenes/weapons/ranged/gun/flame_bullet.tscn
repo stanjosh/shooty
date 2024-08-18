@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://b7o2fgxen68tf"]
+
+[ext_resource type="Script" path="res://scenes/weapons/ranged/gun/flame_bullet.gd" id="1_yvo2h"]
+[ext_resource type="Texture2D" uid="uid://ckt0v6xj2imt5" path="res://scenes/weapons/ranged/gun/sprites/bullet.png" id="2_dn0ef"]
+[ext_resource type="AudioStream" uid="uid://sknpjryy1vge" path="res://scenes/weapons/ranged/gun/shoot_wtf.mp3" id="3_qh2v4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3elcc"]
+radius = 2.0
+
+[sub_resource type="Curve" id="Curve_pj5bd"]
+min_value = -20.0
+max_value = 20.0
+_data = [Vector2(0, 13.2334), 0.0, 0.0, 0, 0, Vector2(0.445148, -3.37539), 0.0, 0.0, 0, 0, Vector2(0.493671, -19.9842), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_ea4ie"]
+max_value = 2.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1e-05, 0), 0.0, 0.0, 0, 0, Vector2(0.14135, 1.38486), 0.0, 0.0, 0, 0, Vector2(0.329114, 1.39511), 0.0, 0.0, 0, 0, Vector2(0.831224, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Gradient" id="Gradient_y7ivo"]
+offsets = PackedFloat32Array(0.0515695, 0.125561, 0.390135, 0.475336, 0.540359)
+colors = PackedColorArray(1, 1, 1, 1, 0.682353, 0.384314, 0.0392157, 0.827451, 0.697399, 0.413478, 0.0847266, 0.788256, 1, 1, 1, 0, 0, 0, 0, 0.32549)
+
+[node name="projectile" type="Area2D"]
+top_level = true
+scale = Vector2(2, 2)
+collision_layer = 32
+collision_mask = 230
+script = ExtResource("1_yvo2h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_3elcc")
+
+[node name="GunFire" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_qh2v4")
+
+[node name="Proj2" type="Sprite2D" parent="."]
+self_modulate = Color(0.430266, 0.245785, 0, 1)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_dn0ef")
+
+[node name="EjectParticles" type="CPUParticles2D" parent="."]
+z_index = 2
+amount = 1000
+speed_scale = 2.0
+randomness = 0.4
+lifetime_randomness = 0.67
+emission_shape = 2
+emission_sphere_radius = 2.28
+direction = Vector2(0, -1)
+spread = 0.0
+gravity = Vector2(0, -180)
+initial_velocity_min = 3.0
+initial_velocity_max = 5.0
+damping_max = 20.0
+damping_curve = SubResource("Curve_pj5bd")
+scale_amount_min = 0.0
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_ea4ie")
+color_ramp = SubResource("Gradient_y7ivo")
+
+[connection signal="body_entered" from="." to="." method="_on_projectile_body_entered"]

@@ -1,7 +1,7 @@
 extends Node2D
 class_name Weapon
 
-const BULLET = preload("res://scenes/weapons/ranged/gun/bullet.tscn")
+const BULLET = preload("res://scenes/weapons/ranged/gun/bounce_bullet.tscn")
 
 @onready var ordinance_origin = $WeaponSprite/OrdinanceOrigin
 @onready var point_light_2d : PointLight2D = $WeaponSprite/PointLight2D

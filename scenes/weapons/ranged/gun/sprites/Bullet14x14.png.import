@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dc67f1jdiu0tu"
-path="res://.godot/imported/orb2.png-52d5717b7cca2e40433a0f55ab68ed48.ctex"
+uid="uid://de7nsq3oyurmj"
+path="res://.godot/imported/Bullet14x14.png-49710406ebbd7fb2bf162fb5dc65fb44.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/addons/BurstParticles2D/BurstParticles2D-demo/orb2.png"
-dest_files=["res://.godot/imported/orb2.png-52d5717b7cca2e40433a0f55ab68ed48.ctex"]
+source_file="res://scenes/weapons/ranged/gun/sprites/Bullet14x14.png"
+dest_files=["res://.godot/imported/Bullet14x14.png-49710406ebbd7fb2bf162fb5dc65fb44.ctex"]
 
 [params]
 

@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://6qxco026ufkq"]
+[gd_scene load_steps=7 format=3 uid="uid://dox4p2n3a4ioj"]
 
-[ext_resource type="Script" path="res://scenes/weapons/ranged/gun/bullet.gd" id="1_daw2y"]
-[ext_resource type="Texture2D" uid="uid://ckt0v6xj2imt5" path="res://scenes/weapons/ranged/gun/sprites/bullet.png" id="2_yeown"]
-[ext_resource type="AudioStream" uid="uid://sknpjryy1vge" path="res://scenes/weapons/ranged/gun/shoot_wtf.mp3" id="3_i8d7g"]
+[ext_resource type="Script" path="res://scenes/weapons/ranged/gun/bounce_bullet.gd" id="1_x7ri2"]
+[ext_resource type="AudioStream" uid="uid://sknpjryy1vge" path="res://scenes/weapons/ranged/gun/shoot_wtf.mp3" id="2_lvqlc"]
+[ext_resource type="Texture2D" uid="uid://ckt0v6xj2imt5" path="res://scenes/weapons/ranged/gun/sprites/bullet.png" id="3_ogkfh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3elcc"]
 radius = 2.0
@@ -11,22 +11,25 @@ radius = 2.0
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0815789, 0.696755), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g1dhu"]
+size = Vector2(66.3595, 67.4364)
+
 [node name="projectile" type="Area2D"]
 top_level = true
 collision_layer = 32
 collision_mask = 230
-script = ExtResource("1_daw2y")
+script = ExtResource("1_x7ri2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 shape = SubResource("CircleShape2D_3elcc")
 
 [node name="GunFire" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_i8d7g")
+stream = ExtResource("2_lvqlc")
 
 [node name="Proj2" type="Sprite2D" parent="."]
 scale = Vector2(0.5625, 0.5625)
-texture = ExtResource("2_yeown")
+texture = ExtResource("3_ogkfh")
 
 [node name="GPUParticles2D" type="CPUParticles2D" parent="."]
 scale = Vector2(0.75, 0.75)
@@ -48,5 +51,14 @@ scale_amount_min = 0.0
 scale_amount_max = 2.0
 scale_amount_curve = SubResource("Curve_r0oe2")
 color = Color(1, 0.815686, 0, 1)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-32.0985, 0.493428)
+rotation = 1.10658
+scale = Vector2(1, 1)
+skew = -0.644027
+shape = SubResource("RectangleShape2D_g1dhu")
 
 [connection signal="body_entered" from="." to="." method="_on_projectile_body_entered"]
