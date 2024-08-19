@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://bkrrljjeydlgs"]
 
 [ext_resource type="Script" path="res://scenes/effects/scripts/HitMarker.gd" id="1_3uaxk"]
-[ext_resource type="Texture2D" uid="uid://de7nsq3oyurmj" path="res://scenes/weapons/ranged/gun/Bullet14x14.png" id="2_eeqrb"]
+[ext_resource type="Texture2D" uid="uid://de7nsq3oyurmj" path="res://scenes/weapons/ranged/gun/sprites/Bullet14x14.png" id="2_eeqrb"]
 [ext_resource type="AudioStream" uid="uid://yv7t68ydxac5" path="res://scenes/effects/hitHurt.wav" id="3_10ob7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lsn7s"]

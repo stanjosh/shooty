@@ -1,7 +1,7 @@
 extends WeaponOrdinance
 
 const BURNING_EFFECT = preload("res://scenes/effects/burning_effect.tscn")
-
+signal increase_heat_level(amount: float)
 @onready var eject_particles = $projectile/EjectParticles
 @onready var projectile : Area2D = $projectile
 @onready var gun_fire : AudioStreamPlayer2D= $projectile/GunFire
