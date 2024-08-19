@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://cd0uh1gl3j2yw"]
+[gd_scene load_steps=25 format=3 uid="uid://cd0uh1gl3j2yw"]
 
 [ext_resource type="Script" path="res://scenes/gui/scripts/user_interface.gd" id="1_yi5nn"]
 [ext_resource type="FontFile" uid="uid://w38canxb0m7h" path="res://assets/m3x6.ttf" id="2_bjn10"]
@@ -13,10 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://ubaicyh12ctv" path="res://scenes/gui/inventory/inventory.tscn" id="11_s4i8m"]
 [ext_resource type="PackedScene" uid="uid://cshxn3hr142mq" path="res://scenes/gui/status.tscn" id="12_u0tkb"]
 [ext_resource type="Script" path="res://scenes/gui/scripts/game_over.gd" id="13_dfpqu"]
-[ext_resource type="Script" path="res://scenes/gui/scripts/heads_up_display.gd" id="14_pcb3p"]
-[ext_resource type="Script" path="res://scenes/gui/scripts/PlayerHealthBar.gd" id="15_k3471"]
-[ext_resource type="Texture2D" uid="uid://dgrl3he2a8ogu" path="res://scenes/gui/assets/orb.png" id="16_ru1p7"]
-[ext_resource type="Texture2D" uid="uid://bpclk7ym07oa2" path="res://scenes/gui/assets/orb_shine.png" id="17_6jk8v"]
+[ext_resource type="PackedScene" uid="uid://c31qiyem3lskq" path="res://scenes/gui/heads_up_display.tscn" id="14_5ryc4"]
 
 [sub_resource type="Theme" id="Theme_knvcr"]
 default_font = ExtResource("2_bjn10")
@@ -59,28 +56,6 @@ Button/font_sizes/font_size = 32
 Button/fonts/font = ExtResource("5_idxdv")
 Button/styles/hover = SubResource("StyleBoxFlat_jjc1o")
 Button/styles/normal = SubResource("StyleBoxFlat_nnj5q")
-
-[sub_resource type="LabelSettings" id="LabelSettings_xjdpx"]
-font = ExtResource("2_bjn10")
-font_size = 32
-outline_size = 12
-outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yswpx"]
-bg_color = Color(0.156863, 0.156863, 0.156863, 0.282353)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n1l2n"]
-bg_color = Color(0.323094, 0.0938483, 2.40654e-08, 1)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cc6ld"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tr0qq"]
-bg_color = Color(0.509462, 0.133224, 1.44392e-07, 0.756863)
-
-[sub_resource type="Curve" id="Curve_7i10r"]
-max_value = 5.0
-_data = [Vector2(0, 0), 0.0, 3.92414, 0, 1, Vector2(0.332494, 1.30475), 0.0, 0.0, 0, 0, Vector2(0.508816, 0), 0.0, 0.0, 0, 0, Vector2(0.687657, 1.21389), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.88639, 0.0, 1, 0]
-point_count = 5
 
 [node name="UserInterface" type="CanvasLayer"]
 process_mode = 3
@@ -431,159 +406,8 @@ theme = SubResource("Theme_0sm5v")
 text = "Restart
 "
 
-[node name="HeadsUpDisplay" type="Control" parent="."]
+[node name="HeadsUpDisplay" parent="." instance=ExtResource("14_5ryc4")]
 visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("14_pcb3p")
-metadata/_edit_use_anchors_ = true
-
-[node name="Bottom" type="HBoxContainer" parent="HeadsUpDisplay"]
-light_mask = 512
-visibility_layer = 512
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="MineCounter" type="Label" parent="HeadsUpDisplay/Bottom"]
-visible = false
-light_mask = 512
-visibility_layer = 512
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("5_idxdv")
-text = "10/10"
-label_settings = SubResource("LabelSettings_xjdpx")
-horizontal_alignment = 1
-vertical_alignment = 2
-metadata/_edit_use_anchors_ = true
-
-[node name="HealthOrb" type="Control" parent="HeadsUpDisplay/Bottom"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 8
-mouse_filter = 2
-script = ExtResource("15_k3471")
-
-[node name="Orb" type="TextureRect" parent="HeadsUpDisplay/Bottom/HealthOrb"]
-clip_children = 1
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -128.0
-offset_right = 128.0
-grow_vertical = 0
-texture = ExtResource("16_ru1p7")
-
-[node name="PlayerHealthBar2" type="ProgressBar" parent="HeadsUpDisplay/Bottom/HealthOrb/Orb"]
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 1
-theme_override_styles/background = SubResource("StyleBoxFlat_yswpx")
-theme_override_styles/fill = SubResource("StyleBoxFlat_n1l2n")
-value = 100.0
-fill_mode = 3
-show_percentage = false
-
-[node name="PlayerHealthBar" type="ProgressBar" parent="HeadsUpDisplay/Bottom/HealthOrb/Orb"]
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 1
-theme_override_styles/background = SubResource("StyleBoxEmpty_cc6ld")
-theme_override_styles/fill = SubResource("StyleBoxFlat_tr0qq")
-value = 100.0
-fill_mode = 3
-show_percentage = false
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="HeadsUpDisplay/Bottom/HealthOrb/Orb/PlayerHealthBar"]
-position = Vector2(63, 122)
-amount = 16
-lifetime = 3.0
-emission_shape = 1
-emission_sphere_radius = 64.0
-direction = Vector2(0, -1)
-spread = 0.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 60.0
-initial_velocity_max = 60.0
-damping_max = 20.0
-damping_curve = SubResource("Curve_7i10r")
-scale_amount_max = 2.0
-color = Color(0.754246, 0.291804, 1.05888e-06, 1)
-
-[node name="HealthCounter" type="Label" parent="HeadsUpDisplay/Bottom/HealthOrb/Orb"]
-light_mask = 512
-visibility_layer = 512
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -28.0
-offset_top = -42.0
-offset_right = 28.0
-offset_bottom = -16.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 4
-text = "100/100"
-label_settings = SubResource("LabelSettings_xjdpx")
-horizontal_alignment = 1
-vertical_alignment = 1
-justification_flags = 0
-
-[node name="TextureRect" type="TextureRect" parent="HeadsUpDisplay/Bottom/HealthOrb"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = -3.0
-offset_top = -135.0
-offset_right = 61.0
-offset_bottom = -71.0
-grow_vertical = 0
-scale = Vector2(2.12342, 2.12342)
-texture = ExtResource("17_6jk8v")
-
-[node name="TopLeft" type="MarginContainer" parent="HeadsUpDisplay"]
-light_mask = 512
-visibility_layer = 512
-layout_mode = 0
-offset_right = 174.0
-offset_bottom = 78.0
-size_flags_horizontal = 8
-
-[node name="XPCounter" type="Label" parent="HeadsUpDisplay/TopLeft"]
-light_mask = 512
-visibility_layer = 512
-layout_mode = 2
-size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("5_idxdv")
-label_settings = SubResource("LabelSettings_xjdpx")
-vertical_alignment = 2
-metadata/_edit_use_anchors_ = true
 
 [node name="LevelMenu" type="Control" parent="."]
 visible = false

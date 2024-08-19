@@ -180,17 +180,21 @@ func dash() -> void:
 func take_damage(hit: float, vector: Vector2, extra_force: float = 0) -> void:
 	hit = snapped(hit, 1)
 	GUI.float_message(["%s"%hit], self, vector )
-	var tween = get_tree().create_tween()
 	$HurtSound.play()
-	tween.tween_property(animated_sprite_2d, "modulate:v", 1, 0.15).from(1 - hit * 0.01)
-	tween.tween_property(Engine, "time_scale", 1, 0.25).from(0.25)
+	hit_pause()
+	flash_sprite()
+	
 	health -= hit
 	knockback = Vector2(20 * hit + extra_force, 20 * hit + extra_force) * vector
 	if health <= 0:
 		health = 0
 		die()
 
-
+func hit_pause() -> void:
+	get_tree().create_tween().tween_property(Engine, "time_scale", 1, 0.2).from(0.01)
+	
+func flash_sprite() -> void:
+	get_tree().create_tween().tween_property(animated_sprite_2d, "modulate:v", 1, 0.15).from(0)
 
 func die() -> void:
 	state = PlayerState.DEAD

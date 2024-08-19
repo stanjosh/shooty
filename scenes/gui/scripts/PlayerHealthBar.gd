@@ -11,4 +11,3 @@ func _process(_delta):
 	$Orb/PlayerHealthBar.value = float(health)
 	var tween = get_tree().create_tween()
 	tween.tween_property($Orb/PlayerHealthBar2, "value", health, 1.5).set_ease(Tween.EASE_IN)
-

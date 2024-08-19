@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://cglbg4qco2u06"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f4e5p"]
+bg_color = Color(0.436345, 0.0829184, 1.20327e-07, 1)
+
+[sub_resource type="Curve" id="Curve_7i10r"]
+max_value = 5.0
+_data = [Vector2(0, 0), 0.0, 3.92414, 0, 1, Vector2(0.332494, 1.30475), 0.0, 0.0, 0, 0, Vector2(0.508816, 0), 0.0, 0.0, 0, 0, Vector2(0.687657, 1.21389), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.88639, 0.0, 1, 0]
+point_count = 5
+
+[node name="SubViewport" type="SubViewport"]
+size = Vector2i(128, 128)
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f4e5p")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Panel"]
+clip_children = 2
+position = Vector2(66, 120)
+amount = 16
+lifetime = 3.0
+local_coords = true
+emission_shape = 3
+emission_rect_extents = Vector2(64, 0)
+direction = Vector2(0, -1)
+spread = 0.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 60.0
+initial_velocity_max = 60.0
+damping_max = 20.0
+damping_curve = SubResource("Curve_7i10r")
+scale_amount_max = 2.0
+color = Color(0.928527, 0.366492, 0, 1)

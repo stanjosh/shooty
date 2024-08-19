@@ -73,7 +73,7 @@ func _physics_process(delta):
 				PlayerManager.player_camera.shake(5, 10, 1.8)
 				state = WeaponState.OVERHEATED
 			cool_off(16 * delta)
-			fire_anim.tween_property(weapon_sprite, "position:x", clampi(original_pos.x - 4, 0, original_pos.x - 4), .08).set_trans(Tween.TRANS_ELASTIC)
+			fire_anim.tween_property(weapon_sprite, "position:x", original_pos.x - 2, .02).set_trans(Tween.TRANS_ELASTIC)
 		WeaponState.CHARGING:
 			charge(delta)
 		WeaponState.COOLING:
@@ -84,7 +84,7 @@ func _physics_process(delta):
 			if heat_level / heat_capacity < .6:
 				state = WeaponState.COOLING
 	shot_time -=  delta * 100 + weapon_info.fire_rate
-	fire_anim.tween_property(weapon_sprite, "position:x", original_pos.x, .05).set_trans(Tween.TRANS_LINEAR)
+	fire_anim.tween_property(weapon_sprite, "position:x", original_pos.x, .2).set_trans(Tween.TRANS_LINEAR)
 
 func overheat():
 	$SteamParticles.emitting = true

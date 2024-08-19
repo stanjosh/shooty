@@ -1,0 +1,173 @@
+[gd_scene load_steps=14 format=3 uid="uid://c31qiyem3lskq"]
+
+[ext_resource type="Script" path="res://scenes/gui/scripts/heads_up_display.gd" id="1_oxuq1"]
+[ext_resource type="FontFile" uid="uid://m1jk0peka30j" path="res://assets/m6x11.ttf" id="2_wv3hn"]
+[ext_resource type="FontFile" uid="uid://w38canxb0m7h" path="res://assets/m3x6.ttf" id="3_imfw6"]
+[ext_resource type="Script" path="res://scenes/gui/scripts/PlayerHealthBar.gd" id="4_sy5hm"]
+[ext_resource type="Texture2D" uid="uid://dgrl3he2a8ogu" path="res://scenes/gui/assets/orb.png" id="5_qvnwc"]
+[ext_resource type="Texture2D" uid="uid://bpclk7ym07oa2" path="res://scenes/gui/assets/orb_shine.png" id="6_kjv7p"]
+[ext_resource type="PackedScene" uid="uid://cglbg4qco2u06" path="res://scenes/gui/bubbles.tscn" id="6_tycen"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xjdpx"]
+font = ExtResource("3_imfw6")
+font_size = 32
+outline_size = 12
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ilc0j"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n1l2n"]
+bg_color = Color(0.323094, 0.0938483, 2.40654e-08, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ftcg2"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_spb7w"]
+viewport_path = NodePath("Bottom/HealthOrb/Orb/PlayerHealthBar/CPUParticles2D")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cwyhw"]
+resource_local_to_scene = true
+texture = SubResource("ViewportTexture_spb7w")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="HeadsUpDisplay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_oxuq1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Bottom" type="HBoxContainer" parent="."]
+light_mask = 512
+visibility_layer = 512
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MineCounter" type="Label" parent="Bottom"]
+visible = false
+light_mask = 512
+visibility_layer = 512
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_wv3hn")
+text = "10/10"
+label_settings = SubResource("LabelSettings_xjdpx")
+horizontal_alignment = 1
+vertical_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HealthOrb" type="Control" parent="Bottom"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 8
+mouse_filter = 2
+script = ExtResource("4_sy5hm")
+
+[node name="Orb" type="TextureRect" parent="Bottom/HealthOrb"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_right = 128.0
+grow_vertical = 0
+texture = ExtResource("5_qvnwc")
+
+[node name="PlayerHealthBar2" type="ProgressBar" parent="Bottom/HealthOrb/Orb"]
+show_behind_parent = true
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxEmpty_ilc0j")
+theme_override_styles/fill = SubResource("StyleBoxFlat_n1l2n")
+value = 56.0
+rounded = true
+fill_mode = 3
+show_percentage = false
+
+[node name="PlayerHealthBar" type="ProgressBar" parent="Bottom/HealthOrb/Orb"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxEmpty_ftcg2")
+theme_override_styles/fill = SubResource("StyleBoxTexture_cwyhw")
+value = 50.0
+rounded = true
+fill_mode = 3
+show_percentage = false
+
+[node name="CPUParticles2D" parent="Bottom/HealthOrb/Orb/PlayerHealthBar" instance=ExtResource("6_tycen")]
+
+[node name="HealthCounter" type="Label" parent="Bottom/HealthOrb/Orb"]
+light_mask = 512
+visibility_layer = 512
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -28.0
+offset_top = -42.0
+offset_right = 28.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+text = "100/100"
+label_settings = SubResource("LabelSettings_xjdpx")
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 0
+
+[node name="TextureRect" type="TextureRect" parent="Bottom/HealthOrb"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = -135.0
+offset_right = 61.0
+offset_bottom = -71.0
+grow_vertical = 0
+scale = Vector2(2.12342, 2.12342)
+texture = ExtResource("6_kjv7p")
+
+[node name="TopLeft" type="MarginContainer" parent="."]
+light_mask = 512
+visibility_layer = 512
+layout_mode = 0
+offset_right = 174.0
+offset_bottom = 78.0
+size_flags_horizontal = 8
+
+[node name="XPCounter" type="Label" parent="TopLeft"]
+light_mask = 512
+visibility_layer = 512
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_wv3hn")
+label_settings = SubResource("LabelSettings_xjdpx")
+vertical_alignment = 2
+metadata/_edit_use_anchors_ = true

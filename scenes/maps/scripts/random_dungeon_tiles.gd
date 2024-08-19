@@ -23,19 +23,22 @@ var y_door_offset = Vector2i(5, 7)
 @onready var midground: TileMapLayer = $Midground
 @onready var ceiling: TileMapLayer = $Ceiling
 
+var mobs : Node2D = Node2D.new()
+var objects : Node2D = Node2D.new()
 var dungeon := {}
 var new_seed : int = randi_range(-10000, 10000)
 
 func _ready():
 	dungeon = DungeonGeneration.generate(new_seed)
 	load_map()
-	return super._ready()
 
-func load_map():
+func reset_children():
 	for child in objects.get_children():
 		child.queue_free()
 	for child in mobs.get_children():
 		child.queue_free()
+
+func load_map():
 	for room in dungeon.keys():
 		set_pattern(room * room_size, room_pattern)
 	if not draw_entrance():

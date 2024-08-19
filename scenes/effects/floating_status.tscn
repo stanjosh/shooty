@@ -19,6 +19,7 @@ size_flags_vertical = 3
 script = ExtResource("1_lf8tb")
 
 [node name="display_time" type="Timer" parent="."]
+wait_time = 0.5
 one_shot = true
 autostart = true
 

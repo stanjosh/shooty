@@ -24,5 +24,6 @@ func float_message(message : Array[String], body, vector : Vector2 = Vector2.ZER
 		status_msg.position = Vector2(pos.x, pos.y - 8 * lines)
 		status_msg.value = line
 		status_msg.vector = vector
+		status_msg.display_time.wait_time = 0.5 * lines
 		body.call_deferred("add_child", status_msg)
 	queue_free()

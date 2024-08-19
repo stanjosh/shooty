@@ -14,11 +14,11 @@ func _ready():
 	if value is String:
 		display_value = value
 	endpoint = Vector2( -12, 0) - vector * 40
+	get_tree().create_tween().tween_property(self, "modulate:a", 0, display_time.time_left).from(1)
 
 func _process(delta):
 	if display_time.time_left > 0:
 		global_position -= endpoint * Vector2(delta, delta)		
-		modulate.a8 = 255 * display_time.time_left
 		visible = true
 		floating_label.text = display_value
 	else:
