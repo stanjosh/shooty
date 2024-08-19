@@ -42,4 +42,3 @@ func _on_mouse_entered():
 func _on_mouse_exited():
 	if signed_in:
 		rich_text_label.text = "%s" % oauth2.user_info.get("name")
-

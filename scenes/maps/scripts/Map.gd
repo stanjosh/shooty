@@ -1,5 +1,5 @@
 @tool
-extends TileMap
+extends TileMapLayer
 class_name Map
 
 @export var current_camera_type : PlayerCamera.CameraType = PlayerCamera.CameraType.FOLLOW

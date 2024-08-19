@@ -20,6 +20,8 @@ var big_room_conn_offset_x = Vector2i(11, 0)
 var big_room_conn_offset_y = Vector2i(0, 7)
 var x_door_offset = Vector2i(11, 3)
 var y_door_offset = Vector2i(5, 7)
+@onready var midground: TileMapLayer = $Midground
+@onready var ceiling: TileMapLayer = $Ceiling
 
 var dungeon := {}
 var new_seed : int = randi_range(-10000, 10000)
@@ -35,7 +37,7 @@ func load_map():
 	for child in mobs.get_children():
 		child.queue_free()
 	for room in dungeon.keys():
-		set_pattern(0, room * room_size, room_pattern)
+		set_pattern(room * room_size, room_pattern)
 	if not draw_entrance():
 		load_map()
 	for room in dungeon.values():
@@ -48,11 +50,11 @@ func maybe_connect_rooms(room, connected_room) -> bool:
 		and not connected_room.big_room\
 		and not room.big_room:
 		if room.position.x != connected_room.position.x:
-			set_pattern(0, (room.position * room_size) + big_room_conn_offset_x, big_room_conn_x)
-			set_pattern(0, (connected_room.position * room_size), big_room_conn_x)
+			set_pattern((room.position * room_size) + big_room_conn_offset_x, big_room_conn_x)
+			set_pattern((connected_room.position * room_size), big_room_conn_x)
 		elif room.position.y != connected_room.position.y:
-			set_pattern(0, (room.position * room_size) + big_room_conn_offset_y, big_room_conn_y)
-			set_pattern(0, (connected_room.position * room_size), big_room_conn_y)
+			set_pattern((room.position * room_size) + big_room_conn_offset_y, big_room_conn_y)
+			set_pattern((connected_room.position * room_size), big_room_conn_y)
 		create_camera_area(room, connected_room)
 		room.big_room = true
 		connected_room.big_room = true
@@ -96,19 +98,19 @@ func draw_doors(room) -> void:
 		if connection != null and dungeon.has(room.position + connection):
 			if connection.x == 1:
 				var door_position = (room.position * room_size) + x_door_offset + Vector2i(0, random_offset)
-				set_pattern(0, door_position, door_pattern_x)
+				set_pattern(door_position, door_pattern_x)
 				if not maybe_connect_rooms(room, room.connected_rooms[connection]):
-					set_pattern(2, door_position, door_cieling_x)
-					set_pattern(1, door_position, door_frame_x)
+					ceiling.set_pattern(door_position, door_cieling_x)
+					midground.set_pattern(door_position, door_frame_x)
 					if room.connected_rooms[connection].connected_rooms.size() == 1:
 						if maybe_lock_door(door_position, -90):
 							room.connected_rooms[connection].locked = true
 			elif connection.y == 1:
 				var door_position = (room.position * room_size) + y_door_offset + Vector2i(random_offset, 0)
-				set_pattern(0, door_position, door_pattern_y)
+				set_pattern(door_position, door_pattern_y)
 				if not maybe_connect_rooms(room, room.connected_rooms[connection]):
-					set_pattern(2, door_position, door_cieling_y)
-					set_pattern(1, door_position, door_frame_y)
+					ceiling.set_pattern(door_position, door_cieling_y)
+					midground.set_pattern(door_position, door_frame_y)
 					if room.connected_rooms[connection].connected_rooms.size() == 1:
 						if maybe_lock_door(door_position):
 							room.connected_rooms[connection].locked = true
@@ -118,9 +120,9 @@ func draw_entrance() -> bool:
 	var start_room : Vector2i = dungeon.find_key(start_candidates.pick_random())
 	if start_room:
 		var door_position = (start_room * room_size) + Vector2i(5, 7)
-		set_pattern(2, door_position, door_cieling_y)
-		set_pattern(1, door_position, door_frame_y)
-		set_pattern(0, (start_room * room_size) + Vector2i(0, 7), entrance_pattern)
+		ceiling.set_pattern(door_position, door_cieling_y)
+		midground.set_pattern(door_position, door_frame_y)
+		set_pattern((start_room * room_size) + Vector2i(0, 7), entrance_pattern)
 		player_spawn.global_position.x = ((room_size.x * start_room.x + y_door_offset.x + 1) * tile_set.tile_size.x) + 16
 		player_spawn.global_position.y = ((room_size.y * start_room.y + y_door_offset.y + 6) * tile_set.tile_size.y) + 16
 		var door = DOOR.instantiate()
@@ -137,7 +139,8 @@ func _start_filter(i):
 
 
 func _on_button_pressed() -> void:
-	clear_layer(0)
+	midground.clear()
+	ceiling.clear()
 	clear()
 	randomize()
 	dungeon = DungeonGeneration.generate(randi_range(-1000, 1000))
