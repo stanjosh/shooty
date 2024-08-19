@@ -81,5 +81,3 @@ func _on_play_pressed():
 func _on_dungeon_gen_pressed():
 	mode(MenuName.HUD)
 	MapManager.load_map("testing")
-
-

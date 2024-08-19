@@ -192,5 +192,3 @@ func _http_post(url: String, request_data: String = "") -> Dictionary:
 		return JSON.parse_string(response[3].get_string_from_utf8())
 	else:
 		return {}
-
-
