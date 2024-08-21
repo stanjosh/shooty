@@ -39,6 +39,10 @@ mouse_cursor/tooltip_position_offset=Vector2(32, 32)
 
 enabled=PackedStringArray("res://addons/gdfxr/plugin.cfg")
 
+[global_group]
+
+lightnings="lightning effects"
+
 [input]
 
 ui_accept={
@@ -162,6 +166,7 @@ melee={
 2d_physics/layer_7="mobs"
 2d_physics/layer_8="walls"
 2d_physics/layer_9="interactables"
+2d_physics/layer_13="lightning"
 2d_navigation/hdr_2d=false
 
 [rendering]

@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://dkpcrglxuf8od"]
+
+[ext_resource type="Script" path="res://scenes/effects/shock_effect.gd" id="1_gdho4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pi5ym"]
+radius = 100.0
+
+[sub_resource type="Curve2D" id="Curve2D_drret"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -45, 13, 0, 0, 0, 0, 27, -72, 0, 0, 0, 0, 95, 0, 0, 0, 0, 0, 55, 73, 0, 0, 0, 0, 9, 30, 0, 0, 0, 0, -6, 68, 0, 0, 0, 0, -78, 45, 0, 0, 0, 0, -69, -64, 0, 0, 0, 0, 10, -88)
+}
+point_count = 9
+
+[node name="LightningEffect" type="Node2D" groups=["lightnings"]]
+script = ExtResource("1_gdho4")
+
+[node name="Area2D" type="Area2D" parent="."]
+light_mask = 512
+visibility_layer = 512
+collision_layer = 4096
+collision_mask = 68
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_pi5ym")
+
+[node name="Path2D" type="Path2D" parent="."]
+scale = Vector2(0.654667, 0.678919)
+curve = SubResource("Curve2D_drret")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(-45, 13)
+rotation = -0.868012

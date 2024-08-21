@@ -1,17 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://baj1g8b4rrm7p"]
+[gd_scene load_steps=7 format=3 uid="uid://baj1g8b4rrm7p"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_h310b"]
 [ext_resource type="Texture2D" uid="uid://5lfpiruyc36x" path="res://scenes/maps/backgrounds/1-Blue_640x360.png" id="4_jg3sw"]
 [ext_resource type="Texture2D" uid="uid://nvlvw83aigtj" path="res://scenes/maps/backgrounds/1-Green_640x360.png" id="6_nap0u"]
-[ext_resource type="Script" path="res://lightning_effect.gd" id="7_tnmqv"]
 [ext_resource type="Texture2D" uid="uid://dk1p2fxsgks36" path="res://scenes/maps/backgrounds/1-Purple_640x360.png" id="8_pfcef"]
 [ext_resource type="Texture2D" uid="uid://c3n3i5pdlxkpv" path="res://scenes/maps/backgrounds/1-Red_640x360.png" id="10_74ui4"]
 [ext_resource type="Texture2D" uid="uid://tnq6nsjloa20" path="res://scenes/maps/backgrounds/1-Yellow_640x360.png" id="12_nbhud"]
-
-[sub_resource type="Gradient" id="Gradient_wi83c"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0.236264, 0.346154, 0.793956)
-colors = PackedColorArray(1, 0.95098, 0.885008, 1, 0.856682, 0.504514, 1.54018e-06, 1, 1, 1, 0, 1)
 
 [node name="Game" type="Node"]
 physics_interpolation_mode = 1
@@ -39,16 +33,3 @@ texture = ExtResource("4_jg3sw")
 
 [node name="1-purple640x360" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 texture = ExtResource("8_pfcef")
-
-[node name="LightningEffect" type="Node2D" parent="."]
-process_mode = 3
-script = ExtResource("7_tnmqv")
-angle_var = 36.23
-emitting = false
-one_shot = true
-bolts = 2
-shocks = 8
-colors = SubResource("Gradient_wi83c")
-
-[node name="EndPoint" type="Marker2D" parent="LightningEffect"]
-position = Vector2(1046, 571)

@@ -1,6 +1,7 @@
 extends WeaponOrdinance
 class_name Bullet
 
+
 @onready var gun_fire = $GunFire
 @onready var shot_range = weapon_info.damage_range
 @onready var remaining_speed = weapon_info.speed
@@ -28,6 +29,8 @@ func _on_projectile_body_entered(body):
 
 func deal_damage(body: CharacterBody2D) -> void:
 	body.take_damage(weapon_info.damage, Vector2.RIGHT.rotated(rotation))
+	apply_effects(body)
+	apply_inflictions(body)
 	if remaining_speed == 0:
 		end_bullet()
 	else:
@@ -35,3 +38,14 @@ func deal_damage(body: CharacterBody2D) -> void:
 	
 func end_bullet():
 	queue_free()
+
+func apply_effects(body: CharacterBody2D) -> void:
+	if weapon_info.speed > 100 and body.get("bleeds"):
+		BloodSpray.new(Vector2.from_angle(global_rotation))
+
+func apply_inflictions(body: CharacterBody2D) -> void:
+	print("applying inflictions")
+	var new_infliction : Infliction = weapon_info.infliction_scene.instantiate()
+	new_infliction.period = (damage * .04)
+	new_infliction.position += Vector2(-1, -8)
+	body.call_deferred("add_child", new_infliction)

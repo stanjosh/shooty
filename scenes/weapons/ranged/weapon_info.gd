@@ -8,3 +8,4 @@ class_name WeaponInfo
 @export_range(1, 2) var damage_area : float
 @export_range(1, 40) var damage_range : float
 @export var speed : float = 24
+@export var infliction_scene : PackedScene

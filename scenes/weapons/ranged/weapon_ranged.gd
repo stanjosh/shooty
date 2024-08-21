@@ -12,7 +12,8 @@ const BULLET = preload("res://scenes/weapons/ranged/gun/bounce_bullet.tscn")
 
 const BASE_WEAPON_INFO : WeaponInfo = preload("res://scenes/weapons/ranged/gun/default_gun_info.tres")
 
-var weapon_info : WeaponInfo = BASE_WEAPON_INFO
+
+@export var weapon_info : WeaponInfo = BASE_WEAPON_INFO
 var shot_time : float = 0
 
 

@@ -9,7 +9,7 @@ var firing : bool = false
 
 var weapon_range : float = 0 :
 	get:
-		return weapon_info.range + (weapon_range * .15)
+		return weapon_info.damage_range + (weapon_range * .15)
 
 var infliction_chance : float = 0 :
 	get:
@@ -29,7 +29,7 @@ var fire_rate : float = 0 :
 
 var area : float = 0 :
 	get:
-		return weapon_info.area + (area * .5)
+		return weapon_info.damage_area + (area * .5)
 
 var heat_generated : float = 0 :
 	get:

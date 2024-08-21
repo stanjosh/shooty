@@ -1,35 +1,38 @@
-[gd_scene load_steps=7 format=3 uid="uid://dox4p2n3a4ioj"]
+[gd_scene load_steps=7 format=3 uid="uid://d2ucapm6ti153"]
 
-[ext_resource type="Script" path="res://scenes/weapons/ranged/gun/bounce_bullet.gd" id="1_x7ri2"]
-[ext_resource type="AudioStream" uid="uid://sknpjryy1vge" path="res://scenes/weapons/ranged/gun/shoot_wtf.mp3" id="2_lvqlc"]
-[ext_resource type="Texture2D" uid="uid://ckt0v6xj2imt5" path="res://scenes/weapons/ranged/gun/sprites/bullet.png" id="3_ogkfh"]
+[ext_resource type="Script" path="res://scenes/weapons/ranged/gun/lightning_bullet.gd" id="1_kugj4"]
+[ext_resource type="AudioStream" uid="uid://sknpjryy1vge" path="res://scenes/weapons/ranged/gun/shoot_wtf.mp3" id="2_lcrvn"]
+[ext_resource type="Texture2D" uid="uid://ckt0v6xj2imt5" path="res://scenes/weapons/ranged/gun/sprites/bullet.png" id="3_k88q0"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_3elcc"]
-radius = 2.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_w2m2a"]
+radius = 70.83
 
-[sub_resource type="Curve" id="Curve_r0oe2"]
+[sub_resource type="Curve" id="Curve_ha4wr"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0815789, 0.696755), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vshrf"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_too8q"]
 size = Vector2(84.9294, 85.2715)
 
 [node name="projectile" type="Area2D"]
 top_level = true
-collision_layer = 32
-collision_mask = 230
-script = ExtResource("1_x7ri2")
+collision_layer = 8
+collision_mask = 196
+script = ExtResource("1_kugj4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource("CircleShape2D_3elcc")
+shape = SubResource("CircleShape2D_w2m2a")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(50, 0)
+collision_mask = 228
 
 [node name="GunFire" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("2_lvqlc")
+stream = ExtResource("2_lcrvn")
 
 [node name="Proj2" type="Sprite2D" parent="."]
 scale = Vector2(0.5625, 0.5625)
-texture = ExtResource("3_ogkfh")
+texture = ExtResource("3_k88q0")
 
 [node name="GPUParticles2D" type="CPUParticles2D" parent="."]
 scale = Vector2(0.75, 0.75)
@@ -52,7 +55,7 @@ damping_min = 71.257
 damping_max = 100.0
 scale_amount_min = 0.0
 scale_amount_max = 2.0
-scale_amount_curve = SubResource("Curve_r0oe2")
+scale_amount_curve = SubResource("Curve_ha4wr")
 color = Color(1, 0.815686, 0, 1)
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -63,6 +66,6 @@ collision_mask = 68
 position = Vector2(-33.4331, -0.0657215)
 rotation = 1.95663
 skew = 0.801106
-shape = SubResource("RectangleShape2D_vshrf")
+shape = SubResource("RectangleShape2D_too8q")
 
 [connection signal="body_entered" from="." to="." method="_on_projectile_body_entered"]

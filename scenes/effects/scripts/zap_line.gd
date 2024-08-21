@@ -22,5 +22,3 @@ func _process(delta):
 		modulate.a -= 5 * delta
 		if modulate.a <= 0:
 			queue_free()
-
-

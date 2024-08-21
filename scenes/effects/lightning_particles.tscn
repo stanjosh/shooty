@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddq45ic23vqgh"]
+
+[sub_resource type="Curve" id="Curve_resli"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.676316, 0.736308), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.83482, 0.0, 0, 0]
+point_count = 3
+
+[node name="LightningParticles" type="CPUParticles2D"]
+emitting = false
+amount = 30
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.69
+emission_shape = 4
+emission_points = PackedVector2Array()
+emission_colors = PackedColorArray()
+direction = Vector2(-1, -1)
+spread = 73.8
+gravity = Vector2(0, 0)
+tangential_accel_min = -1.0
+tangential_accel_max = 1.0
+scale_amount_min = 0.0
+scale_amount_curve = SubResource("Curve_resli")
