@@ -62,4 +62,3 @@ func is_interesting(dungeon):
 		if(dungeon.get(i).number_of_connections >= 3):
 			room_with_three += 1
 	return room_with_three >= 2
-

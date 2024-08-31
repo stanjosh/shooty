@@ -38,9 +38,8 @@ func _on_interactable_area_interacted(player):
 		var player_inventory : InventoryData = player.inventory_data
 		var key = player_inventory.use_key_item(key_item)
 		if key:
-			GUI.float_message(["Used %s" % key_item.name], player.global_position)
+			GUI.float_message(["Used %s" % key_item.name], player)
 			key_item = null
 			open()
 		else:
-			GUI.float_message(["Need a %s" % key_item.name], player.global_position)
-
+			GUI.float_message(["Need a %s" % key_item.name], player)
