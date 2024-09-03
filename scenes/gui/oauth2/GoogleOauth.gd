@@ -34,9 +34,10 @@ func _init():
 	token_req = Env.vars.get("TOKEN_REQ", "")
 
 func _ready():
-	if load_tokens():
-		authorize()
-	set_process(false)
+	if port and binding and client_id and client_secret and auth_server and token_req:
+		if load_tokens():
+			authorize()
+		set_process(false)
 
 func _process(_delta):
 	if redirect_server.is_connection_available():
@@ -132,7 +133,7 @@ func validate_tokens() -> bool:
 
 func load_tokens() -> bool:
 	print("Loading tokens")
-	var file := FileAccess.open_encrypted_with_pass("user://token.dat", FileAccess.READ, Env.vars.get("TOKEN_KEY"))
+	var file := FileAccess.open_encrypted_with_pass("user://token.dat", FileAccess.READ, Env.vars.get("TOKEN_KEY", ""))
 	if file != null:
 		var tokens = file.get_var()
 		token = tokens.get("token")
@@ -144,7 +145,7 @@ func load_tokens() -> bool:
 
 func save_tokens():
 	print("Saving tokens")
-	var file = FileAccess.open_encrypted_with_pass("user://token.dat", FileAccess.WRITE, Env.vars.get("TOKEN_KEY"))
+	var file = FileAccess.open_encrypted_with_pass("user://token.dat", FileAccess.WRITE, Env.vars.get("TOKEN_KEY", ""))
 	if file != null:
 		var tokens = {
 			"token" : token,

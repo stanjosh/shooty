@@ -1,6 +1,6 @@
 extends Area2D
 
-var lightning : LightningBolt = LightningBolt.new(self)
+var lightning : LightningBolt = LightningBolt.new(global_position)
 
 
 
@@ -12,6 +12,6 @@ func _process(delta: float) -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	if !lightning:
-		lightning = LightningBolt.new(self)
+		lightning = LightningBolt.new(global_position)
 		lightning.node2 = get_overlapping_areas().pick_random()
 		add_child(lightning)

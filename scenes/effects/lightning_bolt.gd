@@ -15,7 +15,7 @@ var angle_var : float = 30.0
 
 
 
-func _init(_node_2_pos : Vector2, _width: float = 2, _shocks: int = randi()%3) -> void:
+func _init(_node_2_pos : Vector2, _width: float = 2, _shocks: int = randi()%10) -> void:
 	
 	node_2_pos = _node_2_pos
 	width = _width
