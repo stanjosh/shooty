@@ -32,7 +32,6 @@ func special_attack(delta) -> MobState:
 			current_charge_speed -= buildup_time * 0.5 * delta
 			return charge(delta)
 		if current_charge_speed <= move_speed:
-			print(current_charge_speed)
 			charging = false
 			special_timer = special_attack_cooldown
 			current_charge_speed = 0

@@ -7,9 +7,7 @@ var current_map : Map
 var default_map = "hub"
 
 @export var maps : Dictionary = {
-	"hub" : preload("res://scenes/maps/hub_map.tscn"),
-	"random_dungeon" : preload("res://scenes/maps/random_dungeon_map.tscn"),
-	"testing" : preload("res://scenes/maps/testing.tscn")
+	"hub" : preload("res://scenes/maps/SurvivalMap.tscn")
 } 
 
 
@@ -18,7 +16,6 @@ var saved_scenes := {}
 
 
 func load_map(map_name: String = default_map):
-	print("called world ", map_name )
 	var new_map = maps[map_name].instantiate()
 	if current_map:
 		current_map.queue_free()
@@ -29,8 +26,14 @@ func load_map(map_name: String = default_map):
 func save_map(_map_name, _root_node):
 	pass
 	
-
-
+func drop_item(loot : ItemData, global_position : Vector2) -> void:
+		if loot:
+			var new_item = loot.pick_random()
+			var pick_up = PICKUP_ITEM.instantiate()
+			pick_up.slot_data = SlotData.new()
+			pick_up.slot_data.item_data = new_item
+			pick_up.position = global_position
+			current_map.call_deferred("add_child", pick_up)
 
 func _on_inventory_interface_drop_slot_data(slot_data):
 	var pick_up = PICKUP_ITEM.instantiate()

@@ -1,0 +1,12 @@
+[gd_resource type="GradientTexture1D" load_steps=2 format=3 uid="uid://daonxsdrshi14"]
+
+[sub_resource type="Gradient" id="Gradient_2lw72"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.0625, 0.3125, 0.375, 0.8125)
+colors = PackedColorArray(0, 0, 0, 1, 0.817951, 0.867985, 0.872899, 1, 1, 0.233239, 0.134198, 1, 0.628313, 0, 0.115429, 1, 1, 1, 1, 1)
+metadata/_snap_enabled = true
+metadata/_snap_count = 16
+
+[resource]
+gradient = SubResource("Gradient_2lw72")
+width = 16

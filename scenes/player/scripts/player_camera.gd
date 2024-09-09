@@ -60,8 +60,6 @@ func switch_to_tracking():
 
 func switch_camera(camera_type: CameraType, limits: Array[int] = []):
 
-	print("switch to : ", CameraType.keys()[camera_type])
-
 	_reset_limits()
 	match camera_type:
 		state:
@@ -109,4 +107,3 @@ func _set_limits(limits: Array[int]):
 func _update_screen( new_screen : Vector2 ):
 	current_screen = new_screen
 	global_position = current_screen * screen_size + screen_size * 0.5
-

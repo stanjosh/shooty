@@ -18,7 +18,6 @@ func _input(event):
 		mode(MenuName.PAUSE)
 
 func float_message(message : Array, body : Node2D, vector : Vector2 = Vector2.ZERO):
-	print(message[0])
 	var position = body.get_global_transform_with_canvas().origin
 	var lines = message.size()
 	for line in message:

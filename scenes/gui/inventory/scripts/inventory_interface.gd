@@ -71,7 +71,6 @@ func clear_external_inventory():
 		external_inventory_owner.interactable_area_exited.disconnect(clear_external_inventory)
 		inventory_data.inventory_interact.disconnect(on_inventory_interact)
 		external_inventory.clear_inventory_data(inventory_data)
-		print("clear")
 		external_inventory.hide()
 		external_inventory_owner = null
 

@@ -34,6 +34,4 @@ func get_slither(num1, num2):
 	return (sin(time * num1) * num2) * velocity.normalized().rotated(deg_to_rad(90))
 
 func die(vector):
-	cpu_particles_2d.global_position = line.global_position
-	cpu_particles_2d.emission_points = line.points
-	return super.die(vector)
+	queue_free()

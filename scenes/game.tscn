@@ -1,11 +1,16 @@
 [gd_scene load_steps=7 format=3 uid="uid://baj1g8b4rrm7p"]
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_h310b"]
-[ext_resource type="Texture2D" uid="uid://5lfpiruyc36x" path="res://scenes/maps/backgrounds/1-Blue_640x360.png" id="4_jg3sw"]
-[ext_resource type="Texture2D" uid="uid://nvlvw83aigtj" path="res://scenes/maps/backgrounds/1-Green_640x360.png" id="6_nap0u"]
-[ext_resource type="Texture2D" uid="uid://dk1p2fxsgks36" path="res://scenes/maps/backgrounds/1-Purple_640x360.png" id="8_pfcef"]
-[ext_resource type="Texture2D" uid="uid://c3n3i5pdlxkpv" path="res://scenes/maps/backgrounds/1-Red_640x360.png" id="10_74ui4"]
-[ext_resource type="Texture2D" uid="uid://tnq6nsjloa20" path="res://scenes/maps/backgrounds/1-Yellow_640x360.png" id="12_nbhud"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_53xb3"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a4buj"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_n53n3"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mm2e7"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_re2ba"]
 
 [node name="Game" type="Node"]
 physics_interpolation_mode = 1
@@ -20,16 +25,16 @@ scale = Vector2(2.5, 2.5)
 motion_scale = Vector2(0, 0)
 
 [node name="1-yellow640x360" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-texture = ExtResource("12_nbhud")
+texture = SubResource("CompressedTexture2D_53xb3")
 
 [node name="1-green640x360" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-texture = ExtResource("6_nap0u")
+texture = SubResource("CompressedTexture2D_a4buj")
 
 [node name="1-red640x360" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-texture = ExtResource("10_74ui4")
+texture = SubResource("CompressedTexture2D_n53n3")
 
 [node name="1-blue640x360" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-texture = ExtResource("4_jg3sw")
+texture = SubResource("CompressedTexture2D_mm2e7")
 
 [node name="1-purple640x360" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-texture = ExtResource("8_pfcef")
+texture = SubResource("CompressedTexture2D_re2ba")

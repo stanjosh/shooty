@@ -120,7 +120,6 @@ func charge(delta):
 func _on_change_equip(_inventory_data : InventoryDataEquip) -> void:
 	var new_weapon_info = _inventory_data.consolidated_weapon_info()
 	for property in new_weapon_info.get_property_list():
-		print(property)
 		if property["type"] == 1 and new_weapon_info.get(property.name) == true:
 			weapon_info.set(property.name, new_weapon_info.get(property.name))
 		elif property["type"] == 2 or property["type"] == 3:

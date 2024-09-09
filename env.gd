@@ -16,7 +16,6 @@ func _init():
 		var env_var = line.split("=");
 		if(env_var.size() == 2):
 			vars[env_var[0]] = env_var[1]
-	print(vars)
 
 func get_var(var_name : String) -> String:
 	return vars.get(var_name, "")

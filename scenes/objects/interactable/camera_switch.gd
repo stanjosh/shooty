@@ -20,6 +20,5 @@ func _on_tracking_camera_area_body_entered(body):
 
 
 func _on_tracking_camera_area_body_exited(body):
-	print("exited limit")
 	if body is Player:
 		PlayerManager.switch_camera(PlayerCamera.CameraType.POSITIONAL)

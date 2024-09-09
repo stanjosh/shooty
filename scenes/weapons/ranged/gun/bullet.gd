@@ -16,7 +16,6 @@ func _ready():
 func _physics_process(delta):
 	remaining_speed -= delta
 	if shot_range <= 0:
-		print("bullet died")
 		end_bullet()
 	else:
 		position += direction * remaining_speed * delta
@@ -44,7 +43,6 @@ func apply_effects(body: CharacterBody2D) -> void:
 		BloodSpray.new(Vector2.from_angle(global_rotation))
 
 func apply_inflictions(body: CharacterBody2D) -> void:
-	print("applying inflictions")
 	var new_infliction : Infliction = weapon_info.infliction_scene.instantiate()
 	new_infliction.period = (damage * .04)
 	new_infliction.position += Vector2(-1, -8)

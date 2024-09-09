@@ -3,9 +3,6 @@ class_name Mob
 
 signal player_detected
 
-const PICKUP_ITEM = preload("res://scenes/gui/inventory/items/pickup_item.tscn")
-
-
 #@onready var navigation_agent_2d := $NavigationAgent2D
 @onready var hurtbox : Area2D = $Hurtbox
 @onready var idle_timer : Timer = $IdleTimer
@@ -106,7 +103,7 @@ func _process(delta):
 	match state:
 		MobState.DEAD:
 			flip_sprite()
-			animation.play("die")
+			die(delta)
 		MobState.ATTACKING:
 			flip_sprite()
 			velocity = Vector2.ZERO
@@ -145,8 +142,6 @@ func detects_player() -> bool:
 
 
 func chase(delta, chase_target : Node2D = PlayerManager.player) -> MobState:
-	if PlayerManager.player.state == Player.PlayerState.DEAD:
-		return MobState.IDLE
 	special_timer -= delta
 	chase_timer = chase_time if detects_player() else chase_timer - delta
 	if chase_timer < 0 and not strategy == MobStrategy.CHASE:
@@ -173,7 +168,6 @@ func idle() -> MobState:
 		if randf() > .4:
 			var offset_x = original_pos.x + randf_range(-wander_distance, wander_distance)
 			var offset_y = original_pos.y + randf_range(-wander_distance, wander_distance)
-			prints("move to", Vector2(offset_x, offset_y))
 			move_target = Vector2(offset_x, offset_y)
 			return MobState.MOVING
 	return MobState.IDLE
@@ -212,9 +206,9 @@ func flash_sprite():
 	
 
 func die(_vector) -> void:
-	state = MobState.DEAD
 	velocity = lerp(velocity, Vector2.ZERO, .2)
 	drop_loot()	
+	animation.play("die")
 	
 
 func flip_sprite():
@@ -225,13 +219,7 @@ func flip_sprite():
 func drop_loot():
 	if drops_items.size() >= 1:
 		var loot = drops_items.filter(func(item): if item.drop_rarity <= randf(): return item)
-		if loot:
-			var new_item = loot.pick_random()
-			var pick_up = PICKUP_ITEM.instantiate()
-			pick_up.slot_data = SlotData.new()
-			pick_up.slot_data.item_data = new_item
-			pick_up.position = global_position
-			MapManager.current_map.call_deferred("add_child", pick_up)
+		MapManager.drop_item(loot, global_position)
 
 
 func wake_up(body):
@@ -242,7 +230,7 @@ func wake_up(body):
 
 func _on_animation_finished(_animation):
 	if _animation == "die":
-		call_deferred("queue_free") 
+		queue_free() 
 	if _animation == "attack":
 		if hurtbox.overlaps_body(PlayerManager.player):
 			damage_target(PlayerManager.player)

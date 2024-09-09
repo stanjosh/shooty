@@ -23,7 +23,6 @@ Settings="*res://scripts/settings.gd"
 GUI="*res://scenes/gui/gui.tscn"
 PlayerManager="*res://scenes/player/scripts/player_manager.gd"
 MapManager="*res://scripts/map_manager.gd"
-DungeonGeneration="*res://scenes/maps/scripts/dungeon_generation.gd"
 
 [display]
 

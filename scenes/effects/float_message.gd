@@ -15,7 +15,6 @@ func _ready():
 	float_message(_message, _body, _vector)
 
 func float_message(message : Array[String], body, vector : Vector2 = Vector2.ZERO):
-	print(message[0])
 	var pos = get_global_transform_with_canvas().get_origin()
 	var lines = message.size()
 	for line in message:

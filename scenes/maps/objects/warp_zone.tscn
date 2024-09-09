@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cwpr57qo4ctp0"]
 
-[ext_resource type="Script" path="res://scenes/maps/objects/warp_zone.gd" id="1_mdpij"]
+[ext_resource type="Script" path="res://scenes/maps/scripts/warp_zone.gd" id="1_mdpij"]
 [ext_resource type="Texture2D" uid="uid://dgrl3he2a8ogu" path="res://scenes/gui/assets/orb.png" id="1_soqwd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o54ly"]
