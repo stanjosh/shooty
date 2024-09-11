@@ -10,7 +10,7 @@ func _ready():
 	sprite2d.texture = sprite2d.texture.duplicate(true)
 	return super._ready()
 
-func special_attack(delta) -> MobState:
+func special_attack(_delta) -> MobState:
 	take_damage(max_health, Vector2.ZERO, 140)
 	return MobState.CHASING
 

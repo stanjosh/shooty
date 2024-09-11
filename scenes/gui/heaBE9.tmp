@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c31qiyem3lskq"]
+[gd_scene load_steps=12 format=3 uid="uid://c31qiyem3lskq"]
 
 [ext_resource type="Script" path="res://scenes/gui/scripts/heads_up_display.gd" id="1_oxuq1"]
 [ext_resource type="FontFile" uid="uid://m1jk0peka30j" path="res://assets/m6x11.ttf" id="2_wv3hn"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scenes/gui/scripts/PlayerHealthBar.gd" id="4_sy5hm"]
 [ext_resource type="Texture2D" uid="uid://dgrl3he2a8ogu" path="res://scenes/gui/assets/orb.png" id="5_qvnwc"]
 [ext_resource type="Texture2D" uid="uid://bpclk7ym07oa2" path="res://scenes/gui/assets/orb_shine.png" id="6_kjv7p"]
+[ext_resource type="PackedScene" uid="uid://cglbg4qco2u06" path="res://scenes/gui/bubbles.tscn" id="6_tycen"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_xjdpx"]
 font = ExtResource("3_imfw6")
@@ -18,21 +19,8 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n1l2n"]
 bg_color = Color(0.323094, 0.0938483, 2.40654e-08, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ftcg2"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_xqh7k"]
-fractal_type = 2
-fractal_octaves = 3
-fractal_gain = 0.435
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_11217"]
-noise = SubResource("FastNoiseLite_xqh7k")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cwyhw"]
-resource_local_to_scene = true
-texture = SubResource("NoiseTexture2D_11217")
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
+[sub_resource type="ViewportTexture" id="ViewportTexture_nb46o"]
+viewport_path = NodePath("Bottom/HealthOrb/Orb/PlayerHealthBar/CPUParticles2D")
 
 [node name="HeadsUpDisplay" type="Control"]
 layout_mode = 3
@@ -100,12 +88,12 @@ grow_vertical = 2
 size_flags_vertical = 1
 theme_override_styles/background = SubResource("StyleBoxEmpty_ilc0j")
 theme_override_styles/fill = SubResource("StyleBoxFlat_n1l2n")
-value = 100.0
+value = 56.0
 rounded = true
 fill_mode = 3
 show_percentage = false
 
-[node name="PlayerHealthBar" type="ProgressBar" parent="Bottom/HealthOrb/Orb"]
+[node name="PlayerHealthBar" type="TextureProgressBar" parent="Bottom/HealthOrb/Orb"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 1
 anchors_preset = 15
@@ -113,13 +101,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_vertical = 1
-theme_override_styles/background = SubResource("StyleBoxEmpty_ftcg2")
-theme_override_styles/fill = SubResource("StyleBoxTexture_cwyhw")
 value = 50.0
 rounded = true
 fill_mode = 3
-show_percentage = false
+texture_over = SubResource("ViewportTexture_nb46o")
+
+[node name="CPUParticles2D" parent="Bottom/HealthOrb/Orb/PlayerHealthBar" instance=ExtResource("6_tycen")]
 
 [node name="HealthCounter" type="Label" parent="Bottom/HealthOrb/Orb"]
 light_mask = 512
@@ -173,5 +160,3 @@ theme_override_fonts/font = ExtResource("2_wv3hn")
 label_settings = SubResource("LabelSettings_xjdpx")
 vertical_alignment = 2
 metadata/_edit_use_anchors_ = true
-
-[connection signal="value_changed" from="Bottom/HealthOrb/Orb/PlayerHealthBar" to="Bottom/HealthOrb" method="_on_player_health_bar_value_changed"]

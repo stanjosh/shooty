@@ -45,8 +45,6 @@ var health : float = max_health :
 		health = clampf(value, 0, max_health)
 		GUI.hud.update("health", health, max_health)
 
-@export var inventory_data : InventoryData
-
 var can_dash : bool = true
 var status : Dictionary
 
@@ -66,9 +64,6 @@ var aim_point : Vector2
 
 func _ready() -> void:
 	$DashTimer.wait_time = dash_time
-	PlayerManager.level_up.connect(_on_level_up)
-	GUI.refresh_interface.emit(self)
-	update_status_panel()
 
 func _unhandled_input(event) -> void:
 	if state != PlayerState.DEAD:
@@ -85,9 +80,6 @@ func _unhandled_input(event) -> void:
 
 		if event.is_action_released("cheat"):
 			PlayerManager.give_xp(30)
-
-		if event.is_action_released("inv"):
-			toggle_inventory.emit()
 
 		var deadzone = 0.5
 		#var controllerangle = Vector2.ZERO
@@ -160,7 +152,7 @@ func _physics_process(_delta) -> void:
 			velocity = input_direction * dash_speed
 		if not input_direction:
 			velocity = Vector2(0,0)
-	knockback = lerp(knockback, Vector2.ZERO, .2)
+	knockback = lerp(knockback, Vector2.ZERO, .05)
 	velocity = velocity + knockback
 	move_and_slide()
 	animate()
@@ -208,57 +200,6 @@ func heal(value):
 	health = clampf(health + value, 0, max_health)
 
 
-var level_changes : Dictionary = {
-		2 : {
-			"max_health" : 2,
-			"dash_time" : 1
-		},
-		3 : {
-			"max_health" : 1,
-			"speed" : 4
-		},
-		4 : {
-			"max_health" : 2,
-
-		},
-		5 : {
-			"max_health" : 1,
-			"dash_speed" : 4
-		},
-		6 : {
-			"max_health" : 1,
-
-		},
-	}
-
-
-func update_status_panel(stat_name: String = "") -> void:
-	var pretty_names := {
-		 "current_level" : "Player level",
-		 "speed" : "Move speed",
-		 "max_health" : "Player health",
-		 "dash_cooldown" : "Dash cooldown", 
-		 "dash_speed" : "Dash speed",
-	}
-	if !stat_name:
-		for stat in pretty_names.keys():
-			GUI.update_stats.emit(pretty_names[stat], get(stat))
-	else:
-		GUI.update_stats.emit(pretty_names[stat_name], get(stat_name))
-	
-
-var current_stat_upgrades : Dictionary
-
-
-func _on_level_up() -> void:
-	current_level = clampi(current_level + 1, 0, level_changes.size())
-	for level_reward in level_changes[current_level]:
-		set(level_reward, level_changes[current_level][level_reward])
-	var level_up_message : Array[String] = ["level %s!" % current_level]
-	for level_reward in level_changes[current_level]:
-		level_up_message.push_back("%s + %s" % [level_reward.replace("_", " "), level_changes[current_level][level_reward]])
-	GUI.float_message(level_up_message, self)
-
 func _on_melee_attack() -> void:
 	state = PlayerState.MELEE
 
@@ -266,9 +207,6 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	if state != PlayerState.DEAD:
 		state = PlayerState.IDLE
 		set_deferred("animation_lock", false)
-	
-
-func _on_dash_cooldown_timeout() -> void:
 	set_deferred("can_dash", true)
 
 

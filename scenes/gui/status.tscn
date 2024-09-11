@@ -11,16 +11,11 @@ script/source = "extends Control
 @onready var player_stats = %PlayerStats
 var stats : Dictionary
 
-func _ready():
-	GUI.update_stats.connect(update)
-
-
 func update(key, value):
 	player_stats.clear()
 	stats[key] = value
 	for item : String in stats.keys():
 		player_stats.append_text(\"%s : %s\\n\" % [item.replace(\"_\", \" \"), stats[item]])
-
 "
 
 [node name="Status" type="Control"]

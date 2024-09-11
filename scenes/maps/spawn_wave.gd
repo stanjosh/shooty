@@ -28,15 +28,20 @@ var mobs = {
 		wait_timer.wait_time = value
 
 func spawn_enemy():
-	var spawn_area = get_viewport_rect().grow(32)
-	
+	var spawn_area = get_viewport_rect().size / 3
+	var spawn_point = spawn_area * randf()
+	if randf() > .5:
+		spawn_point.x = 0
+	else:
+		spawn_point.y = 0
+		
 	for mob : MobType in mobs_list:
-		var spawn_point = randf() * spawn_area.end
+		
 		var new_mob : Mob = mobs[mob].instantiate()
 		new_mob.global_position = spawn_point
 		new_mob.strategy = Mob.MobStrategy.CHASE
 		MapManager.current_map.add_child(new_mob)
 
-func _input(event):
+func _input(_event):
 	if Input.is_action_just_pressed("cheat"):
 		spawn_enemy()

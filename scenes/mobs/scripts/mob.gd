@@ -1,8 +1,6 @@
 extends CharacterBody2D
 class_name Mob
 
-signal player_detected
-
 #@onready var navigation_agent_2d := $NavigationAgent2D
 @onready var hurtbox : Area2D = $Hurtbox
 @onready var idle_timer : Timer = $IdleTimer
@@ -113,6 +111,7 @@ func _process(delta):
 			animation.play("walk")
 			state = go_to_target(delta)
 		MobState.CHASING:
+			special_timer -= delta
 			flip_sprite()
 			animation.play("walk")
 			state = chase(delta)
@@ -137,25 +136,24 @@ func _physics_process(delta):
 	move_and_slide()
 
 func detects_player() -> bool:
-	return detection_area.overlaps_body(PlayerManager.player) \
-		or strategy == MobStrategy.CHASE
+	return detection_area.overlaps_body(PlayerManager.player)
 
 
 func chase(delta, chase_target : Node2D = PlayerManager.player) -> MobState:
 	special_timer -= delta
 	chase_timer = chase_time if detects_player() else chase_timer - delta
-	if chase_timer < 0 and not strategy == MobStrategy.CHASE:
+	detection_area.look_at(global_position + velocity)
+	if chase_timer <= 0:
 		return MobState.IDLE
-	if not cry_played:
-		cry_sound.play()
-		cry_played = true
+	if special_timer <= 0:
+		return MobState.SPECIAL
 	if hurtbox.overlaps_body(PlayerManager.player):
 		return MobState.ATTACKING
-	elif special_timer <= 0:
-		return MobState.SPECIAL
 	var destination = global_position.direction_to(chase_target.global_position)
+	if not cry_played:
+		cry_played = true
+		cry_sound.play()
 	velocity = lerp(velocity, destination * move_speed, acceleration * delta)
-	detection_area.look_at(global_position + velocity)
 	return MobState.CHASING
 
 
@@ -223,7 +221,8 @@ func drop_loot():
 
 
 func wake_up(body):
-	if body is Player:
+	
+	if body is Player and state == MobState.IDLE:
 		state = MobState.CHASING
 
 

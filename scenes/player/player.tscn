@@ -1,11 +1,9 @@
-[gd_scene load_steps=87 format=3 uid="uid://ckq8owam8nxv4"]
+[gd_scene load_steps=84 format=3 uid="uid://ckq8owam8nxv4"]
 
 [ext_resource type="Script" path="res://scenes/player/scripts/player.gd" id="1_1x1bv"]
 [ext_resource type="Shader" path="res://scenes/player/player.gdshader" id="1_jk5ya"]
 [ext_resource type="Texture2D" uid="uid://b17h7nepjmfdy" path="res://scenes/player/resources/armor1.tres" id="2_6d3gy"]
-[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data.gd" id="2_dkkut"]
 [ext_resource type="Texture2D" uid="uid://c50fe2l5ie5ci" path="res://scenes/player/assets/Hero Blue 54x53 Sprite.png" id="2_hlcqq"]
-[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/slot_data.gd" id="3_1hjnm"]
 [ext_resource type="Texture2D" uid="uid://cnluagwjgu7r7" path="res://assets/Extra/Shadow.png" id="3_gr2x3"]
 [ext_resource type="PackedScene" uid="uid://7tx8y7bexiry" path="res://scenes/weapons/melee/weapon_melee.tscn" id="5_opj46"]
 [ext_resource type="PackedScene" uid="uid://hb5jqo0vv4x3" path="res://scenes/weapons/ranged/weapon_ranged.tscn" id="6_x7oke"]
@@ -16,11 +14,6 @@
 shader = ExtResource("1_jk5ya")
 shader_parameter/speed_scale = 0.0
 shader_parameter/gradient = ExtResource("2_6d3gy")
-
-[sub_resource type="Resource" id="Resource_ep12i"]
-script = ExtResource("2_dkkut")
-slot_datas = Array[ExtResource("3_1hjnm")]([null, null, null, null, null, null])
-color = Color(1, 1, 1, 1)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_16s8t"]
 closed = false
@@ -587,7 +580,6 @@ floor_stop_on_slope = false
 floor_block_on_wall = false
 platform_on_leave = 2
 script = ExtResource("1_1x1bv")
-inventory_data = SubResource("Resource_ep12i")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 visible = false
@@ -606,9 +598,8 @@ y_sort_enabled = true
 use_parent_material = true
 position = Vector2(0, 3)
 sprite_frames = SubResource("SpriteFrames_e81hw")
-animation = &"x_walk"
+animation = &"die"
 autoplay = "down_idle"
-frame_progress = 0.096403
 
 [node name="shadow sprite" type="Sprite2D" parent="AnimatedSprite2D"]
 modulate = Color(0, 0, 0, 0.345098)

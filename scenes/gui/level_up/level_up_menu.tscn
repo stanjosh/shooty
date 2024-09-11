@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxgtjjqyc6hdk"]
+
+[ext_resource type="PackedScene" uid="uid://dk4ou3pvhb2sb" path="res://scenes/gui/level_up/perk_selection.tscn" id="1_1ml5r"]
+[ext_resource type="Script" path="res://scenes/gui/level_up/level_up_menu.gd" id="1_gosbd"]
+
+[node name="LevelUpMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gosbd")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 48
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="PerkSelection" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_1ml5r")]
+layout_mode = 2
+
+[node name="PerkSelection2" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_1ml5r")]
+layout_mode = 2
+
+[node name="PerkSelection3" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_1ml5r")]
+layout_mode = 2

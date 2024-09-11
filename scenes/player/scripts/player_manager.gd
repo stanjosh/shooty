@@ -3,8 +3,7 @@ extends Node
 const PLAYER = preload("res://scenes/player/player.tscn")
 @onready var game = get_node("/root/Game")
 signal level_up(changes)
-signal give_item(item : PackedScene)
-signal player_died
+
 
 var current_xp : int = 0
 var level_up_xp : int = 100
@@ -29,17 +28,17 @@ func give_xp(value: int):
 	GUI.hud.update("xp", current_xp, level_up_xp)
 	
 
-func get_player(position: Vector2 = Vector2.ZERO) -> Player:
+func get_player(map: Map, position: Vector2 = Vector2.ZERO) -> Player:
 	if not player:
 		player = PLAYER.instantiate()
 		player_camera = PlayerCamera.new()
 		player.add_child(player_camera)
-		game.add_child(player)
 		player.position = position
+		map.add_child(player)
 	return player
 
-func spawn_player():
-	get_player(MapManager.current_map.player_spawn.global_position)
+
+	
 
 func switch_camera(camera_type: PlayerCamera.CameraType, limits: Array[int] = []):
 	player_camera.switch_camera(camera_type, limits)

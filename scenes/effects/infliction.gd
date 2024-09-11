@@ -8,7 +8,7 @@ signal infliction_tick
 @export var period : float = 2
 var infliction_timer : Timer
 
-func _ready():
+func _ready() -> void:
 	infliction_timer = Timer.new()
 	infliction_timer.wait_time = period
 	infliction_timer.autostart = true

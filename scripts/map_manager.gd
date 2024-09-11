@@ -21,7 +21,7 @@ func load_map(map_name: String = default_map):
 		current_map.queue_free()
 	current_map = new_map
 	add_child(new_map)
-	PlayerManager.spawn_player()
+	PlayerManager.get_player(current_map, current_map.player_spawn.global_position)
 
 func save_map(_map_name, _root_node):
 	pass

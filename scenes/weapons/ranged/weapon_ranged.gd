@@ -8,7 +8,8 @@ const BULLET = preload("res://scenes/weapons/ranged/gun/bounce_bullet.tscn")
 @onready var progress_bar : ProgressBar = $WeaponSprite/ProgressBar
 @onready var weapon_sprite : Sprite2D = $WeaponSprite
 @onready var eject_particles = $EjectParticles
-@onready var inventory_data : InventoryDataEquip = InventoryDataEquip.new()
+
+
 
 const BASE_WEAPON_INFO : WeaponInfo = preload("res://scenes/weapons/ranged/gun/default_gun_info.tres")
 
@@ -44,9 +45,6 @@ var state : WeaponState :
 		$SteamParticles2.emitting = false
 
 func _ready():
-	inventory_data.inventory_updated.connect(_on_change_equip)
-	_on_change_equip(inventory_data)
-	GUI.refresh_interface.emit(self)
 	original_pos = weapon_sprite.position
 
 func _unhandled_input(event):
@@ -74,18 +72,22 @@ func _physics_process(delta):
 				PlayerManager.player_camera.shake(5, 10, 1.8)
 				state = WeaponState.OVERHEATED
 			cool_off(16 * delta)
+			
 			fire_anim.tween_property(weapon_sprite, "position:x", original_pos.x - 2, .02).set_trans(Tween.TRANS_ELASTIC)
+			
 		WeaponState.CHARGING:
 			charge(delta)
 		WeaponState.COOLING:
+			
 			cool_off(50 * delta)
 		WeaponState.OVERHEATED:
 			overheat()
 			cool_off(24 * delta)
 			if heat_level / heat_capacity < .6:
 				state = WeaponState.COOLING
-	shot_time -=  delta * 100 + weapon_info.fire_rate
 	fire_anim.tween_property(weapon_sprite, "position:x", original_pos.x, .2).set_trans(Tween.TRANS_LINEAR)
+	shot_time -=  delta * 100 + weapon_info.fire_rate
+
 
 func overheat():
 	$SteamParticles.emitting = true
@@ -115,12 +117,3 @@ func charge(delta):
 	heat_level += weapon_info.heat_generated * 5 * delta
 	charge_level = heat_level * .05
 	pass
-
-
-func _on_change_equip(_inventory_data : InventoryDataEquip) -> void:
-	var new_weapon_info = _inventory_data.consolidated_weapon_info()
-	for property in new_weapon_info.get_property_list():
-		if property["type"] == 1 and new_weapon_info.get(property.name) == true:
-			weapon_info.set(property.name, new_weapon_info.get(property.name))
-		elif property["type"] == 2 or property["type"] == 3:
-			weapon_info.set(property.name, new_weapon_info.get(property.name) + BASE_WEAPON_INFO.get(property.name))

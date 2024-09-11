@@ -18,7 +18,6 @@ config/icon="res://scenes/gui/inventory/items/assets/Icon14_10.png"
 
 [autoload]
 
-Env="*res://env.gd"
 Settings="*res://scripts/settings.gd"
 GUI="*res://scenes/gui/gui.tscn"
 PlayerManager="*res://scenes/player/scripts/player_manager.gd"
@@ -28,7 +27,8 @@ MapManager="*res://scripts/map_manager.gd"
 
 window/size/viewport_width=1248
 window/size/viewport_height=864
-window/stretch/mode="canvas_items"
+window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
 window/handheld/orientation=1
 mouse_cursor/custom_image="res://scenes/gui/crosshair177.png"
 mouse_cursor/custom_image_hotspot=Vector2(16, 16)
