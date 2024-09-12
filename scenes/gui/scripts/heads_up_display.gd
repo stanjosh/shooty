@@ -9,7 +9,7 @@ func update(element : StringName, value : float, max_value: float):
 		&"health":
 			health_orb.max_health = max_value
 			health_orb.health = value
-		&"XP":
+		&"xp":
 			pass 
 			
 		_:

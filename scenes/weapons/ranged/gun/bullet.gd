@@ -5,7 +5,7 @@ class_name Bullet
 @onready var gun_fire = $GunFire
 @onready var shot_range = weapon_info.damage_range
 @onready var remaining_speed = weapon_info.speed
-
+var added_damage : float = 0
 var direction : Vector2
 
 func _ready():
@@ -27,7 +27,7 @@ func _on_projectile_body_entered(body):
 
 
 func deal_damage(body: CharacterBody2D) -> void:
-	body.take_damage(weapon_info.damage, Vector2.RIGHT.rotated(rotation))
+	body.take_damage(snapped(weapon_info.damage * added_damage, 1), Vector2.RIGHT.rotated(rotation), 10 * added_damage)
 	apply_effects(body)
 	apply_inflictions(body)
 	if remaining_speed == 0:

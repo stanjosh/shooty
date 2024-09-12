@@ -47,17 +47,6 @@ var state : WeaponState :
 func _ready():
 	original_pos = weapon_sprite.position
 
-func _unhandled_input(event):
-	
-	if not state == WeaponState.OVERHEATED:
-		if event.is_action_released("shoot"):
-			state = WeaponState.COOLING
-		elif event.is_action_pressed("shoot"):
-			state = WeaponState.FIRING
-		
-
-			
-
 func _physics_process(delta):
 	var pivot = wrapi(snapped(global_rotation, PI/4) / (PI/4), 0, 8)
 	weapon_sprite.flip_v = true if  pivot in [3, 4, 5] else false
@@ -69,17 +58,22 @@ func _physics_process(delta):
 				fire()
 			if heat_level >= heat_capacity:
 				$OverheatHiss.play()
-				PlayerManager.player_camera.shake(5, 10, 1.8)
+				PlayerManager.player_camera.shake(20, 4, 1.8)
 				state = WeaponState.OVERHEATED
 			cool_off(16 * delta)
-			
 			fire_anim.tween_property(weapon_sprite, "position:x", original_pos.x - 2, .02).set_trans(Tween.TRANS_ELASTIC)
-			
+			if Input.is_action_pressed("shoot"):
+				state = WeaponState.CHARGING
+			else:
+				state = WeaponState.COOLING
 		WeaponState.CHARGING:
 			charge(delta)
+			if !Input.is_action_pressed("shoot"):
+				state = WeaponState.FIRING
 		WeaponState.COOLING:
-			
 			cool_off(50 * delta)
+			if Input.is_action_just_pressed("shoot"):
+				state = WeaponState.FIRING
 		WeaponState.OVERHEATED:
 			overheat()
 			cool_off(24 * delta)
@@ -104,7 +98,9 @@ func fire():
 	for n in weapon_info.multishot:
 		var new_bullet = BULLET.instantiate()
 		new_bullet.weapon_info = weapon_info
-		new_bullet.damage += charge_level
+		new_bullet.added_damage = charge_level
+		print(charge_level)
+		new_bullet.scale += Vector2.ONE * charge_level * 0.3
 		charge_level = 0
 		new_bullet.global_position = ordinance_origin.global_position
 		new_bullet.global_rotation_degrees = global_rotation_degrees + randfn(0, weapon_info.damage_area / 100)

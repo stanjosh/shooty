@@ -205,7 +205,8 @@ func flash_sprite():
 
 func die(_vector) -> void:
 	velocity = lerp(velocity, Vector2.ZERO, .2)
-	drop_loot()	
+	drop_loot()
+	PlayerManager.give_xp(100)
 	animation.play("die")
 	
 
