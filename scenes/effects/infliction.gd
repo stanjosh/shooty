@@ -1,8 +1,6 @@
 extends Node2D
 class_name Infliction
 
-signal infliction_tick
-
 @export var lifetime : float = 10
 @export var visual_effect : CPUParticles2D
 @export var period : float = 2

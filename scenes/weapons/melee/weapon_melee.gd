@@ -34,7 +34,7 @@ func attack() -> void:
 
 func damage(body):
 	if body.has_method("take_damage"):
-		body.take_damage(weapon_info.damage, Vector2.from_angle(global_rotation), weapon_info.speed)
+		body.take_damage(weapon_info.damage * 10, Vector2.from_angle(global_rotation).normalized())
 		apply_effects(body)
 		apply_inflictions(body)
 

@@ -15,12 +15,11 @@ shader = ExtResource("1_jk5ya")
 shader_parameter/speed_scale = 0.0
 shader_parameter/gradient = ExtResource("2_6d3gy")
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_16s8t"]
-closed = false
-polygon = PackedVector2Array(1, 7, 1, 9, 1, 7, 0, 5, 0, -1, 0, 5, -1, 7, -1, 9)
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i1gu7"]
 height = 24.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bks40"]
+radius = 3.07802
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v8c4x"]
 atlas = ExtResource("2_hlcqq")
@@ -552,8 +551,9 @@ animations = [{
 "speed": 20.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_bks40"]
-radius = 3.07802
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_16s8t"]
+closed = false
+polygon = PackedVector2Array(1, 7, 1, 9, 1, 7, 0, 5, 0, -1, 0, 5, -1, 7, -1, 9)
 
 [sub_resource type="Curve" id="Curve_tdekh"]
 max_value = 2.0
@@ -581,16 +581,20 @@ floor_block_on_wall = false
 platform_on_leave = 2
 script = ExtResource("1_1x1bv")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-visible = false
-show_behind_parent = true
-position = Vector2(0, -2)
-occluder = SubResource("OccluderPolygon2D_16s8t")
-
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 visible = false
 scale = Vector2(0.658063, 0.658063)
 shape = SubResource("CapsuleShape2D_i1gu7")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+visible = false
+scale = Vector2(1.95572, 1.76655)
+collision_layer = 0
+collision_mask = 256
+
+[node name="InteractionCollision" type="CollisionShape2D" parent="InteractionArea"]
+scale = Vector2(2.72575, 2.89263)
+shape = SubResource("CircleShape2D_bks40")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 2
@@ -608,15 +612,28 @@ z_index = 3
 position = Vector2(0, -2)
 texture = ExtResource("3_gr2x3")
 
-[node name="InteractionArea" type="Area2D" parent="."]
-visible = false
-scale = Vector2(1.95572, 1.76655)
-collision_layer = 0
-collision_mask = 256
+[node name="SwordSprite" type="Sprite2D" parent="."]
+position = Vector2(0, 3)
+scale = Vector2(0.5, 0.5)
 
-[node name="InteractionCollision" type="CollisionShape2D" parent="InteractionArea"]
-scale = Vector2(2.72575, 2.89263)
-shape = SubResource("CircleShape2D_bks40")
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_2vy0k")
+
+[node name="DashSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_srm1x")
+
+[node name="DashCooldown" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="DashTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+visible = false
+show_behind_parent = true
+position = Vector2(0, -2)
+occluder = SubResource("OccluderPolygon2D_16s8t")
 
 [node name="DashParticles" type="CPUParticles2D" parent="."]
 position = Vector2(0, 9)
@@ -672,26 +689,9 @@ unique_name_in_owner = true
 [node name="RangedWeapon" parent="Weapons" instance=ExtResource("6_x7oke")]
 unique_name_in_owner = true
 
-[node name="DashCooldown" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
-
-[node name="DashTimer" type="Timer" parent="."]
-one_shot = true
-
-[node name="DashSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("13_srm1x")
-
 [node name="Inflictions" type="Node2D" parent="."]
 
-[node name="SwordSprite" type="Sprite2D" parent="."]
-position = Vector2(0, 3)
-scale = Vector2(0.5, 0.5)
-
-[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("8_2vy0k")
-
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="melee_attack" from="Weapons/MeleeWeapon" to="." method="_on_melee_attack"]
 [connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
+[connection signal="melee_attack" from="Weapons/MeleeWeapon" to="." method="_on_melee_attack"]

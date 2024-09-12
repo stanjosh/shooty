@@ -28,15 +28,9 @@ var mobs = {
 		wait_timer.wait_time = value
 
 func spawn_enemy():
-	var spawn_area = get_viewport_rect().size / 3
-	var spawn_point = spawn_area * randf()
-	if randf() > .5:
-		spawn_point.x = 0
-	else:
-		spawn_point.y = 0
-		
 	for mob : MobType in mobs_list:
-		
+		var spawn_area = Vector2(get_viewport_rect().end.x, get_viewport_rect().position.y)
+		var spawn_point = randf() * spawn_area
 		var new_mob : Mob = mobs[mob].instantiate()
 		new_mob.global_position = spawn_point
 		new_mob.strategy = Mob.MobStrategy.CHASE

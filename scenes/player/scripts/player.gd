@@ -12,11 +12,14 @@ signal player_died
 @onready var weapons = $Weapons
 
 
-@export var base_speed : float = 100.0
+
 @export var base_max_health : float = 100
+
+@export var base_speed : float = 100.0
 @export var base_dash_speed : float = 180
 @export var base_dash_cooldown : float = 2
 @export var dash_time : float = .5
+var can_dash : bool = true
 
 var speed : float = 0:
 	get:
@@ -45,12 +48,9 @@ var health : float = max_health :
 		health = clampf(value, 0, max_health)
 		GUI.hud.update("health", health, max_health)
 
-var can_dash : bool = true
 var status : Dictionary
 
-var current_level : int = 1
 var knockback := Vector2.ZERO
-signal toggle_inventory
 
 enum PlayerState {
 	MELEE,
