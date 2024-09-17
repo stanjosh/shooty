@@ -19,7 +19,7 @@ signal player_died
 @export var base_dash_speed : float = 180
 @export var base_dash_cooldown : float = 2
 @export var dash_time : float = .5
-var can_dash : bool = true
+
 
 var speed : float = 0:
 	get:
@@ -69,7 +69,7 @@ func _unhandled_input(event) -> void:
 	if state != PlayerState.DEAD:
 		if event.is_action_released("dash") \
 		and state != PlayerState.DASHING \
-		and can_dash:
+		and dash_cooldown_timer.is_stopped():
 			state = PlayerState.DASHING
 			dash()
 
@@ -149,7 +149,9 @@ func _physics_process(_delta) -> void:
 		if state != PlayerState.DASHING:
 			velocity = input_direction * speed
 		else:
-			velocity = input_direction * dash_speed
+			if input_direction:
+				velocity = velocity.normalized() * dash_speed
+			velocity = global_position.direction_to(get_global_mouse_position()) * dash_speed
 		if not input_direction:
 			velocity = Vector2(0,0)
 	knockback = lerp(knockback, Vector2.ZERO, .05)
@@ -159,7 +161,6 @@ func _physics_process(_delta) -> void:
 
 
 func dash() -> void:
-	can_dash = false
 	$DashTimer.wait_time = dash_time
 	$DashTimer.start()
 	$DashParticles.lifetime = dash_time
@@ -207,7 +208,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	if state != PlayerState.DEAD:
 		state = PlayerState.IDLE
 		set_deferred("animation_lock", false)
-	set_deferred("can_dash", true)
+	
 
 
 func _on_dash_timer_timeout() -> void:

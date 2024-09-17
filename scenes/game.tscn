@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" path="res://scripts/game.gd" id="1_h310b"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mm2e7"]
+
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_53xb3"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a4buj"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_n53n3"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mm2e7"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_re2ba"]
 
@@ -24,6 +24,9 @@ position = Vector2(610, 432)
 scale = Vector2(2.5, 2.5)
 motion_scale = Vector2(0, 0)
 
+[node name="1-blue640x360" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture = SubResource("CompressedTexture2D_mm2e7")
+
 [node name="1-yellow640x360" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 texture = SubResource("CompressedTexture2D_53xb3")
 
@@ -32,9 +35,6 @@ texture = SubResource("CompressedTexture2D_a4buj")
 
 [node name="1-red640x360" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 texture = SubResource("CompressedTexture2D_n53n3")
-
-[node name="1-blue640x360" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-texture = SubResource("CompressedTexture2D_mm2e7")
 
 [node name="1-purple640x360" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 texture = SubResource("CompressedTexture2D_re2ba")

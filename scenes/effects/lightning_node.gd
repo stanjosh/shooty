@@ -1,17 +1,25 @@
+@tool
 extends Area2D
 
-var lightning : LightningBolt = LightningBolt.new(global_position)
+@onready var zap_sound: AudioStreamPlayer2D = $ZapSound
+
+var lightning : LightningBolt = LightningBolt.new(self)
 
 
+func _ready() -> void:
+	add_child(lightning)
 
 func _process(delta: float) -> void:
 	if has_overlapping_areas():
-		lightning.update_points()
+		if !is_instance_valid(lightning) and randf() > 0.9:
+			zap_sound.play()
+			new_lightning()
+			
 
-
-
-func _on_area_entered(area: Area2D) -> void:
-	if !lightning:
-		lightning = LightningBolt.new(global_position)
-		lightning.node2 = get_overlapping_areas().pick_random()
+func new_lightning() -> Node2D:
+	if has_overlapping_areas():
+		var target = get_overlapping_areas().pick_random()
+		lightning = LightningBolt.new(target)
 		add_child(lightning)
+		return target
+	return null

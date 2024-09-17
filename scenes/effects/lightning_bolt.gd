@@ -5,21 +5,21 @@ const LIGHTNING_GRADIENT : Gradient = preload("res://scenes/effects/lightning_gr
 const LIGHTNING_PARTICLES = preload("res://scenes/effects/lightning_particles.tscn")
 var node_2 : Node2D
 var opacity : float = 1
-var lifetime : float = 3
+
 var particles : CPUParticles2D
 var calc_points : PackedVector2Array
 var final_goal : Vector2
 var animation_timer : float = 0.0
 var angle_var : float = 30.0
-@export var shocks : int
 
 
 
-func _init(_node_2 : Node2D, _width: float = 2, _shocks: int = randi()%10) -> void:
+
+func _init(_node_2 : Node2D, _width: float = 2) -> void:
 	
 	node_2 = _node_2
 	width = _width
-	shocks = _shocks
+
 
 func _ready() -> void:
 
@@ -37,19 +37,15 @@ func _process(delta: float) -> void:
 		queue_free()
 		return
 	final_goal = to_local(node_2.global_position) - to_local(global_position)
-	lifetime -= delta
-	opacity -= randf() * lifetime * delta
+
+	opacity -= delta
 	width *= opacity
 	modulate.a = opacity
-	if shocks and animation_timer <= 0:
-			shocks -= 1
-			create_points()
-			animation_timer = randf_range(-0, 0.02)
-	if shocks <= 0:
-		print("lightning died")
-		queue_free()
-	if !particles.emitting and lifetime < 0:
-		queue_free()
+	animation_timer -= delta
+	if animation_timer <= 0:
+		create_points()
+		animation_timer = randf_range(0.01, 0.03)
+
 
 func create_points():
 	update_points()

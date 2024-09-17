@@ -53,41 +53,49 @@ func _physics_process(delta):
 	weapon_sprite.z_index = -1 if pivot == 6 else 4
 	var fire_anim = get_tree().create_tween()
 	match state:
-		WeaponState.FIRING:
-			if shot_time <= 0:
-				fire()
-			if heat_level >= heat_capacity:
-				$OverheatHiss.play()
-				PlayerManager.player_camera.shake(20, 4, 1.8)
-				state = WeaponState.OVERHEATED
-			cool_off(16 * delta)
-			fire_anim.tween_property(weapon_sprite, "position:x", original_pos.x - 2, .02).set_trans(Tween.TRANS_ELASTIC)
-			if Input.is_action_pressed("shoot"):
-				state = WeaponState.CHARGING
-			else:
-				state = WeaponState.COOLING
-		WeaponState.CHARGING:
-			charge(delta)
-			if !Input.is_action_pressed("shoot"):
-				state = WeaponState.FIRING
-		WeaponState.COOLING:
-			cool_off(50 * delta)
-			if Input.is_action_just_pressed("shoot"):
-				state = WeaponState.FIRING
 		WeaponState.OVERHEATED:
 			overheat()
 			cool_off(24 * delta)
 			if heat_level / heat_capacity < .6:
 				state = WeaponState.COOLING
+		WeaponState.FIRING:
+			if heat_level >= heat_capacity:
+				$OverheatHiss.play()
+				PlayerManager.player_camera.shake(20, 4, 1.8)
+				state = WeaponState.OVERHEATED
+			elif Input.is_action_pressed("shoot"):
+				state = WeaponState.CHARGING
+			else:
+				state = WeaponState.COOLING
+			if shot_time <= 0:
+				fire()
+			cool_off(16 * delta)
+			fire_anim.tween_property(weapon_sprite, "position:x", original_pos.x - 2, .02).set_trans(Tween.TRANS_ELASTIC)
+		WeaponState.CHARGING:
+			if !Input.is_action_pressed("shoot"):
+				state = WeaponState.FIRING
+			
+			if heat_level >= heat_capacity:
+				$OverheatHiss.play()
+				PlayerManager.player_camera.shake(20, 4, 1.8)
+				state = WeaponState.FIRING
+			else:
+				charge(delta)
+		WeaponState.COOLING:
+			cool_off(50 * delta)
+			if Input.is_action_just_pressed("shoot"):
+				state = WeaponState.FIRING
 	fire_anim.tween_property(weapon_sprite, "position:x", original_pos.x, .2).set_trans(Tween.TRANS_LINEAR)
 	shot_time -=  delta * 100 + weapon_info.fire_rate
 
 
 func overheat():
+	charge_level = 0
 	$SteamParticles.emitting = true
 	$SteamParticles2.emitting = true
 
 func cool_off(delta):
+	charge_level = 0
 	if heat_level >= 1:
 		heat_level -= delta
 	else:
@@ -99,17 +107,15 @@ func fire():
 		var new_bullet = BULLET.instantiate()
 		new_bullet.weapon_info = weapon_info
 		new_bullet.added_damage = charge_level
-		print(charge_level)
 		new_bullet.scale += Vector2.ONE * charge_level * 0.3
-		charge_level = 0
 		new_bullet.global_position = ordinance_origin.global_position
 		new_bullet.global_rotation_degrees = global_rotation_degrees + randfn(0, weapon_info.damage_area / 100)
 		MapManager.current_map.add_child(new_bullet)
 		heat_level += weapon_info.heat_generated
 	shot_time = 100
+	charge_level = 0
 	PlayerManager.player_camera.shake(10, heat_level * .125, 4, Vector2.from_angle(global_rotation))
 
 func charge(delta):
 	heat_level += weapon_info.heat_generated * 5 * delta
-	charge_level = heat_level * .05
-	pass
+	charge_level = lerpf(0, 5, delta * (heat_level * .01))

@@ -5,7 +5,6 @@ var already_hit : Array[Mob]
 
 
 func deal_damage(body) -> void:
-	$GPUParticles2D.emitting = true
 	direction = direction.bounce(Vector2.UP)
 	var potential_targets = $Area2D.get_overlapping_bodies().filter(determine_target)
 	if potential_targets:
@@ -22,7 +21,6 @@ func determine_target(_body):
 	return _body is Mob
 
 func end_bullet():
-	$GPUParticles2D.emitting = true
 	if already_hit.size() > 1:
 		GUI.float_message(["%s hits!" % already_hit], PlayerManager.player)
 	return super.end_bullet()

@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.gdfxr.importer"
+type="AudioStreamWAV"
+uid="uid://bhnq1gjegmp8m"
+path="res://.godot/imported/lightning.sfxr-37ac93f0bfbf052b79d5eb2644334ea1.sample"
+
+[deps]
+
+source_file="res://scenes/lightning.sfxr"
+dest_files=["res://.godot/imported/lightning.sfxr-37ac93f0bfbf052b79d5eb2644334ea1.sample"]
+
+[params]
+
+loop=false
+bit_depth=0
+sample_rate=0

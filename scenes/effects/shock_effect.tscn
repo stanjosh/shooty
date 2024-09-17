@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dkpcrglxuf8od"]
+[gd_scene load_steps=9 format=3 uid="uid://dkpcrglxuf8od"]
 
 [ext_resource type="Script" path="res://scenes/effects/shock_effect.gd" id="1_gdho4"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_pi5ym"]
-radius = 100.0
+[ext_resource type="AudioStream" uid="uid://bhnq1gjegmp8m" path="res://scenes/lightning.sfxr" id="2_1xx24"]
+[ext_resource type="PackedScene" uid="uid://cho86d1tjj345" path="res://scenes/effects/lightning_node.tscn" id="2_x2h30"]
 
 [sub_resource type="Curve2D" id="Curve2D_drret"]
 _data = {
@@ -31,14 +30,7 @@ colors = PackedColorArray(1, 1, 0.592157, 1, 1, 0.701961, 0.266667, 1)
 [node name="LightningEffect" type="Node2D" groups=["lightnings"]]
 script = ExtResource("1_gdho4")
 
-[node name="Area2D" type="Area2D" parent="."]
-light_mask = 512
-visibility_layer = 512
-collision_layer = 4096
-collision_mask = 68
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_pi5ym")
+[node name="LightningNode" parent="." instance=ExtResource("2_x2h30")]
 
 [node name="Path2D" type="Path2D" parent="."]
 scale = Vector2(0.654667, 0.678919)
@@ -71,3 +63,6 @@ split_scale = true
 scale_curve_x = SubResource("Curve_s7akq")
 scale_curve_y = SubResource("Curve_s81vg")
 color_ramp = SubResource("Gradient_216ms")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_1xx24")
