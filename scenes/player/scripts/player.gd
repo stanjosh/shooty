@@ -65,6 +65,7 @@ var state : PlayerState = PlayerState.IDLE
 var aim_point : Vector2
 
 func _ready() -> void:
+	print(health)
 	$DashTimer.wait_time = dash_time
 	PlayerManager.level_up.connect(_on_level_up)
 	GUI.refresh_interface.emit(self)
@@ -167,6 +168,7 @@ func _physics_process(_delta) -> void:
 
 
 func dash() -> void:
+	print("dash_time: ", dash_time)
 	can_dash = false
 	$DashTimer.wait_time = dash_time
 	$DashTimer.start()
@@ -269,9 +271,11 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	
 
 func _on_dash_cooldown_timeout() -> void:
+	print("dash cooldown timeout")
 	set_deferred("can_dash", true)
 
 
 func _on_dash_timer_timeout() -> void:
+	print("dash timer timeout")
 	set_deferred("state", PlayerState.IDLE)
 	dash_cooldown_timer.start()

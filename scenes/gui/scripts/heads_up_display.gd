@@ -13,4 +13,4 @@ func update(element : StringName, value : float, max_value: float):
 		&"xp":
 			pass
 		_:
-			push_warning("%s is not a valid hud element" % element)
+			print("%s is not a valid hud element" % element)

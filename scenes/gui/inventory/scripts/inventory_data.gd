@@ -20,6 +20,7 @@ func grab_slot_data(index: int) -> SlotData:
 		return null
 		
 func use_key_item(key_item : ItemData) -> bool:
+	print("key item?")
 	for index in slot_datas.size():
 
 		if slot_datas[index] \

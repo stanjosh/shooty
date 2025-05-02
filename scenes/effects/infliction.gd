@@ -9,6 +9,7 @@ signal infliction_tick
 var infliction_timer : Timer
 
 func _ready():
+	prints(lifetime, visual_effect, period)
 	infliction_timer = Timer.new()
 	infliction_timer.wait_time = period
 	infliction_timer.autostart = true

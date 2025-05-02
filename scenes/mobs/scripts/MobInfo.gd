@@ -2,6 +2,7 @@ class_name MobInfo
 extends Resource
 
 
+
 @export_category("Spawn")
 @export_range(0, 1) var spawn_weight : float
 

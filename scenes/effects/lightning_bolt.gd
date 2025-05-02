@@ -3,7 +3,7 @@ extends Line2D
 class_name LightningBolt
 const LIGHTNING_GRADIENT : Gradient = preload("res://scenes/effects/lightning_gradient.tres")
 const LIGHTNING_PARTICLES = preload("res://scenes/effects/lightning_particles.tscn")
-var node_2 : Node2D
+var node_2_pos : Vector2
 var opacity : float = 1
 var lifetime : float = 3
 var particles : CPUParticles2D
@@ -15,9 +15,9 @@ var angle_var : float = 30.0
 
 
 
-func _init(_node_2 : Node2D, _width: float = 2, _shocks: int = randi()%10) -> void:
+func _init(_node_2_pos : Vector2, _width: float = 2, _shocks: int = randi()%10) -> void:
 	
-	node_2 = _node_2
+	node_2_pos = _node_2_pos
 	width = _width
 	shocks = _shocks
 
@@ -33,10 +33,7 @@ func _ready() -> void:
 	closed = false
 
 func _process(delta: float) -> void:
-	if !is_instance_valid(node_2):
-		queue_free()
-		return
-	final_goal = to_local(node_2.global_position) - to_local(global_position)
+	final_goal = to_local(node_2_pos) - to_local(global_position)
 	lifetime -= delta
 	opacity -= randf() * lifetime * delta
 	width *= opacity

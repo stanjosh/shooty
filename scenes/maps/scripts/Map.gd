@@ -1,9 +1,5 @@
-class_name Map extends TileMapLayer
+extends TileMapLayer
+class_name Map
 
-
-@export var player_spawn : Marker2D :
-	set(value):
-		if value is Marker2D:
-			player_spawn = value
-		elif value == null:
-			player_spawn = Marker2D.new()
+@export var current_camera_type : PlayerCamera.CameraType = PlayerCamera.CameraType.FOLLOW
+@export var player_spawn : Marker2D
