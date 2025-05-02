@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="InventoryData" load_steps=8 format=3 uid="uid://s0pdrqiqxasw"]
+
+[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/inventory_data.gd" id="1_gq5sb"]
+[ext_resource type="Resource" uid="uid://m4jkoof7bmtu" path="res://scenes/gui/inventory/items/memory_card.tres" id="2_1nmma"]
+[ext_resource type="Script" path="res://scenes/gui/inventory/scripts/slot_data.gd" id="3_o0p36"]
+[ext_resource type="Resource" uid="uid://ckelwfbxqnkyt" path="res://scenes/gui/inventory/items/capacitor.tres" id="4_at2gc"]
+
+[sub_resource type="Resource" id="Resource_48wlg"]
+script = ExtResource("3_o0p36")
+item_data = ExtResource("2_1nmma")
+quantity = 1
+
+[sub_resource type="Resource" id="Resource_okbc5"]
+script = ExtResource("3_o0p36")
+item_data = ExtResource("4_at2gc")
+quantity = 20
+
+[sub_resource type="Resource" id="Resource_nyg47"]
+script = ExtResource("3_o0p36")
+item_data = ExtResource("4_at2gc")
+quantity = 21
+
+[resource]
+script = ExtResource("1_gq5sb")
+slot_datas = Array[ExtResource("3_o0p36")]([SubResource("Resource_48wlg"), null, SubResource("Resource_okbc5"), null, null, null, SubResource("Resource_nyg47"), null, null, null, null, null, null, null, null, null, null])

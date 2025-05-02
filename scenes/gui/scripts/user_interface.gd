@@ -2,23 +2,20 @@ extends CanvasLayer
 
 
 signal drop_slot_data(slot_data)
+signal update_stats(key, value)
 signal refresh_interface(target)
 
 @onready var pause_menu = $PauseMenu
+@onready var inventory_interface = $InventoryInterface
 @onready var game_over_menu = $GameOverMenu
 @onready var hud = $HeadsUpDisplay
 @onready var main_menu = $MainMenu
-@onready var perk_selection: PerkSelection = $PerkSelection
-
-var paused : bool = false
-
 
 const FLOATING_STATUS = preload("res://scenes/effects/floating_status.tscn")
 
 func _input(event):
 	if event.is_action_pressed("pause"):
-		pause()
-
+		mode(MenuName.PAUSE)
 
 func float_message(message : Array, body : Node2D, vector : Vector2 = Vector2.ZERO):
 	var position = body.get_global_transform_with_canvas().origin
@@ -35,40 +32,32 @@ func float_message(message : Array, body : Node2D, vector : Vector2 = Vector2.ZE
 enum MenuName {
 	PAUSE,
 	MAIN,
-	PERK_SELECTION,
+	INVENTORY,
 	GAME_OVER,
 	HUD
 }
 
 func mode(menu : MenuName = MenuName.HUD):
-	
 	for child in get_children():
 		child.hide()
 	match menu:
 		MenuName.GAME_OVER:
 			game_over_menu.show()
-		MenuName.PERK_SELECTION:
-			perk_selection.show()
+		MenuName.INVENTORY:
+			pass
 		MenuName.PAUSE:
-			MapManager.process_mode = Node.PROCESS_MODE_DISABLED
 			pause_menu.show()
-			hud.show()
 		MenuName.MAIN:
 			main_menu.show()
 		_:
-			MapManager.process_mode = Node.PROCESS_MODE_ALWAYS
 			hud.show()
 			pass
 
-func pause():
-	if !paused:
-		mode(MenuName.PAUSE)
-	elif paused:
-		mode()
-	paused = !paused
-
 func _on_pause_pressed():
-	pause()
+	if !$"/root/Game".paused:
+		mode(MenuName.PAUSE)
+	else:
+		mode()
 
 func  _on_game_over():
 	mode(MenuName.GAME_OVER)
